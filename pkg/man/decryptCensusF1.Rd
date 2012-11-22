@@ -1,5 +1,5 @@
-\name{CensusF1decrypt}
-\alias{CensusF1decrypt}
+\name{decryptCensusF1}
+\alias{decryptCensusF1}
 \title{
   Decrypt US Census Table F-1. Income Limits for Each Fifth and Top 5
   Percent of Families
@@ -10,7 +10,7 @@
   percentile of US family income since 1947.
 }
 \usage{
-CensusF1decrypt(x, activeCols=7)
+decryptCensusF1(x, activeCols=7)
 }
 \arguments{
   \item{x}{
@@ -52,7 +52,7 @@ CensusF1decrypt(x, activeCols=7)
 
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
                      q1=c('1,234', ''), duh=rep(NA, 2) )
-nF1 <- CensusF1decrypt(fakeF1, activeCols=2)
+nF1 <- decryptCensusF1(fakeF1, activeCols=2)
 
 # correct answer
 nF1. <- data.frame(yr=1947:1948, q1=c(NA, 1234))
