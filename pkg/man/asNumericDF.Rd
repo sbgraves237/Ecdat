@@ -1,7 +1,7 @@
 \name{asNumericDF}
 \alias{asNumericDF}
 \title{
-  Coerce to numeric dropping info after a blank
+  Coerce to numeric dropping commas and info after a blank
 }
 \description{
   Delete commas (thousand separators) and drop information after a blank
