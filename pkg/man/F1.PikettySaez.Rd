@@ -169,6 +169,35 @@ kk <- length(keyYears)
 (grYr <- growth^(1/dYears))
 (grYr. <- round(100*(grYr-1), 1))
 
+##
+## Regression line:  linear spline
+##
+
+(varyg <- c(3:14, 21))
+Varyg <- names(F1.PikettySaez)[varyg]
+str(F01ps <- reshape(F1.PikettySaez[c(1, varyg)], idvar='Year',
+                     ids=F1.PikettySeaz$Year,
+                     times=Varyg, timevar='pctile',
+                     varying=list(Varyg), direction='long'))
+names(F01ps)[2:3] <- c('variable', 'value')
+F01ps$variable <- factor(F01ps$variable)
+
+# linear spline basis function with knot at 1970
+F01ps$t1970p <- pmax(0, F01ps$Year-1970)
+
+table(nas <- is.na(F01ps$value))
+# 6 NAs, one each of the Piketty-Saez variables in 2011
+
+# formula:
+# log(value/1000) ~ (different intercept for each variable)
+#    + b*Year + (different slope for each variable after 1970)
+(Fit <- lm(log(value/1000)~variable+Year+variable*t1970p,
+           F01ps[!nas, ]))
+anova(Fit)
+# all highly significant
+# The residuals may show problems with the model,
+# but we will ignore those for now.
+
 
 
 
