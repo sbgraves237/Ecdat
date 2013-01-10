@@ -193,5 +193,5 @@ F1.PikettySaez$mean.median <- with(F1.PikettySaez,
                                   realGDPperFamily/median)
 F1.PikettySaez[n.-2:0,]
 
-# save(F1.PikettySaez, file='F1.PikettySaez.rda')
+save(F1.PikettySaez, file='F1.PikettySaez.rda')
 

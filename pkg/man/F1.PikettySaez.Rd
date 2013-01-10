@@ -103,11 +103,79 @@ quantile(F1.PikettySaez$P95IRSvsCensus, na.rm=TRUE)
 plot(personsPerFamily~Year, F1.PikettySaez, type='b')
 quantile(F1.PikettySaez$personsPerFamily)
 # ranges from 3.72 to 4.01 with median 3.84
+#  -- almost 4
 
 ##
 ## GDP per family
 ##
 plot(realGDPperFamily~Year, F1.PikettySaez, type='b', log='y')
+
+##
+## Plot first quintile, median, mean,
+##            99th, 99.9th and 99.99th percentiles
+##
+plotCols <- c(3, 5, 21, 11, 13:14)
+kcols <- length(plotCols)
+plotColors <- c(1:6, 8:13)[1:kcols] # omit 7=yellow
+plotLty <- 1:kcols
+
+matplot(F1.PikettySaez$Year, F1.PikettySaez[plotCols]/1000,
+        log='y', type='l', col=plotColors, lty=plotLty)
+
+#*** Growth broadly shared 1947 - 1970, then began diverging
+#*** The divergence has been most pronouced among the top 1%
+#*** and especially the top 0.01%
+
+##
+## Growth rate by quantile 1947-1970 and 1970 - present
+##
+keyYears <- c(1947, 1970, 2010)
+(iYears <- which(is.element(F1.PikettySaez$Year, keyYears)))
+
+(dYears <- diff(keyYears))
+kk <- length(keyYears)
+(lblYrs <- paste(keyYears[-kk], keyYears[-1], sep='-'))
+
+(growth <- sapply(F1.PikettySaez[iYears,], function(x, labels=lblYrs){
+    dxi <- exp(diff(log(x)))
+    names(dxi) <- labels
+    dxi
+} ))
+
+# as percent
+(gr <- round(100*(growth-1), 1))
+
+# The average annual income (realGDPperFamily) doubled between
+# 1970 and 2010 (increased by 101 percent), while the median household
+# income increased only 23 percent.
+
+##
+## Income lost by each quantile 1970-2010
+## relative to the broadly shared growth 1947-1970
+##
+(lostGrowth <- (growth[, 'realGDPperFamily']-growth[, plotCols]))
+# 1947-1970:  The median gained 20% relative to the mean,
+#           while the top 1% lost ground
+# 1970-2010:  The median lost 79%, the 99th percentile lost 29%,
+#           while the top 0.1% gained
+
+(lostIncome <- (lostGrowth[2, ] *
+                F1.PikettySaez[iYears[2], plotCols]))
+# The median family lost $39,000 per year in income
+# relative to what they would have with the same economic growth
+# broadly shared as during 1947-1970.
+# That's slightly over $36,500 per year = $100 per day
+
+(grYr <- growth^(1/dYears))
+(grYr. <- round(100*(grYr-1), 1))
+
+
+
+
+##
+## matplot
+##
+
 
 }
 \keyword{datasets}
