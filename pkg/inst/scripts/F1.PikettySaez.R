@@ -177,21 +177,21 @@ str(F01.)
 str(PikS.)
 # all have 64 rows, years starting 1947
 
-str(F1.PikettySaez <- cbind(F01., PSinflat*PikS.[-1], GDP.[-1]))
+str(incomeInequality <- cbind(F01., PSinflat*PikS.[-1], GDP.[-1]))
 
 # 95th percentile:  ratio of IRS to census numbers
-F1.PikettySaez$P95IRSvsCensus <- with(F1.PikettySaez, P95/p95)
+incomeInequality$P95IRSvsCensus <- with(incomeInequality, P95/p95)
 
-sum(is.na(F1.PikettySaez$P95IRSvsCensus)) # 1
-quantile(F1.PikettySaez$P95IRSvsCensus, na.rm=TRUE)
+sum(is.na(incomeInequality$P95IRSvsCensus)) # 1
+quantile(incomeInequality$P95IRSvsCensus, na.rm=TRUE)
 
-F1.PikettySaez$personsPerFamily <- with(F1.PikettySaez,
+incomeInequality$personsPerFamily <- with(incomeInequality,
                                       PopulationK/Number.thousands)
-F1.PikettySaez$realGDPperFamily <- with(F1.PikettySaez,
+incomeInequality$realGDPperFamily <- with(incomeInequality,
                                       personsPerFamily*realGDPperCap)
-F1.PikettySaez$mean.median <- with(F1.PikettySaez,
+incomeInequality$mean.median <- with(incomeInequality,
                                   realGDPperFamily/median)
-F1.PikettySaez[n.-2:0,]
+incomeInequality[n.-2:0,]
 
-save(F1.PikettySaez, file='F1.PikettySaez.rda')
+save(incomeInequality, file='incomeInequality.rda')
 

@@ -1,15 +1,19 @@
-\name{F1.PikettySaez}
+\name{incomeInequality}
 \docType{data}
-\alias{F1.PikettySaez}
+\alias{incomeInequality}
 \title{ Income Inequality in the US  }
 \description{
-  Data on quantiles of the income distribution in the United States.
-  This combines US Census Table F-1 for the central qualitiles with
-  Piketty and Saez.  The latter are adjusted to 2011 dollars to match
-  the former using implicit price deflators from
+  Data on quantiles of the distributions of family incomes in the United
+  States. This combines three data sources:
+
+  (1) US Census Table F-1 for the central qualitiles
+
+  (2) Piketty and Saez for the 95th and higher quantiles
+
+  (3) Gross Domestic Product and implicit price deflators from
   \url{MeasuringWorth.com}.
 }
-\usage{data(F1.PikettySaez)}
+\usage{data(incomeInequality)}
 \format{A dataframe containing :
   \describe{
     \item{Year}{ numeric year 1947:2011 }
@@ -61,8 +65,8 @@
   "F1.PikettySaez.R" in \code{system.file('scripts', package='fda')}.
   This provides links for files to download and R commands to read those
   files and convert them into an updated version of
-  \code{F1.PikettySaez}.  This is a reasonable thing to do if it is more
-  than 2 years since \code{max(F1.PikettySaez$year)}.
+  \code{incomeInequality}.  This is a reasonable thing to do if it is
+  more  than 2 years since \code{max(incomeInequality$year)}.
 }
 \source{
   United States Census Bureau, Table F-1. Income Limits for Each Fifth
@@ -84,31 +88,31 @@
 ##
 ## Rato of IRS to census estimates for the 95th percentile
 ##
-data(F1.PikettySaez)
-plot(P95IRSvsCensus~Year, F1.PikettySaez, type='b')
+data(incomeInequality)
+plot(P95IRSvsCensus~Year, incomeInequality, type='b')
 # starts ~0.74, trends rapidly up to ~0.97,
 # then drifts back to ~0.75
 abline(h=0.75)
 abline(v=1989)
 # check
-sum(is.na(F1.PikettySaez$P95IRSvsCensus))
+sum(is.na(incomeInequality$P95IRSvsCensus))
 # The Census data runs to 2011;  Pikety and Saez runs to 2010.
-quantile(F1.PikettySaez$P95IRSvsCensus, na.rm=TRUE)
+quantile(incomeInequality$P95IRSvsCensus, na.rm=TRUE)
 # 0.72 ... 0.98
 
 ##
 ## Persons per Family
 ##
 
-plot(personsPerFamily~Year, F1.PikettySaez, type='b')
-quantile(F1.PikettySaez$personsPerFamily)
+plot(personsPerFamily~Year, incomeInequality, type='b')
+quantile(incomeInequality$personsPerFamily)
 # ranges from 3.72 to 4.01 with median 3.84
 #  -- almost 4
 
 ##
 ## GDP per family
 ##
-plot(realGDPperFamily~Year, F1.PikettySaez, type='b', log='y')
+plot(realGDPperFamily~Year, incomeInequality, type='b', log='y')
 
 ##
 ## Plot the mean then the first quintile, then the median,
@@ -119,7 +123,7 @@ kcols <- length(plotCols)
 plotColors <- c(1:6, 8:13)[1:kcols] # omit 7=yellow
 plotLty <- 1:kcols
 
-matplot(F1.PikettySaez$Year, F1.PikettySaez[plotCols]/1000,
+matplot(incomeInequality$Year, incomeInequality[plotCols]/1000,
         log='y', type='l', col=plotColors, lty=plotLty)
 
 #*** Growth broadly shared 1947 - 1970, then began diverging
@@ -130,13 +134,13 @@ matplot(F1.PikettySaez$Year, F1.PikettySaez[plotCols]/1000,
 ## Growth rate by quantile 1947-1970 and 1970 - present
 ##
 keyYears <- c(1947, 1970, 2010)
-(iYears <- which(is.element(F1.PikettySaez$Year, keyYears)))
+(iYears <- which(is.element(incomeInequality$Year, keyYears)))
 
 (dYears <- diff(keyYears))
 kk <- length(keyYears)
 (lblYrs <- paste(keyYears[-kk], keyYears[-1], sep='-'))
 
-(growth <- sapply(F1.PikettySaez[iYears,], function(x, labels=lblYrs){
+(growth <- sapply(incomeInequality[iYears,], function(x, labels=lblYrs){
     dxi <- exp(diff(log(x)))
     names(dxi) <- labels
     dxi
@@ -160,7 +164,7 @@ kk <- length(keyYears)
 #           while the top 0.1% gained
 
 (lostIncome <- (lostGrowth[2, ] *
-                F1.PikettySaez[iYears[2], plotCols]))
+                incomeInequality[iYears[2], plotCols]))
 # The median family lost $39,000 per year in income
 # relative to what they would have with the same economic growth
 # broadly shared as during 1947-1970.
@@ -174,8 +178,8 @@ kk <- length(keyYears)
 ##
 
 (varyg <- c(3:14, 21))
-Varyg <- names(F1.PikettySaez)[varyg]
-str(F01ps <- reshape(F1.PikettySaez[c(1, varyg)], idvar='Year',
+Varyg <- names(incomeInequality)[varyg]
+str(F01ps <- reshape(incomeInequality[c(1, varyg)], idvar='Year',
                      ids=F1.PikettySeaz$Year,
                      times=Varyg, timevar='pctile',
                      varying=list(Varyg), direction='long'))
@@ -215,7 +219,7 @@ svg('incomeInequality8.svg')
 # Leave extra space on the right to label with growth since 1970
 op <- par(mar=c(5, 4, 4, 5)+0.1)
 
-matplot(F1.PikettySaez$Year, F1.PikettySaez[plotCols]/1000,
+matplot(incomeInequality$Year, incomeInequality[plotCols]/1000,
         log='y', type='l', col=plotColors, lty=plotLty,
         xlab='', ylab='', las=1, axes=FALSE, lwd=3)
 axis(1, at=seq(1950, 2010, 10),
@@ -232,9 +236,9 @@ lineLbl0 <- c('Year', 'families K', pctls,
      '95 pct(IRS / Census)', 'size of household',
      'average family income', 'mean/median')
 (lineLbls <- lineLbl0[plotCols])
-sel75 <- (F1.PikettySaez$Year==1975)
+sel75 <- (incomeInequality$Year==1975)
 
-laby <- F1.PikettySaez[sel75, plotCols]/1000
+laby <- incomeInequality[sel75, plotCols]/1000
 
 text(1973.5, c(1.2, 1.2, 1.3, 1.5, 1.9)*laby[-1], lineLbls[-1], cex=1.2)
 text(1973.5, 1.2*laby[1], lineLbls[1], cex=1.2, srt=10)
@@ -243,7 +247,7 @@ text(1973.5, 1.2*laby[1], lineLbls[1], cex=1.2, srt=10)
 ## Add lines + points for the knots in 1970
 ##
 End <- numeric(kcols)
-F01names <- names(F1.PikettySaez)
+F01names <- names(incomeInequality)
 for(i in seq(length=kcols)){
   seli <- (as.character(F01i$variable) == F01names[plotCols[i]])
 #  with(F01i[seli, ], lines(Year, exp(Pred[seli]), col=plotColors[i]))
@@ -258,8 +262,8 @@ for(i in seq(length=kcols)){
 ##
 ##  label growth rates
 ##
-table(sel70. <- (F1.PikettySaez$Year>1969))
-(lastYrs <- F1.PikettySaez[sel70., 'Year'])
+table(sel70. <- (incomeInequality$Year>1969))
+(lastYrs <- incomeInequality[sel70., 'Year'])
 (lastYr. <- max(lastYrs)+4)
 #text(lastYr., End, gR., xpd=NA)
 text(lastYr., End, paste(gr[2, plotCols], '\%', sep=''), xpd=NA)
@@ -269,7 +273,7 @@ text(lastYr.+7, End, paste(grYr.[2, plotCols], '\%', sep=''), xpd=NA)
 ##  Label the presidents
 ##
 abline(v=c(1953, 1961, 1969, 1977, 1981, 1989, 1993, 2001, 2009))
-(m99.95 <- with(F1.PikettySaez, sqrt(P99.9*P99.99))/1000)
+(m99.95 <- with(incomeInequality, sqrt(P99.9*P99.99))/1000)
 
 text(1949, 5000, 'Truman')
 text(1956.8, 5000, 'Eisenhower', srt=90)
