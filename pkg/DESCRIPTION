@@ -3,7 +3,7 @@ Version: 0.2-0
 Date: 2012-08-16
 Title: Data sets for econometrics
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr>
-Maintainer: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr>
+Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0)
 Suggests: car, systemfit, sem, lmtest, sandwich
 Description: Data sets for econometrics
