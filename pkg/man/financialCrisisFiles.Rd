@@ -1,6 +1,6 @@
 \name{financialCrisisFiles}
 \alias{financialCrisisFiles}
-%\alias{FinancialCrisisFiles}
+\alias{FinancialCrisisFiles}
 \title{ Files containing financial crisis data }
 \description{
   \code{FinancialCrisisFiles} is an object of class
