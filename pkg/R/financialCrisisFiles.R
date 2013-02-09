@@ -1,8 +1,13 @@
 financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
        "Varieties_Part_III.xls", "25_data.xls"), ...){
 ##
-## 0.  dots
+## 0.  checks
 ##
+  fi <- file.info(files)
+  oops <- which(is.na(fi[, 1]))
+  if(length(oops)>0)
+      stop('file not found: ', files[oops[1]])
+#  dots
   dots <- list(...)
 ##
 ## primary output list
