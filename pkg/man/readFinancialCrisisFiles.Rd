@@ -1,6 +1,5 @@
 \name{readFinancialCrisisFiles}
 \alias{readFinancialCrisisFiles}
-%\alias{bankingCrises}
 \title{
   banking crisis data and function to read financial crisis files
 }
@@ -16,7 +15,6 @@
   Prof. Reinhart in January 2013.
 }
 \usage{
-#data(bankingCrises)
 readFinancialCrisisFiles(files, crisisType=7, ...)
 }
 \arguments{
@@ -56,9 +54,7 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
   \code{readFinancialCrisisFiles} reads the sheets for the individual
   countries.
 }
-\source{
-  \url{http://www.reinhartandrogoff.com}
-}
+\source{ \url{http://www.reinhartandrogoff.com} }
 \value{
   If length(crisisType) == 1, a \code{data.frame} is returned with the
   first column being \code{year}, and with one other column containing
@@ -81,7 +77,7 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
 ##
 data(FinancialCrisisFiles)
 \dontrun{
-BankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
+bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
 }
 
 ##
@@ -107,16 +103,13 @@ tst2$UK <- as.numeric(allCrises.tst$UK[-(1:11), 8])
 all.equal(bankingCrises.tst, tst2)
 \dontshow{)}
 
-
-\dontrun{
 # check
 data(bankingCrises)
 \dontshow{stopifnot(}
 all.equal(bankingCrises.tst,
    bankingCrises[1:200, c('year', 'Algeria', 'CentralAfricanRep',
                            'Taiwan', 'UK')])
-\dontrun{)}
-}
+\dontshow{)}
 }
 \keyword{datasets}
 \keyword{IO}
