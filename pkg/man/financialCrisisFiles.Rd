@@ -53,16 +53,23 @@ financialCrisisFiles(files=c("22_data.xls", "23_data.xls",
 
   5.  Construct the output list.
 }
+\value{
+  The function \code{financialCrisisFiles} returns a list of class
+  \code{financialCrisisFiles}.  This is a list with components carrying
+  the names of files to be read.  Each component is a list of optional
+  arguments to pass to \code{do.call(read.xls, ...)} to read the sheet
+  with name = name of that component.
+
+  The default value returned by \code{financialCrisisFiles} is the data
+  object \code{FinancialCrisisFiles}.  This corresponds to the files
+  downloaded from
+  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}
+  in January 2013 (except for the fourth, which was not available there
+  because of an error with the web site but instead was obtained
+  directly from Prof. Reinhart).
+}
 \source{
   \url{http://www.reinhartandrogoff.com}
-}
-\value{
-  \code{FinancialCrisisFiles} is a list of class
-  \code{financialCrisisFiles} with components carrying the names of
-  files to be read.  Each component is list with names being the names
-  of sheets in the corresponding file (i.e., Countries) where the
-  components are arguments for \code{\link[gdata]{read.xls}} to read that
-  sheet.
 }
 \references{
   Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
