@@ -1,50 +1,53 @@
-\name{bankingCrises}
+\name{UStaxWords}
 \docType{data}
-\alias{bankingCrises}
+\alias{UStaxWords}
 \title{
-  Countries in Banking Crises
+  Number of Words in US Tax Law
 }
 \description{
-  A \code{data.frame} identifying which of 70 countries had a banking
-  crisis each year 1800:2010. The first column is \code{year}.  The
-  remaining columns carry the names of the countries;  those columns are
-  1 for years with banking crises and 0 otherwise.
-
+  A \code{data.frame} giving the numbers of words in thousands in US tax
+  law for 1995 to 2005 in 10 yaer intervals.  This includes income taxes
+  and all taxes in the code itself (written by congress) and regulations
+  (written by government administrators).
 }
-\usage{data(bankingCrises)}
-\format{ A \code{data.frame} }
-\details{
-  This file was created using the following command:
-
-  bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
-
-  This is documented further in the help file for
-  \code{\link{readFinancialCrisisFiles}}.
-
-  This is an update of a subset of the data used to create Figure 10.1.
-  Capital Mobility and the Incidence of Banking Crises, All Countries,
-  1800-2008, Reinhart and Rogoff (2009, p. 156).
+\usage{data(UStaxWords)}
+\format{
+  A \code{data.frame} containing:
+  \describe{
+    \item{year}{ tax year }
+    \item{IncomeTaxCode}{ number of words in thousands in the US income
+      tax }
+    \item{EntireTaxCode}{
+      number of words in thousands in the US income tax regulations
+    }
+    \item{IncomeTaxRegulations}{
+      number of words in thousands in all US tax regulations
+    }
+    \item{IncomeTaxCodeAndRegs}{
+      number of words in thousands in both the code and regulations for
+      the US income tax
+    }
+    \item{EntireTaxCodeAndRegs}{
+      number of words in thousands in US tax code and regulations
+    }
+  }
 }
+%\details{  }
 \source{
-  \url{http://www.reinhartandrogoff.com}
+  \url{http://taxfoundation.org/article/number-words-internal-revenue-code-and-federal-tax-regulations-1955-2005}
 }
-\references{
-  Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
-  Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
-}
-\seealso{
-  \code{\link{readFinancialCrisisFiles}}
-}
+%\references{}
+%\seealso{}
 \examples{
-data(bankingCrises)
-numberOfCrises <- rowSums(bankingCrises[-1], na.rm=TRUE)
-plot(bankingCrises$year, numberOfCrises, type='b')
+data(UStaxWords)
+plot(EntireTaxCodeAndRegs/1000 ~ year, UStaxWords, type='b',
+     ylab='Millions of words in US tax code & regs')
 
 # Write to a file for Wikimedia Commons
-svg('bankingCrises.svg')
-plot(bankingCrises$year, numberOfCrises, type='b', cex=0.5,
-     xlab='', ylab='', bty='n')
+svg('UStaxWords.svg')
+plot(EntireTaxCodeAndRegs/1000 ~ year, UStaxWords, type='b',
+     ylab='Millions of words in US tax code & regs',
+     ylim=c(0, max(EntireTaxCodeAndRegs)/1000))
 dev.off()
-
 }
 \keyword{datasets}
