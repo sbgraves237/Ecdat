@@ -32,9 +32,20 @@
     }
   }
 }
-%\details{  }
+\details{
+  Number of words in the US tax code and federal tax regulations,
+  1955-2005 according to The Tax Foundation (taxfoundation.org).  Over
+  this period, there have been roughly 3 words of regulations for each
+  word in the tax code.  Most of these are income tax regulations,
+  which have recently contained 4.5 words for every word in code.  The
+  income tax code currently includes roughly 50 percent more words than
+  other tax code, though this was reversed in 1955 and 1965.  For more
+  details, see taxfoundation.org.
+}
 \source{
-  \url{http://taxfoundation.org/article/number-words-internal-revenue-code-and-federal-tax-regulations-1955-2005}
+  \href{http://taxfoundation.org/article/number-words-internal-revenue-code-and-federal-tax-regulations-1955-2005}{Tax
+    Foundation:  Number of Words in Internal Revenue Code and Federal
+    Tax Regulations, 1955-2005}
 }
 %\references{}
 %\seealso{}
