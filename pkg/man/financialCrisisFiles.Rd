@@ -75,12 +75,14 @@ financialCrisisFiles(files=c("22_data.xls", "23_data.xls",
   Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
   Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
 }
+\author{Spencer Graves}
 \seealso{
   \code{\link[gdata]{read.xls}}
 }
 \examples{
 Ecdat.demoFiles <- system.file('demoFiles', package='Ecdat')
-Ecdat.xls <- dir(Ecdat.demoFiles, full.names=TRUE)
+Ecdat.xls <- dir(Ecdat.demoFiles, pattern='xls$',
+                 full.names=TRUE)
 tst <- financialCrisisFiles(Ecdat.xls)
 
 \dontrun{

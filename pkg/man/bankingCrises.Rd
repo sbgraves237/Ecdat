@@ -41,6 +41,7 @@
   Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
   Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
 }
+\author{Spencer Graves}
 \seealso{
   \code{\link{readFinancialCrisisFiles}}
 }

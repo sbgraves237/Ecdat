@@ -67,6 +67,7 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
   Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
   Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
 }
+\author{Spencer Graves}
 \seealso{
   \code{\link[gdata]{read.xls}}
   \code{\link{financialCrisisFiles}}
@@ -85,7 +86,8 @@ bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
 ## and illustrate returning all the data not just one crisisTpe
 ##
 Ecdat.demoFiles <- system.file('demoFiles', package='Ecdat')
-Ecdat.xls <- dir(Ecdat.demoFiles, full.names=TRUE)
+Ecdat.xls <- dir(Ecdat.demoFiles, pattern='xls$',
+                 full.names=TRUE)
 tst <- financialCrisisFiles(Ecdat.xls)
 
 bankingCrises.tst <- readFinancialCrisisFiles(tst)

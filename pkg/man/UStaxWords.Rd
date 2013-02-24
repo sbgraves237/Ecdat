@@ -89,6 +89,7 @@
   Rising Cost of Complying with the Federal Income Tax", The Tax
   Foundation Special Report No. 138.
 }
+\author{Spencer Graves}
 %\seealso{}
 \examples{
 data(UStaxWords)

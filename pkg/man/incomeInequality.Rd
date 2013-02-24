@@ -84,6 +84,7 @@
   accessed January 9, 2013.
 }
 %\references{}
+\author{Spencer Graves}
 %\seealso{}
 \examples{
 ##
