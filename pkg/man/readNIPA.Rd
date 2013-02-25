@@ -24,11 +24,12 @@ readNIPA(files, sep.footnote='/', ...)
   }
 }
 \details{
-  This is written first and foremost to facilitate updating Table 6.16.
-  Income and employment by industry in the National Income and Product
-  Account tables published by the Bureau of Economic Analysis of the
-  United States Department of Commerce.  As of February 2013, this table
-  can be obtained from \url{http://www.bea.gov}:  Under "U.S. Economic
+  This is written first and foremost to facilitate updating
+  \code{\link{USFinanceIndustry}} from Table 6.16:  Income and
+  employment by industry in the National Income and Product Account
+  tables published by the Bureau of Economic Analysis of the United
+  States Department of Commerce.  As of February 2013, this table can be
+  obtained from \url{http://www.bea.gov}:  Under "U.S. Economic
   Accounts", first select "Corporate Profits" under "National".  Then
   next to "Interactive Tables", select, "National Income and Product
   Accounts Tables".  From there, select "Begin using the data...".

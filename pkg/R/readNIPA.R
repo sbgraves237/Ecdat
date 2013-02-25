@@ -38,9 +38,12 @@ readNIPA <- function(files, sep.footnote='/', ...){
       lastRev <- as.Date(UPD, format=' %B %d,%Y')
   }
   lastUpdate <- lapply(Data, lastRev)
+  lastRev. <- lastUpdate[[1]]
+  for(i in seq(2, length=nFiles-1))
+      lastRev.[i] <- lastUpdate[[i]]
   sumSt <- cbind(as.data.frame(SumStats),
                  yearFirst=year1, yearLast=yearn, yearsOverlap=overlap,
-                 lastRevision=lastUpdate)
+                 lastRevision=lastRev.)
 ##
 ## 3.  common initial colnames
 ##
@@ -94,6 +97,8 @@ readNIPA <- function(files, sep.footnote='/', ...){
 ## done
 ##
   sumSt. <- cbind(sumSt, rmsDevOverlap=rmsd)
+  attr(Dat1, 'headers') <- attr(Data[[nFiles]], 'headers')
+  attr(Dat1, 'footers') <- attr(Data[[nFiles]], 'footers')
   attr(Dat1, 'summary') <- sumSt.
   Dat1
 }
