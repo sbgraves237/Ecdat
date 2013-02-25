@@ -4,12 +4,10 @@
   Read a data table in transpose form
 }
 \description{
-  Read a text (e.g., csv) file, find the rows with the largest number of
-  \code{sep} characters, and parse it into a \code{data.frame} with one
-  column for each row.  Save other rows as \code{\link{attributes}}
-  \code{headers}, \code{footers}, and \code{other}.  Include an
-  \code{attribute} \code{summary} giving the numbers of headers,
-  footers, rows of data and other rows read.
+  Read a text (e.g., csv) file, find rows with more than 3 \code{sep}
+  characters.  Parse the initial contiguous block of those into a
+  \code{matrix}.  Add \code{attributes} \code{headers}, \code{footers},
+  and a \code{summary}.
 
   The initial application for this function is to read Table 6.16.
   Income and employment by industry in the National Income and Product
@@ -17,7 +15,8 @@
   United States Department of Commerce.
 }
 \usage{
-read.transpose(file, header=TRUE, sep=',', ...)
+read.transpose(file, header=TRUE, sep=',',
+               na.strings='---', ...)
 }
 \arguments{
   \item{file}{
@@ -30,6 +29,9 @@ read.transpose(file, header=TRUE, sep=',', ...)
   \item{sep}{
     The field space separator charactor.
   }
+  \item{na.strings}{
+    character string(s) that translate into NA
+  }
   \item{\dots}{
     optional arguments for \code{\link{strsplit}}
   }
@@ -37,15 +39,18 @@ read.transpose(file, header=TRUE, sep=',', ...)
 \details{
   1.  txt <- readLines(file)
 
-  2.  Split into fields
+  2.  Split into fields.
 
-  3.  Identify data to return plus headers, footers, and other
+  3.  Identifiy headers, Data, footers.
 
-  4.  Extract variable names
+  4.  Recombine the second component of each Data row if necessary so
+  all have the same number of fields.
 
-  5.  Numbers?
+  5.  Extract variable names
 
-  6. return the transpose
+  6.  Numbers?
+
+  7. return the transpose
 }
 %\source{}
 \value{
@@ -82,7 +87,10 @@ read.transpose(file, header=TRUE, sep=',', ...)
 demoDir <- system.file('demoFiles', package='Ecdat')
 (demoCsv <- dir(demoDir, pattern='csv$', full.names=TRUE))
 
-nipa6.16A <- read.transpose(demoCsv[1])
-str(nipa6.16A)
+# Use the fourth example
+# to ensure the code will handle commas in a name
+# and NAs
+nipa6.16D <- read.transpose(demoCsv[4])
+str(nipa6.16D)
 }
 \keyword{IO}

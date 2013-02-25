@@ -1,4 +1,5 @@
-read.transpose <- function(file, header=TRUE, sep=',', ...){
+read.transpose <- function(file, header=TRUE, sep=',',
+                           na.strings='---', ...){
 ##
 ## 1.  readLines
 ##
@@ -19,48 +20,65 @@ read.transpose <- function(file, header=TRUE, sep=',', ...){
   txt <- gsub('\"', '', Txt)
   Split <- strsplit(txt, sep)
   nFields <- sapply(Split, length)
-  Nfields <- max(nFields)
-  Data <- which(nFields==Nfields)
 ##
 ## 3.  headers, footers, desired data, and other
 ##
-  headers <- txt[seq(1, length=Data[1]-1)]
-  dat <- Split[Data]
-  nv <- nrow(dat)
-  nr <- max(Data)
-  footers <- txt[seq(nr+1, length=Nr-nr)]
-  other <- txt[Data][-(Data-Data[1]+1)]
+  datStart <- min(which(nFields>3))
+  hdi <- seq(1, length=datStart-1)
+  headers <- txt[hdi]
+#
+  nonHdi <- datStart:Nr
+  footStart <- (datStart+min(which(nFields[nonHdi]<4))-1)
+  footers <- txt[footStart:Nr]
+#
+  dati <- datStart:(footStart-1)
+#  dat <- Split[dati]
+#  dat <- Split[hd.ft[1]:hd.ft[2]]
+#  nv <- nrow(dat)
+#
+  minFields <- min(nFields[dati])
+  nv <- (footStart-datStart)
+  dat <- vector('list', length=nv)
+  for(i in dati){
+      combi <- (nFields[i]-minFields+1)
+      Si <- Split[[i]]
+      di <- paste(Si[2:(combi+1)], collapse=sep)
+      dat[[i-datStart+1]] <- c(Si[1], di, Si[(combi+2):nFields[i]])
+  }
 ##
 ## 4.  Extract column / variable names
 ##
   if(header){
       h1 <- sapply(dat, '[', 1)
       h2 <- sapply(dat, '[', 2)
-      Dat <- sapply(dat, '[', -(1:2))
-      rownames(Dat) <- h2
+      Dat. <- lapply(dat, '[', -(1:2))
+      dat. <- do.call(cbind, Dat.)
+      colnames(dat.) <- h2
   } else {
-      Dat <- dat
+      dat. <- do.call(cbind, dat)
       h1 <- rep('', nv)
       h2 <- h1
   }
 ##
 ## 5.  Numbers?
 ##
-  dat. <- as.numeric(Dat)
-  if(!any(is.na(dat.))){
-      attributes(dat.) <- attributes(Dat)
+  datNA <- (dat. %in% na.strings)
+  dat0 <- dat.
+  dat.[datNA] <- '0'
+  out <- as.numeric(dat.)
+  if(!any(is.na(out))){
+      out[datNA] <- NA
+      attributes(out) <- attributes(dat.)
   } else {
-      dat. <- Dat
+      out <- dat.
   }
 ##
-## 6.  transpose, done
+## 6.  Done
 ##
-  out <- t(dat.)
   attr(out, 'headers') <- headers
   attr(out, 'footers') <- footers
   attr(out, 'summary') <- c(headers=length(headers),
-      footers=length(footers), data=length(dat),
-      other=length(other) )
+      footers=length(footers), data=length(dat))
   out
 }
 
