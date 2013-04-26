@@ -12,16 +12,34 @@ readUShouse.gov <- function(url="http://house.gov/representatives/",
   library(RCurl)
   house.gov <- getURL(url)
 ##
+## 2.  find "state"
+##
+#  st <- gregexpr('state_', house.gov)[[1]] # finds 75
+  st <- gregexpr('\t<h2 id=\"', house.gov)[[1]]
+#  substring(house.gov, st, st+28)
+  st. <- sapply(st, function(x){
+      hgi <- substring(house.gov, x)
+      x2 <- (x+regexpr('\">', hgi))
+  } )
+  stCodes <- substring(house.gov, st+9, st.-2)
+  st. <- strsplit(stCodes, "_")
+  St. <- sapply(st., "[", 2)
+##
 ## 2.  Convert to tables
 ##
   library(XML)
   House.gov <- readHTMLTable(house.gov, stringsAsFactors=FALSE)
+  names(House.gov) <- stCodes
 ##
 ## 3.  Rbind tables with the same headers
 ##
   headers <- lapply(House.gov, names)
   h. <- sapply(headers, paste, collapse=":")
   H. <- table(h.)
+  st2 <- St.[1:H.[1]]
+#
+  ns <- sapply(House.gov, nrow)
+  St2 <- rep(st2, ns[1:length(st2)])
 #
   nh <- length(H.)
   out <- vector(mode='list', length=nh)
@@ -45,7 +63,8 @@ readUShouse.gov <- function(url="http://house.gov/representatives/",
       x. <- paste(x[seq(length=nx-Di-1)], collapse=' ')
       x.
   } )
-  Out <- cbind(data.frame(State=state), out[[1]][1:5])
+#
+  Out <- cbind(data.frame(State=state, state=St2), out[[1]][1:5])
   Out$Party <- factor(Out$Party)
   Out$Committees <- out[[1]][["Committee Assignment"]]
   Out$nonvoting <- (state %in% nonvoting)
