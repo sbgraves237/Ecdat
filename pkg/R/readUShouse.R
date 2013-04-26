@@ -1,8 +1,4 @@
-readUShouse <- function(url.gov="http://house.gov/representatives/",
-            url.wiki="http://en.wikipedia.org/wiki/List_of_current_members_of_the_United_States_House_of_Representatives_by_age"){
-    "coming soon"
-}
-readUShouse.gov <- function(url="http://house.gov/representatives/",
+readUShouse <- function(url="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands') ){
@@ -25,13 +21,13 @@ readUShouse.gov <- function(url="http://house.gov/representatives/",
   st. <- strsplit(stCodes, "_")
   St. <- sapply(st., "[", 2)
 ##
-## 2.  Convert to tables
+## 3.  Convert to tables
 ##
   library(XML)
   House.gov <- readHTMLTable(house.gov, stringsAsFactors=FALSE)
   names(House.gov) <- stCodes
 ##
-## 3.  Rbind tables with the same headers
+## 4.  Rbind tables with the same headers
 ##
   headers <- lapply(House.gov, names)
   h. <- sapply(headers, paste, collapse=":")
@@ -49,7 +45,7 @@ readUShouse.gov <- function(url="http://house.gov/representatives/",
   }
   names(out) <- names(H.)
 ##
-## 4.  If 2 tables, combine
+## 5.  If 2 tables, combine
 ##
   if(nh>2){
       warning(nh, " > 2 different tables found;  I'm confused")
@@ -70,10 +66,4 @@ readUShouse.gov <- function(url="http://house.gov/representatives/",
   Out$nonvoting <- (state %in% nonvoting)
 #
   Out
-}
-readUShouse.wiki <- function(url="http://en.wikipedia.org/wiki/List_of_current_members_of_the_United_States_House_of_Representatives_by_age",
-   nonvoting=c('American Samoa', 'District of Columbia',
-               'Guam', 'Northern Mariana Islands', 'Puerto Rico',
-               'Virgin Islands') ){
-    "coming soon"
 }
