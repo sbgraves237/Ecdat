@@ -21,7 +21,9 @@ readUSsenate(url=
   }
 }
 \details{
-  \code{Senate <- readHTMLTable(url)}.
+  \code{Senate <- readHTMLTable(url)}
+
+  Use \code{\link{camelParse}} to remove duplication in \code{Name}.
 }
 %\source{ }
 \value{
@@ -61,6 +63,7 @@ readUSsenate(url=
 \seealso{
   \code{\link[RCurl]{getURL}}
   \code{\link[XML]{readHTMLTable}}
+  \code{\link{camelParse}} to remove duplication in \code{Name}
 }
 \examples{
 USsenate <- readUSsenate()

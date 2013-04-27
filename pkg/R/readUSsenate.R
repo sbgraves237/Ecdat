@@ -26,6 +26,9 @@ readUSsenate <- function(url=
   Sen <- sen[dataCols]
   Sen$State <- factor(Sen$State)
   Sen$Party <- factor(Sen$Party)
+  Nm <- camelParse(Sen$Name)
+  Nm. <- sapply(Nm, "[", 1)
+  Sen$Name <- Nm.
   nms <- names(Sen)
   Nms <- sub("Prior Experience", "Experience", nms)
   Nms2 <- sub("Assumed Office", "assumedOffice", Nms)
