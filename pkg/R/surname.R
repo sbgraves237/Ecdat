@@ -1,27 +1,51 @@
-surname <- function(x){
+surname <- function(x, surnameFirst=FALSE){
 ##
-## 1.  suffix
+## 1.  surnameFirst
+##
+  if(length(x)<1){
+      warning("length(x) == 0")
+      mat0 <- matrix(character(0), nrow=0, ncol=2,
+         dimnames=list(NULL, c("surname", "givenName")))
+      return(mat0)
+  }
+#
+  if(surnameFirst){
+      Sep <- regexpr(', ', x)
+      oops <- which(Sep<0)
+      if(length(oops)>0){
+          err <- paste('x[', oops[1], '] = ', x[1],
+                       ' is NOT in surnameFirst format')
+          stop(err)
+      }
+      sur <- substring(x, 1, Sep-1)
+      giv <- substring(x, Sep+2)
+      out <- cbind(sur, giv)
+      colnames(out) <- c('surname', 'givenName')
+      return(out)
+  }
+##
+## 2.  suffix?
 ##
   suf <- regexpr(', ', x)
   suffix <- substring(x[suf>0], suf[suf>0]+2)
   x2 <- x
   x2[suf>0] <- substring(x[suf>0], 1, suf[suf>0]-1)
 ##
-## 2.  surname
+## 3.  surname
 ##
   x. <- strsplit(x2, ' ')
   surname <- sapply(x., function(x){
       x[length(x)]
   } )
 ##
-## 3.  givenName
+## 4.  givenName
 ##
   g <- sapply(x., function(x){
       paste(x[1:(length(x)-1)], collapse=' ')
   } )
   g[suf>0] <- paste(g[suf>0], suffix, sep=', ')
 ##
-## 4.  Done
+## 5.  Done
 ##
   cbind(surname=surname, givenName=g)
 }
