@@ -1,4 +1,4 @@
-camelParse <- function(x){
+camelParse <- function(x, except=c('Mc', 'Mac')){
 ##
 ## 1.  strsplit
 ##
@@ -18,6 +18,16 @@ camelParse <- function(x){
     begin <- c(1, camel+1)
     end <- c(camel, ni)
     X <- substring(x[ix], begin, end)
+    for(ex in except){
+        ei <- regexpr(ex, X)
+        ej <- (ei+2-nchar(X))
+        ej[ei<0] <- -1
+        ek <- which(ej>0)
+        for(ik in rev(ek)){
+            X[ik] <- paste(X[ik], X[ik+1], sep='')
+            X <- X[-(ik+1)]
+        }
+    }
     out[[ix]] <- X
   }
   out

@@ -12,10 +12,11 @@ surname <- function(x, surnameFirst=FALSE){
   if(surnameFirst){
       Sep <- regexpr(', ', x)
       oops <- which(Sep<0)
-      if(length(oops)>0){
-          err <- paste('x[', oops[1], '] = ', x[oops[1]],
-                       ' is NOT in surnameFirst format;',
-                       ' assume it is givenName surname.')
+      if((no <- length(oops))>0){
+          err <- paste(no, ' of ', length(x), ' elements of x ',
+                       'are NOT in surnameFirst format.  ',
+                       'The first is ', x[oops[1]],
+               '.  Assume they are in (givenName surname) format.')
           warning(err)
           fix0 <- surname(x[oops])
           fix1 <- paste(fix0[, 2], fix0[, 1], sep=', ')

@@ -30,7 +30,18 @@ readUSstateAbbreviations <- function(url=
       names(Abbr) <- colNms.
   }
 ##
-## 4.  Done
+## 4.  Delete obsolete dups
+##
+  stateReps <- table(Abbr$Name)
+  dups <- names(stateReps)[stateReps>1]
+  Dups <- which(Abbr$Name %in% dups)
+  Dup2 <- regexpr('Obsolete', Abbr[Dups, "Status"])
+  Del <- Dups[Dup2>0]
+  if(length(Del)>0){
+      Abbr <- Abbr[-Del,]
+  }
+##
+## 5.  Done
 ##
   Abbr
 }

@@ -9,11 +9,15 @@
   letter.
 }
 \usage{
-camelParse(x)
+camelParse(x, except=c('Mc', 'Mac'))
 }
 \arguments{
   \item{x}{
     a character vector
+  }
+  \item{except}{
+    character vector giving exceptions:  If any of these are found,
+    ignore and look for the next one
   }
 }
 \details{
@@ -33,12 +37,14 @@ camelParse(x)
 %\references{}
 \examples{
 tst <- c('Smith, JohnJohn Smith',
-         'EducationNational DefenseOther Committee')
+         'EducationNational DefenseOther Committee',
+         'McCain, JohnJohn McCain')
 tst. <- camelParse(tst)
 
 \dontshow{stopifnot(}
 all.equal(tst., list(c('Smith, John', 'John Smith'),
-    c('Education', 'National Defense', 'Other Committee')) )
+    c('Education', 'National Defense', 'Other Committee'),
+    c('McCain, John', 'John McCain') ) )
 \dontshow{)}
 }
 \keyword{manip}

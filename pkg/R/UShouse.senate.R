@@ -3,19 +3,69 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
 ## 1.  reformat house
 ##
   nh <- nrow(house)
+#  cat('hrow(house) = ', nh, '\n')
   surnm <- surname(house$Name, TRUE)
-  hs <- with(house, data.frame(houseSenate=rep('Rep', nh),
+  NS <- nrow(surnm)
+  if(NS != nh){
+      stop('nrow(house) = ', nh, '; nrow(surname(.) = ', NS,
+           ':  NOT equal')
+  }
+  party <- as.character(house$Party)
+  party[party=='D'] <- 'Democratic'
+  party[party=='R'] <- 'Republican'
+  np <- length(party)
+  if(np != nh){
+      stop('nrow(house) = ', nh, '; length(party) = ', np,
+           ':  NOT equal')
+  }
+  sur. <- surnm[, 'surname']
+  nu <- length(sur.)
+  if(nu != nh){
+      stop('nrow(house) = ', nh, '; length(surnames) = ', sur.,
+           ':  NOT equal')
+  }
+  giv <- surnm[, 'givenName']
+  ng <- length(giv)
+  if(ng != nh){
+      stop('nrow(house) = ', ng, '; length(givenNames) = ', giv,
+           ':  NOT equal')
+  }
+#
+  hs <- with(house, data.frame(houseSenate=factor(rep('Rep', nh)),
                    state=state, District=District,
-                   Party=Party, surname=surnm[, "surname"],
-                   givenname=surnm[, "givenName"] ) )
+                   Party=factor(party), surname=sur.,
+                   givenName=giv,
+                   stringsAsFactors=FALSE) )
 ##
 ## 2.  reformat senate
 ##
   ns <- nrow(senate)
-
+  cat('nrow(senate) =', ns, '\n')
+  hS <- rep('Sen', ns)
+  Surnm <- surname(senate$Name, TRUE)
+  nS <- nrow(Surnm)
+  if(ns != nS){
+      stop('nrow(senate) = ', ns, '; nrow(surname(.)) = ',
+           nS, ':  NOT equal')
+  }
+#
+  abbr <- readUSstateAbbreviations()
+  USstates <- abbr$Name
+  rownames(abbr) <- abbr$Name
+  USPS <- grep('USPS', names(abbr))
+  if(length(USPS)<1)
+      stop('USPS codes not in readUSstateAbbreviations()')
+  senState <- abbr[senate$State, USPS[1]]
+  sn <- with(senate, data.frame(houseSenate=factor(hS),
+                       state=factor(senState),
+                       District=Class, Party=Party,
+                       surname=Surnm[, 'surname'],
+                       givenName=Surnm[, 'givenName'],
+                       stringsAsFactors=FALSE) )
 ##
 ## 3.  rbind
 ##
+  cat('rbind\n')
   "coming soon"
 }
 

@@ -20,6 +20,12 @@ readUSstateAbbreviations(url=
 }
 \details{
   Wrapper for \code{\link[XML]{readHTMLTable}}.
+
+  NOTE:  \code{readHTMLTable(url)} returns a list of length 7, only one
+  of which is the table we want.  Moreover, that table contains some
+  duplicates, which are removed by \code{readUSstateAbbreviations}.  For
+  example, 'NB' is an "Obsolete postal code" for Nebraska.  If you need
+  this, please consult the Wikipedia article.
 }
 %\source{ }
 \value{

@@ -29,7 +29,7 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
     is in the US House or Senate
   }
   \item{state}{
-    A factor identifying the state using the USPTO 2-letter state code
+    A factor identifying the state using the USPS 2-letter state code
   }
   \item{District}{
     "At-Large" for members of the US House representing an entire state
@@ -38,8 +38,9 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
     "2" includes 2008, "3" includes 2010) for the Senate.
   }
   \item{Party}{
-    a factor identifying the party affiliation of each representative
-    ("D", "R", or "I" for "Democrat", "Republican" or "Independent").
+    a factor identifying the party affiliation of each representative,
+    e.g., 'Democratic', 'Republican', 'Democratic-Farmer-Labor',
+    'Independent'.
   }
   \item{surname}{
     family name
