@@ -32,15 +32,15 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
   }
 #
   hs <- with(house, data.frame(houseSenate=factor(rep('Rep', nh)),
-                   state=state, District=District,
+                   state=factor(toupper(state)), District=District,
                    Party=factor(party), surname=sur.,
-                   givenName=giv,
+                   givenName=giv, nonvoting=nonvoting,
                    stringsAsFactors=FALSE) )
 ##
 ## 2.  reformat senate
 ##
   ns <- nrow(senate)
-  cat('nrow(senate) =', ns, '\n')
+#  cat('nrow(senate) =', ns, '\n')
   hS <- rep('Sen', ns)
   Surnm <- surname(senate$Name, TRUE)
   nS <- nrow(Surnm)
@@ -61,11 +61,11 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
                        District=Class, Party=Party,
                        surname=Surnm[, 'surname'],
                        givenName=Surnm[, 'givenName'],
+                       nonvoting=FALSE,
                        stringsAsFactors=FALSE) )
 ##
 ## 3.  rbind
 ##
-  cat('rbind\n')
-  "coming soon"
+  rbind(hs, sn)
 }
 

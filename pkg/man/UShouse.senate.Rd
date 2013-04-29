@@ -30,12 +30,14 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
   }
   \item{state}{
     A factor identifying the state using the USPS 2-letter state code
+    (all caps)
   }
   \item{District}{
     "At-Large" for members of the US House representing an entire state
-    or integers in character format indicating the district for the US
-    House of the class (6-year election year cycle, "1" includes 2012,
-    "2" includes 2008, "3" includes 2010) for the Senate.
+    or integers in character format indicating the district.  For the
+    Senate, this contains the "class", which codes the year of the next
+    election for that seat is an integer multiple of 6 years after 2012,
+    2008, or 2010 for class "1", "2", or "3", respectively.
   }
   \item{Party}{
     a factor identifying the party affiliation of each representative,

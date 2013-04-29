@@ -60,7 +60,8 @@ readUShouse <- function(url="http://house.gov/representatives/",
       x.
   } )
 #
-  Out <- cbind(data.frame(State=state, state=St2), out[[1]][1:5])
+  Out <- cbind(data.frame(State=state, state=toupper(St2)),
+               out[[1]][1:5])
   Out$Party <- factor(Out$Party)
   Out$Committees <- out[[1]][["Committee Assignment"]]
   Out$nonvoting <- (state %in% nonvoting)
