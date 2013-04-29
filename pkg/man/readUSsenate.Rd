@@ -8,7 +8,8 @@
 }
 \usage{
 readUSsenate(url=
-"http://en.wikipedia.org/wiki/List_of_current_United_States_Senators")
+"http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
+    USstateAbbreviations=readUSstateAbbreviations() )
 }
 \arguments{
   \item{url}{
@@ -18,6 +19,13 @@ readUSsenate(url=
     NOTE:  On April 26, 2013 the obvious naive use of
     \code{\link[XML]{readHTMLTable}} worked with the Wikipedia article
     on the US Senate but did not work with "senate.gov".
+  }
+  \item{USstateAbbreviations}{
+    a \code{\link{data.frame}} giving names and alternative codes for US
+    states and territories.  This must have a column named "Name" giving
+    the names of all 50 states as they appear on the \code{url} and
+    another whose name includes "USPS" giving the correspoding 2-letter
+    codes.
   }
 }
 \details{
@@ -31,7 +39,10 @@ readUSsenate(url=
   columns:
 
   \item{State}{
-    A factor identifying the state or territory the person represents
+    A factor identifying the state the person represents
+  }
+  \item{state}{
+    A factor giving the 2-letter USPS code for the state represented
   }
   \item{Class}{
     "1", "2", or "3" for election in the 6-year cycle including 2008,

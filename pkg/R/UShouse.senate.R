@@ -32,10 +32,10 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
   }
 #
   hs <- with(house, data.frame(houseSenate=factor(rep('Rep', nh)),
-                   state=factor(toupper(state)), District=District,
-                   Party=factor(party), surname=sur.,
-                   givenName=giv, nonvoting=nonvoting,
-                   stringsAsFactors=FALSE) )
+                   State=State, state=factor(toupper(state)),
+                   District=District, Party=factor(party),
+                   surname=sur., givenName=giv,
+                   nonvoting=nonvoting, stringsAsFactors=FALSE) )
 ##
 ## 2.  reformat senate
 ##
@@ -49,15 +49,8 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
            nS, ':  NOT equal')
   }
 #
-  abbr <- readUSstateAbbreviations()
-  USstates <- abbr$Name
-  rownames(abbr) <- abbr$Name
-  USPS <- grep('USPS', names(abbr))
-  if(length(USPS)<1)
-      stop('USPS codes not in readUSstateAbbreviations()')
-  senState <- abbr[senate$State, USPS[1]]
   sn <- with(senate, data.frame(houseSenate=factor(hS),
-                       state=factor(senState),
+                       State=State, state=state,
                        District=Class, Party=Party,
                        surname=Surnm[, 'surname'],
                        givenName=Surnm[, 'givenName'],
