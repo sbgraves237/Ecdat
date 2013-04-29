@@ -56,6 +56,9 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
   \code{\link{readUSsenate}}
 }
 \examples{
+house <- readUShouse()
+
+
 USreps <- UShouse.senate()
 }
 \keyword{datasets}

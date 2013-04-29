@@ -13,9 +13,13 @@ surname <- function(x, surnameFirst=FALSE){
       Sep <- regexpr(', ', x)
       oops <- which(Sep<0)
       if(length(oops)>0){
-          err <- paste('x[', oops[1], '] = ', x[1],
-                       ' is NOT in surnameFirst format')
-          stop(err)
+          err <- paste('x[', oops[1], '] = ', x[oops[1]],
+                       ' is NOT in surnameFirst format;',
+                       ' assume it is givenName surname.')
+          warning(err)
+          fix0 <- surname(x[oops])
+          fix1 <- paste(fix0[, 2], fix0[, 1], sep=', ')
+          x[oops] <- fix1
       }
       sur <- substring(x, 1, Sep-1)
       giv <- substring(x, Sep+2)
