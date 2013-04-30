@@ -1,5 +1,5 @@
-\name{surname}
-\alias{surname}
+\name{parseName}
+\alias{parseName}
 \title{
   Parse surname and given name
 }
@@ -9,7 +9,7 @@
   "surname" followed by "givenName".
 }
 \usage{
-surname(x, surnameFirst=FALSE)
+parseName(x, surnameFirst=FALSE)
 }
 \arguments{
   \item{x}{
@@ -56,7 +56,7 @@ surname(x, surnameFirst=FALSE)
 tst <- c('Joe Smith', 'Teresa Angelica Sanchez de Gomez',
          'John Brown, Jr.', 'John W. Brown, III', 'John Q. Brown, I',
          'Linda Rosa Smith-Johnson', 'Anistasio Somoza Debayle')
-parsed <- surname(tst)
+parsed <- parseName(tst)
 
 tst2 <- matrix(c('Smith', 'Joe', 'Gomez', 'Teresa Angelica Sanchez de',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',
@@ -78,7 +78,7 @@ all.equal(parsed, tst2)
 tst3 <- c('Smith, Joe', 'Sanchez de Gomez, Teresa Angelica',
      'Brown, John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
      'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anistasio')
-tst4 <- surname(tst3, TRUE)
+tst4 <- parseName(tst3, TRUE)
 
 tst5 <- matrix(c('Smith', 'Joe', 'Sanchez de Gomez', 'Teresa Angelica',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',

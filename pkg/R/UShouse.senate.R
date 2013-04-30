@@ -4,10 +4,10 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
 ##
   nh <- nrow(house)
 #  cat('hrow(house) = ', nh, '\n')
-  surnm <- surname(house$Name, TRUE)
+  surnm <- parseName(house$Name, TRUE)
   NS <- nrow(surnm)
   if(NS != nh){
-      stop('nrow(house) = ', nh, '; nrow(surname(.) = ', NS,
+      stop('nrow(house) = ', nh, '; nrow(parseName(.) = ', NS,
            ':  NOT equal')
   }
   party <- as.character(house$Party)
@@ -42,10 +42,10 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
   ns <- nrow(senate)
 #  cat('nrow(senate) =', ns, '\n')
   hS <- rep('Sen', ns)
-  Surnm <- surname(senate$Name, TRUE)
+  Surnm <- parseName(senate$Name, TRUE)
   nS <- nrow(Surnm)
   if(ns != nS){
-      stop('nrow(senate) = ', ns, '; nrow(surname(.)) = ',
+      stop('nrow(senate) = ', ns, '; nrow(parseName(.)) = ',
            nS, ':  NOT equal')
   }
 #

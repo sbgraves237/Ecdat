@@ -48,7 +48,7 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
     family name
   }
   \item{givenname}{
-    first name with possible a middle name, nickname, and suffix (e.g.,
+    first name with possibly a middle name, nickname, and suffix (e.g.,
     Jr., III).
   }
 }

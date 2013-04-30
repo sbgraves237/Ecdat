@@ -61,6 +61,10 @@ readUSsenate <- function(url=
 ##
   nc <- ncol(Sen)
   o <- c(1, nc, 2:(nc-1)) # assume '
-  Sen[o]
+  Sen. <- Sen[o]
+##
+## 8.  parseName
+##
+  cbind(Sen., as.data.frame(parseName(Sen.$Name)))
 }
 

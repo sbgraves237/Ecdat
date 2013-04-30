@@ -1,4 +1,4 @@
-surname <- function(x, surnameFirst=FALSE){
+parseName <- function(x, surnameFirst=FALSE){
 ##
 ## 1.  surnameFirst
 ##
@@ -18,7 +18,7 @@ surname <- function(x, surnameFirst=FALSE){
                        'The first is ', x[oops[1]],
                '.  Assume they are in (givenName surname) format.')
           warning(err)
-          fix0 <- surname(x[oops])
+          fix0 <- parseName(x[oops])
           fix1 <- paste(fix0[, 2], fix0[, 1], sep=', ')
           x[oops] <- fix1
       }

@@ -68,6 +68,13 @@ readUSsenate(url=
   \item{endOffice}{
     a character vector giving the last day in the present term.
   }
+  \item{surname}{
+    character vector giving the surname of each representative
+  }
+  \item{givenName}{
+    given name of each representative (possibly with middle name or
+    initial, a nickname, and a suffix like "Jr.")
+  }
 }
 %\references{}
 \author{Spencer Graves}
