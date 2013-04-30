@@ -9,7 +9,7 @@
   letter.
 }
 \usage{
-camelParse(x, except=c('Mc', 'Mac'))
+camelParse(x, except=c('De', 'Mc', 'Mac'))
 }
 \arguments{
   \item{x}{

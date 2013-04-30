@@ -1,4 +1,4 @@
-camelParse <- function(x, except=c('Mc', 'Mac')){
+camelParse <- function(x, except=c('De', 'Mc', 'Mac')){
 ##
 ## 1.  strsplit
 ##
