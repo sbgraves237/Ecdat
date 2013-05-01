@@ -82,6 +82,9 @@ readUSsenate(url=
   \code{\link[RCurl]{getURL}}
   \code{\link[XML]{readHTMLTable}}
   \code{\link{camelParse}} to remove duplication in \code{Name}
+  \code{\link{readUShouse}}
+  \code{\link{UShouse.senate}}
+  \code{\link{parseName}}
 }
 \examples{
 USsenate <- readUSsenate()

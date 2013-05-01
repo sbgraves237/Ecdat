@@ -66,5 +66,8 @@ readUShouse <- function(url="http://house.gov/representatives/",
   Out$Committees <- out[[1]][["Committee Assignment"]]
   Out$nonvoting <- (state %in% nonvoting)
 #
-  Out
+  surnm <- parseName(Out$Name)
+  O <- cbind(Out, as.data.frame(surnm))
+#
+  O
 }

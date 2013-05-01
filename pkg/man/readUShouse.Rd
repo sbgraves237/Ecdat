@@ -71,12 +71,22 @@ readUShouse(url="http://house.gov/representatives/",
     a character vector giving the committee assignments of each
     representative
   }
+  \item{surname}{
+    character vector giving the surname of each representative
+  }
+  \item{givenName}{
+    given name of each representative (possibly with middle name or
+    initial, a nickname, and a suffix like "Jr.")
+  }
 }
 %\references{}
 \author{Spencer Graves}
 \seealso{
   \code{\link[RCurl]{getURL}}
   \code{\link[XML]{readHTMLTable}}
+  \code{\link{readUSsenate}}
+  \code{\link{UShouse.senate}}
+  \code{\link{parseName}}
 }
 \examples{
 UShouse <- readUShouse()
