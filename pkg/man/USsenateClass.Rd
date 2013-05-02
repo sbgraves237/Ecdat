@@ -8,6 +8,21 @@
   up their \code{state} and \code{surname} in the reference table
   \code{senate} and return their \code{Class}.  For indivuals not found
   in \code{senate}, return \code{x[["District"]]}.
+
+  Senate classes 1, 2 and 3 have their normal elections in 6-year cycles
+  including 2000, 2002, and 2004 (or 2012, 2008, and 2010),
+  respectively.  When vacancies occur out of cycle, the vacancy is first
+  filled with appointment by the governor of the state, and an election
+  to fill that seat occurs in the next even-numbered year;  the class of
+  that seat does not change.
+
+  For example, \href{http://en.wikipedia.org/wiki/Jim_DeMint}{South
+    Carolina Senator Jim DeMint} resigned effective January 1,
+  2013. \href{http://en.wikipedia.org/wiki/Nikki_Haley}{South Carolina
+    Governor Nikki Haley} appointed
+  \href{http://en.wikipedia.org/wiki/Tim_Scott}{Tim Scott} to serve
+  until a special election in 2014.  This is a Class 3 seat, which means
+  that another election for that seat will occur in 2016.
 }
 \usage{
 USsenateClass(x, senate=readUSsenate())
