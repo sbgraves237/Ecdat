@@ -69,7 +69,7 @@ mergeVote(x, vote, houseSenate="Rep", vote.x)
 %\references{}
 \examples{
 votetst <- data.frame(
-  surname=c('Smith', 'Jones', 'Graves', 'Jsn', 'Jsn', 'Gay'),
+  surName=c('Smith', 'Jones', 'Graves', 'Jsn', 'Jsn', 'Gay'),
   givenName=c("Sam", "", "", "John", "Linda", ''),
   votex=factor(c('Y', 'N', 'abstain', 'Y', 'Y', '')),
   stringsAsFactors=FALSE )

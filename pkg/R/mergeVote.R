@@ -22,8 +22,12 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ##
 ## 3.  keys
 ##
-  keyx <- with(x, paste(houseSenate, surname, sep=':'))
-  keyy <- with(vote, paste(houseSenate, surname, sep=":") )
+  surnmx. <- grep('surname', tolower(names(x)))
+  surnmx <- names(x)[surnmx.]
+  surnmv. <- grep('surname', tolower(names(vote)))
+  surnmv <- names(vote)[surnmv.]
+  keyx <- paste(x$houseSenate, x[[surnmx]], sep=":")
+  keyy <- paste(vote$houseSenate, vote[[surnmv]], sep=":")
 ##
 ## 4.   record votes
 ##
