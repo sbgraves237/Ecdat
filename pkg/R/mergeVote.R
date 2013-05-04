@@ -22,54 +22,55 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ##
 ## 3.  keys
 ##
-  surnmx. <- grep('surname', tolower(names(x)))
-  surnmx <- names(x)[surnmx.]
-  surnmv. <- grep('surname', tolower(names(vote)))
-  surnmv <- names(vote)[surnmv.]
+  nmx <- names(x)
+  nmv <- names(vote)
+  lnmx <- tolower(nmx)
+  lnmv <- tolower(nmv)
+  surnmx <- nmx[grep('surname', lnmx)]
+  surnmv <- nmv[grep('surname', lnmv)]
+  givenx <- nmx[grep('givenname', lnmx)]
+  givenv <- nmv[grep('givenname', lnmv)]
+  stx <- nmx[grep('state', lnmx)]
+  stv <- nmv[grep('state', lnmv)]
+  distx <- nmx[grep('district', lnmx)]
+  distv <- nmv[grep('district', lnmv)]
   keyx <- paste(x$houseSenate, x[[surnmx]], sep=":")
-  keyy <- paste(vote$houseSenate, vote[[surnmv]], sep=":")
+  keyv <- paste(vote$houseSenate, vote[[surnmv]], sep=":")
+  keyx2 <- paste(keyx, x[[givenx]], sep=":")
+  keyv2 <- paste(keyv, vote[[givenv]], sep=':')
+  keyx. <- paste(x$houseSenate, x[[stx]], x[[distx]], sep=":")
+  keyv. <- paste(vote$houseSenate, vote[[stv]], vote[[distv]], sep=":")
 ##
 ## 4.   record votes
 ##
-  vote.surnameNotFound <- character(0)
-  vote.multipleMatches <- character(0)
+  vote.notFound <- character(0)
   for(iv in 1:nv){
-      jv <- which(keyx == keyy[iv])
+      jv <- which(keyx == keyv[iv])
       if(length(jv)<1){
-          vote.surnameNotFound <- c(vote.surnameNotFound, keyy[iv])
-      } else {
-          if(length(jv)<2){
-              x[jv, vote.x] <- as.character(vote[iv, votey])
-          } else {
-              jv2 <- grep(vote[iv, 'givenName'], x[jv, 'givenName'])
-              sgnm <- paste(keyy[iv], vote[iv, 'givenName'], sep=', ')
-              if(length(jv2)<1){
-                  vote.surnameNotFound <- c(vote.surnameNotFound, sgnm)
-              } else {
-                  if(length(jv2)<2) {
-                      x[jv2, vote.x] <- vote[iv, votey]
-                  } else {
-                      vote.multipleMatches <- c(vote.multipleMatches, sgnm)
-                  }
-              }
+          jv <- which(keyx. == keyv.[iv])
+          if(length(jv)!=1)
+              vote.notFound <- c(vote.notFound, keyv.[iv])
+      }
+      if(length(jv)>1){
+          jv <- which(keyx2 == keyv2[iv])
+          if(length(jv)!=1)
+              jv <- which(keyx.==keyv.[iv])
+#              vote.notFound <- c(vote.notFound, keyv2[iv])
+          if(length(jv)!=1){
+              vote.notFound <- c(vote.notFound, keyv.[iv])
           }
+      }
+      if(length(jv)==1) {
+          x[jv, vote.x] <- as.character(vote[iv, votey])
       }
   }
 ##
 ## 5.  Done
 ##
   x[, vote.x] <- factor(x[, vote.x])
-  if((snf <- length(vote.surnameNotFound))>0){
-      warning("In ", snf, 'cases, surnames in vote not found in x;  ',
-              'the first is ', vote.surnameNotFound[1],
-              '; returning as attribute of output')
-      attr(x, 'vote.surnameNotFound') <- vote.surnameNotFound
-  }
-  if((mm <- length(vote.multipleMatches))>0){
-      warning("In ", mm, ' cases, multiple matches in vote found in x;  ',
-              'the first is ', vote.multipleMatches[1],
-              '; returning as attribute of output')
-      attr(x, 'vote.multipleMatches') <- vote.multipleMatches
+  if(length(vote.notFound)>0){
+      print(vote.notFound)
+      stop('Unable to find vote in x')
   }
   x
 }
