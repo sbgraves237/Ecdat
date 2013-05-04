@@ -43,13 +43,13 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ##
 ## 4.   record votes
 ##
-  vote.notFound <- character(0)
+  vote.notFound <- integer(0)
   for(iv in 1:nv){
       jv <- which(keyx == keyv[iv])
       if(length(jv)<1){
           jv <- which(keyx. == keyv.[iv])
           if(length(jv)!=1)
-              vote.notFound <- c(vote.notFound, keyv.[iv])
+              vote.notFound <- c(vote.notFound, iv)
       }
       if(length(jv)>1){
           jv <- which(keyx2 == keyv2[iv])
@@ -57,7 +57,7 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
               jv <- which(keyx.==keyv.[iv])
 #              vote.notFound <- c(vote.notFound, keyv2[iv])
           if(length(jv)!=1){
-              vote.notFound <- c(vote.notFound, keyv.[iv])
+              vote.notFound <- c(vote.notFound, iv)
           }
       }
       if(length(jv)==1) {
@@ -68,8 +68,9 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ## 5.  Done
 ##
   x[, vote.x] <- factor(x[, vote.x])
-  if(length(vote.notFound)>0){
-      print(vote.notFound)
+  if((no <- length(vote.notFound))>0){
+      cat(no, 'rows of vote not found:\n')
+      print(vote[vote.notFound,] )
       stop('Unable to find vote in x')
   }
   x

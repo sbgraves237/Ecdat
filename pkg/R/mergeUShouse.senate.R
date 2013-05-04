@@ -1,5 +1,6 @@
 mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
-        default=list(member=FALSE, contrib=0, vote="notEligible") ){
+                                newrows='contrib.0',
+        default=list(member=NA, contrib=0, vote="notEligible") ){
 ##
 ## 1.  keys
 ##
@@ -21,6 +22,15 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
           Y[, f] <- default[id]
       }
   }
+##
+## 4.  newrows
+##
+  if(!(newrows %in% names(x))){
+      x <- cbind(x, FALSE)
+      nx <- ncol(x)
+      names(x)[nx] <- newrows
+  }
+  Y[, newrows] <- TRUE
 ##
 ## 4.  rbind
 ##

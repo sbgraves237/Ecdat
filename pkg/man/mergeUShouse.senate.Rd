@@ -11,7 +11,8 @@
 }
 \usage{
 mergeUShouse.senate(x, UScongress=UShouse.senate(),
-        default=list(member=FALSE, contrib=0, vote="notEligible") )
+        newrows="contrib.0",
+        default=list(member=NA, contrib=0, vote="notEligible") )
 }
 \arguments{
   \item{x}{
@@ -19,6 +20,10 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
   }
   \item{UScongress}{
     a \code{\link{data.frame}} to be merged with \code{x}.
+  }
+  \item{newrows}{
+    name of a \code{logical} column to add that is TRUE for rows added
+    to \code{x} and FALSE otherwise.
   }
   \item{default}{
     default values for columns of \code{x} identified by
@@ -36,7 +41,11 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
 
   5.  add default columns to Y
 
-  6.  rbind(x, Y[names(x)])
+  6.  if(!newrows is not in names(x))x <- cbind(x, newrows=FALSE)
+
+  7.  Y[, newrows] <- TRUE
+
+  8.  rbind(x, Y[c(names(x)])
 }
 \value{
   a \code{\link{data.frame}} combining \code{x} and \code{UScongress}
