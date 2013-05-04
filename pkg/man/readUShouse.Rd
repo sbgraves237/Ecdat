@@ -25,16 +25,21 @@ readUShouse(url="http://house.gov/representatives/",
   }
 }
 \details{
-  1.  \code{House.gov <- readHTMLTable(url)}.  This is a list of 80
-  tables.  The first 56 are for the 50 states and 6 territories.  The
-  remaining 24 are for the first letter of the last name of the
-  representatives.
+  1.  \code{House.gov <- readHTMLTable(url)}.  As of April 2013, this is
+  a list of 80 tables.  The first 56 are for the 50 states and 6
+  territories.  The remaining 24 are for the first letter of the last
+  name of the representatives.
 
-  2.  Use \code{\link{rbind}} to collapse these 80 tables to 2.
+  2.  Use \code{\link{rbind}} to collapse these into 2 tables.  The
+  first has the District as a number without identifying the state
+  (because that was with the names of the first 56 tables in
+  House.gov).  The second has the state names but with the district
+  numbers in a form not easily parsed.
 
-  3.  Extract \code{State} from the \code{District} in the second of
-  the combined tables and prepend that as a first column of the first
-  table.  Add a \code{nonvoting} column for those "States" in
+  3.  Obtain the state names from the second table to match the names of
+  the representatives in the first.
+
+  4.  Add a \code{nonvoting} column for those "States" in
   \code{nonvoting}.
 }
 %\source{ }
@@ -87,6 +92,7 @@ readUShouse(url="http://house.gov/representatives/",
   \code{\link{readUSsenate}}
   \code{\link{UShouse.senate}}
   \code{\link{parseName}}
+  \code{\link{readUSstateAbbreviations}}
 }
 \examples{
 UShouse <- readUShouse()

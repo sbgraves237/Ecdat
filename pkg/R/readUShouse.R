@@ -2,6 +2,7 @@ readUShouse <- function(url="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands') ){
+#, USstateAbbreviations=readUSstateAbbreviations() ){
 ##
 ## 1.  download content
 ##
@@ -45,12 +46,16 @@ readUShouse <- function(url="http://house.gov/representatives/",
   }
   names(out) <- names(H.)
 ##
-## 5.  If 2 tables, combine
+## 5.  If 2 tables, use the first but add the state names
 ##
   if(nh>2){
       warning(nh, " > 2 different tables found;  I'm confused")
       return(out)
   }
+  n. <- sapply(out, nrow)
+  if(n.[1] != n.[2])
+      stop('2 tables found with different numbers of rows')
+#
   Dist <- out[[2]]$District
   D. <- strsplit(Dist, ' ')
   state <- sapply(D., function(x){
@@ -59,8 +64,26 @@ readUShouse <- function(url="http://house.gov/representatives/",
       x. <- paste(x[seq(length=nx-Di-1)], collapse=' ')
       x.
   } )
+# but in the wrong order
+  State <- character(n.[1])
+  for(i. in 1:n.[1]){
+      j. <- which(out[[2]]$Name==out[[1]]$Name[i.])
+      if((nj <- length(j.)) != 1)
+          stop('for row ', i., ' found ', nj, ' matches')
+      State[i.] <- state[j.]
+  }
 #
-  Out <- cbind(data.frame(State=state, state=toupper(St2)),
+#  USPS <- grep('USPS', names(USstateAbbreviations))
+#  USPScodes <- USstateAbbreviations[, USPS]
+#  good <- (USPScodes!='')
+#  stateAbbr <- USstateAbbreviations[good,]
+#  USPScds <- USPScodes[good]
+#  rownames(stateAbbr) <- USPScds
+  ST2 <- toupper(St2)
+#  which(!(ST2 %in% USPScds))
+# state <- stateAbbr[ST2, "Name"]
+#
+  Out <- cbind(data.frame(State=State, state=ST2),
                out[[1]][1:5])
   Out$Party <- factor(Out$Party)
   Out$Committees <- out[[1]][["Committee Assignment"]]
