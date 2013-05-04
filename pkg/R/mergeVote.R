@@ -60,13 +60,15 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ##
   x[, vote.x] <- factor(x[, vote.x])
   if((snf <- length(vote.surnameNotFound))>0){
-      warning(snf, 'surnames in vote not found in x;  the first is ',
-              vote.surnameNotFound[1], '; returning as attribute of output')
+      warning("In ", snf, 'cases, surnames in vote not found in x;  ',
+              'the first is ', vote.surnameNotFound[1],
+              '; returning as attribute of output')
       attr(x, 'vote.surnameNotFound') <- vote.surnameNotFound
   }
   if((mm <- length(vote.multipleMatches))>0){
-      warning(mm, 'multiple matches in vote found in x;  the first is ',
-              vote.multipleMatches[1], '; returning as attribute of output')
+      warning("In ", mm, ' cases, multiple matches in vote found in x;  ',
+              'the first is ', vote.multipleMatches[1],
+              '; returning as attribute of output')
       attr(x, 'vote.multipleMatches') <- vote.multipleMatches
   }
   x
