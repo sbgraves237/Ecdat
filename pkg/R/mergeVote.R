@@ -1,4 +1,5 @@
-mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
+mergeVote <- function(x, vote, houseSenate="Rep", vote.x,
+                      check.x=TRUE){
 ##
 ## 1.  parse vote.x
 ##
@@ -44,6 +45,7 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ## 4.   record votes
 ##
   vote.notFound <- integer(0)
+  voteFound <- rep(0, nv)
   for(iv in 1:nv){
       jv <- which(keyx == keyv[iv])
       if(length(jv)<1){
@@ -62,10 +64,22 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
       }
       if(length(jv)==1) {
           x[jv, vote.x] <- as.character(vote[iv, votey])
+          voteFound[iv] <- jv
       }
   }
 ##
-## 5.  Done
+## 5.  Check
+##
+  if(check.x){
+      Votex <- which(x[, vote.x] != 'notEligible')
+      oops <- which(!(Votex %in% voteFound))
+      if(length(oops)>0){
+          print(x[oops,])
+          stop('votes in x not found in "vote"')
+      }
+  }
+##
+##  Done
 ##
   x[, vote.x] <- factor(x[, vote.x])
   if((no <- length(vote.notFound))>0){
