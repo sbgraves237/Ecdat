@@ -5,10 +5,11 @@
 }
 \description{
   Merge roll call vote record with a \code{\link{data.frame}} containing
-  other information.  There records are typically incomplete, so mMatch
+  other information.  There records are typically incomplete, so match
   first on \code{houseSenate} and \code{surname}.  If this match is
   incomplete, try using \code{givenName}.  If that fails, try
-  \code{state} and \code{district}, which may not always be present.
+  \code{state} and \code{district}, which may not always be present in
+  \code{vote}.
 }
 \usage{
 mergeVote(x, vote, houseSenate="Rep", vote.x)
@@ -75,26 +76,27 @@ mergeVote(x, vote, houseSenate="Rep", vote.x)
 \examples{
 votetst <- data.frame(
   surName=c('Smith', 'Jones', 'Graves', 'Jsn', 'Jsn', 'Gay'),
-  givenName=c("Sam", "", "", "John", "Linda", ''),
+  givenName=c("Sam", "", "", "John", "John", ''),
   votex=factor(c('Y', 'N', 'abstain', 'Y', 'Y', 'Y')),
-  State=factor(rep(c("", "SC", "NY"), c(3, 2, 1))),
-  district=rep(c("1", "2", "1"), c(3, 1, 2)),
+  State=factor(rep(c("CA", "", "SC", "NY"), c(1, 2, 1, 2))),
+  district=rep(c("13", "1", "2", "1"), c(1, 2, 2, 1)),
   stringsAsFactors=FALSE )
 
 x1 <- data.frame(
-  houseSenate=factor(rep(c("Rep", "Sen"), e=6)),
-  state=rep(c("SC", "SC", "SD", "AK", "AR", "NY"), 2),
-  District=rep(c("2", "1", "9", "1", "9", "1"), 2),
-  surname=rep(c('Jsn', 'Jsn', 'Smith', 'Jones', 'Graves', 'Rx'), 2),
+  houseSenate=factor(rep(c("Rep", "Sen"), e=7)),
+  state=rep(c("NY", "SC", "SD", "CA", "AK", "AR", "NY"), 2),
+  District=rep(c("2", "2", "At Large", "13", "1", "9", "1"), 2),
+  surname=rep(c('Jsn', 'Jsn', 'Smith', 'Smith', 'Jones',
+       'Graves', 'Rx'), 2),
   givenName=rep(c("John D.", "John J.",
-    "Samual", "Mary", "Mary", "Susan"), 2),
-  don=1:12, stringsAsFactors=FALSE)
+    "Samual", "Samual", "Mary", "Mary", "Susan"), 2),
+  don=1:14, stringsAsFactors=FALSE)
 
 x1. <- mergeVote(x1, votetst)
 
 x2 <- cbind(x1, votex=factor( rep(
-   c('Y', 'N', 'abstain', 'Y', 'notEligible'),
-   c(3,1,1,1,6) ) ) )
+   c('Y', 'notEligible', 'Y', 'N', 'abstain', 'Y', 'notEligible'),
+   c(2,1,1,1,1,1,7) ) ) )
 
 %attr(x2, 'vote.surnameNotFound') <-
 %  c('Rep:Jsn, Linda', 'Rep:Gay')

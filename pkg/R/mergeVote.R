@@ -2,6 +2,7 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
 ##
 ## 1.  parse vote.x
 ##
+  nx <- nrow(x)
   nv <- nrow(vote)
   votey <- grep('vote', names(vote), value=TRUE)
   if(length(votey)<1)
@@ -12,13 +13,12 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x){
       if(length(vote.x)<1)vote.x <- votey
   }
   if(!(vote.x %in% names(x)))
-      x[, vote.x] <- rep('notEligible', nv)
+      x[, vote.x] <- rep('notEligible', nx)
 ##
 ## 2.  houseSenate
 ##
-  if(!('houseSenate' %in% names(vote))){
+  if(!('houseSenate' %in% names(vote)))
       vote <- cbind(vote, houseSenate=houseSenate)
-  }
 ##
 ## 3.  keys
 ##
