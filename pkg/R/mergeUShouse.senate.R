@@ -10,6 +10,8 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 ## 2.  notx
 ##
   notx <- !(keyy %in% keyx)
+  notx. <- (notx & !UScongress$nonvoting)
+
   Y <- UScongress[notx & !UScongress$nonvoting, ]
 ##
 ## 3.  Add default columns to Y
