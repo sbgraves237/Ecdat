@@ -4,15 +4,24 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 ##
 ## 1.  keys
 ##
+#  X <- x
+  x$District[x$District=='0'] <- 'At Large'
+#
   keyx <- with(x, paste(houseSenate, state, District, sep=":"))
   keyy <- with(UScongress, paste(houseSenate, state, District, sep=":"))
 ##
 ## 2.  notx
 ##
   notx <- !(keyy %in% keyx)
+  huh <- !(keyx %in% keyy)
+  if((nhuh <- sum(huh))>0){
+      cat(nhuh, 'Districts in x not found in UScongress;  the first is:\n')
+      print(x[huh,][1,])
+      stop('District coding problem in x')
+  }
   notx. <- (notx & !UScongress$nonvoting)
-
-  Y <- UScongress[notx & !UScongress$nonvoting, ]
+#
+  Y <- UScongress[notx., ]
 ##
 ## 3.  Add default columns to Y
 ##
