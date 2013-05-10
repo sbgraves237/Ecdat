@@ -40,12 +40,24 @@ USsenateClass <- function(x, senate=readUSsenate(),
 #
   if(any(!found)){
       oops <- which(!found)
+      senun <- senate[!used, ]
       for(o in oops){
           sto <- as.character(x.Sen[o, state])
-          senun <- senate[!used, ]
 #
           clo <- senun[senun$state==sto, 'Class']
-          out[o] <- paste(clo, collapse=' or ')
+          if(length(clo)>0){
+              out[o] <- paste(clo, collapse=' or ')
+          } else {
+#         Not in senun;  look in senu
+              clo. <- senu[senu$state==sto, 'Class']
+              if(length(clo.)>0){
+                  out[o] <- paste(clo., collapse=' or ')
+              } else {
+                  print(x.Sen[o,])
+                  warning('Could not find senator from state ',
+                          sto)
+              }
+          }
       }
   }
 ##

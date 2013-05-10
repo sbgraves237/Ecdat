@@ -62,10 +62,10 @@ USsenateClass(x, senate=readUSsenate(),
   \code{\link{readUSsenate}}
 }
 \examples{
-tst <- data.frame(houseSenate=c("Rep", "Sen", "Sen"),
-                  state=rep("SC", 3),
-                  surname=c("Jones", "DeMint", "Graham"),
-                  District=c("9", "", ""))
+tst <- data.frame(houseSenate=c("Rep", "Sen", "Sen", 'Sen'),
+                  state=c('SC', 'SC', 'SC', 'NY'),
+                  surname=c("Jones", "DeMint", "Graham", 'Smith'),
+                  District=c("9", NA, NA, NA))
 tst. <- USsenateClass(tst)
 
 ##
