@@ -25,7 +25,9 @@
   that another election for that seat will occur in 2016.
 }
 \usage{
-USsenateClass(x, senate=readUSsenate())
+USsenateClass(x, senate=readUSsenate(),
+   houseSenate='houseSenate', state='state',
+   surname='surname', District='District', senatePattern='^sen')
 }
 \arguments{
   \item{x}{
@@ -35,6 +37,13 @@ USsenateClass(x, senate=readUSsenate())
   }
   \item{senate}{
     \code{\link{data.frame}} as returned by \code{\link{readUSsenate}}.
+  }
+  \item{houseSenate, state, surname, District}{
+    the names of columns of \code{x}
+  }
+  \item{senatePattern}{
+    a regular expression for identifying the senators from \code{x[,
+      houseSenate]}.
   }
 }
 \details{
@@ -57,6 +66,18 @@ tst <- data.frame(houseSenate=c("Rep", "Sen", "Sen"),
                   state=rep("SC", 3),
                   surname=c("Jones", "DeMint", "Graham"),
                   District=c("9", "", ""))
-tst2 <- USsenateClass(tst)
+tst. <- USsenateClass(tst)
+
+##
+## test with names different from the default
+##
+tst2 <- tst
+names(tst2) <- letters[1:4]
+tst2. <- USsenateClass(tst2, houseSenate=c('a', 'sen'),
+           state='b', surname='c', District='d')
+\dontshow{stopifnot(}
+all.equal(tst., tst2.)
+\dontshow{)}
+
 }
 \keyword{manip}

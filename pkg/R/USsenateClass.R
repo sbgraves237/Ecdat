@@ -1,14 +1,22 @@
-USsenateClass <- function(x, senate=readUSsenate()){
+USsenateClass <- function(x, senate=readUSsenate(),
+   houseSenate='houseSenate', state='state',
+   surname='surname', District='District', senatePattern='^sen') {
 ##
 ## 1.  subset x houseSenate
 ##
-  xSen <- (x$houseSenate=="Sen")
+  hS <- which(names(x) == houseSenate)
+  if(length(hS) != 1)
+      stop('failed to find a unique column of x matching ',
+           houseSenate)
+#  xSen <- (x$houseSenate=="Sen")
+  xSen <- grep(senatePattern, tolower(x[, hS]))
   x.Sen <- x[xSen,]
   nx <- nrow(x.Sen)
 ##
 ## 2.  Key
 ##
-  keyx <- with(x.Sen, paste(state, surname, sep=":"))
+#  keyx <- with(x.Sen, paste(state, surname, sep=":"))
+  keyx <- paste(x.Sen[, state], x.Sen[, surname], sep=':')
   keysen <- with(senate, paste(state, surname, sep=":"))
 ##
 ## 3.  find
@@ -33,7 +41,7 @@ USsenateClass <- function(x, senate=readUSsenate()){
   if(any(!found)){
       oops <- which(!found)
       for(o in oops){
-          sto <- as.character(x.Sen$state[o])
+          sto <- as.character(x.Sen[o, state])
           senun <- senate[!used, ]
 #
           clo <- senun[senun$state==sto, 'Class']
@@ -43,7 +51,7 @@ USsenateClass <- function(x, senate=readUSsenate()){
 ##
 ## 4.  prepare for output
 ##
-  Dist <- as.character(x$District)
+  Dist <- as.character(x[, District])
   Dist[xSen] <- out
 #
   Dist
