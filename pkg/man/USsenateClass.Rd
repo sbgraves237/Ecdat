@@ -26,8 +26,8 @@
 }
 \usage{
 USsenateClass(x, senate=readUSsenate(),
-   houseSenate='houseSenate', state='state',
-   surname='surname', District='District', senatePattern='^sen')
+   houseSenate='Office', state='District.state',
+   surname='surname', District='District.number', senatePattern='^sen')
 }
 \arguments{
   \item{x}{
@@ -62,10 +62,10 @@ USsenateClass(x, senate=readUSsenate(),
   \code{\link{readUSsenate}}
 }
 \examples{
-tst <- data.frame(houseSenate=c("Rep", "Sen", "Sen", 'Sen'),
-                  state=c('SC', 'SC', 'SC', 'NY'),
+tst <- data.frame(Office=c("Rep", "Sen", "Sen", 'Sen'),
+                  District.state=c('SC', 'SC', 'SC', 'NY'),
                   surname=c("Jones", "DeMint", "Graham", 'Smith'),
-                  District=c("9", NA, NA, NA))
+                  District.number=c("9", NA, NA, NA))
 tst. <- USsenateClass(tst)
 
 ##
@@ -73,7 +73,7 @@ tst. <- USsenateClass(tst)
 ##
 tst2 <- tst
 names(tst2) <- letters[1:4]
-tst2. <- USsenateClass(tst2, houseSenate=c('a', 'sen'),
+tst2. <- USsenateClass(tst2, houseSenate='a',
            state='b', surname='c', District='d')
 \dontshow{stopifnot(}
 all.equal(tst., tst2.)

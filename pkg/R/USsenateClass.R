@@ -1,6 +1,7 @@
 USsenateClass <- function(x, senate=readUSsenate(),
-   houseSenate='houseSenate', state='state',
-   surname='surname', District='District', senatePattern='^sen') {
+   houseSenate='Office', state='District.state',
+   surname='surname', District='District.number',
+                          senatePattern='^sen') {
 ##
 ## 1.  subset x houseSenate
 ##
@@ -46,7 +47,7 @@ USsenateClass <- function(x, senate=readUSsenate(),
 #
           clo <- senun[senun$state==sto, 'Class']
           if(length(clo)>0){
-              out[o] <- paste(clo, collapse=' or ')
+              out[o] <- paste(sort(clo), collapse=' or ')
           } else {
 #         Not in senun;  look in senu
               clo. <- senu[senu$state==sto, 'Class']
