@@ -52,9 +52,29 @@ USsenateClass(x, senate=readUSsenate(),
 }
 %\source{ }
 \value{
-  a character vector with length = \code{nrow(x)} containing the desired
-  \code{Class} for all US Senators found in \code{senate} and the
-  content of \code{x[["District"]]} for all others.
+  a \code{\link{data.frame}} with one row for each row of \code{x} and
+  the following columns:
+
+  \item{incumbent}{
+    logical:  TRUE if \code{state:surname} found in \code{senate}
+  }
+  \item{District}{
+    a character vector containing the desired \code{Class} for all US
+    Senators found in \code{senate} or a guess at the \code{Class} for
+    non-incumbents.  For members of the \code{House}, this returned the
+    previous content of \code{x[[District]]}.
+
+    NOTES:
+
+    1.  Incumbents can be missed if the spelling of the surname is
+    different between \code{x} and \code{senate}.  This can occur with,
+    for example, Spanish surnames containing an accent.
+
+    2.  If one but not two incumbents is found, others are currently
+    assigned to the class of an incumbent not found.  This could be a
+    mistake, because the person could be a previous incumbent or could
+    have lost to the incumbent in the last election.
+  }
 }
 %\references{}
 \author{Spencer Graves}

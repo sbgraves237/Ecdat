@@ -13,6 +13,7 @@ USsenateClass <- function(x, senate=readUSsenate(),
   xSen <- grep(senatePattern, tolower(x[, hS]))
   x.Sen <- x[xSen,]
   nx <- nrow(x.Sen)
+  incumbent <- rep(FALSE, nx)
 ##
 ## 2.  Key
 ##
@@ -34,6 +35,7 @@ USsenateClass <- function(x, senate=readUSsenate(),
   rownames(senu) <- keyu
 #
   found <- (keyx %in% keyu)
+  incumbent[found] <- TRUE
   Class <- senu[keyx[found], 'Class']
 #
   out <- character(nx)
@@ -66,7 +68,9 @@ USsenateClass <- function(x, senate=readUSsenate(),
 ##
   Dist <- as.character(x[, District])
   Dist[xSen] <- out
+  inc <- rep(NA, nrow(x))
+  inc[xSen] <- incumbent
 #
-  Dist
+  data.frame(incumbent=inc, District=Dist)
 }
 
