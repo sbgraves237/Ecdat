@@ -52,7 +52,7 @@ USsenateClass <- function(x, senate=readUSsenate(),
 #         Not in senun;  look in senu
               clo. <- senu[senu$state==sto, 'Class']
               if(length(clo.)>0){
-                  out[o] <- paste(clo., collapse=' or ')
+                  out[o] <- paste(sort(clo.), collapse=' or ')
               } else {
                   print(x.Sen[o,])
                   warning('Could not find senator from state ',
