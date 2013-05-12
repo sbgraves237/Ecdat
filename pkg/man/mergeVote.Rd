@@ -5,9 +5,9 @@
 }
 \description{
   Merge roll call vote record with a \code{\link{data.frame}} containing
-  other information.  There records are typically incomplete, so match
-  first on \code{houseSenate} and \code{surname}.  If this match is
-  incomplete, try using \code{givenName}.  If that fails, try
+  other information.  The \code{vote} records are typically incomplete,
+  so match first on \code{houseSenate} and \code{surname}.  If this
+  match is incomplete, try using \code{givenName}.  If that fails, try
   \code{state} and \code{district}, which may not always be present in
   \code{vote}.
 }
