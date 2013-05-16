@@ -1,5 +1,5 @@
-\name{specialCharacters}
-\alias{specialCharacters}
+\name{grepNonEnglish}
+\alias{grepNonEnglish}
 \title{
   grep for nonstandard characters
 }
@@ -8,8 +8,9 @@
   are not in \code{standardCharacters}.
 }
 \usage{
-specialCharacters(x, standardCharacters=
-   c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-') )
+grepNonEnglish(x, standardCharacters=
+   c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-', '(', ')',
+     '[', '[') )
 }
 \arguments{
   \item{x}{
@@ -44,7 +45,7 @@ specialCharacters(x, standardCharacters=
 Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul')
 #  confusion in character sets can create
 #  names like Names[2]
-chk <- specialCharacters(Names)
+chk <- grepNonEnglish(Names)
 
 \dontshow{stopifnot(}
 all.equal(chk, 2)
