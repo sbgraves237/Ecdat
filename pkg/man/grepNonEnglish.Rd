@@ -8,22 +8,22 @@
   are not in \code{standardCharacters}.
 }
 \usage{
-grepNonEnglish(x, standardCharacters=
-   c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-', '(', ')',
-     '[', ']'), value=TRUE)
+grepNonEnglish(x, value=TRUE,
+   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+      '\"', "\'", '-', '(', ')', '[', ']') )
 }
 \arguments{
   \item{x}{
     character vector in which it is desired to identfy elements
     containing characters not in \code{standardCharacters}.
   }
-  \item{standardCharacters}{
-    Characters to overlook in \code{x} to identify anything not in
-    \code{standardCharacters}.
-  }
   \item{value}{
     logical:  \code{TRUE} to return the values found in \code{x},
     \code{FALSE} to return their indices.
+  }
+  \item{standardCharacters}{
+    Characters to overlook in \code{x} to identify anything not in
+    \code{standardCharacters}.
   }
 }
 \details{
@@ -55,7 +55,7 @@ chkv <- grepNonEnglish(Names)
 all.equal(chkv, 'Ra`l')
 \dontshow{)}
 
-chk <- grepNonEnglish(Names, value=FALSE)
+chk <- grepNonEnglish(Names, FALSE)
 
 \dontshow{stopifnot(}
 all.equal(chk, 2)

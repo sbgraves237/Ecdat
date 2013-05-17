@@ -1,6 +1,6 @@
-grepNonEnglish <- function(x, standardCharacters =
-   c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-', '(', ')',
-        '[', ']'), value=TRUE) {
+grepNonEnglish <- function(x, value=TRUE,
+   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+       '\"', "\'", '-', '(', ')', '[', ']') ) {
     x. <- strsplit(x, '')
     x.in.sC <- function(y){
         x0 <- which(!(y %in% standardCharacters))
