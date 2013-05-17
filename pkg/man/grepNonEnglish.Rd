@@ -10,7 +10,7 @@
 \usage{
 grepNonEnglish(x, standardCharacters=
    c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-', '(', ')',
-     '[', '[') )
+     '[', ']') )
 }
 \arguments{
   \item{x}{
