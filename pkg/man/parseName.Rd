@@ -9,7 +9,8 @@
   "surname" followed by "givenName".
 }
 \usage{
-parseName(x, surnameFirst=FALSE)
+parseName(x, surnameFirst=FALSE,
+          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.') )
 }
 \arguments{
   \item{x}{
@@ -19,6 +20,11 @@ parseName(x, surnameFirst=FALSE)
     logical:  If TRUE, the surname comes first followed by a comma
     (","), then the given name.  Otherwise, parse the surname from a
     standard Western "John Smith, Jr." format.
+  }
+  \item{suffix}{
+    character vector of strings that are NOT a surname but might appear
+    at the end without a comma that would otherwise identify it as a
+    suffix.
   }
 }
 \details{
@@ -31,13 +37,16 @@ parseName(x, surnameFirst=FALSE)
 
   3.  Take the last as the surname.
 
+  4.  If the "surname" found per 3 is in \code{suffix}, save to append
+  it to the \code{givenName} and recurse to get the actual surname.
+
   NOTE:  This gives the wrong answer with double surnames written
   without a hyphen in the Spanish tradition, in which, e.g., "Anistasio
   Somoza Debayle", "Somoza Debayle" give the (first) surnames of
   Anistasio's father and mother, respectively:  The current algorithm
   would return "Debayle" as the surname, which is incorrect.
 
-  4.  Recompose the rest with any suffix as the givenName.
+  5.  Recompose the rest with any suffix as the givenName.
 }
 \value{
   a character matrix with two columns:  surname and givenName
@@ -54,7 +63,7 @@ parseName(x, surnameFirst=FALSE)
 ## 1.  Parse standard first-last name format
 ##
 tst <- c('Joe Smith', 'Teresa Angelica Sanchez de Gomez',
-         'John Brown, Jr.', 'John W. Brown, III', 'John Q. Brown, I',
+         'John Brown, Jr.', 'John W. Brown III', 'John Q. Brown,I',
          'Linda Rosa Smith-Johnson', 'Anistasio Somoza Debayle')
 parsed <- parseName(tst)
 

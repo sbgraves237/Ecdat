@@ -1,4 +1,5 @@
-parseName <- function(x, surnameFirst=FALSE){
+parseName <- function(x, surnameFirst=FALSE,
+          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.') ){
 ##
 ## 1.  surnameFirst
 ##
@@ -32,9 +33,13 @@ parseName <- function(x, surnameFirst=FALSE){
 ## 2.  suffix?
 ##
   suf <- regexpr(', ', x)
-  suffix <- substring(x[suf>0], suf[suf>0]+2)
+  Suffix <- substring(x[suf>0], suf[suf>0]+2)
   x2 <- x
   x2[suf>0] <- substring(x[suf>0], 1, suf[suf>0]-1)
+#
+  suf. <- regexpr(',', x2)
+  Suffix. <- substring(x[suf.>0], suf.[suf.>0]+1)
+  x2[suf.>0] <- substring(x[suf.>0], 1, suf.[suf.>0]-1)
 ##
 ## 3.  surname
 ##
@@ -43,14 +48,35 @@ parseName <- function(x, surnameFirst=FALSE){
       x[length(x)]
   } )
 ##
-## 4.  givenName
+## 4.  check suffix misidentified as surname
+##
+  oops <- (surname %in% suffix)
+  if(any(oops)){
+      sufo <- surname[oops]
+      shorten <- function(y){
+          shorti <- seq(length.out=length(y)-1)
+          y[shorti]
+      }
+      x.o <- lapply(x.[oops], shorten )
+      sur.o <- sapply(x.o, function(x){
+          x[length(x)]
+      } )
+      surname[oops] <- sur.o
+      x.[oops] <- x.o
+  }
+##
+## 5.  givenName
 ##
   g <- sapply(x., function(x){
       paste(x[1:(length(x)-1)], collapse=' ')
   } )
-  g[suf>0] <- paste(g[suf>0], suffix, sep=', ')
+  g[suf>0] <- paste(g[suf>0], Suffix, sep=', ')
+  g[suf.>0] <- paste(g[suf.>0], Suffix., sep=', ')
+  if(any(oops)){
+      g[oops] <- paste(g[oops], sufo, sep=', ')
+  }
 ##
-## 5.  Done
+## 6.  Done
 ##
   cbind(surname=surname, givenName=g)
 }
