@@ -8,9 +8,9 @@
   are not in \code{standardCharacters}.
 }
 \usage{
-grepNonEnglish(x, value=TRUE,
+grepNonEnglish(x, value=FALSE,
    standardCharacters=c(letters, LETTERS, ' ','.', ',',
-      '\"', "\'", '-', '(', ')', '[', ']') )
+      '\"', "\'", '-', '(', ')', '[', ']', '\n') )
 }
 \arguments{
   \item{x}{
@@ -49,16 +49,17 @@ grepNonEnglish(x, value=TRUE,
 Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul')
 #  confusion in character sets can create
 #  names like Names[2]
-chkv <- grepNonEnglish(Names)
 
-\dontshow{stopifnot(}
-all.equal(chkv, 'Ra`l')
-\dontshow{)}
-
-chk <- grepNonEnglish(Names, FALSE)
+chk <- grepNonEnglish(Names)
 
 \dontshow{stopifnot(}
 all.equal(chk, 2)
+\dontshow{)}
+
+chkv <- grepNonEnglish(Names, TRUE)
+
+\dontshow{stopifnot(}
+all.equal(chkv, 'Ra`l')
 \dontshow{)}
 
 }
