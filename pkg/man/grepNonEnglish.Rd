@@ -10,7 +10,7 @@
 \usage{
 grepNonEnglish(x, standardCharacters=
    c(letters, LETTERS, ' ','.', ',', '\"', "\'", '-', '(', ')',
-     '[', ']') )
+     '[', ']'), value=TRUE)
 }
 \arguments{
   \item{x}{
@@ -20,6 +20,10 @@ grepNonEnglish(x, standardCharacters=
   \item{standardCharacters}{
     Characters to overlook in \code{x} to identify anything not in
     \code{standardCharacters}.
+  }
+  \item{value}{
+    logical:  \code{TRUE} to return the values found in \code{x},
+    \code{FALSE} to return their indices.
   }
 }
 \details{
@@ -45,7 +49,13 @@ grepNonEnglish(x, standardCharacters=
 Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul')
 #  confusion in character sets can create
 #  names like Names[2]
-chk <- grepNonEnglish(Names)
+chkv <- grepNonEnglish(Names)
+
+\dontshow{stopifnot(}
+all.equal(chkv, 'Ra`l')
+\dontshow{)}
+
+chk <- grepNonEnglish(Names, value=FALSE)
 
 \dontshow{stopifnot(}
 all.equal(chk, 2)
