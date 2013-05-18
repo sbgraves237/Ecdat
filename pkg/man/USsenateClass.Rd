@@ -4,10 +4,10 @@
   Election Class given state and surname of a US Senator
 }
 \description{
-  For all indiviuals in \code{x} with \code{houseSenate} == "Sen", look
+  For all indiviuals in \code{x} with \code{houseSenate} == "Senate", look
   up their \code{state} and \code{surname} in the reference table
   \code{senate} and return their \code{Class}.  For indivuals not found
-  in \code{senate}, return \code{x[["District"]]}.
+  in \code{senate}, return \code{x[[district]]}.
 
   Senate classes 1, 2 and 3 have their normal elections in 6-year cycles
   including 2000, 2002, and 2004 (or 2012, 2008, and 2010),
@@ -26,24 +26,37 @@
 }
 \usage{
 USsenateClass(x, senate=readUSsenate(),
-   houseSenate='Office', state='District.state',
-   surname='surname', District='District.number', senatePattern='^sen')
+   Office='Office', state='state',
+   surname='surname', district='district', senatePattern='^Senate')
 }
 \arguments{
   \item{x}{
     \code{\link{data.frame}} with character or factor columns
-    \code{houseSenate}, \code{state}, \code{surname}, and
-    \code{District}.
+    \code{Office}, \code{state}, \code{surname}, and
+    \code{district}.
   }
   \item{senate}{
     \code{\link{data.frame}} as returned by \code{\link{readUSsenate}}.
   }
-  \item{houseSenate, state, surname, District}{
-    the names of columns of \code{x}
+  \item{Office}{
+    name of a character or factor variable \code{x} in which the members
+    of the US Senate can be identifed by \code{grep(senatePattern,
+    x[, Office])}.
+  }
+  \item{state}{
+    Standard 2-letter abbreviation for the state of the US
+  }
+  \item{surname}{
+    the name of a column of \code{x} containing the surname
+  }
+  \item{district}{
+    name of a column of \code{x} containing the number of the district
+    in the US House.  For states with only one representataive, this may
+    be 0.
   }
   \item{senatePattern}{
     a regular expression for identifying the senators from \code{x[,
-      houseSenate]}.
+    Office]}.
   }
 }
 \details{
@@ -82,19 +95,25 @@ USsenateClass(x, senate=readUSsenate(),
   \code{\link{readUSsenate}}
 }
 \examples{
-tst <- data.frame(Office=c("Rep", "Sen", "Sen", 'Sen'),
-                  District.state=c('SC', 'SC', 'SC', 'NY'),
+tst <- data.frame(Office=c("House", "Senate", "Senate", 'Senate'),
+                  state=c('SC', 'SC', 'SC', 'NY'),
                   surname=c("Jones", "DeMint", "Graham", 'Smith'),
-                  District.number=c("9", NA, NA, NA))
+                  district=c("9", NA, NA, NA))
 tst. <- USsenateClass(tst)
+
+chk <- data.frame(incumbent=c(NA, FALSE, TRUE, FALSE),
+                  district=c("9", "3", "2", "1 or 3") )
+\dontshow{stopifnot(}
+all.equal(tst., chk)
+\dontshow{)}
 
 ##
 ## test with names different from the default
 ##
 tst2 <- tst
 names(tst2) <- letters[1:4]
-tst2. <- USsenateClass(tst2, houseSenate='a',
-           state='b', surname='c', District='d')
+tst2. <- USsenateClass(tst2, Office='a',
+           state='b', surname='c', district='d')
 \dontshow{stopifnot(}
 all.equal(tst., tst2.)
 \dontshow{)}

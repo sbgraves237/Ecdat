@@ -1,16 +1,16 @@
 USsenateClass <- function(x, senate=readUSsenate(),
-   houseSenate='Office', state='District.state',
-   surname='surname', District='District.number',
-                          senatePattern='^sen') {
+   Office='Office', state='state',
+   surname='surname', district='district',
+                          senatePattern='^Senate') {
 ##
 ## 1.  subset x houseSenate
 ##
-  hS <- which(names(x) == houseSenate)
+  hS <- which(names(x) == Office)
   if(length(hS) != 1)
       stop('failed to find a unique column of x matching ',
-           houseSenate)
-#  xSen <- (x$houseSenate=="Sen")
-  xSen <- grep(senatePattern, tolower(x[, hS]))
+           Office)
+#
+  xSen <- grep(senatePattern, x[, hS])
   x.Sen <- x[xSen,]
   nx <- nrow(x.Sen)
   incumbent <- rep(FALSE, nx)
@@ -66,11 +66,11 @@ USsenateClass <- function(x, senate=readUSsenate(),
 ##
 ## 4.  prepare for output
 ##
-  Dist <- as.character(x[, District])
+  Dist <- as.character(x[, district])
   Dist[xSen] <- out
   inc <- rep(NA, nrow(x))
   inc[xSen] <- incumbent
 #
-  data.frame(incumbent=inc, District=Dist)
+  data.frame(incumbent=inc, district=Dist)
 }
 
