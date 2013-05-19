@@ -1,6 +1,13 @@
 mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
                                 newrows='amount0',
-        default=list(member=NA, amount=0, vote="notEligible") ){
+        default=list(member=NA, amount=0, vote="notEligible",
+                     incumbent=TRUE) ){
+##
+## 0.  Check district
+##
+  noDist <- sum(is.na(x$district))
+  if(noDist>0)
+      stop(noDist, ' NAs in x$district')
 ##
 ## 1.  keys
 ##
@@ -40,12 +47,19 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
       x <- cbind(x, FALSE)
       nx <- ncol(x)
       names(x)[nx] <- newrows
+      nmx <- names(x)
   }
   Y[, newrows] <- TRUE
 ##
 ## 4.  rbind
 ##
-  xY <- rbind(x, Y[names(x)])
+  nmx.Y <- (nmx %in% names(Y))
+  nmxY <- which(!nmx.Y)
+  if((Noops <- length(nmxY))>0){
+      warning(Noops, " column(s) of x not in Y;  first = ",
+              nmx[nmxY], ';  discarding.')
+  }
+  nmY.x <- nmx[nmx.Y]
+  xY <- rbind(x[nmx.Y], Y[nmY.x])
   xY
 }
-

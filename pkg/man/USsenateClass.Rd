@@ -69,7 +69,9 @@ USsenateClass(x, senate=readUSsenate(),
   the following columns:
 
   \item{incumbent}{
-    logical:  TRUE if \code{state:surname} found in \code{senate}
+    logical:  \code{NA} if Office == 'house'.  If Office == 'senate',
+    then \code{TRUE} if \code{state:surname} found in \code{senate} and
+    \code{FALSE} otherwise.
   }
   \item{District}{
     a character vector containing the desired \code{Class} for all US

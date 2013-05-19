@@ -61,6 +61,8 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
 %\references{}
 \examples{
 tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
+         State=factor(c('Missouri', 'Minnesota', 'Tennessee',
+                        'New York', rep('South Carolina', 2))),
          state=factor(c('MO', 'MN', 'TN', 'NY', 'SC', 'SC')),
          district=as.character(c(4, 1, 8, 18, 2, 3)),
          surname=c('Hartzler', 'Walz', 'Fincher', 'Maloney',
@@ -78,14 +80,15 @@ tst2 <- mergeUShouse.senate(tst)
 
 # A couple of simple tests;  don't test too much,
 # because the results of UShouse.senate change,
-# and we don't want this test to fail when it's not Ecdat code
+# and we don't want this test to fail
+# due to changes that don't affect Ecdat code
 
 tst3 <- tst2[!tst2$amount0, 1:9]
 row.names(tst) <- row.names(tst3)
 
-\dontshow{stopifnot(}
-all.equal(tst[-2], tst3[-2])
-\dontshow{)}
+\dontrun{
+all.equal(tst, tst3)
+}
 # tst3[2] = state = factor with 56 levels,
 # and tst[2] only has 5;  compare without this
 
