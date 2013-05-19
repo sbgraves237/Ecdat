@@ -4,18 +4,18 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
 ##
   nh <- nrow(house)
 #  cat('hrow(house) = ', nh, '\n')
-  party <- as.character(house$Party)
-  party[party=='D'] <- 'Democratic'
-  party[party=='R'] <- 'Republican'
-  np <- length(party)
+  Party <- as.character(house$party)
+  Party[Party=='D'] <- 'Democratic'
+  Party[Party=='R'] <- 'Republican'
+  np <- length(Party)
   if(np != nh){
-      stop('nrow(house) = ', nh, '; length(party) = ', np,
+      stop('nrow(house) = ', nh, '; length(Party) = ', np,
            ':  NOT equal')
   }
 #
-  hs <- with(house, data.frame(houseSenate=factor(rep('Rep', nh)),
+  hs <- with(house, data.frame(Office=factor(rep('House', nh)),
                    State=State, state=factor(toupper(state)),
-                   District=District, Party=factor(party),
+                   district=district, Party=factor(Party),
                    surname=surname, givenName=givenName,
                    nonvoting=nonvoting, stringsAsFactors=FALSE) )
 ##
@@ -23,11 +23,11 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
 ##
   ns <- nrow(senate)
 #  cat('nrow(senate) =', ns, '\n')
-  hS <- rep('Sen', ns)
+  hS <- rep('Senate', ns)
 #
-  sn <- with(senate, data.frame(houseSenate=factor(hS),
+  sn <- with(senate, data.frame(Office=factor(hS),
                        State=State, state=state,
-                       District=Class, Party=Party,
+                       district=Class, Party=Party,
                        surname=surname,
                        givenName=givenName,
                        nonvoting=FALSE,
@@ -35,6 +35,7 @@ UShouse.senate <- function(house=readUShouse(), senate=readUSsenate()){
 ##
 ## 3.  rbind
 ##
-  rbind(hs, sn)
+  HS <- rbind(hs, sn)
+  HS
 }
 

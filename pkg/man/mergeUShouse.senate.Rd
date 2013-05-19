@@ -11,8 +11,8 @@
 }
 \usage{
 mergeUShouse.senate(x, UScongress=UShouse.senate(),
-        newrows="contrib.0",
-        default=list(member=NA, contrib=0, vote="notEligible") )
+        newrows="amount0",
+        default=list(member=NA, amount=0, vote="notEligible") )
 }
 \arguments{
   \item{x}{
@@ -60,9 +60,9 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
 }
 %\references{}
 \examples{
-tst <- data.frame(houseSenate=factor(rep(c('Rep', 'Sen'), c(4, 2))),
+tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
          state=factor(c('MO', 'MN', 'TN', 'NY', 'SC', 'SC')),
-         District=as.character(c(4, 1, 8, 18, 2, 3)),
+         district=as.character(c(4, 1, 8, 18, 2, 3)),
          surname=c('Hartzler', 'Walz', 'Fincher', 'Maloney',
                    'Graham', 'DeMint'),
          givenName=c('Vicky', 'Timothy J.', 'Stephen Lee',
@@ -70,11 +70,24 @@ tst <- data.frame(houseSenate=factor(rep(c('Rep', 'Sen'), c(4, 2))),
          Party=c('Republican', 'Democrat', 'Republican', 'Democrat',
                  'Republican', 'Democrat'),
          CommitteeMember=rep(c(TRUE, FALSE), c(4, 2)),
-         contributions=c(5000, 2000, 29500, 1000, 1000, 11500),
+         amount=c(5000, 2000, 29500, 1000, 1000, 11500),
          xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
          stringsAsFactors=FALSE )
 
 tst2 <- mergeUShouse.senate(tst)
+
+# A couple of simple tests;  don't test too much,
+# because the results of UShouse.senate change,
+# and we don't want this test to fail when it's not Ecdat code
+
+tst3 <- tst2[!tst2$amount0, 1:9]
+row.names(tst) <- row.names(tst3)
+
+\dontshow{stopifnot(}
+all.equal(tst[-2], tst3[-2])
+\dontshow{)}
+# tst3[2] = state = factor with 56 levels, and
+# tst[2] only has 5
 
 }
 \keyword{manip}

@@ -31,7 +31,7 @@ readUShouse(url="http://house.gov/representatives/",
   name of the representatives.
 
   2.  Use \code{\link{rbind}} to collapse these into 2 tables.  The
-  first has the District as a number without identifying the state
+  first has the district as a number without identifying the state
   (because that was with the names of the first 56 tables in
   House.gov).  The second has the state names but with the district
   numbers in a form not easily parsed.
@@ -53,16 +53,16 @@ readUShouse(url="http://house.gov/representatives/",
   \item{state}{
     2-letter US Postal Service abbreviation for the state or territory
   }
-  \item{District}{
+  \item{district}{
     the character vector identifying the district each person
-    represents.  This is either an integer in character format or "At
-    Large".
+    represents.  This is either an integer in character format or 0 for
+    "At Large".
   }
   \item{Name}{
     A character vector giving the name of each representative (in surname,
     given name format)
   }
-  \item{Party}{
+  \item{party}{
     a factor identifying the party affiliation of each representative
     ("D" or "R").
   }

@@ -24,20 +24,20 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
 \value{
   a \code{\link{data.frame}} with the following columns:
 
-  \item{houseSenate}{
-    A factor identifying "Rep" vs. "Sen", indicating whether the person
-    is in the US House or Senate
+  \item{Office}{
+    A factor identifying "House" vs. "Senate", indicating whether the
+    person is in the US House or Senate
   }
   \item{state}{
     A factor identifying the state using the USPS 2-letter state code
     (all caps)
   }
-  \item{District}{
-    "At-Large" for members of the US House representing an entire state
-    or integers in character format indicating the district.  For the
-    Senate, this contains the "class", which codes the year of the next
-    election for that seat is an integer multiple of 6 years after 2012,
-    2008, or 2010 for class "1", "2", or "3", respectively.
+  \item{district}{
+    "0" or "At-Large" for members of the US House representing an entire
+    state or integers in character format indicating the district.  For
+    the Senate, this contains the "class", which codes the year of the
+    next election for that seat is an integer multiple of 6 years after
+    2012, 2008, or 2010 for class "1", "2", or "3", respectively.
   }
   \item{Party}{
     a factor identifying the party affiliation of each representative,
@@ -61,8 +61,7 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
 \examples{
 house <- readUShouse()
 
-
-USreps <- UShouse.senate()
+USreps <- UShouse.senate(house)
 }
 \keyword{datasets}
 \keyword{IO}

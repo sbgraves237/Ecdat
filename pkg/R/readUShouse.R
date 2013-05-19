@@ -91,6 +91,30 @@ readUShouse <- function(url="http://house.gov/representatives/",
 #
   surnm <- parseName(Out$Name, TRUE)
   O <- cbind(Out, as.data.frame(surnm, stringsAsFactors=FALSE))
-#
+##
+## 6.  convert District to "district",
+##     "At Large", "At-Large", "AtLarge" to "0"
+##
+  Dist <- which(names(O) %in% "District")
+  if(length(Dist)!=1){
+      print(names(O))
+      stop('UShouse does not contain a unique column named "District"')
+  }
+  names(O)[Dist] <- "district"
+  zero <- (O[, Dist] %in% c("At Large", "At-Large", "AtLarge"))
+  O[zero, Dist] <- "0"
+##
+## 7.  rename Party -> party because it's "D" & "R",
+##     and standard "Party" = "Democrat", "Republican", ...
+##
+  Pty <- which(names(O) %in% "Party")
+  if(length(Dist)!=1){
+      print(names(O))
+      stop('UShouse does not contain a unique column named "Party"')
+  }
+  names(O)[Pty] <- "party"
+##
+## 8.  Done
+##
   O
 }

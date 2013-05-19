@@ -1,14 +1,14 @@
 mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
-                                newrows='contrib.0',
-        default=list(member=NA, contrib=0, vote="notEligible") ){
+                                newrows='amount0',
+        default=list(member=NA, amount=0, vote="notEligible") ){
 ##
 ## 1.  keys
 ##
 #  X <- x
-  x$District[x$District=='0'] <- 'At Large'
+#  x$district[x$district=='0'] <- 'At Large'
 #
-  keyx <- with(x, paste(houseSenate, state, District, sep=":"))
-  keyy <- with(UScongress, paste(houseSenate, state, District, sep=":"))
+  keyx <- with(x, paste(Office, state, district, sep=":"))
+  keyy <- with(UScongress, paste(Office, state, district, sep=":"))
 ##
 ## 2.  notx
 ##
@@ -45,6 +45,7 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 ##
 ## 4.  rbind
 ##
-  rbind(x, Y[names(x)])
+  xY <- rbind(x, Y[names(x)])
+  xY
 }
 
