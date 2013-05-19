@@ -27,8 +27,9 @@ USsenateClass <- function(x, senate=readUSsenate(),
   tabs <- table(keysen[used])
   if(any(tabs>1)){
 #   State with both senators having the same last name
-      warning("USsenateClass may fail for a state where both senators",
-              " have the same last name:", names(tabs)[tabs>1][1])
+      warning("USsenateClass function may fail for a state where ",
+              " both senators have the same last name:",
+              names(tabs)[tabs>1][1])
   }
   senu <- senate[used,]
   keyu <- keysen[used]
@@ -37,9 +38,13 @@ USsenateClass <- function(x, senate=readUSsenate(),
   found <- (keyx %in% keyu)
   incumbent[found] <- TRUE
   Class <- senu[keyx[found], 'Class']
+  names(Class) <- keyx[found]
 #
   out <- character(nx)
-  out[found] <- Class
+  names(out) <- keyx
+  out[keyx[found]] <- Class
+# out2 <- character(nx)
+#  out2[found] <- Class
 #
   if(any(!found)){
       oops <- which(!found)
@@ -71,6 +76,7 @@ USsenateClass <- function(x, senate=readUSsenate(),
   inc <- rep(NA, nrow(x))
   inc[xSen] <- incumbent
 #
-  data.frame(incumbent=inc, district=Dist)
+  Out <- data.frame(incumbent=inc, district=Dist)
+  Out
 }
 
