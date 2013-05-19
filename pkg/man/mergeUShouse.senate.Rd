@@ -12,7 +12,7 @@
 \usage{
 mergeUShouse.senate(x, UScongress=UShouse.senate(),
         newrows="amount0",
-        default=list(member=NA, amount=0, vote="notEligible") )
+        default=list(member=FALSE, amount=0, vote="notEligible") )
 }
 \arguments{
   \item{x}{
@@ -45,7 +45,9 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
 
   7.  Y[, newrows] <- TRUE
 
-  8.  rbind(x, Y[c(names(x)])
+  8.  xY <- rbind(x, Y[c(names(x)])
+
+  9.  replace 'Democrat' with 'Democratic' in xY[['Party']]
 }
 \value{
   a \code{\link{data.frame}} combining \code{x} and \code{UScongress}

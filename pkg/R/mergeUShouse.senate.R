@@ -1,6 +1,6 @@
 mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
                                 newrows='amount0',
-        default=list(member=NA, amount=0, vote="notEligible",
+        default=list(member=FALSE, amount=0, vote="notEligible",
                      incumbent=TRUE) ){
 ##
 ## 0.  Check district
@@ -57,9 +57,15 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
   nmxY <- which(!nmx.Y)
   if((Noops <- length(nmxY))>0){
       warning(Noops, " column(s) of x not in Y;  first = ",
-              nmx[nmxY], ';  discarding.')
+              nmx[nmxY], '.  Discarding.')
   }
   nmY.x <- nmx[nmx.Y]
   xY <- rbind(x[nmx.Y], Y[nmY.x])
+##
+## 5.  Replace 'Democrat' with 'Democratic' in xY$Party
+##
+  Pty <- xY$Party
+  Pty[Pty=='Democrat'] <- 'Democratic'
+  xY$Party <- factor(Pty)
   xY
 }
