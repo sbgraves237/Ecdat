@@ -86,8 +86,8 @@ row.names(tst) <- row.names(tst3)
 \dontshow{stopifnot(}
 all.equal(tst[-2], tst3[-2])
 \dontshow{)}
-# tst3[2] = state = factor with 56 levels, and
-# tst[2] only has 5
+# tst3[2] = state = factor with 56 levels,
+# and tst[2] only has 5;  compare without this
 
 }
 \keyword{manip}
