@@ -38,7 +38,10 @@ data(USstateAbbreviations)}
 }
 %\references{}
 \seealso{
-\code{\link{readUSstateAbbreviations}}
+  \code{\link{readUSstateAbbreviations}}
+  \code{\link[tools]{showNonASCII}}
+  \code{\link{grepNonStandardCharacters}}
+  \code{\link{subNonStandardCharacters}}
 }
 \examples{
 ##
@@ -49,10 +52,12 @@ data(USstateAbbreviations)
 ##
 ## to update
 ##
+
 USstateAbb2 <- readUSstateAbbreviations()
 
-#  Has it changed?
-all.equal(USstateAbbreviations, USstateAbb2)
+# Then remove non-ASCII characters using, e.g,
+# showNonASCII, grepNonStandardCharacters,
+# subNonStandardCharacters, etc.
 
 }
 \keyword{datasets}
