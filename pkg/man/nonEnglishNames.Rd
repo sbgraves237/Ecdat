@@ -6,24 +6,21 @@
 }
 \description{
   A \code{\link{data.frame}} describeing of names containing character
-  codes rare or non-existent in English text, e.g., with various accent
-  marks that may not be coded consistenty in different locales or by
-  different software.
+  codes rare or non-existent in standard English text, e.g., with
+  various accent marks that may not be coded consistenty in different
+  locales or by different software.
 }
 \usage{data(nonEnglishNames)}
 \format{
   A \code{data.frame} containing:
   \describe{
     \item{nonEnglish}{
-      a character vector containing non-English characters
+      a character vector containing names that often have non-standard
+      characters with the non-standard characters replaced by "_"
     }
     \item{English}{
       a character vector containing a standard English-character
-      translation of \code{name.}
-    }
-    \item{primary}{
-      logical:  Is this the primary nonEnglish representation for the
-      \code{English} name?
+      translation of \code{nonEnglish}
     }
   }
 }
@@ -31,9 +28,15 @@
 %\source{}
 %\references{}
 \seealso{
-  \code{\link{grepNonEnglish}}
+  \code{\link{grepNonStandardCharacters}},
+  \code{\link{subNonStandardCharacters}}
 }
 \examples{
 data(nonEnglishNames)
+
+\dontshow{stopifnot(}
+all.equal(dim(nonEnglishNames), c(16, 2))
+\dontshow{)}
+
 }
 \keyword{datasets}
