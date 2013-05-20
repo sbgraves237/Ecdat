@@ -1,5 +1,5 @@
-\name{grepNonEnglish}
-\alias{grepNonEnglish}
+\name{grepNonStandardCharacters}
+\alias{grepNonStandardCharacters}
 \title{
   grep for nonstandard characters
 }
@@ -8,9 +8,10 @@
   are not in \code{standardCharacters}.
 }
 \usage{
-grepNonEnglish(x, value=FALSE,
+grepNonStandardCharacters(x, value=FALSE,
    standardCharacters=c(letters, LETTERS, ' ','.', ',',
-      '\"', "\'", '-', '(', ')', '[', ']', '\n') )
+      '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+   ... )
 }
 \arguments{
   \item{x}{
@@ -25,6 +26,7 @@ grepNonEnglish(x, value=FALSE,
     Characters to overlook in \code{x} to identify anything not in
     \code{standardCharacters}.
   }
+  \item{\dots}{ optional arguments for \code{\link{regexpr}} }
 }
 \details{
   1.  x. <- strsplit(x, ''):  convert the input character vector to a
@@ -42,7 +44,9 @@ grepNonEnglish(x, value=FALSE,
   Spencer Graves
 }
 \seealso{
-  \code{\link{grep}}
+  \code{\link{grep}},
+  \code{\link{regexpr}},
+  \code{\link{subNonStandardCharacters}}
 }
 %\references{}
 \examples{
@@ -50,13 +54,13 @@ Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul')
 #  confusion in character sets can create
 #  names like Names[2]
 
-chk <- grepNonEnglish(Names)
+chk <- grepNonStandardCharacters(Names)
 
 \dontshow{stopifnot(}
 all.equal(chk, 2)
 \dontshow{)}
 
-chkv <- grepNonEnglish(Names, TRUE)
+chkv <- grepNonStandardCharacters(Names, TRUE)
 
 \dontshow{stopifnot(}
 all.equal(chkv, 'Ra`l')

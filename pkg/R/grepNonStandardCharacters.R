@@ -1,10 +1,11 @@
-grepNonEnglish <- function(x, value=FALSE,
+grepNonStandardCharacters <- function(x, value=FALSE,
    standardCharacters=c(letters, LETTERS, ' ','.', ',',
-       '\"', "\'", '-', '(', ')', '[', ']', '\n') ) {
+       '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+   ...) {
 ##
 ## 1.  split single characters
 ##
-  x. <- strsplit(x, '')
+  x. <- strsplit(x, '', ...)
 ##
 ## 2.  find !standardCharacters
 ##
