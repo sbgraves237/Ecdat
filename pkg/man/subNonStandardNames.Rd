@@ -9,7 +9,7 @@
 \usage{
 subNonStandardNames(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    replacement='_', nonStandardNames=nonEnglishNames, ...)
 }
 \arguments{

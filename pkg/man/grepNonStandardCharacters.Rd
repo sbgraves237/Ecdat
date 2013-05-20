@@ -10,7 +10,7 @@
 \usage{
 grepNonStandardCharacters(x, value=FALSE,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    ... )
 }
 \arguments{

@@ -1,6 +1,6 @@
 subNonStandardNames <- function(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    replacement='_', nonStandardNames=nonEnglishNames, ...) {
 ##
 ## 1.  x. <- subNonStandardCharacters(x, ...)

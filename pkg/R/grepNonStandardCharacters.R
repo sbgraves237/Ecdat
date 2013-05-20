@@ -1,6 +1,6 @@
 grepNonStandardCharacters <- function(x, value=FALSE,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-       '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+       '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    ...) {
 ##
 ## 1.  split single characters

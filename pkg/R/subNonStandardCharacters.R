@@ -1,6 +1,6 @@
 subNonStandardCharacters <- function(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '(', ')', '[', ']', '\n'),
+      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    replacement='_', ... ) {
 ##
 ## 1.  x. <- strsplit(x, "", ...)
