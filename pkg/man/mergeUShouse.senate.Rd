@@ -12,7 +12,8 @@
 \usage{
 mergeUShouse.senate(x, UScongress=UShouse.senate(),
         newrows="amount0",
-        default=list(member=FALSE, amount=0, vote="notEligible") )
+        default=list(member=FALSE, amount=0, vote="notEligible",
+                     incumbent=TRUE) )
 }
 \arguments{
   \item{x}{
