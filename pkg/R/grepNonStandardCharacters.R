@@ -1,5 +1,5 @@
 grepNonStandardCharacters <- function(x, value=FALSE,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
        '\"', "\'", '-', '(', ')', '[', ']', '\n'),
    ...) {
 ##

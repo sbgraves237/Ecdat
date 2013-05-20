@@ -9,7 +9,7 @@
 }
 \usage{
 grepNonStandardCharacters(x, value=FALSE,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '(', ')', '[', ']', '\n'),
    ... )
 }
@@ -46,7 +46,8 @@ grepNonStandardCharacters(x, value=FALSE,
 \seealso{
   \code{\link{grep}},
   \code{\link{regexpr}},
-  \code{\link{subNonStandardCharacters}}
+  \code{\link{subNonStandardCharacters}},
+  \code{\link[tools]{showNonASCII}}
 }
 %\references{}
 \examples{

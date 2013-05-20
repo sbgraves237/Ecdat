@@ -1,5 +1,5 @@
 subNonStandardCharacters <- function(x,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '(', ')', '[', ']', '\n'),
    replacement='_', ... ) {
 ##

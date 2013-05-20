@@ -40,6 +40,7 @@ readUSstateAbbreviations(url=
   \code{\link[RCurl]{getURL}}
   \code{\link[XML]{readHTMLTable}}
   \code{\link{make.names}}
+  \code{\link{USstateAbbreviations}}
 }
 \examples{
 abbreviations <- readUSstateAbbreviations()

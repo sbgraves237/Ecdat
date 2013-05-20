@@ -8,7 +8,7 @@
 }
 \usage{
 subNonStandardNames(x,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',',
+   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '(', ')', '[', ']', '\n'),
    replacement='_', nonStandardNames=nonEnglishNames, ...)
 }
