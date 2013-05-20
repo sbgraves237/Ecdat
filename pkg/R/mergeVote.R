@@ -1,13 +1,18 @@
-mergeVote <- function(x, vote, houseSenate="Rep", vote.x,
+mergeVote <- function(x, vote, Office="House", vote.x,
                       check.x=TRUE){
 ##
 ## 1.  parse vote.x
 ##
+  nameOfx <- deparse(substitute(x))
+  nameOfVote <- deparse(substitute(vote))
   nx <- nrow(x)
   nv <- nrow(vote)
-  votey <- grep('vote', names(vote), value=TRUE)
+  nmx <- names(x)
+  nmv <- names(vote)
+  votey <- grep('vote', nmv, value=TRUE)
   if(length(votey)<1)
-      stop('No vote column found in vote = ', deparse(substitute(vote)))
+      stop('No vote column found in the vote data.frame = ',
+           deparse(substitute(vote)))
 #
   if(missing(vote.x)){
       vote.x <- grep('vote', names(x), value=TRUE)
@@ -16,15 +21,13 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x,
   if(!(vote.x %in% names(x)))
       x[, vote.x] <- rep('notEligible', nx)
 ##
-## 2.  houseSenate
+## 2.  Office
 ##
-  if(!('houseSenate' %in% names(vote)))
-      vote <- cbind(vote, houseSenate=houseSenate)
+  if(!('Office' %in% nmv))
+      vote <- cbind(vote, Office=Office)
 ##
 ## 3.  keys
 ##
-  nmx <- names(x)
-  nmv <- names(vote)
   lnmx <- tolower(nmx)
   lnmv <- tolower(nmv)
   surnmx <- nmx[grep('surname', lnmx)]
@@ -35,12 +38,12 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x,
   stv <- nmv[grep('state', lnmv)]
   distx <- nmx[grep('district', lnmx)]
   distv <- nmv[grep('district', lnmv)]
-  keyx <- paste(x$houseSenate, x[[surnmx]], sep=":")
-  keyv <- paste(vote$houseSenate, vote[[surnmv]], sep=":")
+  keyx <- paste(x$Office, x[[surnmx]], sep=":")
+  keyv <- paste(vote$Office, vote[[surnmv]], sep=":")
   keyx2 <- paste(keyx, x[[givenx]], sep=":")
   keyv2 <- paste(keyv, vote[[givenv]], sep=':')
-  keyx. <- paste(x$houseSenate, x[[stx]], x[[distx]], sep=":")
-  keyv. <- paste(vote$houseSenate, vote[[stv]], vote[[distv]], sep=":")
+  keyx. <- paste(x$Office, x[[stx]], x[[distx]], sep=":")
+  keyv. <- paste(vote$Office, vote[[stv]], vote[[distv]], sep=":")
 ##
 ## 4.   record votes
 ##
@@ -75,7 +78,10 @@ mergeVote <- function(x, vote, houseSenate="Rep", vote.x,
       oops <- which(!(Votex %in% voteFound))
       if(length(oops)>0){
           print(x[oops,])
-          stop('votes in x not found in "vote"')
+          stop('People found voting in x = ', nameOfx[1],
+               '\n  not found in the data.frame vote = ',
+               nameOfVote[1],
+               '\n  look for and fix the error(s) printed above.')
       }
   }
 ##

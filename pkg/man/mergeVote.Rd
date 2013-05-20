@@ -12,11 +12,11 @@
   \code{vote}.
 }
 \usage{
-mergeVote(x, vote, houseSenate="Rep", vote.x, check.x=TRUE)
+mergeVote(x, vote, Office="House", vote.x, check.x=TRUE)
 }
 \arguments{
   \item{x}{
-    a \code{\link{data.frame}} whose columns include \code{houseSenate},
+    a \code{\link{data.frame}} whose columns include \code{Office},
     \code{surname}, and \code{givenName}.
   }
   \item{vote}{
@@ -25,9 +25,9 @@ mergeVote(x, vote, houseSenate="Rep", vote.x, check.x=TRUE)
     and \code{vote}.  However, the \code{givenname} may not be
     complete, so use it only if the \code{surname} is not sufficient.
   }
-  \item{houseSenate}{
-    Either "Rep" or "Sen";  ignored if \code{vote} includes a column
-    \code{houseSenate}.
+  \item{Office}{
+    Either "House" or "Senate";  ignored if \code{vote} includes a column
+    \code{Office}.
   }
   \item{vote.x}{
     name of a column of \code{x} containing a vote to be updated with
@@ -49,15 +49,13 @@ mergeVote(x, vote, houseSenate="Rep", vote.x, check.x=TRUE)
   \code{\link{data.frame}}.
 
   2.  If the \code{vote} \code{\link{data.frame}} contains a column
-  \code{houseSenate}, ignore the \code{houseSenate} argument.
-  Otherwise, add the argument \code{houseSenate} as a column of
-  \code{vote}.
+  \code{Office}, ignore the \code{Office} argument.  Otherwise, add the
+  argument \code{houseSenate} as a column of \code{vote}.
 
-  3. Create \code{keyx <- with(x, paste(houseSenate, surname,
-  sep=":"))}, \code{keyx2 <- paste(keyx, givenName, sep=":")},
-  \code{keyx. <- paste(houseSenate, state, district, sep=":")}, and
-  similarly \code{keyv}, \code{leyv2}, and \code{keyv.} from
-  \code{vote}.
+  3. Create \code{keyx <- with(x, paste(Office, surname, sep=":"))},
+  \code{keyx2 <- paste(keyx, givenName, sep=":")}, \code{keyx. <-
+  paste(houseSenate, state, district, sep=":")}, and similarly
+  \code{keyv}, \code{leyv2}, and \code{keyv.} from \code{vote}.
 
   4.  Look for \code{keyv} in \code{keyx}.  When a unique match is
   found, transfer the vote the \code{vote} column of \code{x}.  When no
@@ -94,7 +92,7 @@ votetst <- data.frame(
   stringsAsFactors=FALSE )
 
 x1 <- data.frame(
-  houseSenate=factor(rep(c("Rep", "Sen"), e=8)),
+  Office=factor(rep(c("House", "Senate"), e=8)),
   state=rep(c("NY", "SC", "SD", "CA", "AK", "AR", "NY", "NJ"), 2),
   District=rep(c("2", "2", "At Large", "13", "1", "9", "1", "3"), 2),
   surname=rep(c('Jsn', 'Jsn', 'Smith', 'Smith', 'Jones',
