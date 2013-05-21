@@ -1,11 +1,14 @@
 subNonStandardNames <- function(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
-   replacement='_', nonStandardNames=nonEnglishNames, ...) {
+   replacement='_',
+   gsubList=list(list(pattern='\\\\\\\\|\\\\', replacement='\"')),
+   nonStandardNames=nonEnglishNames, ...) {
 ##
 ## 1.  x. <- subNonStandardCharacters(x, ...)
 ##
-  x. <- subNonStandardCharacters(x, standardCharacters, replacement, ...)
+  x. <- subNonStandardCharacters(x, standardCharacters, replacement,
+                                 gsubList, ...)
 ##
 ## 2.  loop over rows of nonStandardNames
 ##

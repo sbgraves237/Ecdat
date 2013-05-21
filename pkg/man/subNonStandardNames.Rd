@@ -10,7 +10,10 @@
 subNonStandardNames(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
-   replacement='_', nonStandardNames=nonEnglishNames, ...)
+   replacement='_',
+   gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
+      replacement='\"')),
+   nonStandardNames=nonEnglishNames, ...)
 }
 \arguments{
   \item{x}{
@@ -19,7 +22,7 @@ subNonStandardNames(x,
     \code{subNonStandardCharacters(x, ...)} with the corresponding
     element of \code{nonStandardNames[, 2]}.
   }
-  \item{standardCharacters, replacement, \dots}{
+  \item{standardCharacters, replacement, gsubList, \dots}{
     arguments passed to \code{\link{subNonStandardCharacters}}
   }
   \item{nonStandardNames}{
@@ -51,14 +54,16 @@ subNonStandardNames(x,
 }
 %\references{}
 \examples{
-Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul')
+Names <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul',
+           "Robert C. \\\\Bobby\\\\\\\\")
 #  confusion in character sets can create
 #  names like Names[2]
 
 data(nonEnglishNames)
 Name2 <- subNonStandardNames(Names)
 
-Name2. <- c('Raul', 'Raul', Names[3:4])
+Name2. <- c('Raul', 'Raul', Names[3:4],
+            'Robert C. "Bobby"')
 
 \dontshow{stopifnot(}
 all.equal(Name2, Name2.)
