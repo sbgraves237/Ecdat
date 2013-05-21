@@ -10,12 +10,22 @@
 }
 \usage{
 readUSstateAbbreviations(url=
-"http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations")
+"http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations",
+      clean=TRUE, Names=c('Name', 'Status', 'ISO', 'ANSI.letters',
+          'ANSI.digits', 'USPS', 'USCG', 'Old.GPO', 'AP', 'Other') )
 }
 \arguments{
   \item{url}{
     Universal resource locator to be read and processed to obtain the
     desired list
+  }
+  \item{clean}{
+    logical:  If TRUE, clean the data using
+    \code{\link{subNonStandardCharacters}} and \code{strsplit(x, "\\[")}
+  }
+  \item{Names}{
+    names for the columns of the data matrix read;  ignored with a
+    warning if the lengths do not match
   }
 }
 \details{

@@ -1,5 +1,7 @@
 readUSstateAbbreviations <- function(url=
-"http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations"){
+"http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations",
+      clean=TRUE, Names=c('Name', 'Status', 'ISO', 'ANSI.letters',
+          'ANSI.digits', 'USPS', 'USCG', 'Old.GPO', 'AP', 'Other') ){
 ##
 ## 1.  download content
 ##
@@ -41,8 +43,35 @@ readUSstateAbbreviations <- function(url=
       Abbr <- Abbr[-Del,]
   }
 ##
-## 5.  Done
+## 5. Names
+##
+  Ab <- Abbr
+  nc <- ncol(Abbr)
+  nn <- length(Names)
+  if(nn == nc){
+      names(Abbr) <- Names
+  } else {
+      warning('Number of columns of the table read = ', nc,
+              ' != length(Names) = ', nn, '; ignoring Names')
+  }
+##
+## 6.  Clean
+##
+  if(clean){
+      for(i in 1:nc){
+          si <- subNonStandardCharacters(Abbr[,i])
+#         delete leading "_"
+          si2 <- sub('^_', '', si)
+#         delete trailing footnote
+          si3 <- strsplit(si2, '\\[')
+          si4 <- sapply(si3, function(y){
+              if(length(y)>0)y[1] else ''
+          } )
+          Abbr[, i] <- si4
+      }
+  }
+##
+## 7.  Done
 ##
   Abbr
 }
-
