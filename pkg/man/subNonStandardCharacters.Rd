@@ -14,7 +14,10 @@
 subNonStandardCharacters(x,
    standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
       '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
-   replacement='_', ... )
+   replacement='_',
+   gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
+      replacement='\"')),
+   ... )
 }
 \arguments{
   \item{x}{
@@ -29,16 +32,23 @@ subNonStandardCharacters(x,
     a character to replace the subtring starting and ending with
     characters not in \code{standardCharacters}.
   }
+  \item{gsubList}{
+    list of lists of \code{pattern} and \code{replacement} arguments
+    to be called in succession before looking for nonStandardCharacters
+  }
   \item{\dots}{
     optional arguments passed to \code{\link{strsplit}}
   }
 }
 \details{
-  1.  nx <- length(x)
+  1.  for(il in 1:length(gsubList))x <- gsub(
+  gsubList[[il]][["pattern"]], gsublist[[il]][['replacement']], x)
 
-  2.  x. <- strsplit(x, "", ...)
+  2.  nx <- length(x)
 
-  3.  for(ix in 1:nx) find the first and last characters in x.[ix]
+  3.  x. <- strsplit(x, "", ...)
+
+  4.  for(ix in 1:nx) find the first and last characters in x.[ix]
   and substitute \code{replacement} for everything in between.
 }
 \value{
@@ -50,7 +60,8 @@ subNonStandardCharacters(x,
 }
 \seealso{
   \code{\link{sub}}, \code{\link{strsplit}},
-  \code{\link{grepNonStandardCharacters}}
+  \code{\link{grepNonStandardCharacters}},
+  \code{\link{subNonStandardNames}}
 }
 %\references{}
 \examples{
@@ -61,12 +72,14 @@ subNonStandardCharacters(x,
 #    (The standard checks for R packages complains about
 #    non-standard characters, so none are included here.)
 #
-Names <- c('Ra`l', 'Ra`', '`l', 'Torres, Raul')
+Names <- c('Ra`l', 'Ra`', '`l', 'Torres, Raul',
+           "Robert C. \\\\Bobby\\\\\\\\")
 #  confusion in character sets can create
 #  names like Names[2]
 Name2 <- subNonStandardCharacters(Names)
 
-Name2. <- c('Ra_l', 'Ra_', '_l', Names[4])
+Name2. <- c('Ra_l', 'Ra_', '_l', Names[4],
+            'Robert C. "Bobby"')
 
 \dontshow{stopifnot(}
 all.equal(Name2, Name2.)
