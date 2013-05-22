@@ -62,7 +62,7 @@ subNonStandardCharacters(x,
   \code{\link{sub}}, \code{\link{strsplit}},
   \code{\link{grepNonStandardCharacters}},
   \code{\link{subNonStandardNames}}
-  \code{\link[tools]{encoded}}
+  \code{\link[tools]{encoded_text_to_latex}}
 }
 %\references{}
 \examples{
