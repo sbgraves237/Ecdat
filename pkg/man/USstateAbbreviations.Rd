@@ -4,7 +4,8 @@
 \title{
   Standard abbreviations for states of the United States }
 \description{
-  \code{readUSstateAbbreviations()} as of May 20, 2013.
+  The object returned by \code{readUSstateAbbreviations()} on May 20,
+  2013.
 }
 \usage{
 data(USstateAbbreviations)}
@@ -20,18 +21,19 @@ data(USstateAbbreviations)}
       description of status, e.g., state / commonwealth vs. island,
       territory, military mail code, etc.
     }
-    \item{ISO.1., ANSI.2., ANSI.3., USPS.4., USCG.5., Old.GPO, AP.6.,
+    \item{ISO, ANSI.letters, ANSI.digits, USPS, USCG, Old.GPO, AP,
       Other}{
       Alternative abbreviations used per different standards.  The most
       commmonly used among these may be the 2-letter codes officially
-      used by the US Postal Service (\code{USPS.4.};  the number ".4."
-      refers to a footnote in
-      \href{http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations}{the
-	Wikipedia article on "List of U.S. state abbreviations"}).
+      used by the US Postal Service (\code{USPS}).
     }
   }
 }
-%\details{}
+\details{
+  This was read from
+  \href{http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations}{the
+    Wikipedia article on "List of U.S. state abbreviations"}
+}
 \source{
   \href{http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations}{the
     Wikipedia article on "List of U.S. state abbreviations"}
@@ -54,10 +56,6 @@ data(USstateAbbreviations)
 ##
 
 USstateAbb2 <- readUSstateAbbreviations()
-
-# Then remove non-ASCII characters using, e.g,
-# showNonASCII, grepNonStandardCharacters,
-# subNonStandardCharacters, etc.
 
 }
 \keyword{datasets}
