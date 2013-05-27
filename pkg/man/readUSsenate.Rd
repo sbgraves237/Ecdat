@@ -9,7 +9,8 @@
 \usage{
 readUSsenate(url=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-    USstateAbbreviations=readUSstateAbbreviations() )
+    USstateAbbreviations=readUSstateAbbreviations(),
+   fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
   \item{url}{
@@ -27,11 +28,20 @@ readUSsenate(url=
     another whose name includes "USPS" giving the correspoding 2-letter
     codes.
   }
+  \item{fixNonStandard}{
+    function to look for and repair nonstandard names such as names
+    containing characters with accent marks that are sometimes mangled
+    by different software.
+  }
+  \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
 \details{
-  \code{Senate <- readHTMLTable(url)}
+  1.  \code{Senate <- readHTMLTable(url)}
 
-  Use \code{\link{camelParse}} to remove duplication in \code{Name}.
+  2.  Use \code{\link{camelParse}} to remove duplication in \code{Name}.
+
+  3.  Look for and fix \code{surname} and \code{givenName} with
+  nonstandard characters using \code{fixNonStandard}.
 }
 %\source{ }
 \value{
@@ -85,6 +95,7 @@ readUSsenate(url=
   \code{\link{readUShouse}}
   \code{\link{UShouse.senate}}
   \code{\link{parseName}}
+  \code{\link{subNonStandardNames}}
 }
 \examples{
 USsenate <- readUSsenate()

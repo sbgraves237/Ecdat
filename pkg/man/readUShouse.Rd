@@ -27,7 +27,8 @@ readUShouse(url="http://house.gov/representatives/",
   \item{fixNonStandard}{
     function to look for and repair nonstandard names such as names
     containing characters with accent marks that are sometimes mangled
-    by different software.
+    by different software.  Use \code{\link{identity}} if this is not
+    desired.
   }
   \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
@@ -108,5 +109,4 @@ readUShouse(url="http://house.gov/representatives/",
 \examples{
 UShouse <- readUShouse()
 }
-\keyword{datasets}
 \keyword{IO}

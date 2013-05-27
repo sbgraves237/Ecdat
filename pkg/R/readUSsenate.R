@@ -1,6 +1,7 @@
 readUSsenate <- function(url=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-      USstateAbbreviations=readUSstateAbbreviations() ){
+      USstateAbbreviations=readUSstateAbbreviations(),
+      fixNonStandard=subNonStandardNames, ...){
 ##
 ## 1.  download content
 ##
@@ -65,6 +66,6 @@ readUSsenate <- function(url=
 ##
 ## 8.  parseName
 ##
-  cbind(Sen., as.data.frame(parseName(Sen.$Name)))
+  SEN <- cbind(Sen., as.data.frame(parseName(Sen.$Name)))
 }
 

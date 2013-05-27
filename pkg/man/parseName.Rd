@@ -10,7 +10,8 @@
 }
 \usage{
 parseName(x, surnameFirst=FALSE,
-          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.') )
+          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.'),
+          fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
   \item{x}{
@@ -26,6 +27,13 @@ parseName(x, surnameFirst=FALSE,
     at the end without a comma that would otherwise identify it as a
     suffix.
   }
+  \item{fixNonStandard}{
+    function to look for and repair nonstandard names such as names
+    containing characters with accent marks that are sometimes mangled
+    by different software.  Use \code{\link{identity}} if this is not
+    desired.
+  }
+  \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
 \details{
   If \code{surnameFirst} is \code{FALSE}:
@@ -56,6 +64,7 @@ parseName(x, surnameFirst=FALSE,
 }
 \seealso{
   \code{\link{strsplit}}
+  \code{\link{identity}}
 }
 %\references{}
 \examples{
@@ -64,17 +73,19 @@ parseName(x, surnameFirst=FALSE,
 ##
 tst <- c('Joe Smith', 'Teresa Angelica Sanchez de Gomez',
          'John Brown, Jr.', 'John W. Brown III', 'John Q. Brown,I',
-         'Linda Rosa Smith-Johnson', 'Anistasio Somoza Debayle')
+         'Linda Rosa Smith-Johnson', 'Anastasio Somoza Debayle',
+         'Ra_l Vel_zquez')
 parsed <- parseName(tst)
 
 tst2 <- matrix(c('Smith', 'Joe', 'Gomez', 'Teresa Angelica Sanchez de',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',
-  'Smith-Johnson', 'Linda Rosa', 'Debayle', 'Anistasio Somoza'),
+  'Smith-Johnson', 'Linda Rosa', 'Debayle', 'Anastasio Somoza',
+  'Velazquez', 'Raul'),
   ncol=2, byrow=TRUE)
-# NOTE:  This last example is in the Spanish tradition
+# NOTE:  This second to last example is in the Spanish tradition
 # and is handled incorrectly by the current algorithm.
-# The correct answer should be "Somoza Debayle", "Anistasio",
-# but that would complicate the algorithm excessively for now.
+# The correct answer should be "Somoza Debayle", "Anastasio".
+# However, fixing that would complicate the algorithm excessively for now.
 colnames(tst2) <- c("surname", 'givenName')
 
 \dontshow{stopifnot(}
@@ -86,18 +97,17 @@ all.equal(parsed, tst2)
 ##
 tst3 <- c('Smith, Joe', 'Sanchez de Gomez, Teresa Angelica',
      'Brown, John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
-     'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anistasio')
+     'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anastasio')
 tst4 <- parseName(tst3, TRUE)
 
 tst5 <- matrix(c('Smith', 'Joe', 'Sanchez de Gomez', 'Teresa Angelica',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',
-  'Smith-Johnson', 'Linda Rosa', 'Somoza Debayle', 'Anistasio'),
+  'Smith-Johnson', 'Linda Rosa', 'Somoza Debayle', 'Anastasio'),
   ncol=2, byrow=TRUE)
 colnames(tst5) <- c("surname", 'givenName')
 
 \dontshow{stopifnot(}
 all.equal(tst4, tst5)
 \dontshow{)}
-
 }
 \keyword{manip}

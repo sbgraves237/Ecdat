@@ -1,5 +1,6 @@
 parseName <- function(x, surnameFirst=FALSE,
-          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.') ){
+          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.'),
+          fixNonStandard=subNonStandardNames, ...){
 ##
 ## 1.  surnameFirst
 ##
@@ -76,8 +77,13 @@ parseName <- function(x, surnameFirst=FALSE,
       g[oops] <- paste(g[oops], sufo, sep=', ')
   }
 ##
-## 6.  Done
+## 6.  fixNonStandard
 ##
-  cbind(surname=surname, givenName=g)
+  Sur <- fixNonStandard(surname, ...)
+  Giv <- fixNonStandard(g, ...)
+##
+## 7.  Done
+##
+  cbind(surname=Sur, givenName=Giv)
 }
 
