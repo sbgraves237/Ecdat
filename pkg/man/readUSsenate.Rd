@@ -100,5 +100,4 @@ readUSsenate(url=
 \examples{
 USsenate <- readUSsenate()
 }
-\keyword{datasets}
 \keyword{IO}

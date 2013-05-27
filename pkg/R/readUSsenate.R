@@ -67,5 +67,6 @@ readUSsenate <- function(url=
 ## 8.  parseName
 ##
   SEN <- cbind(Sen., as.data.frame(parseName(Sen.$Name)))
+
 }
 
