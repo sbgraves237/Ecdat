@@ -12,7 +12,8 @@
 readUShouse(url="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
-               'Virgin Islands') )
+               'Virgin Islands'),
+   fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
   \item{url}{
@@ -23,6 +24,12 @@ readUShouse(url="http://house.gov/representatives/",
     Character vector of the names of US territories that send a
     nonvoting delegate to the US House.
   }
+  \item{fixNonStandard}{
+    function to look for and repair nonstandard names such as names
+    containing characters with accent marks that are sometimes mangled
+    by different software.
+  }
+  \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
 \details{
   1.  \code{House.gov <- readHTMLTable(url)}.  As of April 2013, this is
@@ -41,6 +48,9 @@ readUShouse(url="http://house.gov/representatives/",
 
   4.  Add a \code{nonvoting} column for those "States" in
   \code{nonvoting}.
+
+  5.  Look for and fix \code{surname} and \code{givenName} with
+  nonstandard characters using \code{fixNonStandard}.
 }
 %\source{ }
 \value{
@@ -93,6 +103,7 @@ readUShouse(url="http://house.gov/representatives/",
   \code{\link{UShouse.senate}}
   \code{\link{parseName}}
   \code{\link{readUSstateAbbreviations}}
+  \code{\link{subNonStandardNames}}
 }
 \examples{
 UShouse <- readUShouse()

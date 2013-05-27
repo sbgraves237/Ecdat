@@ -49,6 +49,9 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
   8.  xY <- rbind(x, Y[c(names(x)])
 
   9.  replace 'Democrat' with 'Democratic' in xY[['Party']]
+
+  10.  Look for NAs in "incumbent" who are nevertheless in UScongress;
+  fix.
 }
 \value{
   a \code{\link{data.frame}} combining \code{x} and \code{UScongress}
@@ -77,7 +80,7 @@ tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
          CommitteeMember=rep(c(TRUE, FALSE), c(4, 2)),
          amount=c(5000, 2000, 29500, 1000, 1000, 11500),
          xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
-         stringsAsFactors=FALSE )
+         incumbent=FALSE, stringsAsFactors=FALSE )
 
 tst2 <- mergeUShouse.senate(tst)
 

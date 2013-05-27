@@ -29,6 +29,7 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
   notx. <- (notx & !UScongress$nonvoting)
 #
   Y <- UScongress[notx., ]
+  keyy. <- keyy[notx.]
 ##
 ## 3.  Add default columns to Y
 ##
@@ -67,5 +68,31 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
   Pty <- xY$Party
   Pty[Pty=='Democrat'] <- 'Democratic'
   xY$Party <- factor(Pty)
+##
+## 6.  incumbent?
+##
+  if('incumbent' %in% names(xY)){
+      oops <- is.na(xY$incumbent)
+      keyo <- with(xY[oops, ], paste(Office, state, district, sep=":"))
+#     see notx above
+#      oddDist <- which(!(keyo %in% keyy))
+#      if((nod <- length(oddDist))>0){
+#          msg <- paste(nod, 'district(s) in x not in UScongress:')
+#          cat(msg, '\n')
+#          print(xY[oddDist, ])
+#          warning(msg)
+#      }
+      kexY <- which(keyo %in% keyy)
+      for(ix in kexY){
+          USci <- UScongress[keyy == keyo[ix], ]
+
+
+
+
+      }
+  }
+##
+## 7.  done
+##
   xY
 }

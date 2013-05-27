@@ -1,7 +1,8 @@
 readUShouse <- function(url="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
-               'Virgin Islands') ){
+               'Virgin Islands'),
+   fixNonStandard=subNonStandardNames, ...){
 #, USstateAbbreviations=readUSstateAbbreviations() ){
 ##
 ## 1.  download content
@@ -113,6 +114,11 @@ readUShouse <- function(url="http://house.gov/representatives/",
       stop('UShouse does not contain a unique column named "Party"')
   }
   names(O)[Pty] <- "party"
+##
+## 8.  nonStandard?
+##
+  O$surname <- fixNonStandard(O$surname, ...)
+  O$givenName <- fixNonStandard(O$givenName, ...)
 ##
 ## 8.  Done
 ##
