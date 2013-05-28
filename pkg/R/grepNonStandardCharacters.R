@@ -5,6 +5,12 @@ grepNonStandardCharacters <- function(x, value=FALSE,
 ##
 ## 1.  split single characters
 ##
+  if(is.factor(x)){
+      x <- as.character(x)
+  }
+  if(!is.character(x)){
+      stop('x is not character;  is ', class(x))
+  }
   x. <- strsplit(x, '', ...)
 ##
 ## 2.  find !standardCharacters

@@ -66,7 +66,8 @@ readUSsenate <- function(url=
 ##
 ## 8.  parseName
 ##
-  SEN <- cbind(Sen., as.data.frame(parseName(Sen.$Name)))
-
+  pN <- parseName(Sen.$Name, fixNonStandard=fixNonStandard, ...)
+  SEN <- cbind(Sen., as.data.frame(pN))
+  SEN
 }
 
