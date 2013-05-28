@@ -1,6 +1,6 @@
 readUSsenate <- function(url=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-      USstateAbbreviations=readUSstateAbbreviations(),
+      stateAbbreviations=USstateAbbreviations,
       fixNonStandard=subNonStandardNames, ...){
 ##
 ## 1.  download content
@@ -34,12 +34,12 @@ readUSsenate <- function(url=
 ##
 ## 5.  parse State
 ##
-  USstates <- USstateAbbreviations$Name
-  rownames(USstateAbbreviations) <- USstates
-  USPS <- grep('USPS', names(USstateAbbreviations))
+  USstates <- stateAbbreviations$Name
+  rownames(stateAbbreviations) <- USstates
+  USPS <- grep('USPS', names(stateAbbreviations))
   if(length(USPS)<1)
-      stop('USPS codes not in readUSstateAbbreviations()')
-  senState <- USstateAbbreviations[Sen$State, USPS[1]]
+      stop('USPS codes not in stateAbbreviations()')
+  senState <- stateAbbreviations[Sen$State, USPS[1]]
 ##
 ## 6.  parse more
 ##
@@ -67,7 +67,7 @@ readUSsenate <- function(url=
 ## 8.  parseName
 ##
   pN <- parseName(Sen.$Name, fixNonStandard=fixNonStandard, ...)
-  SEN <- cbind(Sen., as.data.frame(pN))
+  SEN <- cbind(Sen., as.data.frame(pN, stringsAsFactors=FALSE))
   SEN
 }
 

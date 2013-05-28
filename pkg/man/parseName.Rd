@@ -9,7 +9,7 @@
   "surname" followed by "givenName".
 }
 \usage{
-parseName(x, surnameFirst=FALSE,
+parseName(x, surnameFirst=(median(regexpr(',', x))>0),
           suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.'),
           fixNonStandard=subNonStandardNames, ...)
 }
@@ -20,7 +20,7 @@ parseName(x, surnameFirst=FALSE,
   \item{surnameFirst}{
     logical:  If TRUE, the surname comes first followed by a comma
     (","), then the given name.  Otherwise, parse the surname from a
-    standard Western "John Smith, Jr." format.
+    standard Western "John Smith, Jr." format.  If \code{\link{missing}}
   }
   \item{suffix}{
     character vector of strings that are NOT a surname but might appear
@@ -97,12 +97,14 @@ all.equal(parsed, tst2)
 ##
 tst3 <- c('Smith, Joe', 'Sanchez de Gomez, Teresa Angelica',
      'Brown, John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
-     'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anastasio')
-tst4 <- parseName(tst3, TRUE)
+     'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anastasio',
+     'Vel_zquez, Ra_l')
+tst4 <- parseName(tst3)
 
 tst5 <- matrix(c('Smith', 'Joe', 'Sanchez de Gomez', 'Teresa Angelica',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',
-  'Smith-Johnson', 'Linda Rosa', 'Somoza Debayle', 'Anastasio'),
+  'Smith-Johnson', 'Linda Rosa', 'Somoza Debayle', 'Anastasio',
+  'Velazquez', 'Raul'),
   ncol=2, byrow=TRUE)
 colnames(tst5) <- c("surname", 'givenName')
 

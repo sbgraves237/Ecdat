@@ -9,7 +9,7 @@
 \usage{
 readUSsenate(url=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-    USstateAbbreviations=readUSstateAbbreviations(),
+    stateAbbreviations=USstateAbbreviations,
    fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
@@ -21,7 +21,7 @@ readUSsenate(url=
     \code{\link[XML]{readHTMLTable}} worked with the Wikipedia article
     on the US Senate but did not work with "senate.gov".
   }
-  \item{USstateAbbreviations}{
+  \item{stateAbbreviations}{
     a \code{\link{data.frame}} giving names and alternative codes for US
     states and territories.  This must have a column named "Name" giving
     the names of all 50 states as they appear on the \code{url} and
