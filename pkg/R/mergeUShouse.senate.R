@@ -44,7 +44,7 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 ##
 ## 4.  newrows
 ##
-  if(!(newrows %in% names(x))){
+  if(!(newrows %in% nmx)){
       x <- cbind(x, FALSE)
       nx <- ncol(x)
       names(x)[nx] <- newrows
@@ -83,12 +83,17 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 #          warning(msg)
 #      }
       kexY <- which(keyo %in% keyy)
+      match1 <- function(a,b){
+          a1 <- strsplit(a, ' ')[[1]][1]
+          b. <- strsplit(b, ' ')[[1]]
+          a1 %in% b.
+      }
       for(ix in kexY){
           USci <- UScongress[keyy == keyo[ix], ]
-
-
-
-
+          xYix <- xY[oops,][ix,]
+          matchSur <- match1(xYix$surname, USci$surname)
+          matchGiv <- match1(xYix$givenName, USci$givenName)
+          xY[oops,][ix, 'incumbent'] <- (matchSur & matchGiv)
       }
   }
 ##

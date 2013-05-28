@@ -51,7 +51,14 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
   9.  replace 'Democrat' with 'Democratic' in xY[['Party']]
 
   10.  Look for NAs in "incumbent" who are nevertheless in UScongress;
-  fix.
+  fix.  Thus, if x[['incumbent']] is TRUE or FALSE, this value is not
+  checked in UScongress;  it's checked only if NA.  The check consists
+  of comparing names for a given Office:state:district between
+  strsplit(x[['surname']], ' ')[[1]][1] and
+  strsplit(UScongress[['surname']], ' ')[[1]][1] and similarly for
+  givenName.  This allows 'Rogers' in x[['surname']] to match 'Rogers
+  (AL)' in UScongress[['surname']], etc.  The algorithm is not perfect,
+  but errors should be rare -- and could be fixed manually.
 }
 \value{
   a \code{\link{data.frame}} combining \code{x} and \code{UScongress}
@@ -80,7 +87,7 @@ tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
          CommitteeMember=rep(c(TRUE, FALSE), c(4, 2)),
          amount=c(5000, 2000, 29500, 1000, 1000, 11500),
          xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
-         incumbent=FALSE, stringsAsFactors=FALSE )
+         incumbent=NA, stringsAsFactors=FALSE )
 
 tst2 <- mergeUShouse.senate(tst)
 
@@ -89,11 +96,11 @@ tst2 <- mergeUShouse.senate(tst)
 # and we don't want this test to fail
 # due to changes that don't affect Ecdat code
 
-tst3 <- tst2[!tst2$amount0, 1:9]
+tst3 <- tst2[!tst2$amount0, c(1, 4:6, 8:10)]
 row.names(tst) <- row.names(tst3)
 
 \dontrun{
-all.equal(tst, tst3)
+all.equal(tst[c(1, 4:6, 8:10)], tst3)
 }
 # tst3[2] = state = factor with 56 levels,
 # and tst[2] only has 5;  compare without this
