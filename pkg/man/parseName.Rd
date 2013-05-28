@@ -19,8 +19,10 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
   }
   \item{surnameFirst}{
     logical:  If TRUE, the surname comes first followed by a comma
-    (","), then the given name.  Otherwise, parse the surname from a
-    standard Western "John Smith, Jr." format.  If \code{\link{missing}}
+    (","), then the given name.  If FALSE, parse the surname from a
+    standard Western "John Smith, Jr." format.  If
+    \code{missing(surnameFirst)}, use TRUE if half of the elements of
+    \code{x} contain a comma.
   }
   \item{suffix}{
     character vector of strings that are NOT a surname but might appear
