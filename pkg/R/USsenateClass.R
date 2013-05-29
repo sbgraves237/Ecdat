@@ -76,7 +76,8 @@ USsenateClass <- function(x, senate=readUSsenate(),
   inc <- rep(NA, nrow(x))
   inc[xSen] <- incumbent
 #
-  Out <- data.frame(incumbent=inc, district=Dist)
+  Out <- data.frame(incumbent=inc, district=Dist,
+                    stringsAsFactors=FALSE)
   Out
 }
 

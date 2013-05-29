@@ -69,7 +69,7 @@ USsenateClass(x, senate=readUSsenate(),
   the following columns:
 
   \item{incumbent}{
-    logical:  \code{NA} if Office == 'house'.  If Office == 'senate',
+    logical vector:  \code{NA} if Office == 'house'.  If Office == 'senate',
     then \code{TRUE} if \code{state:surname} found in \code{senate} and
     \code{FALSE} otherwise.
   }
@@ -97,14 +97,16 @@ USsenateClass(x, senate=readUSsenate(),
   \code{\link{readUSsenate}}
 }
 \examples{
-tst <- data.frame(Office=c("House", "Senate", "Senate", 'Senate'),
-                  state=c('SC', 'SC', 'SC', 'NY'),
+tst <- data.frame(Office=factor(c("House", "Senate", "Senate", 'Senate')),
+                  state=factor(c('SC', 'SC', 'SC', 'NY')),
                   surname=c("Jones", "DeMint", "Graham", 'Smith'),
-                  district=c("9", NA, NA, NA))
+                  district=c("9", NA, NA, NA),
+                  stringsAsFactors=FALSE)
 tst. <- USsenateClass(tst)
 
 chk <- data.frame(incumbent=c(NA, FALSE, TRUE, FALSE),
-                  district=c("9", "3", "2", "1 or 3") )
+                  district=c("9", "3", "2", "1 or 3"),
+                  stringsAsFactors=FALSE)
 \dontshow{stopifnot(}
 all.equal(tst., chk)
 \dontshow{)}
