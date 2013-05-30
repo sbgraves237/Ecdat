@@ -49,7 +49,8 @@ match.data.frame(x, y, by, by.x=by, by.y=by, grep., split, sep=':')
   \item{sep}{
     a \code{sep} argument to use with \code{\link{paste}} to produce a
     matching key for the columns of \code{x} and \code{y} for which
-    perfect matches are required.
+    perfect matches are required.  If(missing(sep) &&
+    not(missing(grep.))) sep <- ' ' except where grep. = NA.
   }
 }
 \details{
@@ -92,7 +93,7 @@ reference <- data.frame(state=c("NY", "NY", "MI", "AL", "NY", "MI"),
                                 "T. Albert", 'Al Thomas'),
                       stringsAsFactors=FALSE)
 newInRef <- match.data.frame(newdata, reference,
-       grep.=c(NA, 'agrep', 'agrep'), split=c(NA, " ", " "))
+       grep.=c(NA, 'agrep', 'agrep'))
 
 \dontshow{stopifnot(}
 all.equal(newInRef, c(4, 3, 5))

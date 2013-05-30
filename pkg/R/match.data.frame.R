@@ -38,7 +38,7 @@ match.data.frame <- function(x, y, by, by.x=by, by.y=by,
   }
 #
   if(missing(split)){
-      split <- rep(NA, kx)
+      split <- c(NA, ' ')[1+!is.na(grep.)]
   } else {
       if((ks <- length(split))==1){
           split <- rep(split, kx)
