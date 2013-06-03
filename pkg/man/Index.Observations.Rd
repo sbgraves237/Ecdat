@@ -13,8 +13,6 @@
 \item \code{\link{Hstarts}} : Housing Starts
 \item \code{\link{Icecream}} : Ice Cream Consumption
 \item \code{\link{IncomeUK}} : Seasonally Unadjusted Quarterly Data on Disposable Income and Expenditure
-\item \code{\link{Intratesm}} : Interest Rates (monthly)
-\item \code{\link{Intratesq}} : Interest Rates (quarterly)
 \item \code{\link{Irates}} : Monthly Interest Rates
 \item \code{\link{Klein}} : Klein's Model I
 \item \code{\link{LT}} : Dollar Sterling Exchange Rate

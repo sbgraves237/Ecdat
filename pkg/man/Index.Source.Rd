@@ -103,8 +103,6 @@
 \item \code{\link{Doctor}} : Number of Doctor Visits
 \item \code{\link{Earnings}} : Earnings for Three Age Groups
 \item \code{\link{Hstarts}} : Housing Starts
-\item \code{\link{Intratesm}} : Interest Rates (monthly)
-\item \code{\link{Intratesq}} : Interest Rates (quarterly)
 \item \code{\link{MW}} : Growth of Disposable Income and Treasury Bill Rate
 \item \code{\link{Money}} : Money, GDP and Interest Rate in Canada
 \item \code{\link{Participation}} : Labor Force Participation

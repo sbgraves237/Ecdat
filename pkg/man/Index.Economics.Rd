@@ -44,8 +44,6 @@
 \item \code{\link{DM}} : DM Dollar Exchange Rate
 \item \code{\link{Forward}} : Exchange Rates of US Dollar Against Other Currencies
 \item \code{\link{Garch}} : Daily Observations on Exchange Rates of the US Dollar Against Other Currencies
-\item \code{\link{Intratesm}} : Interest Rates (monthly)
-\item \code{\link{Intratesq}} : Interest Rates (quarterly)
 \item \code{\link{Irates}} : Monthly Interest Rates
 \item \code{\link{LT}} : Dollar Sterling Exchange Rate
 \item \code{\link{PPP}} : Exchange Rates and Price Indices for France and Italy

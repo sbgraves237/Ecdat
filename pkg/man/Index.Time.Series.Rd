@@ -29,7 +29,6 @@
 \item \code{\link{CRSPmon}} : Monthly Returns from the CRSP Database
 \item \code{\link{Capm}} : Stock Market Data
 \item \code{\link{Forward}} : Exchange Rates of US Dollar Against Other Currencies
-\item \code{\link{Intratesm}} : Interest Rates (monthly)
 \item \code{\link{Irates}} : Monthly Interest Rates
 \item \code{\link{Mishkin}} : Inflation and Interest Rates
 \item \code{\link{Orange}} : The Orange Juice Data Set
@@ -42,7 +41,6 @@
 \item \code{\link{Consumption}} : Quarterly Data on Consumption and Expenditure
 \item \code{\link{Hstarts}} : Housing Starts
 \item \code{\link{IncomeUK}} : Seasonally Unadjusted Quarterly Data on Disposable Income and Expenditure
-\item \code{\link{Intratesq}} : Interest Rates (quarterly)
 \item \code{\link{MW}} : Growth of Disposable Income and Treasury Bill Rate
 \item \code{\link{Macrodat}} : Macroeconomic Time Series for the United States
 \item \code{\link{Money}} : Money, GDP and Interest Rate in Canada
