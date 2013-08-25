@@ -27,6 +27,7 @@ as.Date1970(x, ...)
 }
 \seealso{
   \code{\link{as.Date}}
+  \code{\link[fda]{as.POSIXct1970}}
 }
 %\references{}
 \examples{
