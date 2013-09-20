@@ -1,6 +1,5 @@
 readCookPVI <- function(url=
-"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
-    stateAbbreviations=USstateAbbreviations){
+"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index"){
 ##
 ## 1.  download content
 ##

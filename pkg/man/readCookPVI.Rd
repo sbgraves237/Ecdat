@@ -1,16 +1,20 @@
 \name{readCookPVI}
 \alias{readCookPVI}
+\alias{readCookPVI.}
 \title{
   Read Cook Partisan Voting Index
 }
 \description{
   Read tables of the Cook Partisan Voting Index and returns a list with
-  components 'House' and 'Senate'.
+  components 'House' and 'Senate'.  \code{readCookPVI.} returns the
+  tables with the names of the current incumbents per
+  \code{\link{readUShouse}} and \code{\link{readUSsenate}};
+  \code{readCookPVI} tables do not include the names of the incumbents.
 }
 \usage{
 readCookPVI(url=
-"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
-    stateAbbreviations=USstateAbbreviations)
+"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
+%,   stateAbbreviations=USstateAbbreviations)
 }
 \arguments{
   \item{url}{
