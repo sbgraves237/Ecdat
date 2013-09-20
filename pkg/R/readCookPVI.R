@@ -1,3 +1,30 @@
+readCookPVI. <- function(url=
+"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+      UShouse=readUShouse(), USsenate=readUSsenate(), ...){
+##
+## 1.  readCookPVI()
+##
+  CookPVI <- readCookPVI(url)
+##
+## 2.  merge with UShouse
+##
+  keyPVI <- with(CookPVI$House, paste(State, District, sep='.'))
+  houseKey <- with(UShouse, paste(State, district, sep='.'))
+  rownames(UShouse) <- houseKey
+  House <- cbind(UShouse[keyPVI, ], CookPVI$House[, c('PVInum', 'PVIchar')])
+##
+## 3.  merge with USsenate
+##
+  CookSenate <- CookPVI$Senate
+  rownames(CookSenate) <- CookSenate$State
+  Senate <- cbind(USsenate, CookSenate[USsenate$State, -1])
+  rownames(Senate) <- rownames(USsenate)
+##
+## 4.  Done
+##
+  list(House=House, Senate=Senate)
+}
+
 readCookPVI <- function(url=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index"){
 ##
@@ -22,6 +49,10 @@ readCookPVI <- function(url=
            ' tables with between 434 and 450 rows.  oops.')
   }
   House <- Wikitbs[[house]]
+  district <- sub('st$|nd$|rd|th', '', House$District)
+  Dct <- sub('At-large', '0', district)
+  House$District <- Dct
+#
   senate <- which(ns[1,]==50)
   if((nsen <- length(senate)) != 1){
       stop('URL source changed:  Found ', nsen,
@@ -54,6 +85,5 @@ readCookPVI <- function(url=
 ## 8.  Done
 ##
   list(House=House., Senate=Senate.)
-
 }
 

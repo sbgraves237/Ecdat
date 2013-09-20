@@ -14,19 +14,22 @@
 \usage{
 readCookPVI(url=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
-%,   stateAbbreviations=USstateAbbreviations)
+readCookPVI.(url=
+"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+      UShouse=readUShouse(), USsenate=readUSsenate(), ...)
 }
 \arguments{
   \item{url}{
     Universal resource locator to be read and processed to obtain the
     desired lists.
   }
-  \item{stateAbbreviations}{
-    a \code{\link{data.frame}} giving names and alternative codes for US
-    states and territories.  This must have a column named "Name" giving
-    the names of all 50 states as they appear on the \code{url} and
-    another whose name includes "USPS" giving the correspoding 2-letter
-    codes.
+  \item{UShouse, USsenate}{
+    \code{\link{data.frame}}s as returned by \code{\link{readUShouse}}
+    and \code{\link{readUSsenate}}, respectively.
+  }
+  \item{\dots}{
+    optional arguments passed to \code{\link{readUShouse}} and
+    \code{\link{readUSsenate}}.
   }
 }
 \details{
@@ -43,8 +46,8 @@ readCookPVI(url=
 }
 \value{
   A list with components "House" and "Senate".  Each contains a
-  \code{\link{data.frame}}.  The "House" data.frame includes the
-  following columns:
+  \code{\link{data.frame}}.  The "House" data.frame returned by
+  \code{readCookPVI} includes the following columns:
 
   \item{State}{name of the state}
   \item{District}{District, e.g, 1st, 2nd, At-Large}
@@ -85,6 +88,9 @@ readCookPVI(url=
     Count by pary in the house delegation for that state, e.g.,
     '6R, 1D' for 6 Republicans and 1 Democrat.
   }
+
+  \code{readCookPVI.} adds to the above the information returned by
+  \code{\link{readUShouse}} and \code{\link{readUSsenate}}.
 }
 \source{
   \href{https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index}{Wikipedia,
@@ -94,5 +100,7 @@ readCookPVI(url=
 \author{Spencer Graves}
 \examples{
 CookPVI <- readCookPVI()
+
+CookPVI. <- readCookPVI.()
 }
 \keyword{IO}
