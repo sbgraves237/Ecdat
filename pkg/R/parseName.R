@@ -2,14 +2,38 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.'),
           fixNonStandard=subNonStandardNames, ...){
 ##
-## 1.  surnameFirst
+## 1.  length(x)<1?
 ##
-  if(length(x)<1){
+  nx <- length(x)
+  if(nx<1){
       warning("length(x) == 0")
       mat0 <- matrix(character(0), nrow=0, ncol=2,
          dimnames=list(NULL, c("surname", "givenName")))
       return(mat0)
   }
+##
+## 2.  Drop "(AL)", etc.
+##
+  dropEndParen <- function(x){
+      endParen <- grep(')$', x)
+      if(length(endParen)>0){
+          x.endP <- x[endParen]
+          nch <- nchar(x.endP)
+          nch3 <- pmax(1, nch-3)
+          openP <- substring(x.endP, nch3, nch3)
+          nch3. <- ifelse(openP=='(', pmax(1, nch3-1), nch)
+          x.woP <- substring(x.endP, 1, nch3.)
+          x[endParen] <- x.woP
+      }
+      if(require(tis)){
+          x <- stripBlanks(x)
+      }
+      x
+  }
+  x <- dropEndParen(x)
+##
+## 3.  surnameFirst
+##
   if(missing(surnameFirst))
       surnameFirst <- surnameFirst
 #
@@ -27,74 +51,62 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           x[oops] <- fix1
       }
       sur <- substring(x, 1, Sep-1)
+#     drop (AL), etc.
+      sur <- dropEndParen(sur)
+#
       giv <- substring(x, Sep+2)
       Sur <- fixNonStandard(sur, ...)
+      Sur. <- strsplit(Sur, ' ')
+      look4suf <- sapply(Sur., tail, n=1)
+      suf <- (look4suf %in% suffix)
+      surname <- rep(NA, nx)
+      lx <- sapply(Sur., length)-suf
+      for(ix in 1:nx){
+          xi <- Sur.[[ix]][1:lx[ix]]
+          surname[ix] <- paste(xi, collapse=' ')
+      }
+#
       Giv <- fixNonStandard(giv, ...)
-      out <- cbind(Sur, Giv)
+      Giv[suf] <- paste(Giv[suf], look4suf[suf], sep=', ')
+      out <- cbind(surname, Giv)
       colnames(out) <- c('surname', 'givenName')
       return(out)
   }
 ##
-## 2.  suffix?
+## 4.  strsplit on either blank or comma
 ##
-  suf <- regexpr(', ', x)
-  Suffix <- substring(x[suf>0], suf[suf>0]+2)
-  x2 <- x
-  x2[suf>0] <- substring(x[suf>0], 1, suf[suf>0]-1)
-# check for a comma without a space
-  suf. <- regexpr(',', x2[suf<=0])
-  if(any(suf.>0)){
-      Suffix. <- substring(x2[suf<=0][suf.>0], suf.[suf.>0]+1)
-      x2[suf<=0][suf.>0] <- substring(x2[suf<=0][suf.>0],
-                                     1, suf.[suf.>0]-1)
+  x. <- strsplit(x, ' |,')
+##
+## 5.  Suffix?
+##
+  look4suf <- sapply(x., tail, n=1)
+  suf <- (look4suf %in% suffix)
+##
+## 6.  parse
+##
+  givenName <- surname <- rep(NA, nx)
+  lx <- sapply(x., length)-suf
+  for(ix in 1:nx){
+      xi <- x.[[ix]][1:lx[ix]]
+#      ni <- length(xi)
+      ni0 <- nchar(xi)
+      xi. <- xi[ni0>0]
+      surname[ix] <- tail(xi., 1)
+      ni <- length(xi.)
+      givenName[ix] <- paste(head(xi., ni-1), collapse=' ')
+      if(suf[ix])
+          givenName[ix] <- paste(givenName[ix], look4suf[ix],
+                                 sep=', ')
   }
 ##
-## 3.  surname
-##
-  x. <- strsplit(x2, ' ')
-  surname <- sapply(x., function(x){
-      x[length(x)]
-  } )
-##
-## 4.  check suffix misidentified as surname
-##
-  sufSur <- (surname %in% suffix)
-  if(any(sufSur)){
-      sufo <- surname[sufSur]
-      shorten <- function(y){
-          shorti <- seq(length.out=length(y)-1)
-          y[shorti]
-      }
-      x.o <- lapply(x.[sufSur], shorten )
-      sur.o <- sapply(x.o, function(x){
-          x[length(x)]
-      } )
-      surname[sufSur] <- sur.o
-      x.[sufSur] <- x.o
-  }
-##
-## 5.  givenName
-##
-  g <- sapply(x., function(x){
-      paste(x[1:(length(x)-1)], collapse=' ')
-  } )
-  g[suf>0] <- paste(g[suf>0], Suffix, sep=', ')
-#  comma without a space
-  if(any(suf.>0)){
-      g[suf<=0][suf.>0] <- paste(g[suf<=0][suf.>0], Suffix., sep=', ')
-  }
-#  suffix misidentified as surname
-  if(any(sufSur)){
-      g[sufSur] <- paste(g[sufSur], sufo, sep=', ')
-  }
-##
-## 6.  fixNonStandard
+## 7.  fixNonStandard
 ##
   Sur <- fixNonStandard(surname, ...)
-  Giv <- fixNonStandard(g, ...)
+  Giv <- fixNonStandard(givenName, ...)
 ##
-## 7.  Done
+## 8.  Done
 ##
-  cbind(surname=Sur, givenName=Giv)
+  out <- cbind(surname=Sur, givenName=Giv)
+  out
 }
 

@@ -105,6 +105,7 @@ readUShouse(url="http://house.gov/representatives/",
   \code{\link{parseName}}
   \code{\link{readUSstateAbbreviations}}
   \code{\link{subNonStandardNames}}
+  \code{\link{readCookPVI}}
 }
 \examples{
 UShouse <- readUShouse()

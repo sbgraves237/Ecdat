@@ -42,7 +42,8 @@ readCookPVI.(url=
   Wikipedia article on "Cook Partisan Voting Index".
 
   The algorithm reads the web site into a list, finds the desired tables
-  on the list, then parses and formats them as desired.
+  on the list, then parses and formats them as desired.  Then it merges
+  the results with \code{UShouse} and \code{USsenate}.
 }
 \value{
   A list with components "House" and "Senate".  Each contains a
@@ -96,6 +97,9 @@ readCookPVI.(url=
   \href{https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index}{Wikipedia,
     "Cook Partisan Voting Index"}
   \href{http://cookpolitical.com/}{The Cook Political Report}
+}
+\seealso{
+  \code{\link{readUShouse}}, \code{\link{readUSsenate}}
 }
 \author{Spencer Graves}
 \examples{

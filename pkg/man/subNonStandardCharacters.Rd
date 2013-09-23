@@ -48,8 +48,8 @@ subNonStandardCharacters(x,
 
   3.  x. <- strsplit(x, "", ...)
 
-  4.  for(ix in 1:nx) find the first and last characters in x.[ix]
-  and substitute \code{replacement} for everything in between.
+  4.  for(ix in 1:nx) find the first and last \code{standardCharacters}
+  in x.[ix] and substitute \code{replacement} for everything in between.
 }
 \value{
   a character vector with everthing between the first and last character
@@ -63,6 +63,7 @@ subNonStandardCharacters(x,
   \code{\link{grepNonStandardCharacters}},
   \code{\link{subNonStandardNames}}
   \code{\link[tools]{encoded_text_to_latex}}
+  \code{\link{subNonStandardNames}}
 }
 %\references{}
 \examples{

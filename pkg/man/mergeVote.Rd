@@ -20,7 +20,7 @@ mergeVote(x, vote, Office="House", vote.x, check.x=TRUE)
     \code{surname}, and \code{givenName}.
   }
   \item{vote}{
-    a \code{link{data.frame}} with column names which when forced
+    a \code{\link{data.frame}} with column names which when forced
     \code{\link{tolower}} would match \code{surname}, \code{givenname},
     and \code{vote}.  However, the \code{givenname} may not be
     complete, so use it only if the \code{surname} is not sufficient.

@@ -5,14 +5,14 @@
   Names with Character Set Problems
 }
 \description{
-  A \code{\link{data.frame}} describeing of names containing character
-  codes rare or non-existent in standard English text, e.g., with
-  various accent marks that may not be coded consistenty in different
-  locales or by different software.
+  A \code{\link{data.frame}} describing names containing character codes
+  rare or non-existent in standard English text, e.g., with various
+  accent marks that may not be coded consistenty in different locales or
+  by different software.
 }
 \usage{data(nonEnglishNames)}
 \format{
-  A \code{data.frame} containing:
+  A \code{data.frame} with two columns:
   \describe{
     \item{nonEnglish}{
       a character vector containing names that often have non-standard
@@ -35,7 +35,7 @@
 data(nonEnglishNames)
 
 \dontshow{stopifnot(}
-all.equal(dim(nonEnglishNames), c(16, 2))
+all.equal(dim(nonEnglishNames), c(17, 2))
 \dontshow{)}
 
 }
