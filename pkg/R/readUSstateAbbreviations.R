@@ -1,4 +1,4 @@
-readUSstateAbbreviations <- function(url=
+readUSstateAbbreviations <- function(url.=
 "http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations",
       clean=TRUE, Names=c('Name', 'Status', 'ISO', 'ANSI.letters',
           'ANSI.digits', 'USPS', 'USCG', 'Old.GPO', 'AP', 'Other') ){
@@ -6,7 +6,14 @@ readUSstateAbbreviations <- function(url=
 ## 1.  download content
 ##
   library(RCurl)
-  abbrev <- getURL(url)
+  Start <- paste(date(), ': readUShouse(', url., ')', sep='')
+  cat(Start)
+  startTime <- proc.time()
+  abbrev <- getURL(url.)
+  et <- max(proc.time()-startTime, na.rm=TRUE)
+  Read <- paste('|', nchar(abbrev), 'bytes read in',
+                round(et, 2), 'seconds\n')
+  cat(Read)
 ##
 ## 2.  Find the primary table
 ##

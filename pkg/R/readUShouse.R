@@ -1,4 +1,4 @@
-readUShouse <- function(url="http://house.gov/representatives/",
+readUShouse <- function(url.="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands'),
@@ -8,7 +8,14 @@ readUShouse <- function(url="http://house.gov/representatives/",
 ## 1.  download content
 ##
   library(RCurl)
-  house.gov <- getURL(url)
+  Start <- paste(date(), ': readUShouse(', url., ')', sep='')
+  cat(Start)
+  startTime <- proc.time()
+  house.gov <- getURL(url.)
+  et <- max(proc.time()-startTime, na.rm=TRUE)
+  Read <- paste('|', nchar(house.gov), 'bytes read in',
+                round(et, 2), 'seconds\n')
+  cat(Read)
 ##
 ## 2.  find "state"
 ##

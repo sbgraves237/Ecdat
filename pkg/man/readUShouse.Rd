@@ -9,14 +9,14 @@
   Representatives.
 }
 \usage{
-readUShouse(url="http://house.gov/representatives/",
+readUShouse(url.="http://house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands'),
    fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
-  \item{url}{
+  \item{url.}{
     Universal resource locator to be read and processed to obtain the
     desired list
   }

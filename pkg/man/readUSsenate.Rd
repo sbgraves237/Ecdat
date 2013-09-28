@@ -7,13 +7,13 @@
   Read the list of elected officias in the United States Senate.
 }
 \usage{
-readUSsenate(url=
+readUSsenate(url.=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
     stateAbbreviations=USstateAbbreviations,
    fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
-  \item{url}{
+  \item{url.}{
     Universal resource locator to be read and processed to obtain the
     desired list
 

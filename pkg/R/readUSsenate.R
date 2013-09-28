@@ -1,4 +1,4 @@
-readUSsenate <- function(url=
+readUSsenate <- function(url.=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
       stateAbbreviations=USstateAbbreviations,
       fixNonStandard=subNonStandardNames, ...){
@@ -6,7 +6,14 @@ readUSsenate <- function(url=
 ## 1.  download content
 ##
   library(RCurl)
-  senate.gov <- getURL(url)
+  Start <- paste(date(), ': readUSsenate(', url., ')', sep='')
+  cat(Start)
+  startTime <- proc.time()
+  senate.gov <- getURL(url.)
+  et <- max(proc.time()-startTime, na.rm=TRUE)
+  Read <- paste('|', nchar(senate.gov), 'bytes read in',
+                round(et, 2), 'seconds\n')
+  cat(Read)
 ##
 ## 2.  readHTMLTable
 ##
@@ -21,7 +28,7 @@ readUSsenate <- function(url=
   ns. <- which(ns[1, ]>=100)
   if(length(ns.)!=1){
       stop('There is not exactly one table with 100 rows in url = ',
-           url)
+           url.)
   }
   sen <- Senate[[ns.]]
 ##
