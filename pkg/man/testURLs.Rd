@@ -68,6 +68,10 @@ testURLs(urls=c(
 }
 %\references{}
 \examples{
-tst <- testURLs(n=1)
+# Test 2 web sites, not the default 4:
+tst <- testURLs(c(
+ PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+ house="http://house.gov/representatives"),
+    n=1)
 }
 \keyword{IO}
