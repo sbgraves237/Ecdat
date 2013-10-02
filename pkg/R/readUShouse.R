@@ -11,11 +11,15 @@ readUShouse <- function(url.="http://house.gov/representatives/",
   Start <- paste(date(), ': readUShouse(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  house.gov <- getURL(url.)
+  house.gov <- try(getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(house.gov), 'bytes read in',
                 round(et, 2), 'seconds\n')
   cat(Read)
+  if(class(house.gov)=='try-error'){
+      cat(house.gov)
+      stop()
+  }
 ##
 ## 2.  find "state"
 ##

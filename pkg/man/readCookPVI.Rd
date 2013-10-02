@@ -12,14 +12,14 @@
   \code{readCookPVI} tables do not include the names of the incumbents.
 }
 \usage{
-readCookPVI(url=
+readCookPVI(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
-readCookPVI.(url=
+readCookPVI.(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
       UShouse=readUShouse(), USsenate=readUSsenate(), ...)
 }
 \arguments{
-  \item{url}{
+  \item{url.}{
     Universal resource locator to be read and processed to obtain the
     desired lists.
   }
@@ -103,7 +103,9 @@ readCookPVI.(url=
 }
 \author{Spencer Graves}
 \examples{
+\dontrun{
 CookPVI <- readCookPVI()
+}
 
 CookPVI. <- readCookPVI.()
 }

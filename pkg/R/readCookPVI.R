@@ -1,10 +1,10 @@
-readCookPVI. <- function(url=
+readCookPVI. <- function(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
       UShouse=readUShouse(), USsenate=readUSsenate(), ...){
 ##
 ## 1.  readCookPVI()
 ##
-  CookPVI <- readCookPVI(url)
+  CookPVI <- readCookPVI(url.)
 ##
 ## 2.  merge with UShouse
 ##
@@ -25,18 +25,30 @@ readCookPVI. <- function(url=
   list(House=House, Senate=Senate)
 }
 
-readCookPVI <- function(url=
+readCookPVI <- function(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index"){
 ##
 ## 1.  download content
 ##
   library(RCurl)
-  url. <- getURL(url)
+  Start <- paste(date(), ': readCookPVI(',
+                 url., ')', sep='')
+  cat(Start)
+  startTime <- proc.time()
+  Url. <- try(getURL(url.))
+  et <- max(proc.time()-startTime, na.rm=TRUE)
+  Read <- paste('|', nchar(Url.), 'bytes read in',
+                round(et, 2), 'seconds\n')
+  cat(Read)
+  if(class(Url.)=='try-error'){
+      cat(Url.)
+      stop()
+  }
 ##
 ## 2.  readHTMLTable
 ##
   library(XML)
-  Wikitbls <- readHTMLTable(url., stringsAsFactors=FALSE)
+  Wikitbls <- readHTMLTable(Url., stringsAsFactors=FALSE)
 ##
 ## 3.  Find House and Senate tables
 ##

@@ -9,11 +9,15 @@ readUSsenate <- function(url.=
   Start <- paste(date(), ': readUSsenate(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  senate.gov <- getURL(url.)
+  senate.gov <- try(getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(senate.gov), 'bytes read in',
                 round(et, 2), 'seconds\n')
   cat(Read)
+  if(class(senate.gov)=='try-error'){
+      cat(senate.gov)
+      stop()
+  }
 ##
 ## 2.  readHTMLTable
 ##
