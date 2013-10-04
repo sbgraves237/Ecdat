@@ -12,8 +12,8 @@
   with three attributes:  (1) "urls" containning the \code{urls}
   argument.  (2) "testResults" containing a matrix of the success
   indicators and times for each element of \code{urls}.  (3)
-  "errorMessages" = a table of the error messages returned from the
-  tests, if any.
+  "errorMessages" = a list of tables of the error messages returned from
+  testing each of the \code{urls}, if any.
 
   This function was written to diagnose a download problem with a
   particular Internet Service Provider.
@@ -48,6 +48,11 @@ testURLs(urls=c(
   \code{try(getURL(.))}, then computing the following after:
 
   \code{elapsed.time <- max(proc.time() - start.time, na.rm=TRUE)}
+
+  After each iteration of testing the \code{urls}, append summary
+  statistics for that iteration to \code{file.}.  After all tests are
+  completed, append tables of the error messaged if any to that
+  \code{file.}.
 }
 \value{
   a list of the last successful result returned by
@@ -60,6 +65,9 @@ testURLs(urls=c(
     \code{elapsed.time} for each \code{\link{try}}.  This matrix
     contains the same data already written to \code{file.}.
   }
+  \item{errorMessages}{
+    a list of tables of the error messages returned, if any
+  }
 }
 \author{
   Spencer Graves
@@ -70,7 +78,8 @@ testURLs(urls=c(
 }
 %\references{}
 \examples{
-# Test only 2 web sites, not the default 4:
+# Test only 2 web sites, not the default 4,
+# and test only once, not the default 10 times:
 tst <- testURLs(c(
  PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
  house="http://house.gov/representatives"),
