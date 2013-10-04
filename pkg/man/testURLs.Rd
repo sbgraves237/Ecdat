@@ -9,9 +9,11 @@
   \code{\link[RCurl]{getURL}} was successful (1) or not (0) and the time
   taken by each \code{\link[RCurl]{getURL}} call.  Return a list of the
   last successful version read if any from each element of \code{urls}
-  with attributes "urls" containning the \code{urls} argument and
-  "testResults" containing a matrix of the success indicators and times
-  for each element of \code{urls}.
+  with three attributes:  (1) "urls" containning the \code{urls}
+  argument.  (2) "testResults" containing a matrix of the success
+  indicators and times for each element of \code{urls}.  (3)
+  "errorMessages" = a table of the error messages returned from the
+  tests, if any.
 
   This function was written to diagnose a download problem with a
   particular Internet Service Provider.
@@ -68,7 +70,7 @@ testURLs(urls=c(
 }
 %\references{}
 \examples{
-# Test 2 web sites, not the default 4:
+# Test only 2 web sites, not the default 4:
 tst <- testURLs(c(
  PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
  house="http://house.gov/representatives"),

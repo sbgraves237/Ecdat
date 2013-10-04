@@ -16,6 +16,7 @@ testURLs <- function(urls=c(
       uNames <- sub('^http://', '', urls)
   Read <- vector('list', ku)
   names(Read) <- uNames
+  msgs <- Read
   .Names <- as.vector(outer(c('read', 'time'), uNames, paste, sep='.'))
   results <- matrix(NA, n, 2*ku,
                     dimnames=list(NULL, .Names))
@@ -38,7 +39,12 @@ testURLs <- function(urls=c(
           elapsed.time[j] <- et
           si <- (class(readi)!='try-error')
           success[j] <- si
-          if(si)Read[[j]] <- readi
+          if(si){
+              Read[[j]] <- readi
+          } else {
+              ri <- gsub('\n', ' ', readi)
+              msgs[[j]] <- c(msgs[[j]], ri)
+          }
           cat(si, et, '\n')
       }
       outvec <- as.numeric(rbind(success, elapsed.time))
@@ -52,5 +58,15 @@ testURLs <- function(urls=c(
 ##
   attr(Read, 'urls') <- urls
   attr(Read, 'testResults') <- results
+  Msgs <- lapply(msgs, table)
+  attr(Read, 'errorMessages') <- Msgs
+  for(j in 1:ku){
+      if(length(Msgs[[j]])>0){
+          mj <- paste(uNames[j], ":", Msgs[[j]], " ", names(Msgs[[j]]),
+                      sep="")
+          cat(mj, '\n', file=file., append=TRUE)
+      }
+  }
+#
   Read
 }
