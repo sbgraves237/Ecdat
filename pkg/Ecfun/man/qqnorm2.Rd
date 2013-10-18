@@ -167,21 +167,27 @@ all.equal(qn., qn.2)
 
 # check qn3
 qn3. <- qqnorm(1:3, datax=TRUE, plot.it=FALSE)
-qn3.$z <- tstDF$z3
-qn3.$pch <- tstDF$z3
-names(qn3.$z) <- tstDF$z3
-class(qn3.) <- 'qqnorm2'
+qn3.$xlab <- 'y'
+qn3.$ylab <- 'Normal scores'
+qn3.$z <- as.character(tstDF$z3)
+qn3.$pch <- as.character(tstDF$z3)
+names(qn3.$pch) <- qn3.$pch
+qn33 <- qn3.[c(3:4, 1:2, 5:6)]
+class(qn33) <- 'qqnorm2'
 \dontshow{stopifnot(}
-all.equal(qn3, qn3.)
+all.equal(qn3, qn33)
 \dontshow{)}
 
 # check qn4
 qn4. <- qqnorm(1:3, datax=TRUE, plot.it=FALSE)
+qn4.$xlab <- 'y'
+qn4.$ylab <- 'Normal scores'
 qn4.$z <- tstDF$z4
-qn4.$pch <- NULL
-class(qn4.) <- 'qqnorm2'
+qn44 <- qn4.[c(3:4, 1:2, 5)]
+qn44$pch <- NULL
+class(qn44) <- 'qqnorm2'
 \dontshow{stopifnot(}
-all.equal(qn4, qn4.)
+all.equal(qn4, qn44)
 \dontshow{)}
 
 }

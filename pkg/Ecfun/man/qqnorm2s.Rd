@@ -164,8 +164,8 @@ all.equal(Qn2, Qn2.)
 ##
 tstDF2b <- tstDF2
 tstDF2b$y <- c(0.1, 0.1, 9)
-Qn2b <- qqnorm2s('y', 'z2', list(tstDF, tstDF2),
-           outnames=c('ok', 'oops') )
+Qn2b <- qqnorm2s('y', 'z2', list(tstDF, tstDF2b),
+           outnames=c('ok', 'oops'), log='x' )
 
 }
 \keyword{plot}
