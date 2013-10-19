@@ -152,7 +152,7 @@ qy2$col <- 2
 legend. <- list(pch=list(x='right', legend=c('FALSE', 'TRUE'),
                 pch=c('FALSE'=4, 'TRUE'= 1)),
                 col=list(x='bottomright', legend=c('y', 'y2'),
-                lty=1, col=1:4))
+                lty=1, col=1:2))
 Qn2. <- list(y=qy, y2=qy2, legend.=legend.)
 class(Qn2.) <- 'qqnorm2s'
 
