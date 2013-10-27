@@ -6,7 +6,7 @@
   Data on quantiles of the distributions of family incomes in the United
   States. This combines three data sources:
 
-  (1) US Census Table F-1 for the central qualitiles
+  (1) US Census Table F-1 for the central quantiles
 
   (2) Piketty and Saez for the 95th and higher quantiles
 
