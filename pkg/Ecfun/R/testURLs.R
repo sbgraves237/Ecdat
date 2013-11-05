@@ -1,11 +1,9 @@
 testURLs <- function(urls=c(
- PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
- house="http://house.gov/representatives",
- senate=
-  "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
- abbr="http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations"),
-         file.='testURLresults.csv',
-         n=10){
+ wiki="http://en.wikipedia.org",
+ wiki.PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+ house="http://house.gov",
+ house.reps="http://house.gov/representatives"),
+         file.='testURLresults.csv', n=10, maxFail=10){
 ##
 ## 1. set up
 ##
