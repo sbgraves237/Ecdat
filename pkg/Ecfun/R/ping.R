@@ -1,14 +1,20 @@
 Ping <- function(url, pingArgs='', ...){
 ##
-## 1.  construct ping command
+## 1.  get host
 ##
-    pingCmd <- paste('ping', pingArgs, url)
+    urlSplit0 <- strsplit(url, '://')[[1]]
+    urlS0 <- urlSplit0[min(2, length(urlSplit0))]
+    URL <- strsplit(urlS0, '/')[[1]][1]
 ##
-## 2.  issue ping command
+## 2.  construct ping command
+##
+    pingCmd <- paste('ping', pingArgs, URL)
+##
+## 3.  issue ping command
 ##
     rawResults <- system(pingCmd, intern=TRUE, ...)
 ##
-## 3.  could not find host?
+## 4.  could not find host?
 ##
     cnf <- grep('Ping request could not find host', rawResults)
     if(length(cnf)>0){
@@ -19,7 +25,7 @@ Ping <- function(url, pingArgs='', ...){
                     stats=c(min=NA, avg=NA, max=NA, mdev=NA) ) )
     }
 ##
-## 4.  raw times
+## 5.  raw times
 ##
     time. <- grep('time=', rawResults, value=TRUE)
     if(length(time.)>0){
@@ -37,26 +43,26 @@ Ping <- function(url, pingArgs='', ...){
         min. <- avg. <- max. <- mdev <- NA
     }
 ##
-## 5.  timed out
+## 6.  timed out
 ##
     out. <- grep('timed out', rawResults, value=TRUE)
 ##
-## 6.  counts
+## 7.  counts
 ##
     rcvd <- length(rawNumbers)
     lost <- length(out.)
     counts <- c(sent=rcvd+lost, received=rcvd, lost=lost)
 ##
-## 7.  p.lost
+## 8.  p.lost
 ##
     p.lost <- lost/counts[1]
 ##
-## 8.  stats
+## 9.  stats
 ##
     stats <- c(min=min., avg=avg.,
                max=max., mdev=mdev )
 ##
-## 9.  Done
+## 10.  Done
 ##
     list(rawResults=rawResults, rawNumbers=rawNumbers,
          counts=counts, p.lost=p.lost, stats=stats)

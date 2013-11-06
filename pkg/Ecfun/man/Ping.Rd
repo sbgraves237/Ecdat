@@ -12,7 +12,9 @@ Ping(url, pingArgs='', ...)
 }
 \arguments{
   \item{url}{
-    a character string of a URL or IP address to ping
+    a character string of a URL or IP address to ping.  If \code{url} is
+    a vector of length greater than 1, only the first component is
+    used.
   }
   \item{pingArgs}{
     arguments to pass to the \code{ping} command of typical operating
@@ -25,7 +27,15 @@ Ping(url, pingArgs='', ...)
   }
 }
 \details{
-    system(paste('ping', pingArgs, url), intern=TRUE, ...)
+  1.  urlSplit0 <- strsplit(url, '://')[[1]]
+
+  2.  urlS0 <- urlSplit0[min(2, length(urlSplit0))]
+
+  3.  host <- strsplit(urlS0, '/')[[1]][1]
+
+  4.  pingCmd <- paste('ping', pingArgs, host)
+
+  5.  system(pingCmd, intern=TRUE, ...)
 }
 \value{
   list with the following components:
@@ -58,7 +68,7 @@ Ping(url, pingArgs='', ...)
 ##
 ## good
 ##
-(google <- Ping('google.com'))
+(google <- Ping('http://google.com/ping works on host not pages'))
 
 \dontshow{stopifnot(}
 with(google, (counts[1]>0) && (counts[3]<1))
