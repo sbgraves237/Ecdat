@@ -136,5 +136,12 @@ tst <- testURLs(c(
  PVI="http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
  house="http://house.gov/representatives"),
     n=2, maxFail=2)
+
+\dontshow{stopifnot(}
+(class(tst) == 'testURLs') &&
+all(names(tst) == c('PVI', 'house')) &&
+all(names(tst) == c('names', 'urls', 'testResults'))
+\dontshow{)}
+
 }
 \keyword{IO}

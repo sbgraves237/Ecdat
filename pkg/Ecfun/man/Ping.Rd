@@ -22,7 +22,7 @@ Ping(url, pingArgs='', warn=NA,
     systems via
 
     pingResult <- system(paste('ping', pingArgs, url), intern=TRUE, ...)
-  }\
+  }
   \item{warn}{
     value for \code{options('warn')} during the call to
     \code{\link{system}}.  \code{NA} to not change

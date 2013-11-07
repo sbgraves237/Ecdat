@@ -84,5 +84,6 @@ testURLs <- function(urls=c(
 ##
   attr(Read, 'urls') <- urls
   attr(Read, 'testResults') <- results
+  class(Read) <- 'testURLs'
   Read
 }
