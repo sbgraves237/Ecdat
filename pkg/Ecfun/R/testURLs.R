@@ -31,7 +31,6 @@ testURLs <- function(urls=c(
               urlOut[iout] <- uNames[j]
               cat(Time[iout], uNames[j], '', sep=', ')
 #
-
               pingi <- Ping(urls[i], warn=warn, ...)
               if((i<2) && (j<2) && (irep<2)){
                   kc <- length(pingi$counts)
