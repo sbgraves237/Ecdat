@@ -4,7 +4,7 @@ testURLs <- function(urls=c(
  house="http://house.gov",
  house.reps="http://house.gov/representatives"),
          file.='testURLresults.csv',
-         n=10, maxFail=10, ...){
+         n=10, maxFail=10, warn=-1, ...){
 ##
 ## 1. set up
 ##
@@ -13,7 +13,7 @@ testURLs <- function(urls=c(
   uNames <- names(urls)
   if(is.null(uNames))
       uNames <- sub('^http://', '', urls)
-  N <- n*maxFail
+  N <- n*ku*maxFail
   elapsed.time <- Time <- urlOut <- rep(NA, N)
   errorMsgs <- character(N)
   Read <- vector('list', ku)
@@ -31,15 +31,16 @@ testURLs <- function(urls=c(
               urlOut[iout] <- uNames[j]
               cat(Time[iout], uNames[j], '', sep=', ')
 #
-              pingi <- Ping(urls[i], ...)
-              if((i<2) && (irep<2)){
+
+              pingi <- Ping(urls[i], warn=warn, ...)
+              if((i<2) && (j<2) && (irep<2)){
                   kc <- length(pingi$counts)
 #                  i.c <- 1:kc
                   ks <- length(pingi$stats)
 #                  i.s <- i:ks
                   nameping <- c(names(pingi$counts), names(pingi$stats))
                   pingStats <- matrix(NA, N, kc+ks,
-                      dimnames <- list(NULL, nameping) )
+                      dimnames=list(NULL, nameping) )
 #
                   fi <- file.info(file.)
                   if(is.na(fi[1,1])){
@@ -51,28 +52,31 @@ testURLs <- function(urls=c(
               pingStats[iout,] <- c(pingi$counts, pingi$stats)
 #
               start.time <- proc.time()
-              readi <- try(getURL(urls[j]))
+              readi <- try(getURL(urls[j]), silent=TRUE)
               et <- max(proc.time() - start.time, na.rm=TRUE)
               elapsed.time[iout] <- et
               si <- (class(readi)!='try-error')
 #              success[j] <- si
-              if(si){
-                  Read[[j]] <- readi
-              } else {
-                  ri <- gsub('\n', ' ', readi)
-                  errorMsgs[iout] <- ri
-              }
               outi <- paste(Time[iout], urlOut[iout],
                             paste(pingStats[iout, ], collapse=', '),
                             elapsed.time[iout],
                             errorMsgs[iout], sep=', ')
               cat(outi, '\n', file=file., append=TRUE)
               cat(si, et, '\n')
+              if(si){
+                  Read[[j]] <- readi
+                  break
+              } else {
+                  ri <- gsub('\n', ' ', readi)
+                  errorMsgs[iout] <- ri
+              }
           }
       }
   }
   jout <- 1:iout
-  results1 <- data.frame(Time=Time[jout], URL=urlOut[jout])
+  results1 <- data.frame(Time=Time[jout],
+                         URL=factor(urlOut[jout]),
+                         stringsAsFactors=FALSE)
   results <- cbind(results1, as.data.frame(pingStats[jout,]),
                    readTime=elapsed.time[jout],
                    error=errorMsgs[jout])

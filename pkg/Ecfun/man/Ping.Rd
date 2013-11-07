@@ -8,7 +8,8 @@
   address.
 }
 \usage{
-Ping(url, pingArgs='', ...)
+Ping(url, pingArgs='', warn=NA,
+     show.output.on.console=FALSE)
 }
 \arguments{
   \item{url}{
@@ -21,9 +22,14 @@ Ping(url, pingArgs='', ...)
     systems via
 
     pingResult <- system(paste('ping', pingArgs, url), intern=TRUE, ...)
+  }\
+  \item{warn}{
+    value for \code{options('warn')} during the call to
+    \code{\link{system}}.  \code{NA} to not change
+    \code{options('warn')} during this call.
   }
-  \item{\dots}{
-    optional arguments for \code{\link{system}}.
+  \item{show.output.on.console}{
+    argument for \code{\link{system}}.
   }
 }
 \details{
@@ -61,7 +67,7 @@ Ping(url, pingArgs='', ...)
   Spencer Graves
 }
 \seealso{
-  \code{\link{system}}
+  \code{\link{system}}, \code{\link{options}}
 }
 %\references{}
 \examples{

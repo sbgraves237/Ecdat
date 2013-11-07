@@ -30,6 +30,7 @@ testURLs(urls=c(
  house.reps="http://house.gov/representatives"),
          file.='testURLresults.csv',
          n=10, maxFail=10, ...)
+%         n=10, maxFail=10, warn=NULL, ...)
 }
 \arguments{
   \item{urls}{
@@ -59,6 +60,7 @@ testURLs(urls=c(
     well as drifts suggesting abnormal drifts in web traffic
     congestion.
   }
+%  \item{warn}{\code{warn} argument to pass to \code{\link{Ping}}.}
   \item{\dots}{ optional arguments for \code{\link{Ping}}.  }
 }
 \details{

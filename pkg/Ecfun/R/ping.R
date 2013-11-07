@@ -1,4 +1,5 @@
-Ping <- function(url, pingArgs='', ...){
+Ping <- function(url, pingArgs='', warn=NA,
+                 show.output.on.console=FALSE){
 ##
 ## 1.  get host
 ##
@@ -12,7 +13,15 @@ Ping <- function(url, pingArgs='', ...){
 ##
 ## 3.  issue ping command
 ##
-    rawResults <- system(pingCmd, intern=TRUE, ...)
+    if(is.na(warn)){
+        rawResults <- system(pingCmd, intern=TRUE,
+               show.output.on.console=show.output.on.console)
+    } else {
+        op <- options(warn=warn)
+        rawResults <- system(pingCmd, intern=TRUE,
+               show.output.on.console=show.output.on.console)
+        options(op)
+    }
 ##
 ## 4.  could not find host?
 ##
