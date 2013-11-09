@@ -4,7 +4,7 @@ testURLs <- function(urls=c(
  house="http://house.gov",
  house.reps="http://house.gov/representatives"),
          file.='testURLresults.csv',
-         n=10, maxFail=10, warn=-1, ...){
+         n=10, maxFail=10, warn=-1, tzone='GMT', ...){
 ##
 ## 1. set up
 ##
@@ -27,7 +27,11 @@ testURLs <- function(urls=c(
       for(j in 1:ku){
           for(irep in 1:maxFail){
               iout <- iout+1
-              Time[iout] <- date()
+#              Time[iout] <- date()
+              tm <- Sys.time()
+              attr(tm, 'tzone') <- tzone
+              Time[iout] <- tm
+#
               urlOut[iout] <- uNames[j]
               cat(Time[iout], uNames[j], '', sep=', ')
 #

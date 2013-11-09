@@ -29,7 +29,7 @@ testURLs(urls=c(
  house="http://house.gov",
  house.reps="http://house.gov/representatives"),
          file.='testURLresults.csv',
-         n=10, maxFail=10, warn=-1, ...)
+         n=10, maxFail=10, warn=-1, tzone='GMT', ...)
 }
 \arguments{
   \item{urls}{
@@ -60,6 +60,10 @@ testURLs(urls=c(
     congestion.
   }
   \item{warn}{\code{warn} argument to pass to \code{\link{Ping}}.}
+  \item{tzone}{
+    Time zone for \code{Time}.  Defaults to GMT (UTC).  tzone=NULL will
+    use the current locale.
+  }
   \item{\dots}{ optional arguments for \code{\link{Ping}}.  }
 }
 \details{
@@ -140,7 +144,8 @@ tst <- testURLs(c(
 \dontshow{stopifnot(}
 (class(tst) == 'testURLs') &&
 all(names(tst) == c('PVI', 'house')) &&
-all(names(tst) == c('names', 'urls', 'testResults'))
+all(names(attributes(tst)) ==
+    c('names', 'urls', 'testResults', 'class'))
 \dontshow{)}
 
 }
