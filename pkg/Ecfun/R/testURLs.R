@@ -36,7 +36,9 @@ testURLs <- function(urls=c(
               cat(Time[iout], uNames[j], '', sep=', ')
 #
               if(ping){
+                  st <- proc.time()
                   pingi <- Ping(urls[i], warn=warn, ...)
+                  pingTime <- max(proc.time()-st, na.rm=TRUE)
                   if((i<2) && (j<2) && (irep<2)){
                       kc <- length(pingi$counts)
 #                  i.c <- 1:kc
@@ -54,6 +56,7 @@ testURLs <- function(urls=c(
                       }
                   }
                   pingStats[iout,] <- c(pingi$counts, pingi$stats)
+                  cat(pingi$counts[2], round(pingTime, 2), "")
               }
 #
               start.time <- proc.time()
