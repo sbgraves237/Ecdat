@@ -111,7 +111,7 @@ testURLs(urls=c(
 	by \code{\link{Ping}}.
       }
       \item{readTime}{
-	time in seconds for the attempt to read the URL (getURL(urls[j])
+	time in seconds for the attempt to read the URL (getURL(urls[j]))
 	to complete.
       }
       \item{error}{
@@ -131,8 +131,8 @@ testURLs(urls=c(
 }
 \references{
   \href{https://www.eff.org/testyourisp}{"Test your ISP" software
-      discussion by the Electronic Frontier Foundation}
-  \href{https://www.eff.org/deeplinks/2008/03/keeping-isps-honest#active-vs-passive}{
+    discussion by the Electronic Frontier Foundation}
+  \href{https://www.eff.org/deeplinks/2008/03/keeping-isps-honest}{
     "active" (sending test traffic) or "passive" (observing the way the network
     treats natural traffic).}
 }
