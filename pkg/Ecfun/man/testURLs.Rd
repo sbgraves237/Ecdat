@@ -29,7 +29,7 @@ testURLs(urls=c(
  house="http://house.gov",
  house.reps="http://house.gov/representatives"),
          file.='testURLresults.csv',
-         n=10, maxFail=10, warn=-1, tzone='GMT', ...)
+         n=10, maxFail=10, warn=-1, tzone='GMT', ping=FALSE, ...)
 }
 \arguments{
   \item{urls}{
@@ -64,7 +64,10 @@ testURLs(urls=c(
     Time zone for \code{Time}.  Defaults to GMT (UTC).  tzone=NULL will
     use the current locale.
   }
-  \item{\dots}{ optional arguments for \code{\link{Ping}}.  }
+  \item{ping}{
+    logical:  TRUE to include \code{\link{Ping}}, FALSE otherwise.
+  }
+  \item{\dots}{ optional arguments for \code{\link{Ping}}. }
 }
 \details{
   for(i in 1:n):
@@ -94,9 +97,9 @@ testURLs(urls=c(
   element of \code{urls} with the following attributes:
 
   \item{urls}{ the \code{urls} argument used for this call }
-  \item{testResults}{
-    a \code{\link{data.frame}} of the data written to \code{file.}.
-    This has the following columns:
+  \item{testURLresults}{
+    an object of class \code{c('testURLresults', 'data.frame')} of the
+    data written to \code{file.}.  This has the following columns:
 
     \itemize{
       \item{Time}{
@@ -145,7 +148,7 @@ tst <- testURLs(c(
 (class(tst) == 'testURLs') &&
 all(names(tst) == c('PVI', 'house')) &&
 all(names(attributes(tst)) ==
-    c('names', 'urls', 'testResults', 'class'))
+    c('names', 'urls', 'testURLresults', 'class'))
 \dontshow{)}
 
 }
