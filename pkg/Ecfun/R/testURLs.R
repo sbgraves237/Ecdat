@@ -81,6 +81,13 @@ testURLs <- function(urls=c(
                                 elapsed.time[iout],
                                 errorMsgs[iout], sep=', ')
               }
+              if((i<2) && (j<2) && (irep<2)&& !ping){
+                  finfo <- file.info(file.)
+                  if(is.na(finfo$size[1])){
+                      .Names <- 'Time, URL, readTime, error'
+                      cat(.Names,'\n', file=file.)
+                  }
+              }
               cat(outi, '\n', file=file., append=TRUE)
               cat(si, et, '\n')
               if(si)break
@@ -97,7 +104,7 @@ testURLs <- function(urls=c(
   }
   results <- cbind(results1, readTime=elapsed.time[jout],
                    error=errorMsgs[jout])
-  class(results) <- c('testURLresults', 'data.frame')
+  class(results) <- c('testURLs', 'data.frame')
 ##
 ## 3.  Done
 ##

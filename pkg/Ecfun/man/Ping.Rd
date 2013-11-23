@@ -6,6 +6,9 @@
 \description{
   ping a Uniform resource locator (URL) or Internet Protocol (IP)
   address.
+
+  NOTE:  Some Internet Service Providers (ISPs) play games with "ping".
+  That makes the results of \code{Ping} unreliable.
 }
 \usage{
 Ping(url, pingArgs='', warn=NA,
@@ -72,6 +75,11 @@ Ping(url, pingArgs='', warn=NA,
 %\references{}
 \examples{
 ##
+## Some ISPs play games with ping.
+## Therefore, the results are not reliable.
+##
+\dontrun{
+##
 ## good
 ##
 (google <- Ping('http://google.com/ping works on host not pages'))
@@ -81,7 +89,10 @@ with(google, (counts[1]>0) && (counts[3]<1))
 \dontshow{)}
 
 ##
-## obviously impossible
+## ping oops <<-- at one time, this failed.
+##      However, with some ISPs, it works, so don't test it.
+##
+
 ##
 (couldnotfindhost <- Ping('oops'))
 
@@ -99,6 +110,6 @@ with(couldnotfindhost,
 with(requesttimedout, (counts[1]>0) && (counts[2]<1) &&
          (counts[3]>0))
 \dontshow{)}
-
+}
 }
 \keyword{IO}

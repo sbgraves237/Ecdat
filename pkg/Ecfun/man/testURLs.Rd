@@ -4,23 +4,31 @@
   Test URLs for intermittent download problems
 }
 \description{
-  \code{try(getURL(...))} \code{n} times to read each element of
-  \code{urls}.  After each try, write a row to \code{file.} indicating
-  which of \code{urls} was tested, the \code{ping} time before the test,
-  the test time, and any error message.  Each failure is repeated up to
-  \code{maxFail} times.
+  \code{try(getURL(...))} to read each element of \code{urls}.  After
+  each try, write a row to \code{file.} indicating which of \code{urls}
+  was tested, the test time in seconds, and any error message.  Repeat
+  any failures up to \code{maxFail} times.  After testing each element
+  of \code{urls} once, repeat \code{n} times.
 
-  Return an object of class \code{testURLs}, which is a list of the last
-  successful version read if any from each element of \code{urls} with
-  two attributes:  (1) "urls" containing the \code{urls} argument.  (2)
-  "testResults" being a \code{data.frame} of the test results written to
+  If(ping), preceed each test with "ping url[i]".  NOTE:  Some Internet
+  Service Providers seem to block some attepts to use "ping" or return
+  fraudulet replies to "ping".  It is included in the code, because it
+  seemed like an obvious test.  However, it is not executed by default
+  because the results do not necessarily reflect what people might
+  expect from "ping".
+
+  Return a list of the last successful version read if any from each
+  element of \code{urls} with two attributes:  (1) "urls" containing the
+  \code{urls} argument.  (2) "testResults" being an object of class
+  \code{c('testURLs', 'data.frame')} of the test results written to
   \code{file.}.
 
   This function was written to diagnose a download problem with a
   particular Internet Service Provider (ISP).  For other tools for
-  testing an ISP, see the "Test your ISP" software discussion by the
-  Electronic Frontier Foundation at the URL mentioned in references
-  below.
+  testing an ISP, see
+  \href{http://www.measurementlab.net/}{measurementlab.net} or the "Test
+  your ISP" software discussion by the Electronic Frontier Foundation at
+  the URL mentioned in references below.
 }
 \usage{
 testURLs(urls=c(
@@ -92,13 +100,13 @@ testURLs(urls=c(
   because it asks for a copy of the code at the indicated URL.
 }
 \value{
-  an object of class \code{testURLs}, which is a list of the last
-  successful result returned by \code{\link[RCurl]{getURL}} for each
-  element of \code{urls} with the following attributes:
+  an object of class \code{testURLs}, which in this case is a list of
+  the last successful result returned by \code{\link[RCurl]{getURL}} for
+  each element of \code{urls} with the following attributes:
 
   \item{urls}{ the \code{urls} argument used for this call }
   \item{testURLresults}{
-    an object of class \code{c('testURLresults', 'data.frame')} of the
+    an object of class \code{c('testURLs', 'data.frame')} of the
     data written to \code{file.}.  This has the following columns:
 
     \itemize{
@@ -130,6 +138,7 @@ testURLs(urls=c(
   \code{Ping}
 }
 \references{
+  \href{http://www.measurementlab.net/}{measurementlab.net}
   \href{https://www.eff.org/testyourisp}{"Test your ISP" software
     discussion by the Electronic Frontier Foundation}
   \href{https://www.eff.org/deeplinks/2008/03/keeping-isps-honest}{

@@ -1,14 +1,13 @@
-\name{read.testURLsFile}
-\alias{read.testURLsFile}
+\name{read.testURLs}
+\alias{read.testURLs}
 \title{
   Read a file produced by testURLs
 }
 \description{
-  \code{read.table(file.)} and name the result of class
-  c('testURLsFile', 'data.frame').
+  \code{read.table(file.)} and return the result as an object of class c('testURLs', 'data.frame').
 }
 \usage{
-read.testURLsFile(file.='testURLresults.csv', ...)
+read.testURLs(file.='testURLresults.csv', ...)
 }
 \arguments{
   \item{file.}{
@@ -45,7 +44,7 @@ tst <- testURLs(c(
 # The above should have created a file 'testURLresults.csv'
 # in the working directory.  Read it.
 
-dat <- read.testURLsFile()
+dat <- read.testURLs()
 
 }
 \keyword{IO}
