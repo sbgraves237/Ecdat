@@ -26,11 +26,11 @@ readUShouse <- function(url.="http://house.gov/representatives/",
 #  st <- gregexpr('state_', house.gov)[[1]] # finds 75
   st <- gregexpr('\t<h2 id=\"', house.gov)[[1]]
 #  substring(house.gov, st, st+28)
-  st. <- sapply(st, function(x){
+  st0 <- sapply(st, function(x){
       hgi <- substring(house.gov, x)
       x2 <- (x+regexpr('\">', hgi))
   } )
-  stCodes <- substring(house.gov, st+9, st.-2)
+  stCodes <- substring(house.gov, st+9, st0-2)
   st. <- strsplit(stCodes, "_")
   St. <- sapply(st., "[", 2)
 ##

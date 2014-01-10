@@ -30,7 +30,7 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
       }
       x
   }
-  x <- dropEndParen(x)
+  x <- dropEndParen(x0 <- x)
 ##
 ## 3.  surnameFirst
 ##
@@ -38,7 +38,7 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
       surnameFirst <- surnameFirst
 #
   if(surnameFirst){
-      Sep <- regexpr(', ', x)
+      Sep <- regexpr(',', x)
       oops <- which(Sep<0)
       if((no <- length(oops))>0){
           err <- paste(no, ' of ', length(x), ' elements of x ',
@@ -50,11 +50,11 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           fix1 <- paste(fix0[, 2], fix0[, 1], sep=', ')
           x[oops] <- fix1
       }
-      sur <- substring(x, 1, Sep-1)
+      sur0 <- substring(x, 1, Sep-1)
 #     drop (AL), etc.
-      sur <- dropEndParen(sur)
+      sur <- dropEndParen(sur0)
 #
-      giv <- substring(x, Sep+2)
+      giv <- stripBlanks(substring(x, Sep+1))
       Sur <- fixNonStandard(sur, ...)
       Sur. <- strsplit(Sur, ' ')
       look4suf <- sapply(Sur., tail, n=1)

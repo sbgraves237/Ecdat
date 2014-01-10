@@ -104,7 +104,7 @@ all.equal(parsed, tst2)
 ## 2.  Parse "surname, given name" format
 ##
 tst3 <- c('Smith (AL), Joe', 'Sanchez de Gomez, Teresa Angelica',
-     'Brown, John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
+     'Brown,John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
      'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anastasio',
      'Vel_zquez, Ra_l')
 tst4 <- parseName(tst3)
