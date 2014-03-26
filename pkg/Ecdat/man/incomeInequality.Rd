@@ -17,7 +17,7 @@
 \format{
   A \code{data.frame} containing:
   \describe{
-    \item{Year}{ numeric year 1947:2011 }
+    \item{Year}{ numeric year 1947:2012 }
     \item{Number.thousands}{ number of families in the US }
     \item{quintile1, quintile2, median, quintile3, quintile4, p95 }{
       quintile1, quintile2, quintile3, quintile4, and p95 are the
