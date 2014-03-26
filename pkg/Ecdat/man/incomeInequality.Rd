@@ -67,21 +67,23 @@
   This provides links for files to download and R commands to read those
   files and convert them into an updated version of
   \code{incomeInequality}.  This is a reasonable thing to do if it is
-  more  than 2 years since \code{max(incomeInequality$year)}.
+  more  than 2 years since \code{max(incomeInequality$year)}.  All data
+  are in constant 2012 dollars.
 }
 \source{
   United States Census Bureau, Table F-1. Income Limits for Each Fifth
   and Top 5 Percent of Families, All Races,
   \url{http://www.census.gov/hhes/www/income/data/historical/families},
-  accessed January 9, 2013.
+  accessed March 25, 2014.
 
   Thomas Piketty and Emmanuel Saez (2003) "Income Inequality in the
   United States, 1913-1998", Quarterly Journal of Economics, 118(1)
-  1-39, \url{http://elsa.berkeley.edu/~saez}, accessed January 9, 2013.
+  1-39, \url{http://elsa.berkeley.edu/~saez}, update accessed February
+  28, 2014.
 
   Louis Johnston and Samuel H. Williamson (2011) "What Was the U.S. GDP
   Then?" MeasuringWorth, \url{http://www.measuringworth.org/usgdp},
-  accessed January 9, 2013.
+  accessed February 28, 2014.
 }
 %\references{}
 \author{Spencer Graves}
