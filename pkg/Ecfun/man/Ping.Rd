@@ -4,6 +4,9 @@
   ping a Uniform resource locator (URL)
 }
 \description{
+  ***NOTE:  THIS IS A PRELIMINARY VERSION OF THIS FUNCTION;
+  ***NOTE:  IT MAY BE CHANGED OR REMOVED IN A FUTURE RELEASE.
+
   ping a Uniform resource locator (URL) or Internet Protocol (IP)
   address.
 

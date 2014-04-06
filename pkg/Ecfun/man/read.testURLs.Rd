@@ -4,7 +4,11 @@
   Read a file produced by testURLs
 }
 \description{
-  \code{read.table(file.)} and return the result as an object of class c('testURLs', 'data.frame').
+  ***NOTE:  THIS IS A PRELIMINARY VERSION OF THIS FUNCTION;
+  ***NOTE:  IT MAY BE CHANGED OR REMOVED IN A FUTURE RELEASE.
+
+  \code{read.table(file.)} and return the result as an object
+  of class c('testURLs', 'data.frame').
 }
 \usage{
 read.testURLs(file.='testURLresults.csv', ...)

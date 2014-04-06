@@ -4,6 +4,9 @@
   Test URLs for intermittent download problems
 }
 \description{
+  ***NOTE:  THIS IS A PRELIMINARY VERSION OF THIS FUNCTION;
+  ***NOTE:  IT MAY BE CHANGED OR REMOVED IN A FUTURE RELEASE.
+
   \code{try(getURL(...))} to read each element of \code{urls}.  After
   each try, write a row to \code{file.} indicating which of \code{urls}
   was tested, the test time in seconds, and any error message.  Repeat
