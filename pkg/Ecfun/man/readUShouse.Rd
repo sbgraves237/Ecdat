@@ -108,7 +108,6 @@ readUShouse(url.="http://house.gov/representatives/",
   \code{\link{readCookPVI}}
 }
 \examples{
-library(Ecdat)
 UShouse <- readUShouse()
 }
 \keyword{IO}

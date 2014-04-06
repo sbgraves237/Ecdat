@@ -103,7 +103,6 @@ readCookPVI.(url.=
 }
 \author{Spencer Graves}
 \examples{
-library(Ecdat)
 \dontrun{
 CookPVI <- readCookPVI()
 }

@@ -88,7 +88,6 @@ tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
          amount=c(5000, 2000, 29500, 1000, 1000, 11500),
          xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
          incumbent=NA, stringsAsFactors=FALSE )
-library(Ecdat)
 tst2 <- mergeUShouse.senate(tst)
 
 # A couple of simple tests;  don't test too much,

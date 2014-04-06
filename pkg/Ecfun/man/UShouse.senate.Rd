@@ -59,7 +59,6 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
   \code{\link{readUSsenate}}
 }
 \examples{
-library(Ecdat)
 house <- readUShouse()
 
 USreps <- UShouse.senate(house)

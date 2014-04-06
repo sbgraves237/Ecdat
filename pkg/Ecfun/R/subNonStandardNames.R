@@ -4,7 +4,7 @@ subNonStandardNames <- function(x,
    replacement='_',
    gsubList=list(list(pattern='\\\\\\\\|\\\\', replacement='\"')),
    removeSecondLine=TRUE,
-   nonStandardNames=nonEnglishNames, ...) {
+   nonStandardNames=Ecdat::nonEnglishNames, ...) {
 ##
 ## 1.  removeSecondLine
 ##
@@ -29,8 +29,12 @@ subNonStandardNames <- function(x,
 ##
 ## 4.  Eliminate leading and trailing blanks
 ##
-  if(require(tis))
+  if(require(tis)){
       x. <- stripBlanks(x.)
+  } else {
+      warning('need stripBlanks{tis} to delete leading and trailing',
+              ' blanks;  not available')
+  }
 ##
 ## 5.  Done
 ##

@@ -14,7 +14,7 @@ subNonStandardNames(x,
    gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
       replacement='\"')),
    removeSecondLine=TRUE,
-   nonStandardNames=nonEnglishNames, ...)
+   nonStandardNames=Ecdat::nonEnglishNames, ...)
 }
 \arguments{
   \item{x}{

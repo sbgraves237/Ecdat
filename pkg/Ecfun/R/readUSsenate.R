@@ -1,6 +1,6 @@
 readUSsenate <- function(url.=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-      stateAbbreviations=USstateAbbreviations,
+      stateAbbreviations=Ecdat::USstateAbbreviations,
       fixNonStandard=subNonStandardNames, ...){
 ##
 ## 1.  download content
@@ -28,12 +28,18 @@ readUSsenate <- function(url.=
 ##
   len <- sapply(senate, length)
   Senate <- senate[len>0]
-  ns <- sapply(Senate, dim)
-  ns. <- which(ns[1, ]>=100)
-  if(length(ns.)!=1){
-      stop('There is not exactly one table with 100 rows in url = ',
-           url.)
+  ns <- lapply(Senate, dim)
+  NS <- sapply(ns, max)
+  ns. <- which.max(NS)
+  if(NS[ns.]!=100) {
+      warning('Problem with number of senators read at URL = ', url.,
+              ';  max dimension = ', NS[ns.], ' != 100')
   }
+#  ns. <- which(ns[1, ]>=100)
+#  if(length(ns.)!=1){
+#      stop('There is not exactly one table with 100 rows in url = ',
+#           url.)
+#  }
   sen <- Senate[[ns.]]
 ##
 ## 4.  Delete constant colulms

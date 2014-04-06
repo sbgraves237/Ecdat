@@ -102,7 +102,6 @@ tst <- data.frame(Office=factor(c("House", "Senate", "Senate", 'Senate')),
                   surname=c("Jones", "DeMint", "Graham", 'Smith'),
                   district=c("9", NA, NA, NA),
                   stringsAsFactors=FALSE)
-library(Ecdat)
 tst. <- USsenateClass(tst)
 
 chk <- data.frame(incumbent=c(NA, FALSE, TRUE, FALSE),

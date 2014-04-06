@@ -9,7 +9,7 @@
 \usage{
 readUSsenate(url.=
 "http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
-    stateAbbreviations=USstateAbbreviations,
+    stateAbbreviations=Ecdat::USstateAbbreviations,
    fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
@@ -98,7 +98,6 @@ readUSsenate(url.=
   \code{\link{subNonStandardNames}}
 }
 \examples{
-library(Ecdat)
 USsenate <- readUSsenate()
 }
 \keyword{IO}
