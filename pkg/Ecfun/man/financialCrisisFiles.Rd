@@ -1,11 +1,10 @@
 \name{financialCrisisFiles}
 \alias{financialCrisisFiles}
-\alias{FinancialCrisisFiles}
 \title{ Files containing financial crisis data }
 \description{
-  \code{FinancialCrisisFiles} is an object of class
+  \code{FinancialCrisisFiles} in \code{Ecdat} is an object of class
   \code{financialCrisisFiles} created by the \code{financialCrisisFiles}
-  function to describe files containing data on financial crisis
+  function to describe files containing data on financial crises
   downloadable from
   \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
 }
