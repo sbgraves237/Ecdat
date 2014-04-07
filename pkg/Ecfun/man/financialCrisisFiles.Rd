@@ -91,5 +91,4 @@ all.equal(tst, data(FinancialCrisisFiles))
 \dontrun{)}
 }
 }
-\keyword{datasets}
 \keyword{IO}
