@@ -1,4 +1,5 @@
 \name{FinancialCrisisFiles}
+\docType{data}
 \alias{FinancialCrisisFiles}
 \title{ Files containing financial crisis data }
 \description{
