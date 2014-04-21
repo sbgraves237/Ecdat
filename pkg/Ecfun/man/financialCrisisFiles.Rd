@@ -82,8 +82,9 @@ financialCrisisFiles(files=c("22_data.xls", "23_data.xls",
 Ecdat.demoFiles <- system.file('demoFiles', package='Ecdat')
 Ecdat.xls <- dir(Ecdat.demoFiles, pattern='xls$',
                  full.names=TRUE)
-tst <- financialCrisisFiles(Ecdat.xls)
-
+if(require(gdata)){
+  tst <- financialCrisisFiles(Ecdat.xls)
+}
 \dontrun{
 # check
 \dontshow{stopifnot(}

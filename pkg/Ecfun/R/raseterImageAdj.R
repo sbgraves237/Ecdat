@@ -12,8 +12,10 @@ rasterImageAdj <- function(image, xleft, ybottom, xright, ytop,
 ##
 #  2.1.  x, y units in specified region
     imageUnits <- c(x=xright-xleft, y=ytop-ybottom)
+    if(par('xlog'))imageUnits[1] <- log10(xright/xleft)
+    if(par('ylog'))imageUnits[2] <- log10(ytop/ybottom)
 #  2.2.   plot units per inch
-    xyinches <- xyinch()
+    xyinches <- xyinch(warn.log=FALSE)
 #    plotAsp <- xyinches[2]/xyinches[1]
     names(xyinches) <- c('x', 'y')
 #  2.3.  x, y pixels per inch in image region
@@ -25,9 +27,13 @@ rasterImageAdj <- function(image, xleft, ybottom, xright, ytop,
 ##
 ## 4.  Adjust xright, ytop
 ##
-    Xr <- xleft+imageUnitsAdj[1]
-    Yt <- ybottom+imageUnitsAdj[2]
-
+    if(par('xlog')){
+        Xr <- (xleft*10^imageUnitsAdj[1])
+    } else Xr <- xleft+imageUnitsAdj[1]
+#
+    if(par('ylog')){
+        Yt <- ybottom*10^imageUnitsAdj[2]
+    } else Yt <- ybottom+imageUnitsAdj[2]
 ##
 ## 5.  rasterImage
 ##

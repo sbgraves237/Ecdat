@@ -6,7 +6,7 @@ Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.0.1)
 Suggests: car, systemfit, sem, lmtest, sandwich, gdata, RCurl, XML,
-          tis, Ecdat, fda, jpeg
+          tis, Ecdat, fda, jpeg, maps
 Description: Functions to update datasets in Ecdat and to create,
           manipulate, plot and analyze those and similar datasets.
 LazyData: true

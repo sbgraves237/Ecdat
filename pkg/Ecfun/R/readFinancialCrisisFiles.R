@@ -55,7 +55,7 @@ readFinancialCrisisFiles <- function(files, crisisType=7, ...){
           dots$xls <- fileNames[i]
           cat(iNames[j], '')
           dots$sheet <- iNames[j]
-          jCtry <- do.call(read.xls, dots)
+          jCtry <- do.call(gdata::read.xls, dots)
           row0 <- (which(jCtry=='1800')-1)
           if(length(row0)!=1)
               stop('data for 1800 not found in sheet ', iNames[j])

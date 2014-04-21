@@ -24,7 +24,7 @@ financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
 ##
 #    Con0 <- xls2csv(files[i])
     cat('Read ', files[i], '; ', sep='')
-    Contents <- read.xls(files[i], pattern='Country',
+    Contents <- gdata::read.xls(files[i], pattern='Country',
                          stringsAsFactors=FALSE)
 ##
 ## 2.  Extract the names of the Countries
@@ -42,7 +42,7 @@ financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
 ##
 ## 4.  Find the sheets corresponding to each compressed name
 ##
-    sheets <- sheetNames(files[i])
+    sheets <- gdata::sheetNames(files[i])
     ns <- length(sheets)
     found <- numeric(ns)
     for(js in 1:ns){
