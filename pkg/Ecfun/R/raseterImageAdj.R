@@ -1,5 +1,7 @@
-rasterImageAdj <- function(image, xleft, ybottom, xright, ytop,
-            angle = 0, interpolate = TRUE, ...){
+rasterImageAdj <- function(image, xleft=par('usr')[1],
+     ybottom=par('usr')[3], xright=par('usr')[2],
+     ytop=par('usr')[4], angle = 0, interpolate = TRUE,
+                           ...){
 ##
 ## 1.  x, y pixels in image
 ##

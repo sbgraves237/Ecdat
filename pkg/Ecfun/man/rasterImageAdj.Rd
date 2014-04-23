@@ -9,9 +9,9 @@
   avoid distortion.
 }
 \usage{
-rasterImageAdj(image,
-            xleft, ybottom, xright, ytop,
-            angle = 0, interpolate = TRUE, ...)
+rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
+     xright=par('usr')[2], ytop=par('usr')[4], angle = 0,
+     interpolate = TRUE, ...)
 }
 \arguments{
   \item{image}{
@@ -86,6 +86,11 @@ if(require(jpeg)){
   \dontshow{stopifnot(}
   all.equal(dim(Rlogo), c(76, 100, 3))
   \dontshow{)}
+
+  plot(1:2)
+# default
+  rasterImageAdj(Rlogo)
+
   plot(1:2, type='n', asp=0.75)
 # Tall and thin
   rasterImage(Rlogo, 1, 1, 1.2, 2)
