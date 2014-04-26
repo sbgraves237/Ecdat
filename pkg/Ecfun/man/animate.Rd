@@ -1,6 +1,8 @@
 \name{animate}
 \alias{animate}
 \alias{animate1}
+\alias{animate1.list}
+\alias{animate1.function}
 \alias{nFramesDefault}
 \title{
   Create a series of plots for an animation
@@ -18,28 +20,46 @@
   \code{animate1} creates only one plot of the series.
 }
 \usage{
-animate(plotList, nFrames=NULL, iFrames=NULL,
+animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='\%s\%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration,
         graphicsFunArgs=list(), ...)
-animate1(plotList, nFrames=NULL, iFrame=NULL,
+%\method{animate1}{default}(plotObject, nFrames=NULL, iFrame=NULL,
+%        endFrames=round(0.2*nFrames), ...)
+\method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), ...)
-nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
+\method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
+        endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
+nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
          min.nFrames=c(nFrames=10, overMax=1.3))
 }
 \arguments{
-  \item{plotList}{
-    a list of lists describing functions to animmate in adding elements
-    to a plot. For \code{j} in \code{1:length(plotList)}
-    \code{plotList[[j]]} starts with a 'fun' element containing the name
+  \item{plotObject}{
+    Either a list or a function that can be coerced by 
+    \code{animate1.function} to a list acceptable to \code{animate1.list}.  
+    
+    \code{animate} executes repeated calls to \code{animate1}, with each 
+    call creating a potentially different plot.  
+    
+    If a list, it must be a list of lists that specify function calls 
+    that may be modified depending on iFrame to create the different 
+    plots.  
+    
+    The first element of the list may be a call to \code{\link{par}}.  
+    An early element of the list must also contain informaiton needed to 
+    create the basic plot.  Subsequent elements of the master list add 
+    elements to the basic plot.  
+    
+    For \code{j} in \code{1:length(plotObject)}
+    \code{plotObject[[j]]} starts with a 'fun' element containing the name
     of a function to call with arguments constructed from other elements
-    of \code{plotList[[j]]}.
+    of \code{plotObject[[j]]}.
 
-    \code{plotList[[j]]} can optionally contain elements
+    \code{plotObject[[j]]} can optionally contain elements
     \code{firstFrame}, \code{lastFrame}, and \code{Keep}.  The length of
     the default for these is code{lenFLK}, defined as follows:  If
-    \code{plotList[[j]]} has element(s) \code{x} or \code{y},
+    \code{plotObject[[j]]} has element(s) \code{x} or \code{y},
     \code{lenFLK} is the max length of these elements.  Otherwise,
     \code{lenFLK} = 1.
 
@@ -50,17 +70,17 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
     This is designed to produce the image of linear growth of points and
     lines in a standard plot.
 
-    \code{plotList[[j]][['fun']]} is not executed if \code{iFrame} <
+    \code{plotObject[[j]][['fun']]} is not executed if \code{iFrame} <
     \code{firstFrame}.  For some functions, other elements of
-    \code{plotList[[j]]} are modified using linear interpolation with
+    \code{plotObject[[j]]} are modified using linear interpolation with
     \code{firstFrame} <= \code{iFrame} <=  \code{lastFrame}, as
     described further below.  With \code{iFrame} > \code{lastFrame},
-    \code{plotList[[j]]['fun']} is executed when \code{iFrame} >
+    \code{plotObject[[j]]['fun']} is executed when \code{iFrame} >
     \code{lastFrame} only if \code{Keep} = \code{TRUE}.  This allows
     different functions to be modified in different ways to produce a
     sequence of images simulating motion.
 
-    Any \code{Keep} component of an element of \code{plotList} with a
+    Any \code{Keep} component of an element of \code{plotObject} with a
     component \code{fun} = 'plot' must end in TRUE.  If not and if
     \code{any( lastFrame < nFrames )}, the function
     \code{nFramesDefault} (called by \code{animate} and \code{animate1})
@@ -68,20 +88,20 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
     \code{max(lastFrame)}.
 
     Apart from \code{firstFrame}, \code{lastFrame}, and \code{Keep}, the
-    names of columns of \code{plotList[[j]]} are names of arguments for
-    \code{plotList[[j]][['fun']]} with one more exception:  If a single
+    names of columns of \code{plotObject[[j]]} are names of arguments for
+    \code{plotObject[[j]][['fun']]} with one more exception:  If a single
     argument is to be interpolated linearly, ".0" and ".1" may be
     appended;  in that case, the ".0" value is used with \code{iFrame} =
     \code{firstFrame}, and the ".1" value is used when \code{iFrame} =
     \code{lastFrame}.
 
-    Elements of \code{plotList[[j]]} can optionally be quoted
+    Elements of \code{plotObject[[j]]} can optionally be quoted
     expressions like \code{quote(x+fn(.6))} provided \code{x} and
     \code{fn} are either defined globally or appear earlier in
-    \code{plotList[[j]]}.  (For this purpose, \code{x} may be defined
+    \code{plotObject[[j]]}.  (For this purpose, \code{x} may be defined
     indirectly via \code{x.0} and \code{x.1}.)
 
-    If \code{names(plotList)[j]} == 'text', the columns are used to
+    If \code{names(plotObject)[j]} == 'text', the columns are used to
     construct a call to \code{text}, using linear interpolation of the
     number of characters plotted for each frame.
   }
@@ -93,15 +113,15 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
     then that number is used.
 
     \code{nFramesDefault} begins by computing \code{plot.lastFrame} from
-    any element of \code{plotList} with fun='plot'.  If such an element
+    any element of \code{plotObject} with fun='plot'.  If such an element
     exists and has a component \code{lastFrame}, \code{plot.lastFrame}
     is \code{tail(lastFrame, 1)} for this 'plot' element of
-    \code{plotList}.  If no such 'plot' element exists or exists but
+    \code{plotObject}.  If no such 'plot' element exists or exists but
     does nothave a component \code{lastFrame}, then
     \code{plot.lastFrame} = \code{NA}.
 
     If \code{plot.lastFrame} is not \code{NA}, any element
-    \code{plotList} with components \code{firstFrame} or
+    \code{plotObject} with components \code{firstFrame} or
     \code{lastFrame} exceeding \code{plot.lastFrame} generates an error
     message.  Barring an error, if argument \code{nFrames} is provided
     and exceeds \code{plot.lastFrame}, AND the \code{Keep} component
@@ -113,7 +133,7 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
     If code{plot.lastFrame} is \code{NA}, \code{nFramesDefault} computes
     \code{maxFrame} as the max of \code{iFrames} and non-NAs in
     \code{firstFrame} and \code{lastFrame} of any element of
-    \code{plotList}.
+    \code{plotObject}.
 
     \code{nFramesDefault} returns \code{nFrames} if it is a number
     greater than 1 and \code{max(min.nFrames[1], min.nFrames[2] * maxFrame)}
@@ -178,19 +198,23 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
     integer giving the index of the single frame to create.  Default =
     nFrames.
   }
+  \item{plot.it}{ 
+    logical:  If \code{TRUE}, create the desired plot.  Otherwise, convert 
+    \code{plotObject} to a \code{list}.  
+  }
   \item{min.nFrames}{
     Two numbers giving default values for \code{nFramesDefault}:
     \code{min.nFrames[1]} gives the minimum default value for
     \code{nFramesDefault}.  \code{min.nFrames[2]} is a factor to
     multiply by the \code{maxFrame} value computed from
     \code{firstFrame} and \code{lastFrame} components of
-    \code{plotList}, as noted with the discussion of \code{nFrames}
+    \code{plotObject}, as noted with the discussion of \code{nFrames}
     above.
   }
 }
 \details{
   1.  Call \code{nFramesDefault} to check consistency between arguments
-    \code{nFrames}, \code{iFrames} and \code{plotList};  compute
+    \code{nFrames}, \code{iFrames} and \code{plotObject};  compute
     defaults if \code{nFrames} or \code{iFrames} is \code{NULL}.
 
   2.  Set op <- par(mar=mar);  on.exit(par(op)).
@@ -205,9 +229,9 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
   3.2.  Create an empty plot with limits specified in xylims as outlined
   in the discussion of that argument.
 
-  3.3.  funs <- names(plotList); for(fn in funs):
+  3.3.  funs <- names(plotObject); for(fn in funs):
 
-  3.3.1. ploti <- plotList[[fn]]
+  3.3.1. ploti <- plotObject[[fn]]
 
   3.3.2.  plotj <- ploti adjusted per iFrame.
 
@@ -223,9 +247,9 @@ nFramesDefault(plotList, nFrames=NULL, iFrames=NULL,
   \code{animate} and \code{animate1} return "done" invisibly.
 
   \code{nFramesDefault} returns an integer or \code{NA} with an attribute
-  \code{plot.lastFrame.NA} identifying any elements of \code{plotList}
+  \code{plot.lastFrame.NA} identifying any elements of \code{plotObject}
   with components \code{fun} = 'plot' and \code{lastFrame} ending in
-  \code{NA}.  If no element of \code{plotList} meets these criteria, the
+  \code{NA}.  If no element of \code{plotObject} meets these criteria, the
   attribute \code{plot.lastFrame.NA} = \code{numeric(0)}.
 }
 %\references{}

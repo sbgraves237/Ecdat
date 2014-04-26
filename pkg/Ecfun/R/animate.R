@@ -1,4 +1,4 @@
-animate <- function(plotList, nFrames=NULL, iFrames=NULL,
+animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='%s%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration,
@@ -7,7 +7,7 @@ animate <- function(plotList, nFrames=NULL, iFrames=NULL,
 ## 1.  nFrames & iFrames?
 ##
 #  1.1.  nFr <- nFrames
-    nFr <- nFramesDefault(plotList, nFrames, iFrames)
+    nFr <- nFramesDefault(plotObject, nFrames, iFrames)
     nFrames <- as.numeric(nFr)
     if(is.na(nFrames)){
         stop('nFrames not specified.')
@@ -16,8 +16,8 @@ animate <- function(plotList, nFrames=NULL, iFrames=NULL,
 #  1.2.  Fix any 'plot' element with tail(lastFrames, 1) = NA
     plot.lF.NA <- attr(nFr, 'plot.lastFrame.NA')
     for(jp in plot.lF.NA){
-        n.lF <- is.na(plotList[[jp]]$lastFrame)
-        plotList[[jp]]$lastFrame[n.lF] <- (nFrames-endFrames+1)
+        n.lF <- is.na(plotObject[[jp]]$lastFrame)
+        plotObject[[jp]]$lastFrame[n.lF] <- (nFrames-endFrames+1)
     }
 ##
 ## 2.  duration
@@ -67,7 +67,7 @@ animate <- function(plotList, nFrames=NULL, iFrames=NULL,
             gFA$filename <- filenames[iFrame]
             do.call(gFns[iFrame], gFA)
         }
-        animate1(plotList, nFrames, iFrame,
+        animate1(plotObject, nFrames, iFrame,
                  endFrames, ...)
         if(toFile){
             dev.off()

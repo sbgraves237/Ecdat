@@ -1,4 +1,4 @@
-nFramesDefault <- function(plotList, nFrames=NULL, iFrames=NULL,
+nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
                      min.nFrames=c(nFrames=10, overMax=1.3)){
 ##
 ## 1.  If nFrames is supplied, prepare to return it.
@@ -23,7 +23,7 @@ nFramesDefault <- function(plotList, nFrames=NULL, iFrames=NULL,
 ##
 ## 2.  Compute plot.lastFrame
 ##
-    Fns <- sapply(plotList, getElement2, name='fun', default=NA)
+    Fns <- sapply(plotObject, getElement2, name='fun', default=NA)
     plotj <- which(Fns=='plot')
     plot.lastFrame <- NA
     plot.lastj <- NA
@@ -31,7 +31,7 @@ nFramesDefault <- function(plotList, nFrames=NULL, iFrames=NULL,
 #    names(plot.lastF.NA) <- names(Fns)[plotj]
     for(j in seq(along=plotj)){
         jp <- plotj[j]
-        ploj <- plotList[[jp]]
+        ploj <- plotObject[[jp]]
         lastF <- getElement2(ploj, 'lastFrame')
         lastF1 <- tail(lastF, 1)
         if(is.na(lastF1)){
@@ -77,12 +77,12 @@ nFramesDefault <- function(plotList, nFrames=NULL, iFrames=NULL,
         eri <- which(iFrames>plot.lastFrame)
 #        if(length(eri)>0){
 #            stop('iFrame[', eri[1], '] = ', iFrames[eri[1]],
-#                 ' > tail(plotList$', names(Fns)[plot.lastj],
+#                 ' > tail(plotObject$', names(Fns)[plot.lastj],
 #                 '$lastFrame, 1) = ', plot.lastFrame)
 #        }
         maxFrame <- max(iFrames)
     }
-#   3.2.  Now loop over elements of plotList
+#   3.2.  Now loop over elements of plotObject
     nFns <- length(Fns)
     max. <- function(...){
         dots <- list(...)
@@ -97,21 +97,21 @@ nFramesDefault <- function(plotList, nFrames=NULL, iFrames=NULL,
         mx
     }
     for(jFn in seq(length=nFns)){
-        plj <- plotList[[jFn]]
+        plj <- plotObject[[jFn]]
         firstFr <- getElement2(plj, 'firstFrame')
         err <- which(firstFr>plot.lastFrame)
         if(length(err)>0){
-            stop('plotList$', names(Fns)[jFn], '$firstFrame[',
+            stop('plotObject$', names(Fns)[jFn], '$firstFrame[',
                  err[1], '] = ', firstFr[err],
-                 ' > tail(plotList$', names(Fns)[plot.lastj],
+                 ' > tail(plotObject$', names(Fns)[plot.lastj],
                  '$lastFrame, 1) = ', plot.lastFrame)
         }
         lastFr <- getElement2(plj, 'lastFrame')
         erl <- which(lastFr>plot.lastFrame)
         if(length(erl)>0){
-            stop('plotList$', names(Fns)[jFn], '$firstFrame[',
+            stop('plotObject$', names(Fns)[jFn], '$firstFrame[',
                  erl[1], '] = ', lastFr[erl],
-                 ' > tail(plotList$', names(Fns)[plot.lastj],
+                 ' > tail(plotObject$', names(Fns)[plot.lastj],
                  '$lastFrame, 1) = ', plot.lastFrame)
         }
         maxFrame <- max.(maxFrame, firstFr, lastFr)

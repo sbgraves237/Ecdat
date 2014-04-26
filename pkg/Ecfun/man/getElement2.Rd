@@ -12,14 +12,14 @@
   return \code{default}.  Otherwise, return \code{NULL}
 }
 \usage{
-getElement2(object, name, default, warn.NULL=TRUE)
+getElement2(object, name=1, default, warn.NULL=TRUE)
 }
 \arguments{
   \item{object}{
     object from which to extract component \code{name}.
   }
   \item{name}{
-    Name of the element or slot to extract
+    Name or index of the element to extract
   }
   \item{default}{
     default value if \code{name} is not part of \code{object}.
@@ -30,7 +30,17 @@ getElement2(object, name, default, warn.NULL=TRUE)
     warning.  Otherwise, return \code{NULL}.
   }
 }
-%\details{}
+\details{
+  1.  If is.numeric(name) In <- (1 <= name <= length(object)) 
+  
+  2.  else In <- if(name \%in\% names(object))
+  
+  3.  El <- if(In) object[[name]] else default 
+  
+  4.  warn.NULL? 
+  
+  5.  return(eval(El, envir=object))
+}
 \value{
   an object of the form of \code{object[[name]]};  if \code{object} does
   not have an element or slot \code{name}, return \code{default}.
@@ -39,40 +49,66 @@ getElement2(object, name, default, warn.NULL=TRUE)
   Spencer Graves with help from Marc Schwartz and Hadley Wickham
 }
 \seealso{
-  \code{\link{getElement}}
+  \code{\link{getElement}}, which also can return slots from S4 objects.  
 }
 %\references{}
 \examples{
-eNA <- getElement2(list(), 'ab') # NA
-e0 <- getElement2(list(), 'ab', 2) # 2
+##
+## 1.  name in object, return 
+##
 e1 <- getElement2(list(ab=1), 'ab', 2) # 1
-e2 <- getElement2(list(ab=1), 'a', 2) # 2
-ed <- getElement2(list(a=NULL), 'a',2) # 2 with a warning
-e. <- getElement2(list(a=NULL), 'a', 2, warn.NULL=FALSE) # NULL
-eNULL <- getElement2(list(a=NULL), 'a', NULL) # NULL
-
-# check
-
-\dontshow{stopifnot(}
-all.equal(eNA, NA)
-\dontshow{)}
-\dontshow{stopifnot(}
-all.equal(e0, 2)
-\dontshow{)}
+# check 
 \dontshow{stopifnot(}
 all.equal(e1, 1)
 \dontshow{)}
+
+##
+## 2.  name not in object, return default
+##
+eNA <- getElement2(list(), 'ab') # default default = NA
+# check 
+\dontshow{stopifnot(}
+all.equal(eNA, NA)
+\dontshow{)}
+
+e0 <- getElement2(list(), 'ab', 2) # name not in object
+\dontshow{stopifnot(}
+all.equal(e0, 2)
+\dontshow{)}
+
+e2 <- getElement2(list(ab=1), 'a', 2) # partial matching not used 
 \dontshow{stopifnot(}
 all.equal(e2, 2)
 \dontshow{)}
+
+##
+## 3.  name NULL in object, return default 
+##
+ed <- getElement2(list(a=NULL), 'a',2) # 2 with a warning
 \dontshow{stopifnot(}
 all.equal(ed, 2)
 \dontshow{)}
+
+e. <- getElement2(list(a=NULL), 'a', 2, warn.NULL=FALSE) # NULL
 \dontshow{stopifnot(}
 all.equal(e., NULL)
 \dontshow{)}
+
+eNULL <- getElement2(list(a=NULL), 'a', NULL) # NULL
 \dontshow{stopifnot(}
 all.equal(eNULL, NULL)
 \dontshow{)}
+
+##
+## 4.  Language:  find, eval, return 
+##
+Qte <- quote(plot(1:4, y=x))
+Qt <- pryr::standardise_call(Qte) # add the name 'x' 
+eQuote <- getElement2(Qt, 'y')
+# check
+\dontshow{stopifnot(}
+all.equal(eQuote, 1:4)
+\dontshow{)}
+
 }
 \keyword{manip}
