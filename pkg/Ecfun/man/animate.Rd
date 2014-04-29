@@ -339,7 +339,7 @@ if(require(jpeg) && require(Ecdat)){
         ylim=c(-48, -34, -48, 48),
         x=c(179, 165,   6,179),
         y=c(-48, -34, -48, 48),
-	type='n', bty='n', axes=FALSE, asp=1,
+	      type='n', bty='n', axes=FALSE, asp=1,
         xlab='', ylab='')
   RhistTitle <- list(fun='title',
         main='R History',

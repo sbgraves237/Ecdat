@@ -1,14 +1,23 @@
-getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE){
+getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE, 
+                        returnName){
 #       get element of list;  return default if absent
 ##
 ## 1.  is.numeric(name)?
 ##
   if(is.numeric(name)){
     out <- ((name<1) | (length(object)<name))
+    if(missing(returnName))
+      returnName <- (name == 1)
   } else {
 ##
 ## 2.  name not numeric     
 ##    
+    which1 <- which(names(object)==name)
+    if(missing(returnName)){
+      if(length(which1)==1) {
+        returnName <- (which1 == 1)
+      } else returnName <- FALSE 
+    }
     out <- !(name %in% names(object))
   }
 ##
@@ -23,8 +32,11 @@ getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE){
         El <- default
     }
 ##
-## 5.  eval
+## 5.  eval?
 ##
+  if(returnName && is.name(El)){ 
+    return(as.character(El))
+  } 
   El. <- eval(El, envir=as.list(object)) 
   eval(El.)
 }

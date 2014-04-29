@@ -6,25 +6,7 @@ animate1 <- function(plotObject, nFrames=NULL, iFrame=NULL,
 animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), plot.it=TRUE, ...){
 ##
-## 1.  iFrame & nFrames
-##
-#  1.1.  Need to rewrite nFramesDefault to accept a function
-#        or use simpler defaults
-#    nFr <- nFramesDefault(plotObject, nFrames, iFrame)
-#    nFrames <- as.numeric(nFr)
-#  1.2.  simple defaults:  iFrame=nFrames=10
-#  if(is.null(nFrames)){
-#      if(is.null(iFrame)){
-#          nFrames <- 10
-#          iFrame <- nFrames
-#      } else {
-#          nFrames <- iFrame
-#      }
-#  } else {
-#      if(is.null(iFrame)) iFrame <- nFrames
-#  }
-##
-## 2.  Set up
+## 1.  Set up
 ##
   bo <- body(plotObject)
   nbo <- length(bo)
@@ -41,7 +23,7 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
            ';  must be "name"')
   }
 ##
-## 3.  Convert to a list 
+## 2.  Convert to a list 
 ##
   plotList <- vector('list', nbo-1)
   for(iStep in seq(length=nbo-1)){
@@ -54,9 +36,27 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     plotList[[iStep]] <- ib
   }   
 ##
+## 3.  iFrame & nFrames
+##
+#  3.1.  Need to rewrite nFramesDefault to accept a function
+#        or use simpler defaults
+  if(plot.it){
+    nFr <- nFramesDefault(plotList, nFrames, iFrame)
+    nFrames <- as.numeric(nFr)
+#  1.2.  simple defaults:  iFrame=nFrames=10
+    if(is.null(nFrames)){
+      if(is.null(iFrame)){
+          nFrames <- 10
+          iFrame <- nFrames
+      } else {
+          nFrames <- iFrame
+      }
+    } else {
+      if(is.null(iFrame)) iFrame <- nFrames
+    }
+##
 ## 4.  call animate1.list
 ##
-  if(plot.it){
     animate1.list(plotList, nFrames=nFrames, iFrame=iFrame,
                   endFrames=endFrames, ...)                  
   }  

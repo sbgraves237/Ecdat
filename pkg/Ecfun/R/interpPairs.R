@@ -1,91 +1,138 @@
 interpPairs <- function(object, proportion,
                         pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
-                        validProportion=0:1 ){
+                        validProportion=0:1, ...){
 ##
 ## 1.  find pairs
 ##
-    suf1 <- grep(pairs[1], names(object), value=TRUE)
-    suf2 <- grep(pairs[2], names(object), value=TRUE)
+  Names <- names(object)
+  suf1 <- grep(pairs[1], Names, value=TRUE)
+  suf2 <- grep(pairs[2], Names, value=TRUE)
 ##
-## 2.  sub(pairs[1:2], pairs[3], suf*)
+## 2.  Convert identified names to common names
 ##
-    suf1. <- sub(pairs[1], pairs[3], suf1)
-    suf2. <- sub(pairs[2], pairs[3], suf2)
+  suf1. <- sub(pairs[1], pairs[3], suf1)
+  suf2. <- sub(pairs[2], pairs[3], suf2)
+  suf. <- unique(c(suf1., suf2.))
 ##
 ## 3.  look for pairs
 ##
-    Matches <- table(c(suf1., suf2.))
-    oops <- names(Matches[Matches<2])
-    Dat <- list()
-    if(length(oops)>0){
-        un1 <- which(suf1. %in% oops)
-        un2 <- which(suf2. %in% oops)
-        if(length(un1)>0){
-            warning(suf1[un1[1]], ' found without a matching ',
-                    pairs[2], ';  returning ', suf1[un1[1]],
-                    ' as ', suf1.[un1[1]])
+  Matches <- table(c(suf1., suf2.))
+  oops <- names(Matches[Matches<2])
+  if(length(oops)>0){
+      un1 <- which(suf1. %in% oops)
+      un2 <- which(suf2. %in% oops)
+      if(length(un1)>0){
+          warning(suf1[un1[1]], ' found without a matching ',
+                  pairs[2], ';  returning ', suf1[un1[1]],
+                  ' as ', suf1.[un1[1]])
+      }
+      if(length(un2)>0){
+          warning(suf2[un2[1]], ' found without a matching ',
+                  pairs[1], ';  returning ', suf2[un2[1]],
+                  ' as ', suf2.[un1[1]])
+      }
+#      el1 <- c(suf1[un1], suf2[un2])
+#      Dat <- object[c(suf1[un1], suf2[un2])]
+#      names(Dat) <- c(suf1.[un1], suf2.[un2])
+  }
+#  match2 <- names(Matches[Matches>1])
+##
+## 4.  evalObj <- eval(object) 
+##
+  interpObj <- object
+  nel <- length(interpObj)
+  for(j in seq(length=nel)){
+#   eval(interpObj[[j]])    
+    interpObj[[j]] <- eval(interpObj[[j]], interpObj[-j])
+#   Is this a pair name? 
+    s1 <- which(suf1 == Names[j])
+    s2 <- which(suf2 == Names[j])
+    k1 <- length(s1)
+    k2 <- length(s2)
+    k12 <- k1+k2
+#   k12 = 0 or 1; can't be 2 
+    if(k12>0){
+      if(k1>0){
+#       suf1[s1];  look for match in suf2 
+        j2 <- which(suf2. == suf1.[s1])
+        if(length(j2)>0){
+          if(suf2[j2] %in% Names[1:j]){
+#         Both suf1[s1] and suf2[j2] have been eval'ed
+#         Add the interpolation 
+            N12 <- (interpObj[[suf1[s1]]]*(1-proportion) 
+                    + interpObj[[suf2[j2]]]*proportion ) 
+            interpObj[[suf2.[j2]]] <- N12 
+          } 
+#         match found but not processed yet
+          next
+        } else {
+#         match not found;  store interpObj[[j]] as the match 
+          interpObj[[suf1.[s1]]] <- interpObj[[j]]
+          next 
         }
-        if(length(un2)>0){
-            warning(suf2[un2[1]], ' found without a matching ',
-                    pairs[1], ';  returning ', suf2[un2[1]],
-                    ' as ', suf2.[un1[1]])
+      } else {
+#       k2=1, because k1=0         
+#       suf2[s2];  look for match in suf1 
+        j1 <- which(suf1. == suf2.[s2])
+        if(length(j1)>0){
+          if(suf1[j1] %in% Names[1:j]){
+#         Both suf1[s1] and suf2[j2] have been eval'ed
+#         Add the interpolation 
+            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
+                    + interpObj[[suf2[s2]]]*proportion ) 
+            interpObj[[suf1.[j1]]] <- N12 
+          } 
+#         match found but not processed yet
+          next
+        } else {
+#         match not found;  store interpObj[[j]] as the match 
+          interpObj[[suf2.[s2]]] <- interpObj[[j]]
+          next 
+        }     
+      }
+    }
+  }
+##
+## 5.  Other vectors or data.frames 
+##     with the same number of rows?  
+##
+# length of suf.?  
+  if(length(interpObj)>0){
+    objLen <- sapply(interpObj, NROW)
+  } else objLen <- integer(0)
+  nSuf <- length(suf.)
+  if(nSuf>0){
+    ln <- max(objLen[suf.])
+  } else ln <- 1
+  lp <- length(proportion)
+  if(lp < ln) {
+    proportion <- rep(proportion, length=ln)
+    N <- ln
+  } else N <- lp 
+# Rows to keep 
+  In <- ((validProportion[1] <= proportion) & 
+         (proportion <= validProportion[2]) )
+# Cols to trim? 
+  cols2trim <- (objLen==N)
+# trim   
+  for(s. in names(interpObj)[cols2trim]){
+#   Retain only "In" in s.
+    S. <- interpObj[[s.]]
+    ndim <- length(dim(S.))
+    if(ndim<2){
+        if(!is.null(S.)){
+          S. <- S.[In]
         }
-        el1 <- c(suf1[un1], suf2[un2])
-        Dat <- object[c(suf1[un1], suf2[un2])]
-        names(Dat) <- c(suf1.[un1], suf2.[un2])
+    } else {      
+      if(is.data.frame(S.)){
+            S. <- S.[In,, drop=FALSE]
+      } 
     }
-    match2 <- names(Matches[Matches>1])
+    interpObj[[s.]] <- S.
+  }
 ##
-## 4.  interpolate
-##
-    for(m in match2){
-        m1 <- whichAeqB(suf1., m)
-        m2 <- whichAeqB(suf2., m)
-        x1 <- object[[suf1[m1]]]
-        x2 <- object[[suf2[m2]]]
-        xm <- (x1 + proportion * (x2-x1))
-        Dat[[m]] <- xm
-    }
-##
-## 5.  Other columns of the same length?
-##
-#  5.1.  add proportion;  o.w., won't work with no pairs :-(
-    Dat$proportion <- proportion
-#  5.2  Convert to data.frame to force all to equal length ;-)
-    dat <- as.data.frame(Dat)
-    if(length(object)>0){
-        objLen <- sapply(object, NROW)
-    } else objLen <- integer(0)
-#
-    cols2trim <- ((objLen==nrow(dat)) &
-                  !(names(object) %in% c(suf1, suf2)))
-    if(any(cols2trim)){
-        dat. <- cbind(dat, as.data.frame(object[cols2trim]))
-    } else dat. <- dat
-##
-## 6.  delete undesired rows
-##
-    out <- ((proportion < validProportion[1]) |
-            (validProportion[2] < proportion) )
-    dato <- dat.[!out,, drop=FALSE]
-##
-##
-##
-## 7.  Combine with the remainder of object
-##
-    int <- ((names(object) %in% c(suf1, suf2)) | cols2trim)
-    Out <- c(dato, object[!int])
-##
-## 8.  Any elements of class call?
-##
-    cl <- sapply(Out, class)
-    for(jc in which(cl=='call')){
-        xj <- eval(Out[[jc]], Out[-jc])
-        Out[[jc]] <- xj
-    }
-##
-## 9.  Done
-##
-    Out$proportion <- NULL
-    Out
+## 6.  Delete suf1 and suf2
+## 
+  del <- (names(interpObj) %in% c(suf1, suf2))
+  interpObj[!del]
 }

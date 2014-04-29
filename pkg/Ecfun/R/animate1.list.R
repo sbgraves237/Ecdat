@@ -47,7 +47,9 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     for(j in seq(length=nFns)){
         plotj <- plotL[[j]]
         plotj$fun <- NULL
-        lenFLK <- max(1, length(plotj$x), length(plotj$y))
+        x <- getElement2(plotj, 'x')
+        y <- getElement2(plotj, 'y')
+        lenFLK <- max(1, length(x), length(y))
         lastF1 <- (nFrames-endFrames+1)
         firstF <- getElement2(plotj, 'firstFrame',
                               seq(1, lastF1, length=lenFLK))

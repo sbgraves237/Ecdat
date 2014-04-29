@@ -12,7 +12,8 @@
   return \code{default}.  Otherwise, return \code{NULL}
 }
 \usage{
-getElement2(object, name=1, default, warn.NULL=TRUE)
+getElement2(object, name=1, default=NA, warn.NULL=TRUE, 
+            returnName)
 }
 \arguments{
   \item{object}{
@@ -26,8 +27,18 @@ getElement2(object, name=1, default, warn.NULL=TRUE)
   }
   \item{warn.NULL}{
     logical to decide how to treat cases where \code{object} has a
-    component \code{name}:  If \code{TRUE}, return \code{default} with a
-    warning.  Otherwise, return \code{NULL}.
+    component \code{name}:  If \code{TRUE}, return \code{default} with 
+    a warning.  Otherwise, return \code{NULL}.
+  }
+  \item{returnName}{
+    logical:  \code{TRUE} to return \code{\link{as.character}} of any 
+    \code{\link{name}} found as an element of \code{object}.  
+    
+    FALSE to \code{\link{eval}} any \code{\link{name}} found in 
+    the environment of  \code{object}.  
+    
+    Default = \code{TRUE} if \code{name} == 1 or a character string 
+    matching the name of the first element of \code{object}.  
   }
 }
 \details{
@@ -39,7 +50,8 @@ getElement2(object, name=1, default, warn.NULL=TRUE)
   
   4.  warn.NULL? 
   
-  5.  return(eval(El, envir=object))
+  5.  if(returnName) return(as.character(El)) else 
+  return(eval(El, envir=object))
 }
 \value{
   an object of the form of \code{object[[name]]};  if \code{object} does
@@ -104,8 +116,12 @@ all.equal(eNULL, NULL)
 ##
 Qte <- quote(plot(1:4, y=x))
 Qt <- pryr::standardise_call(Qte) # add the name 'x' 
+fn <- getElement2(Qt)
 eQuote <- getElement2(Qt, 'y')
 # check
+\dontshow{stopifnot(}
+all.equal(fn, 'plot')
+\dontshow{)}
 \dontshow{stopifnot(}
 all.equal(eQuote, 1:4)
 \dontshow{)}
