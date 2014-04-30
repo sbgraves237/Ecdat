@@ -24,6 +24,9 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='\%s\%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration,
+        graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
+            png='png', tif='tiff', tiff='tiff', svg='svg',
+            ps='cairo_ps', pdf='cairo_pdf'), 
         graphicsFunArgs=list(), ...)
 %\method{animate1}{default}(plotObject, nFrames=NULL, iFrame=NULL,
 %        endFrames=round(0.2*nFrames), ...)
@@ -183,6 +186,13 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     to pause after the completion of each plot before starting the
     next.  In this case, \code{duration} defaults to 2 seconds.
   }
+  \item{graphicsFun}{
+    named character vector:  The names must match the extensions in 
+    \code{filenames}.  (These are extracted using 
+    \code{link[tools]{file_ext}}.)  The corresponding element of
+    \code{graphicsFun} is the name of the function to call to create 
+    that file.  
+  }
   \item{graphicsFunArgs}{
     argument list for use in creating output graphic files.  Example:
     If filenames uses an extension "png", then an output graphics file
@@ -213,34 +223,37 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   }
 }
 \details{
-  1.  Call \code{nFramesDefault} to check consistency between arguments
+  1.  If \code{plotObject} is a \code{\link{function}}, convert to a 
+  \code{\link{list}}.
+  
+  2.  Call \code{nFramesDefault} to check consistency between arguments
     \code{nFrames}, \code{iFrames} and \code{plotObject};  compute
     defaults if \code{nFrames} or \code{iFrames} is \code{NULL}.
 
-  2.  Set op <- par(mar=mar);  on.exit(par(op)).
+  3.  Set op <- par(mar=mar);  on.exit(par(op)).
 
-  3.  for(iFrame in iFrames):
+  4.  for(iFrame in iFrames):
 
-  3.1.  If \code{filenames} are provided (not the default), {
+  4.1.  If \code{filenames} are provided (not the default), {
     graphicsFun <- c(bmp='bmp', jpg='jpeg', png='png', tif='tiff',
     svg='svg', ps='cairo_ps', pdf='cairo_pdf');
     do.call(graphicsFun[outFn], graphicsFunArgs)}.
 
-  3.2.  Create an empty plot with limits specified in xylims as outlined
+  4.2.  Create an empty plot with limits specified in xylims as outlined
   in the discussion of that argument.
 
-  3.3.  funs <- names(plotObject); for(fn in funs):
+  4.3.  funs <- names(plotObject); for(fn in funs):
 
-  3.3.1. ploti <- plotObject[[fn]]
+  4.3.1. ploti <- plotObject[[fn]]
 
-  3.3.2.  plotj <- ploti adjusted per iFrame.
+  4.3.2.  plotj <- ploti adjusted per iFrame.
 
-  3.3.3.  for each row in plotj, execute fn with arguments as adjusted
+  4.3.3.  for each row in plotj, execute fn with arguments as adjusted
   in that row of the of plotj.
 
-  3.4.  if(is.null(outFun)) Sys.sleep(pause) else dev.off().
+  4.4.  if(is.null(outFun)) Sys.sleep(pause) else dev.off().
 
-  4.  done.
+  5.  done.
 }
 %\source{}
 \value{
@@ -254,8 +267,23 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 %\references{}
 \seealso{
+  \code{animate} calls \code{\link{nFramesDefault}}, which returns 
+  the desired value for \code{nFrames} with an attribute identifying 
+  elements of the \code{plotObject} list that contain \code{NA}s, which 
+  must be replaced by \code{nFrames - endFrames + 1}.  
+  
+  \code{\link[tools]{file_ext}} returns the file name extension, used to 
+  write the output to files.  
+  
+  \code{\link{getElement2}} retrieves elements of a list if available and 
+  returns a default otherwise.  
+  
+  \code{\link{interpPairs}} finds pairs of names in an object and 
+  interpolates between them.  
+  
   \code{\link{png}}, \code{\link{Sys.sleep}},
-  \code{\link{body}}, \code{\link{rasterImageAdj}}
+  \code{\link{body}}, \code{\link{rasterImageAdj}}, 
+  \code{\link{do.call}}
 }
 \examples{
 ##
@@ -268,7 +296,22 @@ if(require(jpeg) && require(Ecdat)){
 
 #  data(Ecdat::CRANpackages)
   CRANobs <- nrow(CRANpackages)
+# 1.1.  with CRANgrowth as a function     
+  CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
+                          endFrames=round(0.2*nFrames)){
+    plot(x=CRANpackages[['Date']],
+         y=CRANpackages[['Packages']],
+         xlim=range(CRANpackages[['Date']]),
+         ylim=range(CRANpackages[['Packages']]),
+         log='y')
+    rasterImageAdj(image=Rlogo,
+                   xleft=as.Date('2002-01-01'), ybottom=1000,
+                   xright=as.Date('2005-01-01'), ytop=5000)
+  }
 
+  animate(CRANgrowthFn)
+
+# 1.2.  Or with CRANgrowth as a list
   CRANgrowth <- list(list(fun='plot',
                     x=CRANpackages[['Date']],
                     y=CRANpackages[['Packages']],
