@@ -1,5 +1,6 @@
 animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), ...){
+        endFrames=round(0.2*nFrames), 
+        pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''), ...){
 ##
 ## 1.  iFrame & nFrames?
 ##
@@ -147,4 +148,3 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
     invisible('done')
 }
-

@@ -90,7 +90,7 @@ interpPairs(object, proportion,
   Spencer Graves
 }
 \seealso{
-  \code{\link{animate}}
+  \code{\link{animate1.list}}
 }
 %\references{}
 \examples{

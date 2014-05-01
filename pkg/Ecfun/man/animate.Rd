@@ -9,13 +9,10 @@
 }
 \description{
   \code{animate} creates a series of plots.  If
-  \code{missing(filenames)}, pause for \code{duration} seconds after the
-  completion of one plot before starting the next.  Otherwise,
+  \code{missing(filenames)}, pause for \code{duration} seconds after 
+  the completion of one plot before starting the next.  Otherwise,
   \code{animate} produces a series of graphics files with names
   specified in filenames[iFrames].
-
-  The primary output is intended to be a series of image files to be
-  combined with an audio file using other software such as FFmpeg.
 
   \code{animate1} creates only one plot of the series.
 }
@@ -28,10 +25,11 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
         graphicsFunArgs=list(), ...)
-%\method{animate1}{default}(plotObject, nFrames=NULL, iFrame=NULL,
-%        endFrames=round(0.2*nFrames), ...)
-\method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
+animate1(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), ...)
+\method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
+        endFrames=round(0.2*nFrames), 
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), ...)
 \method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
 nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
@@ -208,6 +206,18 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     integer giving the index of the single frame to create.  Default =
     nFrames.
   }
+  \item{pairs}{    
+    a character vector of two regular expressions to identify elements
+    of \code{object} between which to interpolate and a
+    \code{replacement} for use in \code{\link{sub}} to convert each
+    \code{pairs[1:2]} name found to the desired name of the
+    interpolation. This is passed to \code{\link{interpPairs}}, which 
+    uses it to identify pairs of variables between which to interpolate
+    and to replace with a variable whose name is obtained by 
+    \code{\link{sub}} by substituting \code{pairs[1:2]} with 
+    \code{pairs['replacement']}.  
+  }
+
   \item{plot.it}{ 
     logical:  If \code{TRUE}, create the desired plot.  Otherwise, convert 
     \code{plotObject} to a \code{list}.  
@@ -223,6 +233,53 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   }
 }
 \details{
+  \code{animate} is designed to turn a single plot into a series of plots.  
+  \code{animate} can optionally produce a series of plot files with a 
+  list of the files produced in a format suitable for 
+  \href{https://en.wikipedia.org/wiki/FFmpeg}{FFmpeg} including a separate 
+  "duration" record following each file specification.  \code{animate} 
+  works by calling \code{animate1} once for each plot or "frame" to be 
+  produced.  Standard videos operate at 25 frames per second.  
+
+  \code{animate} accepts either a plot function or a list version of the 
+  plot function.  \code{animate1.function} converts a plot function into 
+  a list version, which can subsequently be edited to provide finer control 
+  of the display.  The default simply produces version with points or lines 
+  growing linearly with \code{iFrame}.  
+  
+  List elements \code{firstFrame}, \code{lastFrame}, and \code{Keep} 
+  are used with \code{iFrame}, \code{nFrames}, and \code{endFrames} to 
+  determine when particular code elements are displayed and how much 
+  and how each are displayed.  List elements with names matching 
+  \code{pairs[1:2]} are combined using linear interpolation with a new
+  variable whose name in constructed using \code{sub(pairs[1:2], 
+  pairs[3], ...)}.  Linear interpolation of character variables is 
+  interpreted as a proportion of the total number of characters active 
+  in the range indicated by the comparison of \code{iFrame} with 
+  \code{lastFrame} and \code{firstFrame}.  
+  
+  Example 1 below provides a simple example using a function as input.  
+  Example 2 produces the same thing using a list as input.  Example 3 is 
+  more complicated.  It illustrates zoom, rotating images, and arrows 
+  whose characteristics change over time.  
+  
+  ZOOM AND PAN:  This is achieved as indicated in the call to 
+  \code{\link{plot}} in Example 3 by identifying pairs of numbers in 
+  \code{xlim.0} and \code{xlim.1} for linear interpolation to produce 
+  the argument \code{xlim}.  This technique could similarly be applied to 
+  \code{ylim}.  
+  
+  ANIMATING TEXT:  This  
+  
+
+  
+  \code{iFrame} being used to interpolate 
+  
+  
+  
+  
+  ALGORITHM:  
+  
   1.  If \code{plotObject} is a \code{\link{function}}, convert to a 
   \code{\link{list}}.
   
@@ -291,12 +348,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 ##
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
-if(require(jpeg) && require(Ecdat)){
-  Rlogo <- readJPEG(logo.jpg)
-
-#  data(Ecdat::CRANpackages)
-  CRANobs <- nrow(CRANpackages)
-# 1.1.  with CRANgrowth as a function     
+# with CRANgrowth as a function     
   CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
                           endFrames=round(0.2*nFrames)){
     plot(x=CRANpackages[['Date']],
@@ -309,10 +361,16 @@ if(require(jpeg) && require(Ecdat)){
                    xright=as.Date('2005-01-01'), ytop=5000)
   }
 
-  animate(CRANgrowthFn)
+if(require(jpeg) && require(Ecdat)){
+  Rlogo <- readJPEG(logo.jpg)
 
-# 1.2.  Or with CRANgrowth as a list
-  CRANgrowth <- list(list(fun='plot',
+  if(require(Ecdat)){  
+    CRANobs <- nrow(CRANpackages)
+    animate(CRANgrowthFn)
+##
+## 2.  CRANgrowth as a list 
+##
+    CRANgrowth <- list(list(fun='plot',
                     x=CRANpackages[['Date']],
                     y=CRANpackages[['Packages']],
                     xlim=range(CRANpackages[['Date']]),
@@ -321,10 +379,10 @@ if(require(jpeg) && require(Ecdat)){
              list(fun='rasterImageAdj', image=Rlogo,
                   xleft=as.Date('2002-01-01'), ybottom=1000,
                   xright=as.Date('2005-01-01'), ytop=5000) )
-  animate(CRANgrowth)
-
+    animate(CRANgrowth)
+  }
 ##
-## 2.  Map zoom out from Aukland, NZ, to the entire world
+## 3.  Map zoom out from Aukland, NZ, to the entire world
 ##     in 23 frames with arrows and a rotating R logo.
 ##
 
@@ -427,7 +485,7 @@ if(require(maps)){
 }
 }
 ##
-## 3.  Check nFramesDefault
+## 4.  Check nFramesDefault
 ##
 chk0 <- nFramesDefault(list()) # 10
 chk1 <- nFramesDefault(list(), 1) # 1
