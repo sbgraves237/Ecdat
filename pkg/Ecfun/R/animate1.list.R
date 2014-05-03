@@ -97,31 +97,31 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
 ## 6.  text
 ##
-        if(Fn.[j] == 'text'){
-            lblj <- ploj$labels
-            if(length(lblj) == nKeep){
-                lbls <- plotj$labels
-                nCh <- nchar(lbls)
-                cumCh <- cumsum(nCh)
-                cumP <- cumCh/tail(cumCh, 1)
-                pCh <- nCh/tail(cumCh, 1)
-                p.ch <- pmin((pDone-cumP)/pCh, 1)
-                k.ch <- round(p.ch*nCh)
-                lbls[k.ch>0] <- substring(lbls[k.ch>0], 1,
-                                          k.ch[k.ch>0])
-                lbls. <- lbls[pDone>=0]
-                ploj$labels <- lbls.
-                do.call(text, ploj)
-                next
-            } else {
-                if(length(lblj)>1) {
-                    warning('length of labels in call to text ',
-                            'do not match other arguments;\n ',
-                            '  ignoring the problem.')
-                }
-                do.call(text, ploj)
-            }
-        }
+#        if(Fn.[j] == 'text'){
+#            lblj <- ploj$labels
+#            if(length(lblj) == nKeep){
+#                lbls <- plotj$labels
+#                nCh <- nchar(lbls)
+#                cumCh <- cumsum(nCh)
+#                cumP <- cumCh/tail(cumCh, 1)
+#                pCh <- nCh/tail(cumCh, 1)
+#                p.ch <- pmin((pDone-cumP)/pCh, 1)
+#                k.ch <- round(p.ch*nCh)
+#                lbls[k.ch>0] <- substring(lbls[k.ch>0], 1,
+#                                          k.ch[k.ch>0])
+#                lbls. <- lbls[pDone>=0]
+#                ploj$labels <- lbls.
+#                do.call(text, ploj)
+#                next
+#            } else {
+#                if(length(lblj)>1) {
+#                    warning('length of labels in call to text ',
+#                            'do not match other arguments;\n ',
+#                            '  ignoring the problem.')
+#                }
+#                do.call(text, ploj)
+#            }
+#        }
 ##
 ## 7.  Fn.[j] == 'plot'?
 ##
