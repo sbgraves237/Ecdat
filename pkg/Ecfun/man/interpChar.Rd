@@ -8,7 +8,7 @@
 \description{
   For \code{x} and \code{y} numeric:  
   
-  \code{xOut <- x*(1-proportion) + y*proportion} 
+  \code{xOut <- x*(1-.proportion) + y*.proportion} 
   
   Otherwise, coerce to character and return a 
   \code{\link{substring}} of \code{x} or \code{y} with 
@@ -17,8 +17,8 @@
 }
 \usage{
 interpChar(x, ...)
-\method{interpChar}{list}(x, proportion, ...)
-\method{interpChar}{default}(x, y, proportion, ...)
+\method{interpChar}{list}(x, .proportion, ...)
+\method{interpChar}{default}(x, y, .proportion, ...)
 }
 \arguments{
   \item{x}{
@@ -27,7 +27,7 @@ interpChar(x, ...)
     \code{interpChar.default}.  
   }
   \item{y}{ a vector }
-  \item{proportion}{
+  \item{.proportion}{
     A number or numeric vector assumed to be between 0 and 1.  
   }
   \item{\dots}{
@@ -35,18 +35,18 @@ interpChar(x, ...)
   }
 }
 \details{
-  0.  \code{x}, \code{y} and \code{proportion} are all extended to 
+  0.  \code{x}, \code{y} and \code{.proportion} are all extended to 
   the same length using \code{\link{rep}}.  
   
   1.  If \code{x} and \code{y} are both numeric, \code{interpChar} 
   returns the standard linear interpolation (described above).  
   
   2.  Otherwise, if a single non-numeric argument is provide with 
-  \code{proportion}, that argument is coerced to character, and 
+  \code{.proportion}, that argument is coerced to character, and 
   linear interpolation is done on the cumulative number of 
   characters.  
   
-  3.  If \code{x}, \code{y}, and \code{proportion} are all 
+  3.  If \code{x}, \code{y}, and \code{.proportion} are all 
   provided with at least one of \code{x} and \code{y} not being 
   numeric, the algorithm does linear interpolation on the 
   cumulative difference in the number of characters between 
@@ -54,14 +54,14 @@ interpChar(x, ...)
   unless \code{nchar(x)} exceeds \code{nchar(y)}.  This can 
   be used to "erase" characters moving from one frame to 
   the next in a video.  This meets the standard end conditions 
-  that \code{x} is returned when \code{proportion} is 0 and 
-  \code{y} is returned when \code{proportion} is 1.  See the 
+  that \code{x} is returned when \code{.proportion} is 0 and 
+  \code{y} is returned when \code{.proportion} is 1.  See the 
   examples.   
 }
 \value{
   A vector:  Numeric if \code{x} and \code{y} are both numeric 
   and character otherwise.  The length = max length of 
-  \code{x}, \code{y}, and \code{proportion}.  
+  \code{x}, \code{y}, and \code{.proportion}.  
 }
 %\source{}
 %\references{}
@@ -93,7 +93,7 @@ all.equal(xN1, xN1.)
 ##
 ## 2.  Single character vector 
 ##
-i.5 <- interpChar(c('a', 'bc', 'def'), p=0.3)
+i.5 <- interpChar(c('a', 'bc', 'def'), .p=0.3)
 # check:  0.3*(total 6 characters) = 1.8 characters
 i.5. <- c('a', 'b', '')
 \dontshow{stopifnot(}
@@ -124,7 +124,7 @@ xCh <- interpChar(list(c('Do it', 'with R.')),
 # answer 
 xCh. <- c('', 'with', 'Do ') 
 # With only one input, it's assumed to be y.  
-# It is replicated to length(proportion), 
+# It is replicated to length(.proportion), 
 # With nchar = 5, 7, 5, cum = 5, 12, 17.  
 \dontshow{stopifnot(}
 all.equal(xCh, xCh.)

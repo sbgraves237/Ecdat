@@ -2,7 +2,7 @@ interpChar <- function(x, ...){
   UseMethod('interpChar')
 }
 
-interpChar.list <- function(x, proportion, ...){
+interpChar.list <- function(x, .proportion, ...){
   if(length(x)<2){
     if(is.numeric(x[[1]])){
       xNm <- names(x)
@@ -16,13 +16,13 @@ interpChar.list <- function(x, proportion, ...){
       }
       return(x[[1]])
     }
-    out <- interpChar.default('', x[[1]], proportion, ...)
+    out <- interpChar.default('', x[[1]], .proportion, ...)
     return(out)
   }
-  interpChar.default(x[[1]], x[[2]], proportion, ...)
+  interpChar.default(x[[1]], x[[2]], .proportion, ...)
 }
 
-interpChar.default <- function(x, y, proportion, ...){
+interpChar.default <- function(x, y, .proportion, ...){
 ##
 ## 1.  numeric? 
 ##  
@@ -37,7 +37,7 @@ interpChar.default <- function(x, y, proportion, ...){
   } else { 
     num <- (is.numeric(x) && is.numeric(y))
     if(num){
-      out <- (x*(1-proportion) + y*proportion) 
+      out <- (x*(1-.proportion) + y*.proportion) 
       return(out)
     }
   }
@@ -50,11 +50,11 @@ interpChar.default <- function(x, y, proportion, ...){
 #  2.2.  Same length
   nx <- length(xc)
   ny <- length(yc)
-  np <- length(proportion)
+  np <- length(.proportion)
   N <- max(nx, ny, np)
   X <- rep(xc, length=N)
   Y <- rep(yc, length=N)
-  P. <- rep(proportion, length=N)
+  P. <- rep(.proportion, length=N)
 #  2.3.  number of characters 
   nch.y <- nchar(Y)
   nch.x <- nchar(X)

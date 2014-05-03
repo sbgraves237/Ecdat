@@ -9,9 +9,9 @@
   \code{object} with each pair replaced by a single element with a name
   derived applying \code{\link{sub}} to convert, e.g., \code{x.0} to
   \code{x}, where \code{x} is obtained by linear interpolation using
-  \code{proportion} between \code{x.0} and \code{x.1}.  
+  \code{.proportion} between \code{x.0} and \code{x.1}.  
   
-  Rows with \code{proportion} outside \code{validProportion} are dropped 
+  Rows with \code{.proportion} outside \code{validProportion} are dropped 
   in \code{x}.  Drop similar rows of any vector or 
   \code{\link{data.frame}} with the same number of rows as \code{x}.  
   
@@ -21,7 +21,7 @@
   and the interpolation is done on the cumulative number of characters.  
 }
 \usage{
-interpPairs(object, proportion,
+interpPairs(object, .proportion,
             pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
             validProportion=0:1, ...)
 }
@@ -33,13 +33,13 @@ interpPairs(object, proportion,
     \code{x.0} is found without \code{x.1}, \code{x.0} is returned as an
     element of the output \code{list}.
   }
-  \item{proportion}{
+  \item{.proportion}{
     a numeric vector assumed to lie between 0 and 1 specifying how far
     to go from suffixes[1] to suffixes[2].  For example, if \code{x.0}
-    and \code{x.1} are found, \code{x} = \code{x.0 + proportion * (x.1 -
-      x.0)}.  Rows of \code{x} and any other element of \code{object} of
-    the same length are dropped for any \code{proportion} outside
-    \code{validProportion}.
+    and \code{x.1} are found and are numeric, \code{x} = \code{x.0 + 
+    .proportion * (x.1 - x.0)}.  Rows of \code{x} and any other element 
+    of \code{object} of the same length are dropped for any 
+    \code{.proportion} outside \code{validProportion}.
   }
   \item{pairs}{
     a character vector of two regular expressions to identify elements
@@ -49,7 +49,7 @@ interpPairs(object, proportion,
     interpolation.
   }
   \item{validProportion}{
-    Range of values of \code{proportion} to retain, as noted with the
+    Range of values of \code{.proportion} to retain, as noted with the
     discussion of the \code{object} argument.
   }
   \item{\dots}{ optional arguments for \code{\link{sub}} }
@@ -60,7 +60,10 @@ interpPairs(object, proportion,
   2.  Convert each name found to the target name using
   \code{sub(pairs[i], pairs[3], ...)} for i = 1:2.
   
-  3.  Find pairs.  
+  3.  Add component \code{.proportion} to 
+  \code{object} to make it available to 
+  \code{\link{eval}} any \code{language} component of 
+  \code{object} in the next step.  
   
   4.  Loop over all elements of \code{object} to create 
   \code{outList}, evaluating any expressions.  As pairs 
@@ -71,7 +74,7 @@ interpPairs(object, proportion,
   be computed.  If both \code{xleft.0} and \code{xleft.1}
   are numeric, \code{xleft} is computed as 
   
-  \code{xleft <- xleft.0*(1-proportion) + xleft.1*proportion} 
+  \code{xleft <- xleft.0*(1-.proportion) + xleft.1*.proportion} 
   
   [If either \code{xleft.0} or \code{xleft.1} are not 
   numeric, they are coerced to character if they aren't 
@@ -91,10 +94,10 @@ interpPairs(object, proportion,
   
   5.  Let \code{N} = the maximum number of rows of elements 
   of \code{outList} created by interpolation in the previous 
-  step.  If \code{proportion} is longer, set \code{N} = 
-  \code{length(proportion)}.  Find all vectors and 
+  step.  If \code{.proportion} is longer, set \code{N} = 
+  \code{length(.proportion)}.  Find all vectors and 
   \code{\link{data.frame}}s in \code{outList} with \code{N} 
-  rows and delete any rows for which \code{proportion} is 
+  rows and delete any rows for which \code{.proportion} is 
   outside \code{validProportion}.  
 
   6.  Delete the raw pairs found in steps 1-3, retaining the 
@@ -163,6 +166,7 @@ all.equal(xyz, xyz.)
 x0 <- interpPairs(list(), 0:1)
 # check 
 x0. <- list()
+names(x0.) <- character(0)
 \dontshow{stopifnot(}
 all.equal(x0, x0.)
 \dontshow{)}
@@ -216,7 +220,7 @@ if(require(jpeg)){
     )
 
   RlogoInterp <- interpPairs(RlogoLoc, 
-            proportion=rep(c(0, -1), c(2, 4)) )
+            .proportion=rep(c(0, -1), c(2, 4)) )
 # check 
 \dontshow{stopifnot(}
 all.equal(names(RlogoInterp), 

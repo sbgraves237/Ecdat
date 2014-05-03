@@ -21,12 +21,14 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='\%s\%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration,
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
         graphicsFunArgs=list(), ...)
 animate1(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), ...)
+        endFrames=round(0.2*nFrames), 
+        ...)
 \method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), ...)
@@ -196,8 +198,8 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     If filenames uses an extension "png", then an output graphics file
     would be opened with \code{do.call('png', graphicsFunArgs)}.  This
     uses the \code{graphicsFun} object described with the
-    \code{filenames} argument above to translate the file extension into
-    the name of a graphics device.
+    \code{filenames} argument above to translate the file extension 
+    into the name of a graphics device.
   }
   \item{\dots}{
     optional arguments for plot functions
@@ -217,7 +219,6 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     \code{\link{sub}} by substituting \code{pairs[1:2]} with 
     \code{pairs['replacement']}.  
   }
-
   \item{plot.it}{ 
     logical:  If \code{TRUE}, create the desired plot.  Otherwise, convert 
     \code{plotObject} to a \code{list}.  
@@ -305,14 +306,23 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   sublist, \code{Keep} is \code{TRUE} for only the last pair of points 
   in \code{xlim.0}, etc.  
   
-  ANIMATING TEXT:  This  
+  INTERPOLATING NUMBERS AND TEXT:  \code{animate1} calls 
+  \code{\link{interpPairs}}, which further calls \code{\link{interpChar}} 
+  to interpolate between sublist components indentified by \code{pairs} 
+  based on 
   
+  \code{.proportion} = \code{(iFrame-firstFrame) / (lastFrame-firstFrame)}.  
+  
+  (If \code{lastFrame} = \code{firstFrame} = \code{iFrame}, this is 1.)   
+  \code{\link{interpChar}} interpolates on the number of characters unless 
+  the interpolation variables (identified by \code{pairs}) are both 
+  numeric;  see \code{\link{interpChar}}.  
 
-  
-  
-  
-
-  
+  ACTIVE EVALUATION:  Except for any sublist with \code{fun = par}, 
+  sublists can can include \code{langauge} objects.  These are passed 
+  to \code{\link{eval}} in \code{link{interpPairs}}.  This 
+  \code{\link{eval}} can access \code{.proportion} in addition to 
+  other components of \code{object}.  
   
   ALGORITHM:  
   

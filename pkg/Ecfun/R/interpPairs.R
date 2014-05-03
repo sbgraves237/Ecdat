@@ -1,4 +1,4 @@
-interpPairs <- function(object, proportion,
+interpPairs <- function(object, .proportion,
                         pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
                         validProportion=0:1, ...){
 ##
@@ -44,6 +44,7 @@ interpPairs <- function(object, proportion,
 ##
   interpObj <- object
   nel <- length(interpObj)
+  interpObj$.proportion <- .proportion 
   for(j in seq(length=nel)){
 #   eval(interpObj[[j]])    
     interpObj[[j]] <- eval(interpObj[[j]], interpObj[-j])
@@ -65,7 +66,7 @@ interpPairs <- function(object, proportion,
 #            N12 <- (interpObj[[suf1[s1]]]*() 
 #                    + interpObj[[suf2[j2]]]*proportion ) 
             N12 <- interpChar(interpObj[c(suf1[s1], suf2[j2])], 
-                              proportion)
+                              .proportion)
             interpObj[[suf2.[j2]]] <- N12 
           } 
 #         match found but not processed yet
@@ -75,7 +76,7 @@ interpPairs <- function(object, proportion,
 #          if(is.numeric(interpObj[[j]])){ 
 #           If numeric, store interpObj[[j]] as the match 
 #           with a warning           
-          N1 <- interpChar(x=interpObj[[j]], proportion=proportion) 
+          N1 <- interpChar(x=interpObj[[j]], .proportion=.proportion) 
           interpObj[[suf1.[s1]]] <- N1
         }
       } else {
@@ -89,7 +90,7 @@ interpPairs <- function(object, proportion,
 #            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
 #                    + interpObj[[suf2[s2]]]*proportion ) 
             N12 <- interpChar(interpObj[c(suf1[j1], suf2[s2])], 
-                              proportion)
+                              .proportion)
             interpObj[[suf1.[j1]]] <- N12 
           } 
 #         match found but not processed yet
@@ -97,7 +98,7 @@ interpPairs <- function(object, proportion,
         } else {
 #         match not found;  store interpObj[[j]] as the match           
           interpObj[[suf2.[s2]]] <- 
-            interpChar(interpObj[j], proportion) 
+            interpChar(interpObj[j], .proportion) 
           next 
         }     
       }
@@ -115,14 +116,14 @@ interpPairs <- function(object, proportion,
   if(nSuf>0){
     ln <- max(objLen[suf.])
   } else ln <- 1
-  lp <- length(proportion)
+  lp <- length(.proportion)
   if(lp < ln) {
-    proportion <- rep(proportion, length=ln)
+    .proportion <- rep(.proportion, length=ln)
     N <- ln
   } else N <- lp 
 # Rows to keep 
-  In <- ((validProportion[1] <= proportion) & 
-         (proportion <= validProportion[2]) )
+  In <- ((validProportion[1] <= .proportion) & 
+         (.proportion <= validProportion[2]) )
 # Cols to trim? 
   cols2trim <- (objLen==N)
 # trim   
@@ -144,6 +145,7 @@ interpPairs <- function(object, proportion,
 ##
 ## 6.  Delete suf1 and suf2
 ## 
+  interpObj$.proportion <- NULL 
   del <- (names(interpObj) %in% c(suf1, suf2))
   interpObj[!del]
 }

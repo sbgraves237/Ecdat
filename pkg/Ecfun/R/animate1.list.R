@@ -81,9 +81,9 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
             lastF <- pmin(lastF2, lastF.)
         }
         Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK))
-        plotj$firstFrame <- NULL
-        plotj$lastFrame <- NULL
-        plotj$Keep <- NULL
+#        plotj$firstFrame <- NULL
+#        plotj$lastFrame <- NULL
+#        plotj$Keep <- NULL
 ##
 ## 5.  How far in the process?
 ##
@@ -142,6 +142,11 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
 ## 8.  do.call
 ##
+        ploj$fun <- NULL
+        ploj$firstFrame <- NULL
+        ploj$lastFrame <- NULL
+        ploj$Keep <- NULL
+        ploj$.proportion <- NULL 
         do.call(Fn.[j], ploj)
     }
 ##
