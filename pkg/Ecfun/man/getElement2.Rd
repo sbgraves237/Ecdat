@@ -115,16 +115,18 @@ all.equal(eNULL, NULL)
 ## 4.  Language:  find, eval, return 
 ##
 Qte <- quote(plot(1:4, y=x))
-Qt <- pryr::standardise_call(Qte) # add the name 'x' 
-fn <- getElement2(Qt)
-eQuote <- getElement2(Qt, 'y')
+if(require(pryr)){ 
+  Qt <- pryr::standardise_call(Qte) # add the name 'x' 
+  fn <- getElement2(Qt)
+  eQuote <- getElement2(Qt, 'y')
 # check
 \dontshow{stopifnot(}
-all.equal(fn, 'plot')
+  all.equal(fn, 'plot')
 \dontshow{)}
 \dontshow{stopifnot(}
-all.equal(eQuote, 1:4)
+  all.equal(eQuote, 1:4)
 \dontshow{)}
+}
 
 }
 \keyword{manip}
