@@ -16,25 +16,28 @@ interpPairs <- function(object, proportion,
 ##
 ## 3.  look for pairs
 ##
-  Matches <- table(c(suf1., suf2.))
-  oops <- names(Matches[Matches<2])
-  if(length(oops)>0){
-      un1 <- which(suf1. %in% oops)
-      un2 <- which(suf2. %in% oops)
-      if(length(un1)>0){
-          warning(suf1[un1[1]], ' found without a matching ',
-                  pairs[2], ';  returning ', suf1[un1[1]],
-                  ' as ', suf1.[un1[1]])
-      }
-      if(length(un2)>0){
-          warning(suf2[un2[1]], ' found without a matching ',
-                  pairs[1], ';  returning ', suf2[un2[1]],
-                  ' as ', suf2.[un1[1]])
-      }
+#  Matches <- table(c(suf1., suf2.))
+#  oops <- names(Matches[Matches<2])
+#  numwarn <- ''
+#  if(length(oops)>0){
+#      un1 <- which(suf1. %in% oops)
+#      un2 <- which(suf2. %in% oops)
+#      if(length(un1)>0){
+#        numwarn <- paste0(suf1[un1[1]], ' found without a matching ',
+#                pairs[2], ';  returning ', suf1[un1[1]],
+#                ' as ', suf1.[un1[1]])
+#        warning(numwarn)
+#      }
+#      if(length(un2)>0){
+#        numwarn <- paste0(suf2[un2[1]], ' found without a matching ',
+#                  pairs[1], ';  returning ', suf2[un2[1]],
+#                  ' as ', suf2.[un1[1]])
+#        warning(numwarn)
+#      }
 #      el1 <- c(suf1[un1], suf2[un2])
 #      Dat <- object[c(suf1[un1], suf2[un2])]
 #      names(Dat) <- c(suf1.[un1], suf2.[un2])
-  }
+#  }
 #  match2 <- names(Matches[Matches>1])
 ##
 ## 4.  evalObj <- eval(object) 
@@ -59,16 +62,21 @@ interpPairs <- function(object, proportion,
           if(suf2[j2] %in% Names[1:j]){
 #         Both suf1[s1] and suf2[j2] have been eval'ed
 #         Add the interpolation 
-            N12 <- (interpObj[[suf1[s1]]]*(1-proportion) 
-                    + interpObj[[suf2[j2]]]*proportion ) 
+#            N12 <- (interpObj[[suf1[s1]]]*() 
+#                    + interpObj[[suf2[j2]]]*proportion ) 
+            N12 <- interpChar(interpObj[c(suf1[s1], suf2[j2])], 
+                              proportion)
             interpObj[[suf2.[j2]]] <- N12 
           } 
 #         match found but not processed yet
           next
         } else {
-#         match not found;  store interpObj[[j]] as the match 
-          interpObj[[suf1.[s1]]] <- interpObj[[j]]
-          next 
+#         match not found:
+#          if(is.numeric(interpObj[[j]])){ 
+#           If numeric, store interpObj[[j]] as the match 
+#           with a warning           
+          N1 <- interpChar(x=interpObj[[j]], proportion=proportion) 
+          interpObj[[suf1.[s1]]] <- N1
         }
       } else {
 #       k2=1, because k1=0         
@@ -78,15 +86,18 @@ interpPairs <- function(object, proportion,
           if(suf1[j1] %in% Names[1:j]){
 #         Both suf1[s1] and suf2[j2] have been eval'ed
 #         Add the interpolation 
-            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
-                    + interpObj[[suf2[s2]]]*proportion ) 
+#            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
+#                    + interpObj[[suf2[s2]]]*proportion ) 
+            N12 <- interpChar(interpObj[c(suf1[j1], suf2[s2])], 
+                              proportion)
             interpObj[[suf1.[j1]]] <- N12 
           } 
 #         match found but not processed yet
           next
         } else {
-#         match not found;  store interpObj[[j]] as the match 
-          interpObj[[suf2.[s2]]] <- interpObj[[j]]
+#         match not found;  store interpObj[[j]] as the match           
+          interpObj[[suf2.[s2]]] <- 
+            interpChar(interpObj[j], proportion) 
           next 
         }     
       }

@@ -234,48 +234,84 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 \details{
   \code{animate} is designed to turn a single plot into a series of plots.  
-  \code{animate} can optionally produce a series of plot files with a 
-  list of the files produced in a format suitable for 
-  \href{https://en.wikipedia.org/wiki/FFmpeg}{FFmpeg} including a separate 
-  "duration" record following each file specification.  \code{animate} 
-  works by calling \code{animate1} once for each plot or "frame" to be 
-  produced.  Standard videos operate at 25 frames per second.  
+  \code{animate} can optionally produce a series of image files with 
+  a summary of the image files written to \code{framesFile} with 
+  \code{duration} a format suitable for 
+  \href{https://en.wikipedia.org/wiki/FFmpeg}{FFmpeg}
+  
+  \code{animate} works by calling \code{animate1} once for each plot or 
+  "frame" to be produced.  Standard videos operate at 25 frames per second.  
 
-  \code{animate} accepts either a plot function or a list version of the 
-  plot function.  \code{animate1.function} converts a plot function into 
-  a list version, which can subsequently be edited to provide finer control 
-  of the display.  The default simply produces version with points or lines 
-  growing linearly with \code{iFrame}.  
+  \code{animate} accepts either a plot function or a list whose elements 
+  describe function calls to produce the desired images.  If 
+  \code{plotObject} is a list, it is converted into a function using 
+  \code{animate1.function}.  This can subsequently be edited to provide 
+  finer control of the display.  
   
-  List elements \code{firstFrame}, \code{lastFrame}, and \code{Keep} 
-  are used with \code{iFrame}, \code{nFrames}, and \code{endFrames} to 
-  determine when particular code elements are displayed and how much 
-  and how each are displayed.  List elements with names matching 
-  \code{pairs[1:2]} are combined using linear interpolation with a new
-  variable whose name in constructed using \code{sub(pairs[1:2], 
-  pairs[3], ...)}.  Linear interpolation of character variables is 
-  interpreted as a proportion of the total number of characters active 
-  in the range indicated by the comparison of \code{iFrame} with 
-  \code{lastFrame} and \code{firstFrame}.  
+  Each call to \code{animate1} loops over the elements of the list version 
+  of \code{plotObject}.  Each such element is examined for components 
+  named 'x', 'y', 'firstFrame', 'lastFrame', and 'Keep.  These are used to 
+  compute a vector \code{proportion}, whose length is the max of the 
+  lengths of any components named 'x', 'y', 'firstFrame', 'lastFrame' 
+  or 1 and whose value indicates the proportion of the way \code{iFrame} 
+  is between \code{firstFrame} and \code{lastFrame}.  That sublist of 
+  \code{plotObject} is then passed with \code{proportion} to 
+  \code{\link{interpPairs}}, which finds all other components of that 
+  sublist with \code{\link{NROW}} = \code{length(proportion)}.  Rows with 
+  \code{proportion} outside [0, 1] (or more precisely 
+  \code{validProportion}, which defaults to [0, 1]) are dropped.  
   
+  \code{interpPairs} does other things:  It \code{\link{grep}}s for 
+  elements of the sublist it received with names matching 
+  \code{pairs[1:2]} and replaces those with a single component with a 
+  common name constructed using \code{sub(pairs[1:2], pairs[3], ...)}.  If 
+  the paired components are numeric, their replacement is a linear 
+  interpolation between the two using \code{proportion}.  Otherwise, the 
+  paired components are assumed to be character variables, and the 
+  interpolation is based on the number of characters.  For example, an 
+  element of the sublist with a component \code{fun} = 'text' may have a 
+  component \code{label.1} but none \code{label.0}.  In that case, the 
+  indicated \code{proportion} of the characters in \code{label.1} are 
+  returned as the replacement component \code{label}.  
+
   Example 1 below provides a simple example using a function as input.  
   Example 2 produces the same thing using a list as input.  Example 3 is 
   more complicated.  It illustrates zoom, rotating images, and arrows 
   whose characteristics change over time.  
   
+  SIMPLE ANIMATION:  In Example 1 below, \code{animate} converts a 
+  plot function \code{CRANgrowthFn} into a series of 10 plots.  The 
+  last \code{endFrames} = 2 are the same; The first 9 are different.  
+  As of 2014-05-01, the data \code{\link[Ecdat]{CRANpackages}} included 
+  29 points.  The first of the 10 plots displayed only the first point.  
+  The second displayed the first 4.  Each succeeding plot added another 
+  3 or 4 points to total 29 in the 9th and 10th frames.  
+  
+  Example 2 produces the same series of plots as Example 1 but using a 
+  list version of \code{CRANgrowthFn}.  This illustrates a general 
+  method for animating a plot:  First produce a function that produces
+  the desired result.  To add additional effects like panning, zooming, 
+  rotating images, or growing arrows, one can obtain a list version of 
+  the function as the output of \code{animate1.function}.  This list
+  version can then be modified as desired.  See Example 3 for examples
+  of panning, zooming, etc.    
+  
   ZOOM AND PAN:  This is achieved as indicated in the call to 
   \code{\link{plot}} in Example 3 by identifying pairs of numbers in 
   \code{xlim.0} and \code{xlim.1} for linear interpolation to produce 
   the argument \code{xlim}.  This technique could similarly be applied to 
-  \code{ylim}.  
+  \code{ylim}.  The pairs of numbers have the same values for 
+  \code{firstFrame}, \code{lastFrame}, and \code{Keep}.  For this 
+  sublist, \code{Keep} is \code{TRUE} for only the last pair of points 
+  in \code{xlim.0}, etc.  
   
   ANIMATING TEXT:  This  
   
 
   
-  \code{iFrame} being used to interpolate 
   
   
+
   
   
   ALGORITHM:  
@@ -361,7 +397,7 @@ logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                    xright=as.Date('2005-01-01'), ytop=5000)
   }
 
-if(require(jpeg) && require(Ecdat)){
+if(require(jpeg)){
   Rlogo <- readJPEG(logo.jpg)
 
   if(require(Ecdat)){  

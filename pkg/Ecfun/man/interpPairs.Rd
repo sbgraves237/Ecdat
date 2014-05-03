@@ -14,6 +14,11 @@
   Rows with \code{proportion} outside \code{validProportion} are dropped 
   in \code{x}.  Drop similar rows of any vector or 
   \code{\link{data.frame}} with the same number of rows as \code{x}.  
+  
+  All matches to \code{pairs[1:2]} are assumed to have the same length.  
+  
+  Interpolations on non-numerics are assumed to be character strings, 
+  and the interpolation is done on the cumulative number of characters.  
 }
 \usage{
 interpPairs(object, proportion,
@@ -63,13 +68,26 @@ interpPairs(object, proportion,
   interpolation.  For example, suppose \code{object} 
   contains \code{xleft.0}, then \code{xleft.1}.  After 
   \code{xleft.1} copied or evaluated, \code{xleft} will 
-  be computed as 
+  be computed.  If both \code{xleft.0} and \code{xleft.1}
+  are numeric, \code{xleft} is computed as 
   
   \code{xleft <- xleft.0*(1-proportion) + xleft.1*proportion} 
   
-  This allows \code{xright} to be specified later as 
-  \code{quote(xleft + xinch(0.6))}.  This can be used with 
-  a call to \code{\link{rasterImageAdj}}, for example.  
+  [If either \code{xleft.0} or \code{xleft.1} are not 
+  numeric, they are coerced to character if they aren't 
+  already, and the interpolation is done using 
+  \code{substring(xleft.1, ...)}.  Character interpolation is 
+  based on the cumulative difference between 
+  \code{nchar(xleft.0)} and \code{nchar(xleft.1)}.  The actual
+  contents of \code{xleft.0} are ignored except for 
+  \code{\link{nchar}}.  If \code{xleft.0} is not supplied, 
+  it is replaced with ''.  If \code{nchar(xleft.0)} exceeds 
+  \code{nchar(xleft.1)}, the difference is assumed to be 0.]  
+    
+  Computing \code{xleft} in this way allows \code{xright} to be 
+  specified later as \code{quote(xleft + xinch(0.6))}, for 
+  example.  This can be used with a call to 
+  \code{\link{rasterImageAdj}}.  
   
   5.  Let \code{N} = the maximum number of rows of elements 
   of \code{outList} created by interpolation in the previous 
@@ -150,7 +168,26 @@ all.equal(x0, x0.)
 \dontshow{)}
 
 ##
-## 6.  with elements of class call
+## 6. text
+##
+j.5 <- interpPairs(list(x.0='', x.1=c('a', 'bc', 'def')), 0.5)
+# check  
+j.5. <- list(x=c('a', 'bc', ''))
+\dontshow{stopifnot(}
+all.equal(j.5, j.5.)
+\dontshow{)}
+
+##
+## 6. text, 1 argument 
+##
+j.50 <- interpPairs(list(x.1=c('a', 'bc', 'def')), 0.5)
+# check  
+\dontshow{stopifnot(}
+all.equal(j.50, j.5.)
+\dontshow{)}
+
+##
+## 7.  with elements of class call
 ##
 xc <- interpPairs(list(x=1:3, y=quote(x+sin(pi*x/6))), 0:1)
 # check
@@ -160,7 +197,7 @@ all.equal(xc, xc.)
 \dontshow{)}
 
 ##
-## 7.  A more complicated example with elements to eval
+## 8.  A more complicated example with elements to eval
 ##
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)

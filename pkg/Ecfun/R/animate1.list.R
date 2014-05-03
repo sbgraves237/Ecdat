@@ -87,11 +87,12 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
 ## 5.  How far in the process?
 ##
-        pDone <- pmin((iFrame-firstF) / (lastF-firstF), 1)
+        dF <- (lastF-firstF)
+        pDone <- pmin((iFrame-firstF) / dF, 1)
         pDone[is.na(pDone)] <- 1
         pDone[(iFrame>lastF) & !Kp] <- (-1)
         if(max(pDone)<0) next
-        ploj <- interpPairs(plotj, pDone)
+        ploj <- interpPairs(plotj, pDone, pairs, ...)
         nKeep <- sum(pDone>=0)
 ##
 ## 6.  text
