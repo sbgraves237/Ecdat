@@ -480,7 +480,8 @@ if(require(jpeg)){
         xlab='', ylab='')
   RhistTitle <- list(fun='title',
         main='R History',
-        sub='Wikipedia, "R (programming language)"',
+        sub.0="Wikipedia", 
+        sub.1="Wikipedia, 'R (programming language)'",
         line=-3)
 
   Rhist <- list(
