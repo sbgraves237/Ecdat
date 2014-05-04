@@ -23,6 +23,11 @@ Arrows(x0, y0, x1 = x0, y1 = y0, length = 0.25, angle = 30,
     Issue a warning for zero length arrow?  \code{\link{arrow}} does;
     skip if \code{FALSE}.
   }
+%  \item{dropNA}{
+%    logical:  If \code{TRUE}, any \code{NA} is skipped.  If \codeFALSE}, 
+%    \code{NA}s are passed to \code{\link{arrow}}, which may then 
+%    terminate with an error.  
+%  }
 }
 \details{
   1.  Put all arguments in a \code{data.frame} to force them to shared
@@ -39,7 +44,18 @@ Arrows(x0, y0, x1 = x0, y1 = y0, length = 0.25, angle = 30,
 }
 %\references{}
 \examples{
+##
+## 1. Simple example: 
+##    3 arrows, the first with length 0 is suppressed 
+##
 plot(1:3, type='n')
 Arrows(1, 1, c(1, 2, 2), c(1, 2:3), col=1:3, length=c(1, .2, .6))
+
+##
+## 2.  with an NA
+##
+plot(1:3, type='n')
+Arrows(1, 1, c(1, 2, 2), c(1, 2, NA), col=1:3, length=c(1, .2, .6))
+
 }
 \keyword{IO}

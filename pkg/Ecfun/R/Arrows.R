@@ -12,9 +12,15 @@ Arrows <- function(x0, y0, x1 = x0, y1 = y0, length = 0.25, angle = 30,
 ##
     N <- nrow(dat)
     L2 <- with(dat, (x1-x0)^2 + (y1-y0)^2)
+    L2[is.na(L2)] <- 0 
+    wZL <- (warnZeroLength | (L2>0))
     for(i in 1:N){
-        if(warnZeroLength | (L2[i]>0)){
-            do.call(arrows, dat[i,])
-        }
+#      dNA <- (dropNA & any(is.na(dat[i,])))
+#      if(dNA){
+#        wZL[i] <- FALSE
+#      } 
+      if(wZL[i]){
+        do.call(arrows, dat[i,])
+      }
     }
 }
