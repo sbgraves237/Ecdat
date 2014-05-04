@@ -99,14 +99,14 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
     for(jFn in seq(length=nFns)){
         plj <- plotObject[[jFn]]
         firstFr <- getElement2(plj, 'firstFrame')
-        err <- which(firstFr>plot.lastFrame)
-        if(length(err)>0){
-          firstEr <- paste(firstFr[err], collapse=', ')
-          warning('plotObject$', names(Fns)[jFn], '$firstFrame[',
-                 err[1], '] = ', firstEr,
-                 ' > tail(plotObject$', names(Fns)[plot.lastj],
-                 '$lastFrame, 1) = ', plot.lastFrame)
-        }
+#        err <- which(firstFr>plot.lastFrame)
+#        if(length(err)>0){
+#          firstEr <- paste(firstFr[err], collapse=', ')
+#          warning('plotObject$', names(Fns)[jFn], '$firstFrame[',
+#                 err[1], '] = ', firstEr,
+#                 ' > tail(plotObject$', names(Fns)[plot.lastj],
+#                 '$lastFrame, 1) = ', plot.lastFrame)
+#        }
         lastFr <- getElement2(plj, 'lastFrame')
         erl <- which(lastFr>plot.lastFrame)
         if(length(erl)>0){
