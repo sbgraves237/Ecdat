@@ -74,7 +74,7 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
             stop('NAs not allowed in iFrames; found in iFrames[',
                  iFr.oops[1], ']')
         }
-        eri <- which(iFrames>plot.lastFrame)
+#        eri <- which(iFrames>plot.lastFrame)
 #        if(length(eri)>0){
 #            stop('iFrame[', eri[1], '] = ', iFrames[eri[1]],
 #                 ' > tail(plotObject$', names(Fns)[plot.lastj],
@@ -101,16 +101,18 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
         firstFr <- getElement2(plj, 'firstFrame')
         err <- which(firstFr>plot.lastFrame)
         if(length(err)>0){
-            stop('plotObject$', names(Fns)[jFn], '$firstFrame[',
-                 err[1], '] = ', firstFr[err],
+          firstEr <- paste(firstFr[err], collapse=', ')
+          warning('plotObject$', names(Fns)[jFn], '$firstFrame[',
+                 err[1], '] = ', firstEr,
                  ' > tail(plotObject$', names(Fns)[plot.lastj],
                  '$lastFrame, 1) = ', plot.lastFrame)
         }
         lastFr <- getElement2(plj, 'lastFrame')
         erl <- which(lastFr>plot.lastFrame)
         if(length(erl)>0){
-            stop('plotObject$', names(Fns)[jFn], '$firstFrame[',
-                 erl[1], '] = ', lastFr[erl],
+          lastEr <- paste(lastFr[erl], collapse=', ')  
+          warning('plotObject$', names(Fns)[jFn], '$firstFrame[',
+                 erl[1], '] = ', lastEr,
                  ' > tail(plotObject$', names(Fns)[plot.lastj],
                  '$lastFrame, 1) = ', plot.lastFrame)
         }
