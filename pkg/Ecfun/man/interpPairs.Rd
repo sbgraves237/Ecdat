@@ -134,9 +134,15 @@ all.equal(xy, xy.)
 ##
 ## 2.  Select the middle 2 
 ##
-xy0 <- interpPairs(tstList[-4], c(-1, 0, 1, 2) )
+xy0 <- interpPairs(tstList[-4], c(-Inf, -1, 0, 1, 2) )
 # check 
-xy0. <- list(ignore=letters, col=2:3, x=2:3, y=6:7)
+xy0. <- list(ignore=letters, col=1:4, x=1:4, y=7:6)
+# NOTES:  
+#  x.0 is not matched and is shorter than .proportion, 
+#    and so is returned as x unchanged
+#  col is shorter than .proportion and is returned unchanged
+#  y.0 and y.1 are rep'd to the length of .proportion, 
+#    then trimmed 
 
 \dontshow{stopifnot(}
 all.equal(xy0, xy0.)

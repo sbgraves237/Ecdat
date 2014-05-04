@@ -120,7 +120,20 @@ interpPairs <- function(object, .proportion,
   if(lp < ln) {
     .proportion <- rep(.proportion, length=ln)
     N <- ln
-  } else N <- lp 
+  } else {      
+    N <- lp 
+    if(lp>ln){
+      warning('length(.proportion) = ', lp, 
+              ' > max length(pairs) = ', ln)      
+    }
+  }
+# Confirm that all suf. have length N 
+#  for(s. in suf.){
+#    interpObj[[s.]] <- rep(interpObj[[s.]], length=N)
+#  }
+#  if(length(interpObj)>0){
+#    objL. <- sapply(interpObj, NROW)
+#  } else objL. <- integer(0)
 # Rows to keep 
   In <- ((validProportion[1] <= .proportion) & 
          (.proportion <= validProportion[2]) )
