@@ -25,13 +25,14 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
-        graphicsFunArgs=list(), ...)
+        graphicsFunArgs=list(), enforceEndFrames=FALSE, ...)
 animate1(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
         ...)
 \method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
-        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), ...)
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), 
+        enforceEndFrames=FALSE, ...)
 \method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
 nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
@@ -200,6 +201,14 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     uses the \code{graphicsFun} object described with the
     \code{filenames} argument above to translate the file extension 
     into the name of a graphics device.
+  }
+  \item{enforceEndFrames}{
+    logical:  If \code{TRUE}, \code{firstFrame} and \code{lastFrame} 
+    are compared with \code{(nF1 <- nFrames-endFrames+1)}.  When this 
+    condition is found, the offending values of \code{firstFrame} or 
+    \code{lastFrame} are replaced by \code{nF1} with a warning.  If 
+    \code{enforceEndFrames} = \code{FALSE}, this comparison is not made 
+    and no warnings are issued on these conditions.  
   }
   \item{\dots}{
     optional arguments for plot functions

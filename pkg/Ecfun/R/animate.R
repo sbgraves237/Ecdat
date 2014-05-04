@@ -6,7 +6,7 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'),
-        graphicsFunArgs=list(), ...){
+        graphicsFunArgs=list(), enforceEndFrames=FALSE, ...){
 ##
 ## 1.  plotList <- plotObject or animate1(plotObject, ...) 
 ##

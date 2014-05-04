@@ -1,6 +1,7 @@
 animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
-        pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''), ...){
+        pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''), 
+        enforceEndFrames=FALSE, ...){
 ##
 ## 1.  iFrame & nFrames?
 ##
@@ -54,8 +55,9 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
         lastF1 <- (nFrames-endFrames+1)
         firstF <- getElement2(plotj, 'firstFrame',
                               seq(1, lastF1, length=lenFLK))
-        oops1 <- which(firstF>lastF1)
-        if(length(oops1)>0){
+        if(enforceEndFrames){ 
+          oops1 <- which(firstF>lastF1)
+          if(length(oops1)>0){
             nFirstLast <- max(length(lastF1), length(firstF))
             lastF1. <- rep(lastF1, length=nFirstLast)
             firstF. <- rep(firstF, length=nFirstLast)
@@ -65,11 +67,13 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
                     lastF1.[oops1[1]],
                     ';\n  reducing firstFrame to lastF.' )
             firstF <- pmin(firstF., lastF1.)
+          }
         }
         lastF <- getElement2(plotj, 'lastFrame',
                              rep(lastF1, lenFLK))
-        oopsL <- which(lastF>lastF1)
-        if(length(oopsL)>0){
+        if(enforceEndFrames){
+          oopsL <- which(lastF>lastF1)
+          if(length(oopsL)>0){
             nL2 <- max(length(lastF1), length(lastF))
             lastF2 <- rep(lastF1, length=nL2)
             lastF. <- rep(lastF, length=nL2)
@@ -79,6 +83,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
                     lastF2[oopsL[1]],
                     ';\n reducing lastFrame to lastF.')
             lastF <- pmin(lastF2, lastF.)
+          }
         }
         Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK))
 #        plotj$firstFrame <- NULL
