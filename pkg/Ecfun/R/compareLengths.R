@@ -1,9 +1,9 @@
 compareLengths <- function(x, y, 
-                 name.x=deparse(substitute(x), width.cutoff, nlines=1), 
-                 name.y=deparse(substitute(y), width.cutoff, nlines=1), 
-                 Source='', compFun=c('length', 'NROW'), 
-                 action=c(compatible='', incompatible='warning'), 
-                 width.cutoff=20, ...){
+          name.x=deparse(substitute(x), width.cutoff, nlines=1, ...), 
+          name.y=deparse(substitute(y), width.cutoff, nlines=1, ...), 
+          Source='', compFun=c('length', 'NROW'), 
+          action=c(compatible='', incompatible='warning'), 
+          width.cutoff=20, ...){
 ##
 ## 1.  lenx, leny
 ##
