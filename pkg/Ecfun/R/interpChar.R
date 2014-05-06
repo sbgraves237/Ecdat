@@ -2,7 +2,8 @@ interpChar <- function(x, ...){
   UseMethod('interpChar')
 }
 
-interpChar.list <- function(x, .proportion, ...){
+interpChar.list <- function(x, .proportion, 
+                            argnames=character(3), ...){
   if(length(x)<2){
     lx <- length(x[[1]])
     lp <- length(.proportion)
@@ -24,7 +25,8 @@ interpChar.list <- function(x, .proportion, ...){
   interpChar.default(x[[1]], x[[2]], .proportion, ...)
 }
 
-interpChar.default <- function(x, y, .proportion, ...){
+interpChar.default <- function(x, y, .proportion, 
+                               argnames=character(3), ...){
 ##
 ## 1.  numeric? 
 ##  

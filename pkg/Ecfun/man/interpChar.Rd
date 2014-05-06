@@ -17,8 +17,10 @@
 }
 \usage{
 interpChar(x, ...)
-\method{interpChar}{list}(x, .proportion, ...)
-\method{interpChar}{default}(x, y, .proportion, ...)
+\method{interpChar}{list}(x, .proportion, 
+           argnames=character(3), ...)
+\method{interpChar}{default}(x, y, .proportion, 
+           argnames=character(3), ...)
 }
 \arguments{
   \item{x}{
@@ -30,8 +32,14 @@ interpChar(x, ...)
   \item{.proportion}{
     A number or numeric vector assumed to be between 0 and 1.  
   }
+  \item{argnames}{
+    a character vector of length 3 giving args \code{name.x}, 
+    \code{name.y}, and \code{Source} to pass to 
+    \code{\link{compareLengths}} to improve the value  of 
+    any diagnostic message in case lengths are not comparable.  
+  }
   \item{\dots}{
-    optional arguments not currently used.  
+    optional arguments for \code{\link{compareLengths}}  
   }
 }
 \details{

@@ -5,18 +5,26 @@ compareLengths <- function(x, y,
           action=c(compatible='', incompatible='warning'), 
           width.cutoff=20, ...){
 ##
-## 1.  lenx, leny
+## 1.  nchar(name.x, name.y)?
+## 
+  if((nchar(name.x)<1) || (nchar(name.y)<1)){
+    Source <- paste0('in compareLengths:')
+  }
+  if(nchar(name.x)<1) name.x <- 'x'
+  if(nchar(name.y)<1) name.y <- 'y'  
+##
+## 2.  lenx, leny
 ##
   comp <- match.arg(compFun)
   lenx <- do.call(comp, list(x))
   leny <- do.call(comp, list(y))
   len <- c(lenx, leny)
 ##
-## 2.  lenx==leny?
+## 3.  lenx==leny?
 ##  
   if(lenx==leny)return(c('equal', ''))
 ##
-## 3.  Compatible?  
+## 4.  Compatible?  
 ##
   act <- match.arg(action)
   o <- order(len)
@@ -32,7 +40,7 @@ compareLengths <- function(x, y,
     } else do.call(action[1], list(Msc))
   }  
 ##
-## 4.  incompatible   
+## 5.  incompatible   
 ##
   msi <- paste0(Source, ' length(', nam[o[2]], ') = ', 
         len[o[2]], ' is not a multiple of length(', 

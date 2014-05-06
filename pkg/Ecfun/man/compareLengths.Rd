@@ -45,16 +45,20 @@ compareLengths(x, y,
   }
 }
 \details{
-  1.  lenx <- do.call(compFun, list(x));  
+  1.  If nchar(name.x) = 0 = nchar(name.y), set name.x <- 'x', 
+  name.y <- 'y', and prepend 'in compareLengths:' to Source 
+  for more informative messaging.  
+  
+  2.  lenx <- do.call(compFun, list(x));  
   leny <- do.call(compFun, list(y))
   
-  2.  if(lenx==leny)return(c('equal', ''))
+  3.  if(lenx==leny)return(c('equal', ''))
   
-  3.  Compatible?  
+  4.  Compatible?  
   
-  4.  Compose the message.  
+  5.  Compose the message.  
   
-  5.  "action", as indicated 
+  6.  "action", as indicated 
 }
 \value{
   A character vector of length 2.  The first element is either 'equal', 
@@ -104,6 +108,16 @@ chk.aZ <- c('incompatible',
     ' length(Z) = 3 is not a multiple of length(a) = 2')
 \dontshow{stopifnot(}
 all.equal(comp.aZ, chk.aZ) 
+\dontshow{)}
+##
+## 4.  problems with name.x and name.y 
+##
+comp.ab2 <- compareLengths(a, b, '', '')
+# check 
+chk.ab2 <- c('compatible', 
+             'in compareLengths: length(y) = 6 is 3 times length(x) = 2')
+\dontshow{stopifnot(}
+all.equal(comp.ab2, chk.ab2) 
 \dontshow{)}
 }
 \keyword{manip}
