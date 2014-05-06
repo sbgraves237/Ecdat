@@ -1,0 +1,109 @@
+\name{compareLengths}
+\alias{compareLengths}
+\title{
+  Compare the lengths of two objects  
+}
+\description{
+  Issue a warning or error if the lengths of two objects are not 
+  compatible.   
+}
+\usage{
+compareLengths(x, y, 
+   name.x=deparse(substitute(x), width.cutoff, nlines=1, ...), 
+   name.y=deparse(substitute(y), width.cutoff, nlines=1, ...), 
+   Source='', compFun=c('length', 'NROW'), 
+   action=c(compatible='', incompatible='warning'), 
+   width.cutoff=20, ...) 
+}
+\arguments{
+  \item{x, y}{
+    objects whose lengths are to be compared 
+  }
+  \item{name.x, name.y}{
+    names of x and y to use in a message.  Default = 
+    deparse(substitute(.), width.cutoff, nlines=1).  
+  }
+  \item{Source}{
+    character string to be included with name.x and name.y 
+    in a message.  
+  }
+  \item{compFun}{
+    function to use in the comparison.  
+  }
+  \item{action}{
+    A character vector of length 2 giving the names of functions 
+    to call if the lengths are not equal but are either 
+    'compatible' or 'incompatible';  '' means no action.    
+  }
+  \item{width.cutoff}{
+    \code{width.cutoff} argument to pass to 
+    \code{\link{deparse}}.  This gives the maximum number of 
+    characters to use in a name.  
+  }
+  \code{\dots}{ 
+    optional arguments for \code{\link{deparse}} 
+  }
+}
+\details{
+  1.  lenx <- do.call(compFun, list(x));  
+  leny <- do.call(compFun, list(y))
+  
+  2.  if(lenx==leny)return(c('equal', ''))
+  
+  3.  Compatible?  
+  
+  4.  Compose the message.  
+  
+  5.  "action", as indicated 
+}
+\value{
+  A character vector of length 2.  The first element is either 'equal', 
+  'compatible' or 'incompatible'.  The second element is the message 
+  composed.  
+}
+\author{
+  Spencer Graves with help from Duncan Murdoch 
+}
+\seealso{
+  \code{\link{animate}}
+  \code{\link{interpPairs}}
+}
+%\references{}
+\examples{
+##
+## 1.  equal 
+##
+\dontshow{stopifnot(}
+all.equal(compareLengths(1:3, 4:6), c("equal", ''))
+\dontshow{)}
+
+##
+## 2.  compatible 
+##
+a <- 1:2
+b <- letters[1:6]
+comp.ab <- compareLengths(a, b, Source='Chk:')
+comp.ba <- compareLengths(b, a, Source='Chk:')
+# check 
+chk.ab <- c('compatible', 
+            'Chk: length(b) = 6 is 3 times length(a) = 2')
+\dontshow{stopifnot(}
+all.equal(comp.ab, chk.ab) 
+\dontshow{)}
+\dontshow{stopifnot(}
+all.equal(comp.ba, chk.ab) 
+\dontshow{)}
+
+##
+## 3.  incompatible 
+##
+Z <- LETTERS[1:3]
+comp.aZ <- compareLengths(a, Z)
+# check 
+chk.aZ <- c('incompatible', 
+    ' length(Z) = 3 is not a multiple of length(a) = 2')
+\dontshow{stopifnot(}
+all.equal(comp.aZ, chk.aZ) 
+\dontshow{)}
+}
+\keyword{manip}

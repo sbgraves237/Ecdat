@@ -4,6 +4,8 @@ interpChar <- function(x, ...){
 
 interpChar.list <- function(x, .proportion, ...){
   if(length(x)<2){
+    lx <- length(x[[1]])
+    lp <- length(.proportion)
     if(is.numeric(x[[1]])){
       xNm <- names(x)
       if(is.null(xNm) || (nchar(xNm)<1)){

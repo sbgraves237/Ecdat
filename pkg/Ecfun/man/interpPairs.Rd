@@ -118,13 +118,13 @@ interpPairs(object, .proportion,
 ##
 ## 1.  (x.0, y.0, x.1, y.1) -> (x,y)
 ##
-tstList <- list(x.0=1:4, y.0=5:8, y.1=9:6, x.1=9,
-                ignore=letters, col=1:4)
+tstList <- list(x.0=1:5, y.0=5:9, y.1=9:5, x.1=9,
+                ignore=letters, col=1:5)
 xy <- interpPairs(tstList, 0.1)
 # check 
-xy. <- list(ignore=letters, col=1:4, 
-            y=5:8 + 0.1*(9:6-5:8), 
-            x=1:4 + 0.1*(9-1:4) )
+xy. <- list(ignore=letters, col=1:5, 
+            y=5:9 + 0.1*(9:5-5:9), 
+            x=1:5 + 0.1*(9-1:5) )
 # New columns, 'x' and 'y', come after 
 # columns 'col' and 'ignore' alread in tstList 
 \dontshow{stopifnot(}
@@ -136,13 +136,7 @@ all.equal(xy, xy.)
 ##
 xy0 <- interpPairs(tstList[-4], c(-Inf, -1, 0, 1, 2) )
 # check 
-xy0. <- list(ignore=letters, col=1:4, x=1:4, y=7:6)
-# NOTES:  
-#  x.0 is not matched and is shorter than .proportion, 
-#    and so is returned as x unchanged
-#  col is shorter than .proportion and is returned unchanged
-#  y.0 and y.1 are rep'd to the length of .proportion, 
-#    then trimmed 
+xy0. <- list(ignore=letters, col=3:4, x=3:4, y=7:6)
 
 \dontshow{stopifnot(}
 all.equal(xy0, xy0.)
@@ -152,7 +146,8 @@ all.equal(xy0, xy0.)
 ##
 xy02 <- interpPairs(tstList[c(2, 4)], 0.1)
 # check 
-xy02. <- list(y=5:8, x=9)
+xy02. <- list(y=5:9, x=9)
+
 # NOTE:  length(x) = 1 = length(x.1) in testList
 \dontshow{stopifnot(}
 all.equal(xy02, xy02.)

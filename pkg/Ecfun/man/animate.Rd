@@ -425,13 +425,13 @@ if(require(jpeg)){
 ##
 ## 2.  CRANgrowth as a list 
 ##
-    CRANgrowth <- list(list(fun='plot',
+    CRANgrowth <- list(setup=list(fun='plot',
                     x=CRANpackages[['Date']],
                     y=CRANpackages[['Packages']],
                     xlim=range(CRANpackages[['Date']]),
                     ylim=range(CRANpackages[['Packages']]),
                     log='y'),
-             list(fun='rasterImageAdj', image=Rlogo,
+             Rlogo=list(fun='rasterImageAdj', image=Rlogo,
                   xleft=as.Date('2002-01-01'), ybottom=1000,
                   xright=as.Date('2005-01-01'), ytop=5000) )
     animate(CRANgrowth)

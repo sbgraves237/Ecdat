@@ -14,33 +14,7 @@ interpPairs <- function(object, .proportion,
   suf2. <- sub(pairs[2], pairs[3], suf2)
   suf. <- unique(c(suf1., suf2.))
 ##
-## 3.  look for pairs
-##
-#  Matches <- table(c(suf1., suf2.))
-#  oops <- names(Matches[Matches<2])
-#  numwarn <- ''
-#  if(length(oops)>0){
-#      un1 <- which(suf1. %in% oops)
-#      un2 <- which(suf2. %in% oops)
-#      if(length(un1)>0){
-#        numwarn <- paste0(suf1[un1[1]], ' found without a matching ',
-#                pairs[2], ';  returning ', suf1[un1[1]],
-#                ' as ', suf1.[un1[1]])
-#        warning(numwarn)
-#      }
-#      if(length(un2)>0){
-#        numwarn <- paste0(suf2[un2[1]], ' found without a matching ',
-#                  pairs[1], ';  returning ', suf2[un2[1]],
-#                  ' as ', suf2.[un1[1]])
-#        warning(numwarn)
-#      }
-#      el1 <- c(suf1[un1], suf2[un2])
-#      Dat <- object[c(suf1[un1], suf2[un2])]
-#      names(Dat) <- c(suf1.[un1], suf2.[un2])
-#  }
-#  match2 <- names(Matches[Matches>1])
-##
-## 4.  evalObj <- eval(object) 
+## 3.  evalObj <- eval(object) 
 ##
   interpObj <- object
   nel <- length(interpObj)
@@ -105,7 +79,7 @@ interpPairs <- function(object, .proportion,
     }
   }
 ##
-## 5.  Other vectors or data.frames 
+## 4.  Other vectors or data.frames 
 ##     with the same number of rows?  
 ##
 # length of suf.?  
@@ -127,13 +101,6 @@ interpPairs <- function(object, .proportion,
               ' > max length(pairs) = ', ln)      
     }
   }
-# Confirm that all suf. have length N 
-#  for(s. in suf.){
-#    interpObj[[s.]] <- rep(interpObj[[s.]], length=N)
-#  }
-#  if(length(interpObj)>0){
-#    objL. <- sapply(interpObj, NROW)
-#  } else objL. <- integer(0)
 # Rows to keep 
   In <- ((validProportion[1] <= .proportion) & 
          (.proportion <= validProportion[2]) )
@@ -156,7 +123,7 @@ interpPairs <- function(object, .proportion,
     interpObj[[s.]] <- S.
   }
 ##
-## 6.  Delete suf1 and suf2
+## 5.  Delete suf1 and suf2
 ## 
   interpObj$.proportion <- NULL 
   del <- (names(interpObj) %in% c(suf1, suf2))
