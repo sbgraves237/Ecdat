@@ -40,7 +40,7 @@ compareLengths(x, y,
     \code{\link{deparse}}.  This gives the maximum number of 
     characters to use in a name.  
   }
-  \code{\dots}{ 
+  \item{\dots}{ 
     optional arguments for \code{\link{deparse}} 
   }
 }
