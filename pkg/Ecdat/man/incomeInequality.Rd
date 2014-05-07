@@ -11,7 +11,7 @@
   (2) Piketty and Saez for the 95th and higher quantiles
 
   (3) Gross Domestic Product and implicit price deflators from
-  \href{http://MeasuringWorth.com}{MeasureingWorth.com}
+  \href{http://MeasuringWorth.com}{MeasuringWorth.com}
 }
 \usage{data(incomeInequality)}
 \format{
@@ -34,7 +34,7 @@
     \item{realGDP.M, GDP.Deflator, PopulationK, realGDPperCap }{
       real GDP in millions, GDP implicit price deflators, US population
       in thousands, and real GDP per capita, according to
-      \href{http://MeasuringWorth.com}{MeasureingWorth.com}.
+      \href{http://MeasuringWorth.com}{MeasuringWorth.com}.
     }
     \item{P95IRSvsCensus}{
       ratio of the estimates of the 95th percentile of distributions of
@@ -50,7 +50,7 @@
     \item{personsPerFamily}{
       average number of persons per family using the number of families
       from US Census Table F-1 and the population from
-      \href{http://MeasuringWorth.com}{MeasureingWorth.com}.
+      \href{http://MeasuringWorth.com}{MeasuringWorth.com}.
     }
     \item{realGDPperFamily}{
       \code{personsPerFamily * realGDPperCap}
