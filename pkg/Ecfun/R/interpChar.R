@@ -5,10 +5,29 @@ interpChar <- function(x, ...){
 interpChar.list <- function(x, .proportion, 
                             argnames=character(3), ...){
   if(length(x)<2){
-    lx <- length(x[[1]])
-    lp <- length(.proportion)
+#    lx <- length(x[[1]])
+#    lp <- length(.proportion)
+    xNm <- names(x)
+    name0 <- FALSE 
+    name.x <- argnames[1]
+    if(is.null(name.x) || (nchar(name.x)==0)) {
+      name0 <- TRUE
+      name.x <- xNm
+      if(is.null(name.x) || (nchar(name.x)==0)) name.x <- 'x'
+    }
+    if(is.null(xNm) || (nchar(xNm)==0)) xNm <- name.x 
+    name.y <- argnames[2] 
+    if(is.null(name.y) || (nchar(name.y)==0)) {
+      name.y <- '.proportion'
+      name0 <- TRUE 
+    }
+    Source <- argnames[3]
+    if(name0){
+      Source <- paste0('in interpChar.list:', Source)
+    }  
+    compareLengths(x[[1]], .proportion, name.x, name.y,
+                   Source, ...)    
     if(is.numeric(x[[1]])){
-      xNm <- names(x)
       if(is.null(xNm) || (nchar(xNm)<1)){
         warning('numerical interpolation in a list of length 1', 
                 '\n returns the input')
@@ -22,15 +41,30 @@ interpChar.list <- function(x, .proportion,
     out <- interpChar.default('', x[[1]], .proportion, ...)
     return(out)
   }
-  interpChar.default(x[[1]], x[[2]], .proportion, ...)
+  interpChar.default(x[[1]], x[[2]], .proportion, argnames, ...)
 }
 
 interpChar.default <- function(x, y, .proportion, 
                                argnames=character(3), ...){
 ##
-## 1.  numeric? 
+## 1.  compareLengths(x, .proportion, ...)  
+##  
+  Source <- argnames[3]
+  name.x <- argnames[1]
+  name0 <- FALSE 
+  if(is.null(name.x) || (nchar(name.x)==0)) {
+    Source <- paste0('in interpChar.default:', Source)
+    name.x <- 'x'
+    name0 <- TRUE 
+  }
+  name.p <- '.proportion'
+  cL <- compareLengths(x, .proportion, name.x, name.p,
+                 Source, ...)    
+##
+## 2.  numeric? 
 ##  
   if(missing(y)){
+#  1.1.  missing(y)    
     if(is.numeric(x)){
       warning('numeric interpolation with one input;', 
               '  returning that.')
@@ -39,6 +73,17 @@ interpChar.default <- function(x, y, .proportion,
     y <- x
     x <- '' 
   } else { 
+#  1.2.  y is not missing:  Check lengths     
+    name.y <- argnames[2]
+    if(is.null(name.y) || (nchar(name.y)==0)){
+      name.y <- 'y'
+      if(!name0){
+        Source <- paste0('in interpChar.default:', Source)
+      }
+    }  
+    cL.xy <- compareLengths(x, y, name.x, name.y,
+                   Source, ...)    
+#   Numeric?      
     num <- (is.numeric(x) && is.numeric(y))
     if(num){
       out <- (x*(1-.proportion) + y*.proportion) 

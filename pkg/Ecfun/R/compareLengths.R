@@ -48,6 +48,8 @@ compareLengths <- function(x, y,
   Msi <- c('incompatible', msi)
   if(nchar(action[2])<1){ 
     return(Msi)
-  } else do.call(action[2], list(Msi))
+  } else { 
+    do.call(action[2], list(Msi[1], ': ', Msi[2]))
+  }
   Msi
 }
