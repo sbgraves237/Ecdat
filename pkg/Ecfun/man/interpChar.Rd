@@ -43,8 +43,10 @@ interpChar(x, ...)
   }
 }
 \details{
-  0.  \code{x}, \code{y} and \code{.proportion} are all extended to 
-  the same length using \code{\link{rep}}.  
+  0.  \code{x}, \code{y} and \code{.proportion} are first compared
+  for compatible lengths using \code{\link{compareLengths}}.  A 
+  warning is issued if the lengths are not compatible.  They are 
+  then all extended to the same length using \code{\link{rep}}.  
   
   1.  If \code{x} and \code{y} are both numeric, \code{interpChar} 
   returns the standard linear interpolation (described above).  
@@ -58,13 +60,14 @@ interpChar(x, ...)
   provided with at least one of \code{x} and \code{y} not being 
   numeric, the algorithm does linear interpolation on the 
   cumulative difference in the number of characters between 
-  \code{x} and \code{y}, returning characters from \code{y} 
-  unless \code{nchar(x)} exceeds \code{nchar(y)}.  This can 
+  \code{x} and \code{y}, returning characters from \code{y}.  
+  This meets the standard end conditions that \code{x} is 
+  returned when \code{.proportion} is 0 and \code{y} is 
+  returned when \code{.proportion} is 1, except that the roles
+  of \code{x} and \code{y} are reversed whenever 
+  \code{nchar(x)} exceeds \code{nchar(y)}.  This can 
   be used to "erase" characters moving from one frame to 
-  the next in a video.  This meets the standard end conditions 
-  that \code{x} is returned when \code{.proportion} is 0 and 
-  \code{y} is returned when \code{.proportion} is 1.  See the 
-  examples.   
+  the next in a video.  See the examples.   
 }
 \value{
   A vector:  Numeric if \code{x} and \code{y} are both numeric 

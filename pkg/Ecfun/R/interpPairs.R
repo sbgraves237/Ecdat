@@ -1,4 +1,4 @@
-interpPairs <- function(object, .proportion,
+interpPairs <- function(object, .proportion, envir=list(), 
                         pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
                         validProportion=0:1, ...){
 ##
@@ -16,12 +16,21 @@ interpPairs <- function(object, .proportion,
 ##
 ## 3.  evalObj <- eval(object) 
 ##
-  interpObj <- object
-  nel <- length(interpObj)
-  interpObj$.proportion <- .proportion 
+  Envir <- envir 
+#  interpObj <- object
+  nel <- length(object)
+  Envir$.proportion <- .proportion 
+#  ne <- length(Envir)
   for(j in seq(length=nel)){
 #   eval(interpObj[[j]])    
-    interpObj[[j]] <- eval(interpObj[[j]], interpObj[-j])
+    Nj <- eval(object[[j]], Envir) 
+    if(is.null(Nj)){
+      oj <- object[[j]]
+      ojc <- deparse(object[[j]], width.cutoff=25) 
+      stop('NULL returned from eval(', Names[j], 
+           ' = ', ojc, ', ...)')
+    }
+    Envir[[Names[j]]] <- Nj 
 #   Is this a pair name? 
     s1 <- which(suf1 == Names[j])
     s2 <- which(suf2 == Names[j])
@@ -39,9 +48,9 @@ interpPairs <- function(object, .proportion,
 #         Add the interpolation 
 #            N12 <- (interpObj[[suf1[s1]]]*() 
 #                    + interpObj[[suf2[j2]]]*proportion ) 
-            N12 <- interpChar(interpObj[c(suf1[s1], suf2[j2])], 
+            N12 <- interpChar(Envir[c(suf1[s1], suf2[j2])], 
                               .proportion)
-            interpObj[[suf2.[j2]]] <- N12 
+            Envir[[suf2.[j2]]] <- N12 
           } 
 #         match found but not processed yet
           next
@@ -50,8 +59,9 @@ interpPairs <- function(object, .proportion,
 #          if(is.numeric(interpObj[[j]])){ 
 #           If numeric, store interpObj[[j]] as the match 
 #           with a warning           
-          N1 <- interpChar(x=interpObj[[j]], .proportion=.proportion) 
-          interpObj[[suf1.[s1]]] <- N1
+          N1 <- interpChar(x=Envir[[Names[j]]], 
+                           .proportion=.proportion) 
+          Envir[[suf1.[s1]]] <- N1
         }
       } else {
 #       k2=1, because k1=0         
@@ -63,16 +73,16 @@ interpPairs <- function(object, .proportion,
 #         Add the interpolation 
 #            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
 #                    + interpObj[[suf2[s2]]]*proportion ) 
-            N12 <- interpChar(interpObj[c(suf1[j1], suf2[s2])], 
+            N12 <- interpChar(Envir[c(suf1[j1], suf2[s2])], 
                               .proportion)
-            interpObj[[suf1.[j1]]] <- N12 
+            Envir[[suf1.[j1]]] <- N12 
           } 
 #         match found but not processed yet
           next
         } else {
 #         match not found;  store interpObj[[j]] as the match           
-          interpObj[[suf2.[s2]]] <- 
-            interpChar(interpObj[j], .proportion) 
+          Envir[[suf2.[s2]]] <- 
+            interpChar(object[j], .proportion) 
           next 
         }     
       }
@@ -82,23 +92,29 @@ interpPairs <- function(object, .proportion,
 ## 4.  Other vectors or data.frames 
 ##     with the same number of rows?  
 ##
-# length of suf.?  
-  if(length(interpObj)>0){
-    objLen <- sapply(interpObj, NROW)
+  Drop <- (Names %in% c(suf1, suf2))
+  Keep. <- c(Names[!Drop], suf.)
+  interpOut <- Envir[Keep.]  
+  if(length(interpOut)>0){
+    objLen <- sapply(interpOut, NROW)
   } else objLen <- integer(0)
+#
   nSuf <- length(suf.)
   if(nSuf>0){
     ln <- max(objLen[suf.])
-  } else ln <- 1
+  } else ln <- (-Inf)
   lp <- length(.proportion)
   if(lp < ln) {
     .proportion <- rep(.proportion, length=ln)
     N <- ln
   } else {      
     N <- lp 
-    if(lp>ln){
-      warning('length(.proportion) = ', lp, 
-              ' > max length(pairs) = ', ln)      
+    if((lp>ln) && (ln>1)){
+      msg <- paste0('length(.proportion) = ', lp, 
+              ' > max length(pairs) = ', ln, 
+              ';\n  pairs found for ', 
+              paste(suf., collapse=', '))
+      warning(msg)
     }
   }
 # Rows to keep 
@@ -107,25 +123,23 @@ interpPairs <- function(object, .proportion,
 # Cols to trim? 
   cols2trim <- (objLen==N)
 # trim   
-  for(s. in names(interpObj)[cols2trim]){
+  for(s. in names(interpOut)[cols2trim]){
 #   Retain only "In" in s.
-    S. <- interpObj[[s.]]
+    S. <- interpOut[[s.]]
     ndim <- length(dim(S.))
     if(ndim<2){
         if(!is.null(S.)){
           S. <- S.[In]
         }
     } else {      
-      if(is.data.frame(S.)){
+      if(is.data.frame(S.) || is.matrix(S.)){
             S. <- S.[In,, drop=FALSE]
       } 
     }
-    interpObj[[s.]] <- S.
+    interpOut[[s.]] <- S.
   }
 ##
 ## 5.  Delete suf1 and suf2
 ## 
-  interpObj$.proportion <- NULL 
-  del <- (names(interpObj) %in% c(suf1, suf2))
-  interpObj[!del]
+  interpOut
 }

@@ -11,8 +11,8 @@
   \code{x}, where \code{x} is obtained by linear interpolation using
   \code{.proportion} between \code{x.0} and \code{x.1}.  
   
-  Rows with \code{.proportion} outside \code{validProportion} are dropped 
-  in \code{x}.  Drop similar rows of any vector or 
+  Rows with \code{.proportion} outside \code{validProportion} are 
+  dropped in \code{x}.  Drop similar rows of any vector or 
   \code{\link{data.frame}} with the same number of rows as \code{x}.  
   
   All matches to \code{pairs[1:2]} are assumed to have the same length.  
@@ -21,7 +21,7 @@
   and the interpolation is done on the cumulative number of characters.  
 }
 \usage{
-interpPairs(object, .proportion,
+interpPairs(object, .proportion, envir=list(), 
             pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
             validProportion=0:1, ...)
 }
@@ -40,6 +40,11 @@ interpPairs(object, .proportion,
     .proportion * (x.1 - x.0)}.  Rows of \code{x} and any other element 
     of \code{object} of the same length are dropped for any 
     \code{.proportion} outside \code{validProportion}.
+  }
+  \item{envir}{
+    environment / list to use with code{object}, which can optionally 
+    provide other variables to compute what gets plotted;  see the 
+    example below using this argument.  
   }
   \item{pairs}{
     a character vector of two regular expressions to identify elements
@@ -68,26 +73,8 @@ interpPairs(object, .proportion,
   4.  Loop over all elements of \code{object} to create 
   \code{outList}, evaluating any expressions.  As pairs 
   are copied or evaluated, compute the desired 
-  interpolation.  For example, suppose \code{object} 
-  contains \code{xleft.0}, then \code{xleft.1}.  After 
-  \code{xleft.1} copied or evaluated, \code{xleft} will 
-  be computed.  If both \code{xleft.0} and \code{xleft.1}
-  are numeric, \code{xleft} is computed as 
-  
-  \code{xleft <- xleft.0*(1-.proportion) + xleft.1*.proportion} 
-  
-  [If either \code{xleft.0} or \code{xleft.1} are not 
-  numeric, they are coerced to character if they aren't 
-  already, and the interpolation is done using 
-  \code{substring(xleft.1, ...)}.  Character interpolation is 
-  based on the cumulative difference between 
-  \code{nchar(xleft.0)} and \code{nchar(xleft.1)}.  The actual
-  contents of \code{xleft.0} are ignored except for 
-  \code{\link{nchar}}.  If \code{xleft.0} is not supplied, 
-  it is replaced with ''.  If \code{nchar(xleft.0)} exceeds 
-  \code{nchar(xleft.1)}, the difference is assumed to be 0.]  
-    
-  Computing \code{xleft} in this way allows \code{xright} to be 
+  interpolation using \code{\link{interpChar}}.  Computing 
+  \code{xleft} in this way allows \code{xright} to be 
   specified later as \code{quote(xleft + xinch(0.6))}, for 
   example.  This can be used with a call to 
   \code{\link{rasterImageAdj}}.  
@@ -102,7 +89,7 @@ interpPairs(object, .proportion,
 
   6.  Delete the raw pairs found in steps 1-3, retaining the 
   element with the target name computed in steps 4 and 5 
-  above.  
+  above.
 }
 \value{
   a \code{list} with elements containing the interpolation results.
@@ -111,7 +98,10 @@ interpPairs(object, .proportion,
   Spencer Graves
 }
 \seealso{
-  \code{\link{animate1.list}}
+  \code{\link{interpChar}} for details on interpolation.  
+  \code{\link{compareLengths}} for how lengths are checked and 
+  messages composed and written.  
+  \code{\link{animate1.list}}, which uses \code{interpPairs}.  
 }
 %\references{}
 \examples{
@@ -231,5 +221,21 @@ all.equal(names(RlogoInterp),
 # and therefore come after 'xright' and 'ytop', which were 
 # already there.  
 }
+
+##
+## 9.  using envir
+##
+RlogoDiag <- list(x0=quote(Rlogo.$xleft), 
+                  y0=quote(Rlogo.$ybottom), 
+                  x1=quote(Rlogo.$xright), 
+                  y1=quote(Rlogo.$ytop) ) 
+
+RlogoD <- interpPairs(RlogoDiag, .p=1, 
+                      envir=list(Rlogo.=RlogoInterp) ) 
+RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
+names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
+\dontshow{stopifnot(}
+all.equal(RlogoD, RlogoD.)
+\dontshow{)}
 }
 \keyword{manip}
