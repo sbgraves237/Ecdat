@@ -113,10 +113,10 @@ tstList <- list(x.0=1:5, y.0=5:9, y.1=9:5, x.1=9,
 xy <- interpPairs(tstList, 0.1)
 # check 
 xy. <- list(ignore=letters, col=1:5, 
-            y=5:9 + 0.1*(9:5-5:9), 
-            x=1:5 + 0.1*(9-1:5) )
+            x=1:5 + 0.1*(9-1:5), 
+            y=5:9 + 0.1*(9:5-5:9) )
 # New columns, 'x' and 'y', come after 
-# columns 'col' and 'ignore' alread in tstList 
+# columns 'col' and 'ignore' already in tstList 
 \dontshow{stopifnot(}
 all.equal(xy, xy.)
 \dontshow{)}

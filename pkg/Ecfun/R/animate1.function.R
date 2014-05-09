@@ -35,6 +35,7 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     }
     plotList[[iStep]] <- ib
   }   
+  names(plotList) <- 1:(nbo-1)
 ##
 ## 3.  iFrame & nFrames
 ##

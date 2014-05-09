@@ -1,4 +1,5 @@
 nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
+                     envir=list(), 
                      min.nFrames=c(nFrames=10, overMax=1.3)){
 ##
 ## 1.  If nFrames is supplied, prepare to return it.
@@ -23,7 +24,8 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ##
 ## 2.  Compute plot.lastFrame
 ##
-    Fns <- sapply(plotObject, getElement2, name='fun', default=NA)
+    Fns <- vapply(plotObject, getElement2, '', name='fun', 
+                  default=as.character(NA))
     plotj <- which(Fns=='plot')
     plot.lastFrame <- NA
     plot.lastj <- NA
@@ -32,14 +34,14 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
     for(j in seq(along=plotj)){
         jp <- plotj[j]
         ploj <- plotObject[[jp]]
-        lastF <- getElement2(ploj, 'lastFrame')
+        lastF <- getElement2(ploj, 'lastFrame', envir=envir)
         lastF1 <- tail(lastF, 1)
         if(is.na(lastF1)){
             plot.lastF.NA[j] <- ('lastFrame' %in% names(ploj))
         } else {
 #            plot.lastF.NA[j] <- FALSE
             if(!is.null(nFrames)){
-                Keep <- getElement2(ploj, 'Keep')
+                Keep <- getElement2(ploj, 'Keep', envir=envir)
                 Keep. <- tail(Keep, 1)
 #                if((!is.na(Keep)) && (!Keep)
 #                   && (lastF1 < nFrames)){
@@ -98,7 +100,7 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
     }
     for(jFn in seq(length=nFns)){
         plj <- plotObject[[jFn]]
-        firstFr <- getElement2(plj, 'firstFrame')
+        firstFr <- getElement2(plj, 'firstFrame', envir=envir)
 #        err <- which(firstFr>plot.lastFrame)
 #        if(length(err)>0){
 #          firstEr <- paste(firstFr[err], collapse=', ')
@@ -107,7 +109,7 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #                 ' > tail(plotObject$', names(Fns)[plot.lastj],
 #                 '$lastFrame, 1) = ', plot.lastFrame)
 #        }
-        lastFr <- getElement2(plj, 'lastFrame')
+        lastFr <- getElement2(plj, 'lastFrame', envir=envir)
 #        erl <- which(lastFr>plot.lastFrame)
 #        if(length(erl)>0){
 #          lastEr <- paste(lastFr[erl], collapse=', ')  

@@ -1,7 +1,7 @@
 animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='%s%05d.png',
         endFrames=round(0.2*nFrames),
-        framesFile='framesFiles.txt', duration,
+        framesFile='framesFiles.txt', duration, envir=list(), 
         pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
@@ -11,8 +11,9 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ## 1.  plotList <- plotObject or animate1(plotObject, ...) 
 ##
   if(is.function(plotObject)){
-    plotList <- animate1(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), plot.it=FALSE, ...)
+    plotList <- animate1.function(plotObject, nFrames=NULL, 
+        iFrame=NULL, endFrames=round(0.2*nFrames), 
+        plot.it=FALSE, ...)
   } else {
     plotList <- plotObject 
   }
@@ -20,7 +21,8 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ## 2.  nFrames & iFrames?
 ##
 #  2.1.  nFr <- nFrames
-    nFr <- nFramesDefault(plotList, nFrames, iFrames)
+    nFr <- nFramesDefault(plotList, nFrames, iFrames, 
+                          envir=envir)
     nFrames <- as.numeric(nFr)
     if(is.na(nFrames)){
         stop('nFrames not specified.')
@@ -29,8 +31,10 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #  2.2.  Fix any 'plot' element with tail(lastFrames, 1) = NA
     plot.lF.NA <- attr(nFr, 'plot.lastFrame.NA')
     for(jp in plot.lF.NA){
-        n.lF <- is.na(plotList[[jp]]$lastFrame)
-        plotList[[jp]]$lastFrame[n.lF] <- (nFrames-endFrames+1)
+      lF <- getElement2(plotList[[jp]], 'lastFrame', envir=envir)
+      n.lF <- is.na(lF)
+      lF[n.lF] <- (nFrames-endFrames+1)
+      plotList[[jp]]$lastFrame <- lF 
     }
 ##
 ## 3.  duration
@@ -76,8 +80,8 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
             gFA$filename <- filenames[iFrame]
             do.call(gFns[iFrame], gFA)
         }
-        animate1(plotList, nFrames, iFrame,
-                 endFrames, ...)
+        animate1.list(plotList, nFrames, iFrame,
+                 endFrames, envir, ...)
         if(toFile){
             dev.off()
 #           write to framesFile

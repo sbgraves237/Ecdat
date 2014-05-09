@@ -20,8 +20,8 @@
 animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='\%s\%05d.png',
         endFrames=round(0.2*nFrames),
-        framesFile='framesFiles.txt', duration,
-        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
+        framesFile='framesFiles.txt', duration, envir=list(), 
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),     
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
@@ -30,17 +30,17 @@ animate1(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
         ...)
 \method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), 
+        endFrames=round(0.2*nFrames), envir=list(), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), 
         enforceEndFrames=FALSE, ...)
 \method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
 nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
-         min.nFrames=c(nFrames=10, overMax=1.3))
+        envir=list(), min.nFrames=c(nFrames=10, overMax=1.3))
 }
 \arguments{
   \item{plotObject}{
-    Either a list or a function that can be coerced by 
+    Either a named list or a function that can be coerced by 
     \code{animate1.function} to a list acceptable to \code{animate1.list}.  
     
     \code{animate} executes repeated calls to \code{animate1}, with each 
@@ -186,6 +186,16 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     If \code{filenemes} is not provided, this is the number of seconds
     to pause after the completion of each plot before starting the
     next.  In this case, \code{duration} defaults to 2 seconds.
+  }
+  \item{envir}{
+    environment / names list to use with code{plotObject}.  This can 
+    optionally provide other variables to compute what gets plotted.
+    This is passed from \code{animate} to \code{animate1}.  There, 
+    it is passed to \code{\link{interpPairs}} with each sublist 
+    of \code{plotObject}, and the result added to the growing 
+    local version of \code{envir}, which then becomes available to 
+    succeeding calls to \code{\link{interpPairs}}.  See the example 
+    below using this argument.  
   }
   \item{graphicsFun}{
     named character vector:  The names must match the extensions in 
@@ -404,7 +414,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 # with CRANgrowth as a function     
-  CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
+CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
                           endFrames=round(0.2*nFrames)){
     plot(x=CRANpackages[['Date']],
          y=CRANpackages[['Packages']],
@@ -414,7 +424,7 @@ logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
     rasterImageAdj(image=Rlogo,
                    xleft=as.Date('2002-01-01'), ybottom=1000,
                    xright=as.Date('2005-01-01'), ytop=5000)
-  }
+}
 
 if(require(jpeg)){
   Rlogo <- readJPEG(logo.jpg)
@@ -436,6 +446,7 @@ if(require(jpeg)){
                   xright=as.Date('2005-01-01'), ytop=5000) )
     animate(CRANgrowth)
   }
+}
 ##
 ## 3.  Map zoom out from Aukland, NZ, to the entire world
 ##     in 23 frames with arrows and a rotating R logo.
@@ -446,6 +457,7 @@ if(require(jpeg)){
 # 3-4.  traveling NZ to US, China,
 #       frames 11-21
 # 5-6.  traveling CH to Russia, UK, frames 11-21
+if(require(jpeg) && require(Ecdat)){  
   RlogoLocations <- list(
     fun='rasterImageAdj',
     firstFrame=c( 1, 1, rep(11, 4)),
@@ -475,8 +487,8 @@ if(require(jpeg)){
     y1.1=c(CH= 46,  US= 39,CN= 31.5,RU=55.6,UK=55),
     length.0=0, length.1=.4, lwd=3, col='red')
 
-  RFrames <- NA
-  RF.5 <- 10
+  RhistEnv <- list(RFrames=NA, RF.5=10)
+
 # xlim and ylim will both have 2 elements for all iFrame,
 # because firstFrame and lastFrame together specify
 # nonoverlapping ranges that are duplicated:
@@ -487,8 +499,8 @@ if(require(jpeg)){
 # (xlim.1 and ylim.1) are used at the end
 # (iFrame = RF.5 and RFrames).
   RhistPlot <- list(fun='plot',
-        firstFrame=rep(c(1, RF.5+1),e=2),
-        lastFrame=rep(c(RF.5, RFrames), e=2),
+        firstFrame=quote(rep(c(1, RF.5+1),e=2)),
+        lastFrame=quote(rep(c(RF.5, RFrames), e=2)),
         Keep=rep(c(FALSE, TRUE), e=2),
         xlim.0=c(165, 179,   6,179),
         xlim.1=c(  6, 179,-180,179),
@@ -512,7 +524,7 @@ if(require(jpeg)){
     Arrows.=Rarrows)
 
 # check nFramesDefault:  default = round(1.3 * max(lastFrame)) = 27
-  nFrames.Rhist <- nFramesDefault(Rhist)
+  nFrames.Rhist <- nFramesDefault(Rhist, envir=RhistEnv)
 # answer
   nFrames.Rh <- 27
   plot.lastFNA <- 2
@@ -524,7 +536,7 @@ all.equal(nFrames.Rhist, nFrames.Rh)
 \dontshow{)}
 
 if(require(maps)){
-  animate(Rhist)
+  animate(Rhist, envir=RhistEnv)
 # Plot NZ in frame 1,
 # Zoom to include Switzerland by frame 11 then the world by frame 21.
 # Constant from frames 21 to the end.
@@ -533,7 +545,7 @@ if(require(maps)){
 
 # Create 27 image files for a video:
   RhistFiles <- sprintf('Rhist\%05d.png', 1:27)
-  animate(Rhist, filenames=RhistFiles)
+  animate(Rhist, filenames=RhistFiles, envir=RhistEnv)
 
 # creates files Rhistory00001.png, Rhistory00002.png, ...,
 # plus framesFiles.txt to be used by ffmpeg:

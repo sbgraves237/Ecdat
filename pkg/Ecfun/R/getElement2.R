@@ -1,5 +1,5 @@
 getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE, 
-                        returnName){
+                        envir=list(), returnName){
 #       get element of list;  return default if absent
 ##
 ## 1.  is.numeric(name)?
@@ -37,7 +37,7 @@ getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE,
   if(returnName && is.name(El)){ 
     return(as.character(El))
   } 
-  El. <- eval(El, envir=as.list(object)) 
+  El. <- eval(El, envir=c(as.list(object), envir)) 
   eval(El.)
 }
 
