@@ -38,9 +38,15 @@ interpPairs <- function(object, .proportion, envir=list(),
     Nj <- eval(object[[j]], Envir) 
     if(is.null(Nj)){
       oj <- object[[j]]
-      ojc <- deparse(object[[j]], width.cutoff=25) 
+      ojc <- deparse(oj, width.cutoff=25) 
       stop('NULL returned from eval(', Names[j], 
            ' = ', ojc, ', ...)')
+    }    
+    if(length(Nj)<1){
+      oj <- object[[j]]
+      ojc <- deparse(oj, width.cutoff=25)
+      stop('eval(', Names[j], ' = ', ojc, ')\n',
+           '   returned ', class(Nj), "(0)")      
     }
     Envir[[Names[j]]] <- Nj 
 #   Is this a pair name? 
