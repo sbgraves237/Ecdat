@@ -14,7 +14,7 @@ interpPairs <- function(object, .proportion, envir=list(),
   suf2. <- sub(pairs[2], pairs[3], suf2)
   suf. <- unique(c(suf1., suf2.))
 ##
-## 3.  evalObj <- eval(object) 
+## 3.  Envir[[..]] <- eval(object) 
 ##
   Envir <- envir 
 #  interpObj <- object
@@ -81,8 +81,8 @@ interpPairs <- function(object, .proportion, envir=list(),
           next
         } else {
 #         match not found;  store interpObj[[j]] as the match           
-          Envir[[suf2.[s2]]] <- 
-            interpChar(object[j], .proportion) 
+          Envir[[suf2.[s2]]] <- interpChar(Nj, 
+                                   .proportion=.proportion) 
           next 
         }     
       }
@@ -128,12 +128,14 @@ interpPairs <- function(object, .proportion, envir=list(),
     S. <- interpOut[[s.]]
     ndim <- length(dim(S.))
     if(ndim<2){
-        if(!is.null(S.)){
+      Subset <- ((!is.null(S.)) && !is.function(S.))
+      if(Subset){
           S. <- S.[In]
-        }
-    } else {      
-      if(is.data.frame(S.) || is.matrix(S.)){
-            S. <- S.[In,, drop=FALSE]
+      }
+    } else {     
+      sub2 <- (is.data.frame(S.) || (is.matrix(S.)))
+      if(sub2){
+          S. <- S.[In,, drop=FALSE]
       } 
     }
     interpOut[[s.]] <- S.

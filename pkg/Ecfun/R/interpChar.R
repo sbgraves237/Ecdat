@@ -3,7 +3,7 @@ interpChar <- function(x, ...){
 }
 
 interpChar.list <- function(x, .proportion, 
-                            argnames=character(3), ...){
+         argnames=character(3), Source=character(0),  ...){
   if(length(x)<2){
 #    lx <- length(x[[1]])
 #    lp <- length(.proportion)
@@ -21,7 +21,7 @@ interpChar.list <- function(x, .proportion,
       name.y <- '.proportion'
       name0 <- TRUE 
     }
-    Source <- argnames[3]
+    Source <- paste(Source, argnames[3]) 
     if(name0){
       Source <- paste0('in interpChar.list:', Source)
     }  
@@ -41,15 +41,16 @@ interpChar.list <- function(x, .proportion,
     out <- interpChar.default('', x[[1]], .proportion, ...)
     return(out)
   }
-  interpChar.default(x[[1]], x[[2]], .proportion, argnames, ...)
+  interpChar.default(x[[1]], x[[2]], .proportion, 
+                     argnames, Source, ...)
 }
 
 interpChar.default <- function(x, y, .proportion, 
-                               argnames=character(3), ...){
+           argnames=character(3), Source=character(0), ...){
 ##
 ## 1.  compareLengths(x, .proportion, ...)  
 ##  
-  Source <- argnames[3]
+  Source <- paste(Source, argnames[3])
   name.x <- argnames[1]
   name0 <- FALSE 
   if(is.null(name.x) || (nchar(name.x)==0)) {

@@ -8,19 +8,28 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
 ## 1.  Set up
 ##
+  plotName <- deparse(plotObject, 25)
+  if(!is.function(plotObject)){
+    stop('plotObject must be a function;  class(', 
+         plotName, ') = ', class(plotObject))
+  }
   bo <- body(plotObject)
   nbo <- length(bo)
+  if(nbo<1){
+    stop('length(body(plotObject = ', plotName, ')) = ', 
+         nbo, ';  too short')
+  }
 #  2.1.  Check class(bo) and class(bo[[1]])
 #        If they aren't "{" and "name",
 #        either plotObject is  not a function
 #        or I don't understand something critical in this.
-  if(class(bo) != "{"){
-      stop("class(body(plotObject)) is ", class(bo),
-           ';  must be "{"')
+  if(class(bo)[1] != "{"){
+      stop("class(body(plotObject = ", plotName, 
+           ")) is ", class(bo), ';  must be "{"')
   }        
   if(class(bo[[1]]) != 'name'){
-      stop("class(body(plotObject)[[1]]) is ", class(bo[[1]]),
-           ';  must be "name"')
+      stop("class(body(plotObject = ", plotName, 
+          ")[[1]]) is ", class(bo[[1]]), ';  must be "name"')
   }
 ##
 ## 2.  Convert to a list 

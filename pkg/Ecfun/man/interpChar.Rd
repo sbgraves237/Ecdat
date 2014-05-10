@@ -18,9 +18,9 @@
 \usage{
 interpChar(x, ...)
 \method{interpChar}{list}(x, .proportion, 
-           argnames=character(3), ...)
+        argnames=character(3), Source=character(0), ...)
 \method{interpChar}{default}(x, y, .proportion, 
-           argnames=character(3), ...)
+        argnames=character(3), Source=character(0), ...)
 }
 \arguments{
   \item{x}{
@@ -36,7 +36,12 @@ interpChar(x, ...)
     a character vector of length 3 giving args \code{name.x}, 
     \code{name.y}, and \code{Source} to pass to 
     \code{\link{compareLengths}} to improve the value  of 
-    any diagnostic message in case lengths are not comparable.  
+    any diagnostic message in case lengths are not compatible.  
+  }
+  \item{Source}{
+    A character string to be passed with \code{argnames} to 
+    \code{\link{compareLengths}} to improve the value of 
+    any diagnostic message in case lengths are not compatible.  
   }
   \item{\dots}{
     optional arguments for \code{\link{compareLengths}}  

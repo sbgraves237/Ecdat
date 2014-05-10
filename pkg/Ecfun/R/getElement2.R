@@ -37,7 +37,9 @@ getElement2 <- function(object, name=1, default=NA, warn.NULL=TRUE,
   if(returnName && is.name(El)){ 
     return(as.character(El))
   } 
-  El. <- eval(El, envir=c(as.list(object), envir)) 
+  obj.l <- as.list(object)
+  Env <- c(obj.l, envir)
+  El. <- eval(El, envir=Env) 
   eval(El.)
 }
 

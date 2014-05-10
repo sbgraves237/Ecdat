@@ -12,13 +12,15 @@
   \code{.proportion} between \code{x.0} and \code{x.1}.  
   
   Rows with \code{.proportion} outside \code{validProportion} are 
-  dropped in \code{x}.  Drop similar rows of any vector or 
-  \code{\link{data.frame}} with the same number of rows as \code{x}.  
+  dropped in \code{x}.  Drop similar rows of any numeric or character 
+  vector or \code{\link{data.frame}} with the same number of rows as 
+  \code{x} or \code{.proportion}.  
   
   All matches to \code{pairs[1:2]} are assumed to have the same length.  
   
-  Interpolations on non-numerics are assumed to be character strings, 
-  and the interpolation is done on the cumulative number of characters.  
+  Interpolations on non-numerics are assumed to be character strings.  
+  The interpolation is done on the cumulative number of characters 
+  using \code{\link{interpChar}}.  
 }
 \usage{
 interpPairs(object, .proportion, envir=list(), 

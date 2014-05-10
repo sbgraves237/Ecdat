@@ -17,7 +17,29 @@ compareLengths <- function(x, y,
 ##
   comp <- match.arg(compFun)
   lenx <- do.call(comp, list(x))
+  if(length(lenx)!=1){
+    stop('compFun[ = ', comp, '](', name.x, ') has length ', 
+         lenx, '; must be 1.')    
+  }
+  if(!is.numeric(lenx)){
+    stop('compFun[ = ', comp, '](', name.x, ') is not numeric;', 
+         '  class = ', class(lenx)) 
+  }
+  if(lenx==0){
+    stop('compFun[ = ', comp, '](', name.x, ') == 0')
+  }
   leny <- do.call(comp, list(y))
+  if(length(leny)!=1){
+    stop('compFun[ = ', comp, '](', name.y, ') has length ', 
+       leny, '; must be 1.')    
+  }
+  if(!is.numeric(leny)){
+    stop('compFun[ = ', comp, '](', name.y, ') is not numeric;', 
+       '  class = ', class(leny)) 
+  }
+  if(leny==0){
+    stop('compFun[ = ', comp, '](', name.y, ') == 0')
+  }
   len <- c(lenx, leny)
 ##
 ## 3.  lenx==leny?
@@ -29,6 +51,11 @@ compareLengths <- function(x, y,
   act <- match.arg(action)
   o <- order(len)
   nam <- c(name.x, name.y)
+  res <- (len[o[2]] %% len[o[1]])
+  if(is.na(res)){
+    stop('compFun = ', comp, )
+  }
+
   if((len[o[2]]%%len[o[1]])==0){
     rat <- (len[o[2]] %/% len[o[1]])
     msc <- paste0(Source, ' length(', nam[o[2]], ') = ', 
