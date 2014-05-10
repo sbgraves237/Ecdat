@@ -4,6 +4,15 @@ interpChar <- function(x, ...){
 
 interpChar.list <- function(x, .proportion, 
          argnames=character(3), Source=character(0),  ...){
+##
+## 1.  Source?  
+##
+  if(sum(nchar(Source))==0){
+    Source <- deparse(substitute(x), 25)
+  }
+##
+## 2.  length(x)<2
+##
   if(length(x)<2){
 #    lx <- length(x[[1]])
 #    lp <- length(.proportion)
@@ -41,6 +50,9 @@ interpChar.list <- function(x, .proportion,
     out <- interpChar.default('', x[[1]], .proportion, ...)
     return(out)
   }
+##
+## 3.  length(x)>1 
+##
   interpChar.default(x[[1]], x[[2]], .proportion, 
                      argnames, Source, ...)
 }
@@ -48,7 +60,13 @@ interpChar.list <- function(x, .proportion,
 interpChar.default <- function(x, y, .proportion, 
            argnames=character(3), Source=character(0), ...){
 ##
-## 1.  compareLengths(x, .proportion, ...)  
+## 1.  Source?  
+##
+  if(sum(nchar(Source))==0){
+    Source <- deparse(substitute(x), 25)
+  }
+##
+## 2.  compareLengths(x, .proportion, ...)  
 ##  
   Source <- paste(Source, argnames[3])
   name.x <- argnames[1]
@@ -62,10 +80,10 @@ interpChar.default <- function(x, y, .proportion,
   cL <- compareLengths(x, .proportion, name.x, name.p,
                  Source, ...)    
 ##
-## 2.  numeric? 
+## 3.  numeric? 
 ##  
   if(missing(y)){
-#  1.1.  missing(y)    
+#  3.1.  missing(y)    
     if(is.numeric(x)){
       warning('numeric interpolation with one input;', 
               '  returning that.')
@@ -74,7 +92,7 @@ interpChar.default <- function(x, y, .proportion,
     y <- x
     x <- '' 
   } else { 
-#  1.2.  y is not missing:  Check lengths     
+#  3.2.  y is not missing:  Check lengths     
     name.y <- argnames[2]
     if(is.null(name.y) || (nchar(name.y)==0)){
       name.y <- 'y'
@@ -92,12 +110,12 @@ interpChar.default <- function(x, y, .proportion,
     }
   }
 ##
-## 2.  not numeric
+## 4.  not numeric
 ##
-#  2.1.  as.character 
+#  4.1.  as.character 
   xc <- as.character(x)
   yc <- as.character(y)
-#  2.2.  Same length
+#  4.2.  Same length
   nx <- length(xc)
   ny <- length(yc)
   np <- length(.proportion)
@@ -130,7 +148,7 @@ interpChar.default <- function(x, y, .proportion,
   sely <- round(Nx + Pd)
   Out[sely>0] <- substring(Z[sely>0], 1, sely[sely>0])
 ##
-## 3.  Done 
+## 4.  Done 
 ## 
   Out 
 }

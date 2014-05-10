@@ -25,7 +25,7 @@
 \usage{
 interpPairs(object, .proportion, envir=list(), 
             pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
-            validProportion=0:1, ...)
+            validProportion=0:1, Source=character(0), ...)
 }
 \arguments{
   \item{object}{
@@ -58,6 +58,10 @@ interpPairs(object, .proportion, envir=list(),
   \item{validProportion}{
     Range of values of \code{.proportion} to retain, as noted with the
     discussion of the \code{object} argument.
+  }
+  \item{Source}{
+    a character string passed to \code{\link{interpChar}} 
+    to improve the value of diagnostic messages  
   }
   \item{\dots}{ optional arguments for \code{\link{sub}} }
 }
@@ -222,22 +226,22 @@ all.equal(names(RlogoInterp),
 # NOTE:  'xleft', and 'ybottom' were created in interpPairs, 
 # and therefore come after 'xright' and 'ytop', which were 
 # already there.  
-}
 
 ##
 ## 9.  using envir
 ##
-RlogoDiag <- list(x0=quote(Rlogo.$xleft), 
+  RlogoDiag <- list(x0=quote(Rlogo.$xleft), 
                   y0=quote(Rlogo.$ybottom), 
                   x1=quote(Rlogo.$xright), 
                   y1=quote(Rlogo.$ytop) ) 
 
-RlogoD <- interpPairs(RlogoDiag, .p=1, 
+  RlogoD <- interpPairs(RlogoDiag, .p=1, 
                       envir=list(Rlogo.=RlogoInterp) ) 
-RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
-names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
+  RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
+  names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
 \dontshow{stopifnot(}
-all.equal(RlogoD, RlogoD.)
+  all.equal(RlogoD, RlogoD.)
 \dontshow{)}
+}
 }
 \keyword{manip}

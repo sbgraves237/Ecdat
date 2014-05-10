@@ -35,7 +35,8 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
              length(jPar))
   }
   if(length(jPar)>0){
-      Par <- interpPairs(plotObject[[jPar]], Envir) 
+      Par <- interpPairs(plotObject[[jPar]], Envir, 
+                         Source='par') 
       Envir[[names(plotObject)[jPar]]] <- Par 
       Par$fun <- NULL
       op <- do.call(par, Par)
@@ -116,7 +117,8 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
       pDone[(iFrame>lastF) & !Kp] <- (-1)
       if(max(pDone)<0) next
 #
-      ploj <- interpPairs(plotj, pDone, Envir, pairs, ...)
+      ploj <- interpPairs(plotj, pDone, Envir, pairs, 
+                          Source=nameL[j], ...)
       Envir[[nameL[j]]] <- ploj 
       nKeep <- sum(pDone>=0)
 ##

@@ -1,20 +1,32 @@
 interpPairs <- function(object, .proportion, envir=list(), 
                         pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
-                        validProportion=0:1, ...){
+                        validProportion=0:1, Source=character(0), ...){
 ##
-## 1.  find pairs
+## 1.  Source
+##
+  if(sum(nchar(Source))<1){
+    Source <- deparse(substitute(object), 25)[1]
+  }
+  if((ns <- length(Source))>1){
+    warning('length(Source) = ', ns, "; Source[1:2] = ", 
+            paste(Source[1:2], collapse='; '), 
+            ';  using the first non-null')
+    Source <- Source[nchar(Source)>0][1]
+  }  
+##
+## 2.  find pairs
 ##
   Names <- names(object)
   suf1 <- grep(pairs[1], Names, value=TRUE)
   suf2 <- grep(pairs[2], Names, value=TRUE)
 ##
-## 2.  Convert identified names to common names
+## 3.  Convert identified names to common names
 ##
   suf1. <- sub(pairs[1], pairs[3], suf1)
   suf2. <- sub(pairs[2], pairs[3], suf2)
   suf. <- unique(c(suf1., suf2.))
 ##
-## 3.  Envir[[..]] <- eval(object) 
+## 4.  Envir[[..]] <- eval(object) 
 ##
   Envir <- envir 
 #  interpObj <- object
@@ -48,8 +60,9 @@ interpPairs <- function(object, .proportion, envir=list(),
 #         Add the interpolation 
 #            N12 <- (interpObj[[suf1[s1]]]*() 
 #                    + interpObj[[suf2[j2]]]*proportion ) 
+            argNms <- c(suf1[s1], suf2[j2], Source)
             N12 <- interpChar(Envir[c(suf1[s1], suf2[j2])], 
-                              .proportion)
+                      .proportion=.proportion, argnames=argNms)
             Envir[[suf2.[j2]]] <- N12 
           } 
 #         match found but not processed yet
@@ -58,9 +71,10 @@ interpPairs <- function(object, .proportion, envir=list(),
 #         match not found:
 #          if(is.numeric(interpObj[[j]])){ 
 #           If numeric, store interpObj[[j]] as the match 
-#           with a warning           
+#           with a warning     
+          argNms <- c(Names[j], '.proportion', Source)
           N1 <- interpChar(x=Envir[[Names[j]]], 
-                           .proportion=.proportion) 
+                  .proportion=.proportion, argnames=argNms) 
           Envir[[suf1.[s1]]] <- N1
         }
       } else {
@@ -73,23 +87,25 @@ interpPairs <- function(object, .proportion, envir=list(),
 #         Add the interpolation 
 #            N12 <- (interpObj[[suf1[j1]]]*(1-proportion) 
 #                    + interpObj[[suf2[s2]]]*proportion ) 
+            argNms <- c(suf1[j1], suf2[s2], Source)
             N12 <- interpChar(Envir[c(suf1[j1], suf2[s2])], 
-                              .proportion)
+                              .proportion=.proportion, argnames=argNms)
             Envir[[suf1.[j1]]] <- N12 
           } 
 #         match found but not processed yet
           next
         } else {
 #         match not found;  store interpObj[[j]] as the match           
+          argNms <- c(Names[j], '.proportion', Source) 
           Envir[[suf2.[s2]]] <- interpChar(Nj, 
-                                   .proportion=.proportion) 
+                        .proportion=.proportion, argnames=argNms) 
           next 
         }     
       }
     }
   }
 ##
-## 4.  Other vectors or data.frames 
+## 5.  Other vectors or data.frames 
 ##     with the same number of rows?  
 ##
   Drop <- (Names %in% c(suf1, suf2))
@@ -141,7 +157,7 @@ interpPairs <- function(object, .proportion, envir=list(),
     interpOut[[s.]] <- S.
   }
 ##
-## 5.  Delete suf1 and suf2
+## 6.  Delete suf1 and suf2
 ## 
   interpOut
 }
