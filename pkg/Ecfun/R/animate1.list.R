@@ -7,14 +7,14 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
   Envir <- envir 
   nFr <- nFramesDefault(plotObject, nFrames, iFrame, 
-                          envir=Envir)
+                          envir=rev(Envir))
   nFrames <- as.numeric(nFr)
   if(is.null(iFrame))iFrame <- nFrames
 ##
 ## 2.  set up
 ##
   Fns <- sapply(plotObject, getElement2, '', 
-                  name='fun', default=NA, envir=Envir)
+            name='fun', default=NA, envir=rev(Envir))
 #    Fns <- sapply(plotObject, function(z){
 #        fn <- z$fun
 #        if(is.null(fn)){
@@ -35,8 +35,8 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
              length(jPar))
   }
   if(length(jPar)>0){
-      Par <- interpPairs(plotObject[[jPar]], Envir, 
-                         Source='par') 
+      Par <- interpPairs(plotObject[[jPar]], rev(Envir), 
+                         Source='par', ...) 
       Envir[[names(plotObject)[jPar]]] <- Par 
       Par$fun <- NULL
       op <- do.call(par, Par)
@@ -65,22 +65,21 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     stop('plotObject list must have names; # ', pLna[1], 
          ' is NA.')
   }
-  for(j in seq(length=nFns)){
-    
+  for(j in seq(length=nFns)){    
     plotj <- plotL[[j]]
     firstF0 <- getElement2(plotj, 'firstFrame', 1, 
-                      envir=Envir)
+                      envir=rev(Envir))
     if(iFrame<min(firstF0)){
       Envir[[nameL[j]]] <- plotj       
       next 
     }
-    x <- getElement2(plotj, 'x', envir=Envir)
-    y <- getElement2(plotj, 'y', envir=Envir)
+    x <- getElement2(plotj, 'x', envir=rev(Envir))
+    y <- getElement2(plotj, 'y', envir=rev(Envir))
     lenFLK <- max(1, length(x), length(y))
     lastF1 <- (nFrames-endFrames+1)
     firstF <- getElement2(plotj, 'firstFrame',
                           seq(1, lastF1, length=lenFLK), 
-                          envir=Envir)
+                          envir=rev(Envir))
     if(enforceEndFrames){ 
       oops1 <- which(firstF>lastF1)
       if(length(oops1)>0){
@@ -97,7 +96,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     }
     lastF <- getElement2(plotj, 'lastFrame',
                          rep(lastF1, lenFLK), 
-                         envir=Envir)
+                         envir=rev(Envir))
     if(enforceEndFrames){
         oopsL <- which(lastF>lastF1)
         if(length(oopsL)>0){
@@ -113,7 +112,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
         }
     }
     Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK), 
-                      envir=Envir)
+                      envir=rev(Envir))
 ##
 ## 5.  How far in the process?
 ##
@@ -123,7 +122,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     pDone[(iFrame>lastF) & !Kp] <- (-1)
 #      if(max(pDone)<0)next
 #
-    ploj <- interpPairs(plotj, pDone, Envir, pairs, 
+    ploj <- interpPairs(plotj, pDone, rev(Envir), pairs, 
                         Source=nameL[j], ...)
     Envir[[nameL[j]]] <- ploj 
 #
