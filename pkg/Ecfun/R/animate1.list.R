@@ -115,11 +115,14 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
       pDone <- pmin((iFrame-firstF) / dF, 1)
       pDone[is.na(pDone)] <- 1
       pDone[(iFrame>lastF) & !Kp] <- (-1)
-      if(max(pDone)<0) next
+#      if(max(pDone)<0)next
 #
       ploj <- interpPairs(plotj, pDone, Envir, pairs, 
                           Source=nameL[j], ...)
       Envir[[nameL[j]]] <- ploj 
+#
+      if(max(pDone)<0)next
+#      
       nKeep <- sum(pDone>=0)
 ##
 ## 6.  Fn.[j] == 'plot'?
