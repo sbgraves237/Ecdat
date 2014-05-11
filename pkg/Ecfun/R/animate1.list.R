@@ -66,18 +66,24 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
          ' is NA.')
   }
   for(j in seq(length=nFns)){
-      plotj <- plotL[[j]]
-#        plotj$fun <- NULL
-      x <- getElement2(plotj, 'x', envir=Envir)
-      y <- getElement2(plotj, 'y', envir=Envir)
-      lenFLK <- max(1, length(x), length(y))
-      lastF1 <- (nFrames-endFrames+1)
-      firstF <- getElement2(plotj, 'firstFrame',
-                            seq(1, lastF1, length=lenFLK), 
-                            envir=Envir)
-      if(enforceEndFrames){ 
-        oops1 <- which(firstF>lastF1)
-        if(length(oops1)>0){
+    
+    plotj <- plotL[[j]]
+    firstF0 <- getElement2(plotj, 'firstFrame', 1, 
+                      envir=Envir)
+    if(iFrame<min(firstF0)){
+      Envir[[nameL[j]]] <- plotj       
+      next 
+    }
+    x <- getElement2(plotj, 'x', envir=Envir)
+    y <- getElement2(plotj, 'y', envir=Envir)
+    lenFLK <- max(1, length(x), length(y))
+    lastF1 <- (nFrames-endFrames+1)
+    firstF <- getElement2(plotj, 'firstFrame',
+                          seq(1, lastF1, length=lenFLK), 
+                          envir=Envir)
+    if(enforceEndFrames){ 
+      oops1 <- which(firstF>lastF1)
+      if(length(oops1)>0){
           nFirstLast <- max(length(lastF1), length(firstF))
           lastF1. <- rep(lastF1, length=nFirstLast)
           firstF. <- rep(firstF, length=nFirstLast)
@@ -87,12 +93,12 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
                   lastF1.[oops1[1]],
                   ';\n  reducing firstFrame to lastF.' )
           firstF <- pmin(firstF., lastF1.)
-        }
       }
-      lastF <- getElement2(plotj, 'lastFrame',
-                           rep(lastF1, lenFLK), 
-                             envir=Envir)
-      if(enforceEndFrames){
+    }
+    lastF <- getElement2(plotj, 'lastFrame',
+                         rep(lastF1, lenFLK), 
+                         envir=Envir)
+    if(enforceEndFrames){
         oopsL <- which(lastF>lastF1)
         if(length(oopsL)>0){
           nL2 <- max(length(lastF1), length(lastF))
@@ -105,45 +111,45 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
                   ';\n reducing lastFrame to lastF.')
           lastF <- pmin(lastF2, lastF.)
         }
-      }
-      Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK), 
-                        envir=Envir)
+    }
+    Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK), 
+                      envir=Envir)
 ##
 ## 5.  How far in the process?
 ##
-      dF <- (lastF-firstF)
-      pDone <- pmin((iFrame-firstF) / dF, 1)
-      pDone[is.na(pDone)] <- 1
-      pDone[(iFrame>lastF) & !Kp] <- (-1)
+    dF <- (lastF-firstF)
+    pDone <- pmin((iFrame-firstF) / dF, 1)
+    pDone[is.na(pDone)] <- 1
+    pDone[(iFrame>lastF) & !Kp] <- (-1)
 #      if(max(pDone)<0)next
 #
-      ploj <- interpPairs(plotj, pDone, Envir, pairs, 
-                          Source=nameL[j], ...)
-      Envir[[nameL[j]]] <- ploj 
+    ploj <- interpPairs(plotj, pDone, Envir, pairs, 
+                        Source=nameL[j], ...)
+    Envir[[nameL[j]]] <- ploj 
 #
-      if(max(pDone)<0)next
+    if(max(pDone)<0)next
 #      
-      nKeep <- sum(pDone>=0)
+    nKeep <- sum(pDone>=0)
 ##
 ## 6.  Fn.[j] == 'plot'?
 ##
-      if(Fn.[j]=='plot'){
-          if(!('xlab' %in% names(ploj))){
-              ploj$xlab <- 'x'
-          }
-          if(!('ylab' %in% names(ploj))){
-              ploj$ylab <- 'y'
-          }
-      }
+    if(Fn.[j]=='plot'){
+        if(!('xlab' %in% names(ploj))){
+            ploj$xlab <- 'x'
+        }
+        if(!('ylab' %in% names(ploj))){
+            ploj$ylab <- 'y'
+        }
+    }
 ##
 ## 7.  do.call
 ##
-      ploj$fun <- NULL
-      ploj$firstFrame <- NULL
-      ploj$lastFrame <- NULL
-      ploj$Keep <- NULL
-      ploj$.proportion <- NULL 
-      do.call(Fn.[j], ploj)
+    ploj$fun <- NULL
+    ploj$firstFrame <- NULL
+    ploj$lastFrame <- NULL
+    ploj$Keep <- NULL
+    ploj$.proportion <- NULL 
+    do.call(Fn.[j], ploj)
   }
 ##
 ## 8.  Done
