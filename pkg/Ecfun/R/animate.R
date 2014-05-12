@@ -21,16 +21,30 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ## 2.  nFrames & iFrames?
 ##
 #  2.1.  nFr <- nFrames
-    nFr <- nFramesDefault(plotList, nFrames, iFrames, 
-                          envir=envir)
-    nFrames <- as.numeric(nFr)
-    if(is.na(nFrames)){
-        stop('nFrames not specified.')
+  if(!missing(filenames)){
+    nFiles <- length(filenames)
+    if(is.null(nFrames)){
+      nFrames <- nFiles 
+    } else {
+      if((nF <- length(nFrames)) !=1){
+        stop('length(nFrames) = ', nF, ';  must be 1')
+      }
+      if(nFrames != nFiles){
+        stop('nFrames = ', nFrames, 
+             ' must equal length(filenames) = ', nFiles)
+      }
     }
-    if(is.null(iFrames)) iFrames <- 1:nFrames
+  }
+  nFr <- nFramesDefault(plotList, nFrames, iFrames, 
+                        envir=envir)
+  nFrames <- as.numeric(nFr)
+  if(is.na(nFrames)){
+        stop('nFrames not specified.')
+  }
+  if(is.null(iFrames)) iFrames <- 1:nFrames
 #  2.2.  Fix any 'plot' element with tail(lastFrames, 1) = NA
-    plot.lF.NA <- attr(nFr, 'plot.lastFrame.NA')
-    for(jp in plot.lF.NA){
+  plot.lF.NA <- attr(nFr, 'plot.lastFrame.NA')
+  for(jp in plot.lF.NA){
       lF <- getElement2(plotList[[jp]], 'lastFrame', envir=envir)
       n.lF <- is.na(lF)
       lF[n.lF] <- (nFrames-endFrames+1)

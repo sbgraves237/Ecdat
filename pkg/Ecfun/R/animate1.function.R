@@ -8,7 +8,7 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
 ## 1.  Set up
 ##
-  plotName <- deparse(plotObject, 25)
+  plotName <- deparse(substitute(plotObject), 25)
   if(!is.function(plotObject)){
     stop('plotObject must be a function;  class(', 
          plotName, ') = ', class(plotObject))

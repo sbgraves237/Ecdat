@@ -66,6 +66,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
          ' is NA.')
   }
   for(j in seq(length=nFns)){    
+#    if(j>14)browser()
     plotj <- plotL[[j]]
     firstF0 <- getElement2(plotj, 'firstFrame', 1, 
                       envir=rev(Envir))
