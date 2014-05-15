@@ -24,8 +24,9 @@
 }
 \usage{
 interpPairs(object, .proportion, envir=list(), 
-            pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),
-            validProportion=0:1, Source=character(0), ...)
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
+                replace1='.2', replace2='.3'),     
+        validProportion=0:1, Source=character(0), ...)
 }
 \arguments{
   \item{object}{
@@ -49,11 +50,26 @@ interpPairs(object, .proportion, envir=list(),
     example below using this argument.  
   }
   \item{pairs}{
-    a character vector of two regular expressions to identify elements
-    of \code{object} between which to interpolate and a
-    \code{replacement} for use in \code{\link{sub}} to convert each
-    \code{pairs[1:2]} name found to the desired name of the
-    interpolation.
+    a character vector of two regular expressions to identify 
+    elements of \code{object} between which to interpolate and 
+    three replacements.  
+    
+    (1) The first is used in \code{\link{sub}} to convert each
+    \code{pairs[1:2]} name found to the desired name of the 
+    interpolate.  Common names found are then passed with 
+    \code{.proportion} to \code{\link{interpChar}}, which 
+    does the actual interpolation. 
+    
+    (2, 3) \code{interpPairs} also calls 
+    \code{checkNames(object, avoid = pairs[c(1, 3, 2, 5)])}.  
+    This confirms that \code{object} has \code{\link{names}}, 
+    and all such names are unique.  If \code{object} does not 
+    have names or has some duplicate names, the 
+    \code{\link{make.names}} is called to fix that problem, 
+    and any new names that match \code{pairs[1:2]} are modified 
+    using \code{\link{sub}} to avoid creating a new match.  
+    If the modification still matches \code{pairs[1:2]}, it 
+    generates an error.      
   }
   \item{validProportion}{
     Range of values of \code{.proportion} to retain, as noted with the
@@ -243,5 +259,18 @@ all.equal(names(RlogoInterp),
   all.equal(RlogoD, RlogoD.)
 \dontshow{)}
 }
+##
+## 10.  assign;  no interp but should work   
+##
+tstAsgn <- as.list(quote(op <- (1:3)^2))
+intAsgn <- interpPairs(tstAsgn, 1)
+
+# check 
+intA. <- list(eval(`<-`), 
+              quote(op), c(1, 4, 9))
+names(intA.) <- c('X', 'X.3', 'X.2')
+\dontshow{stopifnot(}
+all.equal(intAsgn, intA.)
+\dontshow{)}
 }
 \keyword{manip}

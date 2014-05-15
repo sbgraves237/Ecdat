@@ -1,6 +1,7 @@
 interpPairs <- function(object, .proportion, envir=list(), 
-                        pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
-                        validProportion=0:1, Source=character(0), ...){
+        pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
+                replace1='.2', replace2='.3'),     
+        validProportion=0:1, Source=character(0), ...){
 ##
 ## 1.  Source
 ##
@@ -16,7 +17,9 @@ interpPairs <- function(object, .proportion, envir=list(),
 ##
 ## 2.  find pairs
 ##
-  Names <- names(object)
+  Names <- checkNames(object, 
+              avoid=pairs[c(1, 4, 2, 5)])
+#
   suf1 <- grep(pairs[1], Names, value=TRUE)
   suf2 <- grep(pairs[2], Names, value=TRUE)
 ##
@@ -35,6 +38,11 @@ interpPairs <- function(object, .proportion, envir=list(),
 #  ne <- length(Envir)
   for(j in seq(length=nel)){
 #   eval(interpObj[[j]])    
+#   Is this a symbol to which to assign?      
+    if((j==2) && (as.character(object[[1]])=='<-')){
+      Envir[[Names[j]]] <- object[[j]]
+      next 
+    }
     Nj <- eval(object[[j]], Envir) 
     if(is.null(Nj)){
       oj <- object[[j]]
@@ -148,6 +156,9 @@ interpPairs <- function(object, .proportion, envir=list(),
   for(s. in names(interpOut)[cols2trim]){
 #   Retain only "In" in s.
     S. <- interpOut[[s.]]
+    sub. <- any(is.language(S.) | is.function(S.))
+    if(sub.)next 
+#    
     ndim <- length(dim(S.))
     if(ndim<2){
       Subset <- ((!is.null(S.)) && !is.function(S.))

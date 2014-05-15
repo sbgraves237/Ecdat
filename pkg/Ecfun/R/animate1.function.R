@@ -39,7 +39,11 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     iS1 <- iStep+1
     ibo <- bo[[iS1]]
     ib <- as.list(ibo)
-    if(names(ib)[1]==''){
+    nmib <- names(ib)
+    if(length(nmib)<1){
+      names(ib) <- c('fun', 
+                seq(2, length=length(ib)-1)) 
+    } else if(nchar(nmib[1])<1){
       names(ib)[1] <- 'fun'
     }
     plotList[[iStep]] <- ib

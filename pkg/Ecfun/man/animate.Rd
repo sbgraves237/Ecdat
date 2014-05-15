@@ -21,7 +21,8 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='\%s\%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
-        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''),     
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
+                replace1='.2', replace2='.3'),     
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
@@ -31,7 +32,8 @@ animate1(plotObject, nFrames=NULL, iFrame=NULL,
         ...)
 \method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), envir=list(), 
-        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replacement=''), 
+        pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
+                replace1='.2', replace2='.3'),     
         enforceEndFrames=FALSE, ...)
 \method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
@@ -229,9 +231,20 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   }
   \item{pairs}{    
     a character vector of two regular expressions to identify elements
-    of \code{object} between which to interpolate and a
-    \code{replacement} for use in \code{\link{sub}} to convert each
-    \code{pairs[1:2]} name found to the desired name of the
+    of \code{object} between which to interpolate and three 
+    replacements, as described in \code{\link{interpPairs}}.  
+    
+    
+    
+    
+    (1) The first is used in \code{\link{sub}} to convert each
+    \code{pairs[1:2]} name found to the desired name of the 
+    interpolate, from which pairs are identified for interpolation.  
+    
+    
+    
+    
+    of the
     interpolation. This is passed to \code{\link{interpPairs}}, which 
     uses it to identify pairs of variables between which to interpolate
     and to replace with a variable whose name is obtained by 

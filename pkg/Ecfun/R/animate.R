@@ -2,7 +2,8 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         filenames='%s%05d.png',
         endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
-        pairs=c('1'='\\.0$', '2'='\\.1$', replacement=''),
+        pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
+                replace1='.2', replace2='.3'),
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'),
@@ -94,8 +95,10 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
             gFA$filename <- filenames[iFrame]
             do.call(gFns[iFrame], gFA)
         }
-        animate1.list(plotList, nFrames, iFrame,
-                 endFrames, envir, ...)
+        animate1.list(plotList, nFrames=nFrames, iFrame=iFrame,
+                 endFrames=endFrames, envir=envir, 
+                 pairs=pairs, enforceEndFrames=enforceEndFrames,                  
+                 ...)
         if(toFile){
             dev.off()
 #           write to framesFile
