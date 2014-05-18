@@ -3,7 +3,22 @@ interpPairs <- function(object, .proportion, envir=list(),
                 replace1='.2', replace2='.3'),     
         validProportion=0:1, Source=character(0), ...){
 ##
-## 1.  Source
+## 1.  any validProportion?  
+##
+# Rows to keep 
+  In <- ((validProportion[1] <= .proportion) & 
+           (.proportion <= validProportion[2]) )
+  if(!any(In)){
+    return(list(fun='return', value=NULL))
+  }  
+##
+## 2.  If all(In):  return the input 
+##
+  if(all(In)){
+    return(object)
+  }
+##
+## 3.  Source
 ##
   if(sum(nchar(Source))<1){
     Source <- deparse(substitute(object), 25)[1]
@@ -15,7 +30,7 @@ interpPairs <- function(object, .proportion, envir=list(),
     Source <- Source[nchar(Source)>0][1]
   }  
 ##
-## 2.  find pairs
+## 4.  find pairs
 ##
   Names <- checkNames(object, 
               avoid=pairs[c(1, 4, 2, 5)])
@@ -23,13 +38,13 @@ interpPairs <- function(object, .proportion, envir=list(),
   suf1 <- grep(pairs[1], Names, value=TRUE)
   suf2 <- grep(pairs[2], Names, value=TRUE)
 ##
-## 3.  Convert identified names to common names
+## 5.  Convert identified names to common names
 ##
   suf1. <- sub(pairs[1], pairs[3], suf1)
   suf2. <- sub(pairs[2], pairs[3], suf2)
   suf. <- unique(c(suf1., suf2.))
 ##
-## 4.  Envir[[..]] <- eval(object) 
+## 6.  Envir[[..]] <- eval(object) 
 ##
   Envir <- envir 
 #  interpObj <- object
@@ -119,7 +134,7 @@ interpPairs <- function(object, .proportion, envir=list(),
     }
   }
 ##
-## 5.  Other vectors or data.frames 
+## 7.  Other vectors or data.frames 
 ##     with the same number of rows?  
 ##
   Drop <- (Names %in% c(suf1, suf2))
@@ -133,9 +148,11 @@ interpPairs <- function(object, .proportion, envir=list(),
   if(nSuf>0){
     ln <- max(objLen[suf.])
   } else ln <- (-Inf)
-  lp <- length(.proportion)
+#  lp <- length(.proportion)
+  lp <- length(In)
   if(lp < ln) {
-    .proportion <- rep(.proportion, length=ln)
+#    .proportion <- rep(.proportion, length=ln)
+    In <- rep(In, length=ln)
     N <- ln
   } else {      
     N <- lp 
@@ -147,9 +164,6 @@ interpPairs <- function(object, .proportion, envir=list(),
       warning(msg)
     }
   }
-# Rows to keep 
-  In <- ((validProportion[1] <= .proportion) & 
-         (.proportion <= validProportion[2]) )
 # Cols to trim? 
   cols2trim <- (objLen==N)
 # trim   
@@ -174,7 +188,7 @@ interpPairs <- function(object, .proportion, envir=list(),
     interpOut[[s.]] <- S.
   }
 ##
-## 6.  Delete suf1 and suf2
+## 8.  Delete suf1 and suf2
 ## 
   interpOut
 }

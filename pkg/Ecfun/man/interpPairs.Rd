@@ -4,23 +4,22 @@
   interpolate between pairs of vectors in a list
 }
 \description{
-  Find elements such as \code{x.0} and \code{x.1} of \code{object}
-  identified by regular expressions in \code{pairs[1:2]}.  Return
-  \code{object} with each pair replaced by a single element with a name
-  derived applying \code{\link{sub}} to convert, e.g., \code{x.0} to
-  \code{x}, where \code{x} is obtained by linear interpolation using
-  \code{.proportion} between \code{x.0} and \code{x.1}.  
+  This does two things:  
   
-  Rows with \code{.proportion} outside \code{validProportion} are 
-  dropped in \code{x}.  Drop similar rows of any numeric or character 
-  vector or \code{\link{data.frame}} with the same number of rows as 
-  \code{x} or \code{.proportion}.  
-  
-  All matches to \code{pairs[1:2]} are assumed to have the same length.  
-  
-  Interpolations on non-numerics are assumed to be character strings.  
-  The interpolation is done on the cumulative number of characters 
-  using \code{\link{interpChar}}.  
+  \enumerate{
+    \item Computes a \code{.proportion} interpolation 
+    between \code{pairs} by passing each pair with 
+    \code{.proportion} to \code{\link{interpChar}}.   
+    \code{\link{interpChar}} does standard linear 
+    interpolation with numerics and interpolates 
+    based on the number of characters with 
+    non-numerics.  
+    
+    \item Discards rows of interpolants and other 
+    vectors of the same length for which 
+    \code{.proportion} is outside 
+    \code{validProportion}.    
+  }  
 }
 \usage{
 interpPairs(object, .proportion, envir=list(), 
@@ -82,18 +81,41 @@ interpPairs(object, .proportion, envir=list(),
   \item{\dots}{ optional arguments for \code{\link{sub}} }
 }
 \details{
-  1.  Find names matching \code{pairs[1:2]}.  
+  1.  if(none(0<=.proportion<=1))return no op = 
+  list(fun='return', value=NULL) 
+  
+  2.  Find names matching \code{pairs[1:2]} using 
+  \code{\link{grep}}.  For example, names like 
+  \code{x.0} match the default \code{pairs[1]}, 
+  and names like \code{x.1} match the default 
+  \code{pairs[1]}.  
 
-  2.  Convert each name found to the target name using
-  \code{sub(pairs[i], pairs[3], ...)} for i = 1:2.
+  3.  Use \code{sub(pairs[i], pairs[3], ...)} for 
+  i = 1:2, to translate each name matching 
+  \code{pairs[1:2]} into something else for 
+  matching.  For example, he default \code{pairs} 
+  thus translates, e.g., \code{x.0} and 
+  \code{x.1} both into \code{x}.  In the output, 
+  \code{x.0} and \code{x.1} are dropped, replaced 
+  by \code{x} = \code{interpChar(x.0, x.1, 
+  .proportion, ...)}.  Rows with 
+  \code{.proportion} outside \code{validProportion} 
+  are dropped in \code{x}.  Drop similar rows of 
+  any numeric or character vector or 
+  \code{\link{data.frame}} with the same number of 
+  rows as \code{x} or \code{.proportion}.  
   
-  3.  Add component \code{.proportion} to 
-  \code{object} to make it available to 
-  \code{\link{eval}} any \code{language} component of 
-  \code{object} in the next step.  
+  4.  Add component \code{.proportion} to \code{envir} 
+  to make it available to \code{\link{eval}} any 
+  \code{language} component of \code{object} in the next 
+  step.  
   
-  4.  Loop over all elements of \code{object} to create 
-  \code{outList}, evaluating any expressions.  As pairs 
+  5.  Loop over all elements of \code{object} to create 
+  \code{outList}, evaluating any expressions.  Retain 
+  the unevaluated form 
+  
+  
+  As pairs 
   are copied or evaluated, compute the desired 
   interpolation using \code{\link{interpChar}}.  Computing 
   \code{xleft} in this way allows \code{xright} to be 
@@ -101,7 +123,7 @@ interpPairs(object, .proportion, envir=list(),
   example.  This can be used with a call to 
   \code{\link{rasterImageAdj}}.  
   
-  5.  Let \code{N} = the maximum number of rows of elements 
+  6.  Let \code{N} = the maximum number of rows of elements 
   of \code{outList} created by interpolation in the previous 
   step.  If \code{.proportion} is longer, set \code{N} = 
   \code{length(.proportion)}.  Find all vectors and 

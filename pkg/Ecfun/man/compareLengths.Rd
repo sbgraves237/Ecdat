@@ -69,8 +69,8 @@ compareLengths(x, y,
   Spencer Graves with help from Duncan Murdoch 
 }
 \seealso{
-  \code{\link{animate}}
-  \code{\link{interpPairs}}
+  \code{\link{interpChar}}
+%  \code{\link{animate}}, \code{\link{interpPairs}}
 }
 %\references{}
 \examples{

@@ -52,6 +52,8 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ## 4.  loop over all function calls in plotObject
 ##
   nFns <- length(Fn.)
+# nameL <- checkNames(plotL, ...) 
+# if pblms with the following, replace by checkNames 
   nameL <- names(plotL)
   if(is.null(nameL)){
     stop('plotObject list must have names;  does not.')
@@ -66,7 +68,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     stop('plotObject list must have names; # ', pLna[1], 
          ' is NA.')
   }
-  for(j in seq(length=nFns)){    
+  for(j in seq(length=nFns)){ 
 #    if(j>14)browser()
     plotj <- plotL[[j]]
     firstF0 <- getElement2(plotj, 'firstFrame', 1, 
@@ -150,7 +152,16 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     ploj$lastFrame <- NULL
     ploj$Keep <- NULL
     ploj$.proportion <- NULL 
-    do.call(Fn.[j], ploj)
+#    browser()
+#    do.call(Fn.[j], ploj)
+    if(Fn.[j]=='<-'){    
+      dcj <- do.call(`<-`, ploj, 
+              envir=as.environment(Envir))
+      Envir[[as.character(ploj[[1]])]] <- dcj
+    } else {
+      do.call(Fn.[j], ploj, 
+              envir=as.environment(Envir))
+    }
   }
 ##
 ## 8.  Done

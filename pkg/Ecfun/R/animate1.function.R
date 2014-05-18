@@ -38,8 +38,11 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
   for(iStep in seq(length=nbo-1)){
     iS1 <- iStep+1
     ibo <- bo[[iS1]]
-    ib <- as.list(ibo)
+    ib <- pryr::standardise_call(ibo)
+#    ib <- as.list(ibo)
+#   nmib <- checkNames(ib) 
     nmib <- names(ib)
+#   if attr(nmib, ...) -> ??? 
     if(length(nmib)<1){
       names(ib) <- c('fun', 
                 seq(2, length=length(ib)-1)) 

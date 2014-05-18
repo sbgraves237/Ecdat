@@ -8,13 +8,21 @@
   Delete commas (thousand separators) and drop information after a
   blank, then coerce to numeric and order the rows by the
   \code{orderBy}.  Some Excel imports include commas as thousand
-  separators;  this replaces any commas with char(0), ''.  Also, some
-  character data includes footnote references following the year.  Table
-  F-1 from the US Census Bureau needs all three of these features:  It
-  needs \code{orderBy}, because the most recent year appears first, just
-  the opposite of most other data sets where the most recent year
-  appears last.  It has footnote references following a character string
-  indicating the year.  And it includes commas as thousand separators.
+  separators;  this replaces any commas with char(0), ''.  
+  
+  Similarly, if "\%" is found as the last character in any field,
+  drop the percent sign and divide the resulting numeric conversion 
+  by 100 to convert to proportion.  
+  
+  Also, some character data includes footnote references following 
+  the year.  
+  
+  Table F-1 from the US Census Bureau needs all three of these 
+  features:  It needs \code{orderBy}, because the most recent year 
+  appears first, just the opposite of most other data sets where 
+  the most recent year appears last.  It has footnote references 
+  following a character string indicating the year.  And it 
+  includes commas as thousand separators.
 }
 \usage{
 asNumericChar(x)
@@ -63,23 +71,26 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy)
 \examples{
 
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
-                     q1=c('1,234', ''), duh=rep(NA, 2) )
+                     q1=c('1,234', ''), duh=rep(NA, 2), 
+                     pct=c('1\%', '2\%'))
 nF1 <- asNumericDF(fakeF1)
 
 nF1. <- data.frame(yr=asNumericChar(fakeF1$yr),
-                   q1=asNumericChar(fakeF1$q1))[2:1,]
+                   q1=asNumericChar(fakeF1$q1), 
+                   pct=c(.01, .02))[2:1,]
 
 # correct answer
 row.names(nF1.) <- 2:1
 
-nF1c <- data.frame(yr=1947:1948, q1=c(NA, 1234))
+nF1c <- data.frame(yr=1947:1948, q1=c(NA, 1234), 
+                   pct=c(.02, .01))
 row.names(nF1c) <- 2:1
 
 \dontshow{stopifnot(}
 all.equal(nF1, nF1.)
 \dontshow{)}
 \dontshow{stopifnot(}
-all.equal(nF1, nF1c)
+all.equal(nF1., nF1c)
 \dontshow{)}
 }
 \keyword{manip}
