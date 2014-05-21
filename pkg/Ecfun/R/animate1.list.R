@@ -36,8 +36,8 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
              length(jPar))
   }
   if(length(jPar)>0){
-      Par <- interpPairs(plotObject[[jPar]], rev(Envir), 
-                         Source='par', ...) 
+      Par <- interpPairs(plotObject[[jPar]], 1, 
+                  envir=rev(Envir), Source='par', ...) 
       Envir[[names(plotObject)[jPar]]] <- Par 
       Par$fun <- NULL
       op <- do.call(par, Par)
@@ -155,16 +155,18 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
 #    browser()
 #    do.call(Fn.[j], ploj)
     if(Fn.[j]=='<-'){    
-      dcj <- do.call(`<-`, ploj, 
-              envir=as.environment(Envir))
+#      dcj <- do.call(`<-`, ploj, 
+#              envir=as.environment(Envir))
+      dcj <- do.call(`<-`, ploj)
       Envir[[as.character(ploj[[1]])]] <- dcj
     } else {
-      do.call(Fn.[j], ploj, 
-              envir=as.environment(Envir))
+#      do.call(Fn.[j], ploj, 
+#              envir=as.environment(Envir))
+      do.call(Fn.[j], ploj)
     }
   }
 ##
 ## 8.  Done
 ##
-    invisible('done')
+    invisible(Envir)
 }

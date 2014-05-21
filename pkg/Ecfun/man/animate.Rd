@@ -444,6 +444,7 @@ if(require(jpeg)){
 
   if(require(Ecdat)){  
     CRANobs <- nrow(CRANpackages)
+\dontshow{cat('animate(CRANgrowthFn)\n')}    
     animate(CRANgrowthFn)
 ##
 ## 2.  CRANgrowth as a list 
@@ -457,6 +458,7 @@ if(require(jpeg)){
              Rlogo=list(fun='rasterImageAdj', image=Rlogo,
                   xleft=as.Date('2002-01-01'), ybottom=1000,
                   xright=as.Date('2005-01-01'), ytop=5000) )
+\dontshow{cat('animate(CRANgrowth as a list)\n')}                  
     animate(CRANgrowth)
   }
 }
@@ -549,6 +551,7 @@ all.equal(nFrames.Rhist, nFrames.Rh)
 \dontshow{)}
 
 if(require(maps)){
+\dontshow{cat('animate(Rhist, ...)\n')}
   animate(Rhist, envir=RhistEnv)
 # Plot NZ in frame 1,
 # Zoom to include Switzerland by frame 11 then the world by frame 21.
@@ -558,6 +561,7 @@ if(require(maps)){
 
 # Create 27 image files for a video:
   RhistFiles <- sprintf('Rhist\%05d.png', 1:27)
+\dontshow{cat('animate(Rhist, filenames=...)\n')}  
   animate(Rhist, filenames=RhistFiles, envir=RhistEnv)
 
 # creates files Rhistory00001.png, Rhistory00002.png, ...,
@@ -568,16 +572,8 @@ if(require(maps)){
 ##
 ## 4.  Check nFramesDefault
 ##
+#  4.0.  list() 
 chk0 <- nFramesDefault(list()) # 10
-chk1 <- nFramesDefault(list(), 1) # 1
-chk2 <- nFramesDefault(list(), iFrames=1:2) # round(1.3*2) = 3, rtn 10
-chk9 <- nFramesDefault(list(), iFrames=1:9) # round(1.3*9) = 12
-chkPlot0 <- nFramesDefault(list(plot=list(fun='plot'))) # 10
-chkPlot4 <- nFramesDefault(list(plot=list(fun='plot', lastFrame=c(1, 4)),
-                          other=list(firstFrame=1, lastFrame=2)),
-                      iFrames=3)
-# chkPlot4 = 4
-
 # check
 chk0. <- 10
 attr(chk0., 'plot.lastFrame.NA') <- numeric(0)
@@ -585,11 +581,17 @@ attr(chk0., 'plot.lastFrame.NA') <- numeric(0)
 all.equal(chk0, chk0.)
 \dontshow{)}
 
+#  4.1.  list(), 1 
+chk1 <- nFramesDefault(list(), 1) # 1
+
 chk1. <- 1
 attr(chk1., 'plot.lastFrame.NA') <- numeric(0)
 \dontshow{stopifnot(}
 all.equal(chk1, chk1.)
 \dontshow{)}
+
+#  4.2.  list(), iFrames=1:2 
+chk2 <- nFramesDefault(list(), iFrames=1:2) # round(1.3*2) = 3, rtn 10
 
 chk2. <- 10
 attr(chk2., 'plot.lastFrame.NA') <- numeric(0)
@@ -597,11 +599,17 @@ attr(chk2., 'plot.lastFrame.NA') <- numeric(0)
 all.equal(chk2, chk2.)
 \dontshow{)}
 
+#  4.3.  list(), iFrames=1:9 
+chk9 <- nFramesDefault(list(), iFrames=1:9) # round(1.3*9) = 12
+
 chk9. <- 12
 attr(chk9., 'plot.lastFrame.NA') <- numeric(0)
 \dontshow{stopifnot(}
 all.equal(chk9, chk9.)
 \dontshow{)}
+
+# 4.4.  list(plot=list(fun='plot')) 
+chkPlot0 <- nFramesDefault(list(plot=list(fun='plot'))) # 10
 
 chkPlot0. <- 10
 plot.lF.NA <- integer(0)
@@ -610,6 +618,12 @@ attr(chkPlot0., 'plot.lastFrame.NA') <- plot.lF.NA
 \dontshow{stopifnot(}
 all.equal(chkPlot0, chkPlot0.)
 \dontshow{)}
+
+#  4.5.  list(plot=... lastFrame=... )
+chkPlot4 <- nFramesDefault(list(plot=list(fun='plot', lastFrame=c(1, 4)),
+                          other=list(firstFrame=1, lastFrame=2)),
+                      iFrames=3)
+# chkPlot4 = 4
 
 chkPlot4. <- 4
 attr(chkPlot4., 'plot.lastFrame.NA') <- plot.lF.NA

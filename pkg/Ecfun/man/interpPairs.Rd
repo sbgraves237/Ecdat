@@ -25,7 +25,7 @@
 interpPairs(object, .proportion, envir=list(), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
                 replace1='.2', replace2='.3'),     
-        validProportion=0:1, Source=character(0), ...)
+        validProportion=0:1, message0=character(0), ...)
 }
 \arguments{
   \item{object}{
@@ -74,24 +74,24 @@ interpPairs(object, .proportion, envir=list(),
     Range of values of \code{.proportion} to retain, as noted with the
     discussion of the \code{object} argument.
   }
-  \item{Source}{
+  \item{message0}{
     a character string passed to \code{\link{interpChar}} 
     to improve the value of diagnostic messages  
   }
   \item{\dots}{ optional arguments for \code{\link{sub}} }
 }
 \details{
-  1.  if(none(0<=.proportion<=1))return no op = 
-  list(fun='return', value=NULL) 
+  1.  ALL.OUT:  if(none(0<=.proportion<=1))return 
+  'no.op' = list(fun='return', value=NULL) 
   
-  2.  Find names matching \code{pairs[1:2]} using 
-  \code{\link{grep}}.  For example, names like 
+  2.  FIND PAIRS:  Find names matching \code{pairs[1:2]} 
+  using \code{\link{grep}}.  For example, names like 
   \code{x.0} match the default \code{pairs[1]}, 
   and names like \code{x.1} match the default 
   \code{pairs[1]}.  
 
-  3.  Use \code{sub(pairs[i], pairs[3], ...)} for 
-  i = 1:2, to translate each name matching 
+  3.  MATCH PAIRS:  Use \code{sub(pairs[i], pairs[3], 
+  ...)} for i = 1:2, to translate each name matching 
   \code{pairs[1:2]} into something else for 
   matching.  For example, he default \code{pairs} 
   thus translates, e.g., \code{x.0} and 
@@ -111,15 +111,11 @@ interpPairs(object, .proportion, envir=list(),
   step.  
   
   5.  Loop over all elements of \code{object} to create 
-  \code{outList}, evaluating any expressions.  Retain 
-  the unevaluated form 
-  
-  
-  As pairs 
-  are copied or evaluated, compute the desired 
-  interpolation using \code{\link{interpChar}}.  Computing 
-  \code{xleft} in this way allows \code{xright} to be 
-  specified later as \code{quote(xleft + xinch(0.6))}, for 
+  \code{outList}, evaluating any expressions and 
+  computing the desired interpolation using 
+  \code{\link{interpChar}}.  Computing \code{xleft} 
+  in this way allows \code{xright} to be specified 
+  later as \code{quote(xleft + xinch(0.6))}, for 
   example.  This can be used with a call to 
   \code{\link{rasterImageAdj}}.  
   
@@ -131,9 +127,11 @@ interpPairs(object, .proportion, envir=list(),
   rows and delete any rows for which \code{.proportion} is 
   outside \code{validProportion}.  
 
-  6.  Delete the raw pairs found in steps 1-3, retaining the 
+  7.  Delete the raw pairs found in steps 1-3, retaining the 
   element with the target name computed in steps 4 and 5 
-  above.
+  above.  For other elements of \code{object} modified in the 
+  previous step, retain the shortened form.  Otherwise, 
+  retain the original, unevaluated element.    
 }
 \value{
   a \code{list} with elements containing the interpolation results.
@@ -230,7 +228,7 @@ all.equal(j.50, j.5.)
 ##
 xc <- interpPairs(list(x=1:3, y=quote(x+sin(pi*x/6))), 0:1)
 # check
-xc. <- list(x=1:3, y=1:3+sqrt(c(1, 3, 4)/4))
+xc. <- list(x=1:3, y=quote(x+sin(pi*x/6)))
 \dontshow{stopifnot(}
 all.equal(xc, xc.)
 \dontshow{)}
@@ -275,10 +273,10 @@ all.equal(names(RlogoInterp),
 
   RlogoD <- interpPairs(RlogoDiag, .p=1, 
                       envir=list(Rlogo.=RlogoInterp) ) 
-  RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
-  names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
+%  RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
+%  names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
 \dontshow{stopifnot(}
-  all.equal(RlogoD, RlogoD.)
+all.equal(RlogoD, RlogoDiag)
 \dontshow{)}
 }
 ##
@@ -288,11 +286,22 @@ tstAsgn <- as.list(quote(op <- (1:3)^2))
 intAsgn <- interpPairs(tstAsgn, 1)
 
 # check 
-intA. <- list(eval(`<-`), 
-              quote(op), c(1, 4, 9))
+intA. <- tstAsgn 
 names(intA.) <- c('X', 'X.3', 'X.2')
 \dontshow{stopifnot(}
 all.equal(intAsgn, intA.)
+\dontshow{)}
+
+# 10.2.  op <- par(...)
+tstPar <- as.list(quote(op <- par(mar=c(5, 4, 2, 2)+0.1)))
+intPar <- interpPairs(tstPar, 1)
+
+# check 
+intP. <- list(quote(`<-`), quote(op), 
+              quote(par(mar=c(5, 4, 2, 2)+0.1)) )
+names(intP.) <- c("X", 'X.3', 'X.2')
+\dontshow{stopifnot(}
+all.equal(intPar, intP.)
 \dontshow{)}
 }
 \keyword{manip}
