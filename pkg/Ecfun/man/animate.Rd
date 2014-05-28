@@ -142,7 +142,8 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     \code{plotObject}.
 
     \code{nFramesDefault} returns \code{nFrames} if it is a number
-    greater than 1 and \code{max(min.nFrames[1], min.nFrames[2] * maxFrame)}
+    greater than 1 and 
+    \code{max(min.nFrames[1], min.nFrames[2] * maxFrame)}
     otherwise.
   }
   \item{iFrames}{

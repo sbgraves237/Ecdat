@@ -24,8 +24,22 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ##
 ## 2.  Compute plot.lastFrame
 ##
-    Fns <- vapply(plotObject, getElement2, '', name='fun', 
+    if(is(plotObject, 'function')){
+      plotO <- as.list(body(plotObject))[-1]
+      Fns <- vapply(plotO, 
+            function(x){ 
+              x1 <- x[[1]]
+              as.character(x1)
+            }, FUN.VALUE='')
+    } else { 
+      plotO <- plotObject
+#    Fns <- vapply(plotObject, getElement2, 
+#          FUN.VALUE='', name='fun', 
+#                  default=as.character(NA))
+      Fns <- vapply(plotO, getElement2, 
+                  FUN.VALUE='', name='fun', 
                   default=as.character(NA))
+    }
     plotj <- which(Fns=='plot')
     plot.lastFrame <- NA
     plot.lastj <- NA
@@ -33,7 +47,7 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #    names(plot.lastF.NA) <- names(Fns)[plotj]
     for(j in seq(along=plotj)){
         jp <- plotj[j]
-        ploj <- plotObject[[jp]]
+        ploj <- plotO[[jp]]
         lastF <- getElement2(ploj, 'lastFrame', envir=envir)
         lastF1 <- tail(lastF, 1)
         if(is.na(lastF1)){
@@ -99,7 +113,7 @@ nFramesDefault <- function(plotObject, nFrames=NULL, iFrames=NULL,
         mx
     }
     for(jFn in seq(length=nFns)){
-        plj <- plotObject[[jFn]]
+        plj <- plotO[[jFn]]
         firstFr <- getElement2(plj, 'firstFrame', envir=envir)
 #        err <- which(firstFr>plot.lastFrame)
 #        if(length(err)>0){

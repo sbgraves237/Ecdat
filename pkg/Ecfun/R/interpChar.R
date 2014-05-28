@@ -77,6 +77,39 @@ interpChar.default <- function(x, y, .proportion,
     name0 <- TRUE 
   }
   name.p <- '.proportion'
+#
+  if(missing(x) || is.null(x)){ 
+    if(missing(y) || is.null(y)){
+      stop(Source, ':  both x and y are missing or NULL')
+    }
+    if(is.numeric(y)){
+      x <- numeric(length(y)) 
+    } else {
+      y <- as.character(y)
+      x <- character(length(y))
+    }        
+  } else {
+    if(missing(y) || is.null(y)){
+      if(is.numeric(x)){
+        y <- numeric(length(x))
+      } else {
+        x <- as.character(x)
+        y <- character(length(x))
+      }
+    } else {
+      if(!is.numeric(x)){
+        x <- as.character(x)
+        y <- as.character(y) 
+      } else {
+        if(!is.numeric(y)){
+          x <- as.character(x)
+          y <- as.character(y)
+        }
+      }
+    }
+  }
+  n.x <- length(x)
+  n.y <- length(y)
   cL <- compareLengths(x, .proportion, name.x, name.p,
                  Source, ...)    
 ##

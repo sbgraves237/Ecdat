@@ -115,6 +115,7 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
           lastF <- pmin(lastF2, lastF.)
         }
     }
+    lastF[is.na(lastF)] <- lastF1
     Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK), 
                       envir=rev(Envir))
 ##

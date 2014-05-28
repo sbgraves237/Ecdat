@@ -13,7 +13,8 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     stop('plotObject must be a function;  class(', 
          plotName, ') = ', class(plotObject))
   }
-  bo <- body(plotObject)
+  po <- plotObject
+  bo <- body(po)
   nbo <- length(bo)
   if(nbo<1){
     stop('length(body(plotObject = ', plotName, ')) = ', 
@@ -27,55 +28,31 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
       stop("class(body(plotObject = ", plotName, 
            ")) is ", class(bo), ';  must be "{"')
   }        
-  if(class(bo[[1]]) != 'name'){
+  if(!is(bo[[1]], 'name')){
       stop("class(body(plotObject = ", plotName, 
           ")[[1]]) is ", class(bo[[1]]), ';  must be "name"')
   }
 ##
-## 2.  Convert to a list 
+## 2.  iFrame & nFrames?
 ##
-  plotList <- vector('list', nbo-1)
-  for(iStep in seq(length=nbo-1)){
-    iS1 <- iStep+1
-    ibo <- bo[[iS1]]
-    ib <- pryr::standardise_call(ibo)
-#    ib <- as.list(ibo)
-#   nmib <- checkNames(ib) 
-    nmib <- names(ib)
-#   if attr(nmib, ...) -> ??? 
-    if(length(nmib)<1){
-      names(ib) <- c('fun', 
-                seq(2, length=length(ib)-1)) 
-    } else if(nchar(nmib[1])<1){
-      names(ib)[1] <- 'fun'
-    }
-    plotList[[iStep]] <- ib
-  }   
-  names(plotList) <- 1:(nbo-1)
+  nFr <- nFramesDefault(plotObject, nFrames, iFrame)
+  nFrames <- as.numeric(nFr)
+  if(is.null(iFrame))iFrame <- nFrames
 ##
-## 3.  iFrame & nFrames
+## 3.  call interpPairs for all but the first element of bo  
 ##
-#  3.1.  Need to rewrite nFramesDefault to accept a function
-#        or use simpler defaults
-  if(plot.it){
-    nFr <- nFramesDefault(plotList, nFrames, iFrame)
-    nFrames <- as.numeric(nFr)
-#  1.2.  simple defaults:  iFrame=nFrames=10
-    if(is.null(nFrames)){
-      if(is.null(iFrame)){
-          nFrames <- 10
-          iFrame <- nFrames
-      } else {
-          nFrames <- iFrame
-      }
-    } else {
-      if(is.null(iFrame)) iFrame <- nFrames
-    }
+  Bo <- bo
+  ibo <- seq(2, length=nbo-1)
+  for(ib in ibo){
+    boi <- bo[[ib]]
+    bi <- interpPairs(boi, nFrames=nFrames, 
+        iFrame=iFrame, endFrames=endFrames, ...)
+    Bo[[ib]] <- bi 
+    if(plot.it)eval(bi)#, ...)     
+  }
 ##
-## 4.  call animate1.list
+## 3.  done 
 ##
-    animate1.list(plotList, nFrames=nFrames, iFrame=iFrame,
-                  endFrames=endFrames, ...)                  
-  }  
-  invisible(plotList)
+  body(po) <- Bo
+  invisible(po)
 }
