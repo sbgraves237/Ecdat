@@ -75,13 +75,8 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
   body(po) <- Bo
   if(plot.it){
-    
-    
-    
-    
-    
-    
-    eval(po, Envir)
+    po()    
+#    tst <- eval(po, Envir)
   }
   invisible(po)
 }
