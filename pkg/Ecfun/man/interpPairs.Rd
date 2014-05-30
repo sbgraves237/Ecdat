@@ -454,7 +454,8 @@ all.equal(intAsgn, intA.)
 \dontshow{)}
 
 #   op <- par(...)
-tstPar <- as.list(quote(op <- par(mar=c(5, 4, 2, 2)+0.1)))
+tstP <- quote(op <- par(mar=c(5, 4, 2, 2)+0.1))
+tstPar <- as.list(tstP)
 intPar <- interpPairs(tstPar, 1)
 
 # check 
@@ -463,6 +464,11 @@ intP. <- list(quote(`<-`), quote(op),
 names(intP.) <- c("X", 'X.3', 'X.2')
 \dontshow{stopifnot(}
 all.equal(intPar, intP.)
+\dontshow{)}
+
+intP. <- interpPairs(tstP)
+\dontshow{stopifnot(}
+all.equal(intP., tstP)
 \dontshow{)}
 
 ##

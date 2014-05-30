@@ -1,10 +1,11 @@
 animate1 <- function(plotObject, nFrames=NULL, iFrame=NULL,
-                      endFrames=round(0.2*nFrames), ...){
+        endFrames=round(0.2*nFrames), ...){
   UseMethod('animate1')
 }
 
 animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), plot.it=TRUE, ...){
+        endFrames=round(0.2*nFrames), envir=new.env(), 
+        plot.it=TRUE, ...){
 ##
 ## 1.  Set up
 ##
@@ -13,8 +14,11 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     stop('plotObject must be a function;  class(', 
          plotName, ') = ', class(plotObject))
   }
+  plotList <- as.list(plotObject)
+# The first elements of plotObject are the arguments
+# The last is {...} obtained by body(po)
   po <- plotObject
-  bo <- body(po)
+  bo <- body(plotObject)
   nbo <- length(bo)
   if(nbo<1){
     stop('length(body(plotObject = ', plotName, ')) = ', 
@@ -43,16 +47,41 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
 ##
   Bo <- bo
   ibo <- seq(2, length=nbo-1)
+  if(is.environment(envir)){
+    Envir <- envir 
+  } else {
+    Envir <- new.env()
+    for(X in names(envir)){
+      Envir[[X]] <- envir[[X]]
+    }
+  }
+  for(X in head(names(plotList), -1)){
+    Envir[[X]] <- plotList[[X]]
+  }
   for(ib in ibo){
     boi <- bo[[ib]]
     bi <- interpPairs(boi, nFrames=nFrames, 
-        iFrame=iFrame, endFrames=endFrames, ...)
+        iFrame=iFrame, endFrames=endFrames, 
+        envir=Envir, ...)
     Bo[[ib]] <- bi 
-    if(plot.it)eval(bi)#, ...)     
+#    Envir[[ib]] <- bi 
+#    if(plot.it){
+#      eval(bi)#, ...)           
+#      eval(bi, Envir)      
+#    }
   }
 ##
-## 3.  done 
+## 4.  done 
 ##
   body(po) <- Bo
+  if(plot.it){
+    
+    
+    
+    
+    
+    
+    eval(po, Envir)
+  }
   invisible(po)
 }

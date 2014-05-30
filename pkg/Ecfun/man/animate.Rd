@@ -18,8 +18,7 @@
 }
 \usage{
 animate(plotObject, nFrames=NULL, iFrames=NULL,
-        filenames='\%s\%05d.png',
-        endFrames=round(0.2*nFrames),
+        filenames=NULL, endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
                 replace1='.2', replace2='.3'),     
@@ -36,7 +35,8 @@ animate1(plotObject, nFrames=NULL, iFrame=NULL,
                 replace1='.2', replace2='.3'),     
         enforceEndFrames=FALSE, ...)
 \method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
-        endFrames=round(0.2*nFrames), plot.it=TRUE, ...)        
+        endFrames=round(0.2*nFrames), envir=new.env(), 
+        plot.it=TRUE, ...)        
 nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
         envir=list(), min.nFrames=c(nFrames=10, overMax=1.3))
 }
@@ -429,11 +429,12 @@ logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 # with CRANgrowth as a function     
 CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
-                          endFrames=round(0.2*nFrames)){
-    plot(x=CRANpackages[['Date']],
-         y=CRANpackages[['Packages']],
-         xlim=range(CRANpackages[['Date']]),
-         ylim=range(CRANpackages[['Packages']]),
+                          endFrames=round(0.2*nFrames), 
+                          data=CRANpackages){
+    plot(x=data[['Date']],
+         y=data[['Packages']],
+         xlim=range(data[['Date']]),
+         ylim=range(data[['Packages']]),
          log='y')
     rasterImageAdj(image=Rlogo,
                    xleft=as.Date('2002-01-01'), ybottom=1000,

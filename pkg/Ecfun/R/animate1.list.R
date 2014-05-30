@@ -115,7 +115,9 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
           lastF <- pmin(lastF2, lastF.)
         }
     }
-    lastF[is.na(lastF)] <- lastF1
+    if(any(is.na(lastF))){
+      lastF[is.na(lastF)] <- pmax(firstF, lastF1)[is.na(lastF)]
+    }
     Kp <- getElement2(plotj, 'Keep', rep(TRUE, lenFLK), 
                       envir=rev(Envir))
 ##
@@ -163,7 +165,23 @@ animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
     } else {
 #      do.call(Fn.[j], ploj, 
 #              envir=as.environment(Envir))
-      do.call(Fn.[j], ploj)
+      if(Fn.[j]=='on.exit'){
+#       "eval" seems to mishandle 'on.exit'; 
+#       I don't know if 'do.call' does, 
+#       but it may be easier to trap it here 
+#       than test it to find out.  
+        do.call(on.exit, ploj)       
+      } else {
+        tst <- try(do.call(Fn.[j], ploj))
+        if(is(tst, 'try-error')){
+#          cat(tst, '\n')
+          cat('in the following call to ', Fn.[j], '\n') 
+          print(ploj)
+          cat('with .proportion = ', pDone, '\n')
+          cat('and Keep = ', Kp, '\n')
+          stop()        
+        }
+      }
     }
   }
 ##

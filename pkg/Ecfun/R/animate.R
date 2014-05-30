@@ -1,6 +1,5 @@
 animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
-        filenames='%s%05d.png',
-        endFrames=round(0.2*nFrames),
+        filenames=NULL, endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
         pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
                 replace1='.2', replace2='.3'),
@@ -22,8 +21,13 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 ##  
 ## 2.  nFrames & iFrames?
 ##
+  if(is.numeric(nFrames) && (length(nFrames)>0)
+     && is.null(iFrames)){
+    iFrames <- nFrames 
+    nFrames <- NULL     
+  }
 #  2.1.  nFr <- nFrames
-  if(!missing(filenames)){
+  if(!is.null(filenames)){
     nFiles <- length(filenames)
     if(is.null(nFrames)){
       nFrames <- nFiles 

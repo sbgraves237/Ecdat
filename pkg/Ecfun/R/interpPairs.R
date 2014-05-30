@@ -4,10 +4,30 @@ interpPairs <- function(object, ...){
             '  returning NULL')
     return(NULL)
   }
+  if(is(object, '<-')){
+    return(interpPairs.function(object, ...))
+  }
 #  print(str(object))
 #  print(deparse(substitute(object)))
   UseMethod('interpPairs')  
 }
+
+#"interpPairs.<-" <- function(object, 
+#     nFrames=1, iFrame=nFrames, endFrames=round(0.2*nFrames), 
+#     envir = parent.frame(), 
+#     pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
+#                               replace1='.2', replace2='.3'),     
+#     validProportion=0:1, message0=character(0), ...){
+  #  co <- class(object)  
+  #  class(object) <- 'function' 
+  #  ip <- nextMethod()???
+  #  class(ip) <- co
+  #  return(ip) ???  
+#  interpPairs.function(object, nFrames=nFrames, 
+#      iFrame=iFrame, endFrames=endFrames, envir=envir, 
+#      pairs=pairs, validProportion=validProportion, 
+#      message0=message0, ...)
+#}
 
 interpPairs.call <- function(object, 
             nFrames=1, iFrame=nFrames, 
