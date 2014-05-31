@@ -55,6 +55,10 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
       Envir[[X]] <- envir[[X]]
     }
   }
+# NOTE:  if(is(Envir, 'environment')), 
+# Envir is an alias for envir, 
+# so changing Envir changes envvir, 
+# contrary to lists.  
   for(X in head(names(plotList), -1)){
     Envir[[X]] <- plotList[[X]]
   }

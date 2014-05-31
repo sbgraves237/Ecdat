@@ -5,8 +5,19 @@
 }
 \description{
   Call \code{rasterImage} to plot \code{image} from \code{(xleft,
-    ybottom)} to either \code{xright} or \code{ytop}, shrinking one to
-  avoid distortion.
+  ybottom)} to either \code{xright} or \code{ytop}, shrinking one 
+  toward the center to avoid distortion.  
+  
+  \code{angle} specifies a rotation around the midpoint 
+  (\code{(xleft+xright)/2}, \code{(ybottom+ytop)/2}).  This is 
+  different from \code{\link{rasterImage}}, which rotates 
+  around \code{(xleft, ybottom)}.  
+  
+  NOTE:  The code may change in the future.  The visual 
+  image with rotation looks a little off in the examples 
+  below, but the code seems correct.  If you find an example
+  where this is obviously off, please report to the 
+  maintainer -- especially if you find a fix for this.  
 }
 \usage{
 rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
@@ -33,6 +44,11 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
   \item{angle}{
     angle of rotation (in degrees, anti-clockwise from positive x-axis,
     about the bottom-left corner).
+    
+    NOTE:  \code{\link{rasterImage}} rotates around 
+    (\code{xleft}, \code{ybottom}).  \code{rasterImage} 
+    rotates around the center \code{((xleft+xright)/2, 
+    (ybottom+ytop)/2)}.  See the examples.  
   }
   \item{interpolate}{
     a logical vector (or scalar) indicating whether to apply linear
@@ -64,13 +80,29 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
   pixelsPerInch by the max pixel density:  imageUnitsAdj <- imagePixels
   * xyinches / max(pixelsPerInch).
 
-  6.  Xr <- xleft+imageUnitsAdj[1];  Yt <- ybottom+imageUnitsAdj[2].
+  6.  (dX, dY) = imageUnitsAdj/2 = half of the (width, height) 
+  in plotting units.  
+  
+  7.  cntr = (xleft, ybottom) + (dX, dY).  
+  
+  xleft0  = cntr[1]+sin((angle-90)*pi/180)*dX*sqrt(2); 
+  ybottom0= cntr[2]-cos((angle-90)*pi/180)*dY*sqrt(2);
+  
+  (xright0, ytop0) 
+  = (upper right without rotation about lower left)
+  xright0 = xleft0+imageUnitsAdj[2] 
+  ytop0 = ybottom0+imageUnitsAdj[2]
 
-  7.  \code{rasterImage(image, xleft, ybottom, Xr, Yt, angle,
-    interpolate, ...)}
+  8.  \code{rasterImage(image, xleft0, ybottom0, 
+            xright0, ytop0, angle, interpolate, ...)}
 }
 \value{
-  Graphical parameters set by \code{\link{rasterImage}}.
+  a named vector giving the values of \code{xleft}, 
+  \code{ybottom}, \code{xright}, and \code{ytop} 
+  passed to \code{\link{rasterImage}}.  
+  (\code{\link{rasterImage}} returns \code{NULL}, 
+  at least for some inputs.)  This shows the adjustment, 
+  shrinking toward the center and rotating as desired.  
 }
 %\source{}
 %\references{}
@@ -79,9 +111,13 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
   \code{\link{rasterImage}}
 }
 \examples{
+# something to plot 
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 if(require(jpeg)){
+##
+## 1.  Shrink as required
+##
   Rlogo <- readJPEG(logo.jpg)
   \dontshow{stopifnot(}
   all.equal(dim(Rlogo), c(76, 100, 3))
@@ -101,6 +137,21 @@ if(require(jpeg)){
   rasterImage(Rlogo, 1.4, 1, 2, 1.2)
 # Fix
   rasterImage(Rlogo, 1.4, 1.2, 2, 1.4)
+##
+## 2.  rotate 
+##
+#  2.1.  angle=90:  rasterImage left of rasterImageAdj
+  plot(0:1, 0:1, type='n', asp=1)
+  rasterImageAdj(Rlogo, .5, .5, 1, 1, 90)
+  rasterImage(Rlogo, .5, .5, 1, 1, 90)
+#  2.2.  angle=180:  rasterImage left and below 
+  plot(0:1, 0:1, type='n', asp=1)
+  rasterImageAdj(Rlogo, .5, .5, 1, 1, 180)
+  rasterImage(Rlogo, .5, .5, 1, 1, 180)
+#  2.3.  angle=270:  rasterImage below 
+  plot(0:1, 0:1, type='n', asp=1)
+  rasterImageAdj(Rlogo, .5, .5, 1, 1, 270)
+  rasterImage(Rlogo, .5, .5, 1, 1, 270)
 }
 }
 \keyword{hplot}

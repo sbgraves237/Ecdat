@@ -13,34 +13,93 @@ rasterImageAdj <- function(image, xleft=par('usr')[1],
 ## 2.  x, y pixels per inch
 ##
 #  2.1.  x, y units in specified region
-    imageUnits <- c(x=xright-xleft, y=ytop-ybottom)
-    if(par('xlog'))imageUnits[1] <- log10(xright/xleft)
-    if(par('ylog'))imageUnits[2] <- log10(ytop/ybottom)
+#   Can't compuute with x and y together:  
+#   if one is a Date, it sometimes generates
+#   a strange error below 
+#    imageUnits <- c(x=xright-xleft, y=ytop-ybottom)
+    imageUnits.x <- (xright-xleft)
+    imageUnits.y <- (ytop-ybottom)
+#    if(par('xlog'))imageUnits[1] <- log10(xright/xleft)
+#    if(par('ylog'))imageUnits[2] <- log10(ytop/ybottom)
+    if(par('xlog'))imageUnits.x <- log10(xright/xleft)
+    if(par('ylog'))imageUnits.y <- log10(ytop/ybottom)
 #  2.2.   plot units per inch
     xyinches <- xyinch(warn.log=FALSE)
 #    plotAsp <- xyinches[2]/xyinches[1]
     names(xyinches) <- c('x', 'y')
 #  2.3.  x, y pixels per inch in image region
-    pixelsPerInch <- (imagePixels*xyinches/imageUnits)
+#    pixelsPerInch <- (imagePixels*xyinches/imageUnits)
+    pixelsPerInch.x <- (imagePixels[1]*xyinches[1] / 
+                          as.numeric(imageUnits.x)) 
+    pixelsPerInch.y <- (imagePixels[2]*xyinches[2] / 
+                          imageUnits.y)
 ##
 ## 3.  Shrink imageUnits to max(PixelsPerInch)
 ##
-    imageUnitsAdj <- (imagePixels*xyinches/max(pixelsPerInch))
+#    imageUnitsAdj <- (imagePixels*xyinches/max(pixelsPerInch))
+    maxPPI <- max(pixelsPerInch.x, pixelsPerInch.y)
+    imageUAdj.x <- (imagePixels[1] * xyinches[1] / maxPPI) 
+    imageUAdj.y <- (imagePixels[2] * xyinches[2] / maxPPI)
 ##
-## 4.  Adjust xright, ytop
+## 4.  (dX, dY) = imageUnitsAdj/2 
+##              = half of the (width, height) in plotting units.  
 ##
-    if(par('xlog')){
-        Xr <- (xleft*10^imageUnitsAdj[1])
-    } else Xr <- xleft+imageUnitsAdj[1]
-#
-    if(par('ylog')){
-        Yt <- ybottom*10^imageUnitsAdj[2]
-    } else Yt <- ybottom+imageUnitsAdj[2]
+#  dXY <- imageUnitsAdj/2 
+  dX <- imageUAdj.x/2 
+  dY <- imageUAdj.y/2 
+# lower left = 45 degrees from center 
+# Therefore, max deviation of a corner from the center:  at 45 degrees
+#  dX. <- dXY[1]*sqrt(2)
+#  dY. <- dXY[2]*sqrt(2)
+  dX. <- dX*sqrt(2) 
+  dY. <- dY*sqrt(2) 
 ##
-## 5.  rasterImage
+## 5.  cntr = (xleft, ybottom) + imageUnits/2   
 ##
-    rasterImage(image=image, xleft=xleft, ybottom=ybottom,
-                xright=Xr, ytop=Yt, angle=angle,
+#  cntr <- (c(xleft, ybottom) + (imageUnits/2)) 
+  cntr.x <- (xleft+(imageUnits.x/2))
+  cntr.y <- (ybottom+(imageUnits.y/2))
+  if(par('xlog')){
+#    cntr[1] <- (xleft*10^(imageUnits[1]/2)) 
+    cntr.x <- (xleft*10^(imageUnits.x/2)) 
+  } 
+  if(par('ylog')){
+#    cntr[2] <- (ybottom*10^(imageUnits[2]/2))
+    cntr.y <- (ybottom*10^(imageUnits.y/2))
+  } 
+##
+## 6.  (x, y) location of the nominal lower left corner
+##     after rotation 
+##
+  adj.x <- sin((angle-45)*pi/180)*dX. 
+  adj.y <- cos((angle-45)*pi/180)*dY.
+  if(par('xlog')){
+#    xleft0 <- cntr[1]*10^adj.x
+#    xright0 <- xleft0*10^imageUnitsAdj[1] 
+    xleft0 <- cntr.x*10^adj.x
+    xright0 <- xleft0*10^imageUAdj.x 
+  } else {
+    xleft0 <- (cntr.x + adj.x)
+    xright0 <- (xleft0 + imageUAdj.x)
+  }
+  if(par('ylog')){
+    ybottom0 <- cntr.y*10^(-adj.y)
+    ytop0 <- (ybottom0*10^imageUAdj.y)
+  } else {
+    ybottom0 <- (cntr.y - adj.y) 
+    ytop0 <- (ybottom0 + imageUAdj.y) 
+  }
+##
+## 6.  rasterImage(image, xleft0, ybottom0, 
+##        xright0, ytop0, angle, interpolate, ...)
+##
+  rasterImage(image=image, xleft=xleft0, ybottom=ybottom0,
+                xright=xright0, ytop=ytop0, angle=angle,
                 interpolate=interpolate, ...)
+##
+## 9.  Done 
+## 
+  invisible(c(xleft=as.numeric(xleft0), 
+              ybottom=as.numeric(ybottom0), 
+    xright=as.numeric(xright0), ytop=as.numeric(ytop0)))
 }
-
