@@ -67,6 +67,7 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     bi <- interpPairs(boi, nFrames=nFrames, 
         iFrame=iFrame, endFrames=endFrames, 
         envir=Envir, ...)
+    if(is.null(bi)) bi <- enquote(NULL)
     Bo[[ib]] <- bi 
 #    Envir[[ib]] <- bi 
 #    if(plot.it){

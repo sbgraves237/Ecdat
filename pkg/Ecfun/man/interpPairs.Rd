@@ -154,8 +154,8 @@ interpPairs(object, ...)
   \code{endFrames} to compute \code{.proportion}.  
   
   If \code{.proportion} is outside \code{validProportion}, 
-  \code{interpPairs} does nothing but return a "no op" = 
-  \code{quote(return(NULL))}.  
+  \code{interpPairs} does nothing, returning 
+  \code{enquote(NULL)}.  
   
   If \code{.proportion} is inside \code{validProportion}, 
   \code{interpPairs.function} next uses \code{\link{grep}} to 
@@ -233,6 +233,7 @@ interpPairs(object, ...)
   \code{\link{compareLengths}} for how lengths are checked and 
   messages composed and written.  
   \code{\link{animate1.list}}, which uses \code{interpPairs}.  
+  \code{\link{enquote}}
 }
 %\references{}
 \examples{
@@ -258,7 +259,7 @@ all.equal(plot0, plot0.)
 noop <- interpPairs(plot0, iFrame=-1)
 # check
 \dontshow{stopifnot(}
-all.equal(noop, quote(return(NULL)))
+all.equal(noop, enquote(NULL))
 \dontshow{)}
 
 ##
@@ -475,7 +476,7 @@ all.equal(intP., tstP)
 ## NULL 
 ## 
 \dontshow{stopifnot(}
-all.equal(interpPairs(NULL), NULL) 
+all.equal(interpPairs(NULL), quote(NULL)) 
 \dontshow{)}
 }
 \keyword{manip}

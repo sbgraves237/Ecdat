@@ -42,70 +42,85 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 \arguments{
   \item{plotObject}{
-    Either a named list or a function that can be coerced by 
-    \code{animate1.function} to a list acceptable to \code{animate1.list}.  
-    
-    \code{animate} executes repeated calls to \code{animate1}, with each 
-    call creating a potentially different plot.  
-    
-    If a list, it must be a list of lists that specify function calls 
-    that may be modified depending on iFrame to create the different 
+    Either a named list or a function specifying the desired 
     plots.  
     
-    The first element of the list may be a call to \code{\link{par}}.  
-    An early element of the list must also contain informaiton needed to 
-    create the basic plot.  Subsequent elements of the master list add 
-    elements to the basic plot.  
+    *** If \code{plotObject} is a function, it should not 
+    have arguments. That may work, and \code{envir} and 
+    \code{\dots} might be used to pass values to the function. 
+    However, that method seems clumsy, and has not been 
+    adequately tested to ensure that it works as one might 
+    expect.  A \code{plotObject} function should be able to 
+    find globals.  
+    
+    \code{animate} executes repeated calls to \code{animate1}, with 
+    each call creating a potentially different plot.  
+    
+    If a list, it must be a list of lists that specify function 
+    calls that may be modified depending on \code{iFrame} to 
+    create the different plots.  
+    
+    The first element of the list may be a call to 
+    \code{\link{par}}.  An early element of the list must also 
+    contain informaiton needed to create the basic plot.  
+    Subsequent elements of the master list add elements to the 
+    basic plot.  
     
     For \code{j} in \code{1:length(plotObject)}
-    \code{plotObject[[j]]} starts with a 'fun' element containing the name
-    of a function to call with arguments constructed from other elements
-    of \code{plotObject[[j]]}.
+    \code{plotObject[[j]]} starts with a 'fun' element 
+    containing the name of a function to call with arguments 
+    constructed from other elements of \code{plotObject[[j]]}.
 
     \code{plotObject[[j]]} can optionally contain elements
-    \code{firstFrame}, \code{lastFrame}, and \code{Keep}.  The length of
-    the default for these is code{lenFLK}, defined as follows:  If
-    \code{plotObject[[j]]} has element(s) \code{x} or \code{y},
-    \code{lenFLK} is the max length of these elements.  Otherwise,
-    \code{lenFLK} = 1.
+    \code{firstFrame}, \code{lastFrame}, and \code{Keep}.  The 
+    length of the default for these is code{lenFLK}, defined 
+    as follows:  If \code{plotObject[[j]]} has element(s) 
+    \code{x} or \code{y}, \code{lenFLK} is the max length of 
+    these elements.  Otherwise, \code{lenFLK} = 1.
 
     The default for \code{firstFrame} is \code{seq(1,
     nFrames-endFrames+1, length=lenFLK)}.  The default for
-    \code{lastFrame} is different:  It's \code{rep(nFrames-endFrames+1,
-    lenFLK)}.  The default for \code{Keep} is \code{rep(TRUE, lenFLK)}.
-    This is designed to produce the image of linear growth of points and
-    lines in a standard plot.
+    \code{lastFrame} is different:  It's 
+    \code{rep(nFrames-endFrames+1, lenFLK)}.  The default 
+    for \code{Keep} is \code{rep(TRUE, lenFLK)}.  This is 
+    designed to produce the image of linear growth of points 
+    and lines in a standard plot.
 
-    \code{plotObject[[j]][['fun']]} is not executed if \code{iFrame} <
-    \code{firstFrame}.  For some functions, other elements of
-    \code{plotObject[[j]]} are modified using linear interpolation with
-    \code{firstFrame} <= \code{iFrame} <=  \code{lastFrame}, as
-    described further below.  With \code{iFrame} > \code{lastFrame},
-    \code{plotObject[[j]]['fun']} is executed when \code{iFrame} >
-    \code{lastFrame} only if \code{Keep} = \code{TRUE}.  This allows
-    different functions to be modified in different ways to produce a
-    sequence of images simulating motion.
+    \code{plotObject[[j]][['fun']]} is not executed if 
+    \code{iFrame} < \code{firstFrame}.  For some functions, 
+    other elements of \code{plotObject[[j]]} are modified 
+    using linear interpolation with \code{firstFrame} <= 
+    \code{iFrame} <=  \code{lastFrame}, as described further 
+    below.  With \code{iFrame} > \code{lastFrame}, 
+    \code{plotObject[[j]]['fun']} is executed when 
+    \code{iFrame} > \code{lastFrame} only if \code{Keep} = 
+    \code{TRUE}.  This allows different functions to be 
+    modified in different ways to produce a sequence of 
+    images simulating motion.
 
-    Any \code{Keep} component of an element of \code{plotObject} with a
-    component \code{fun} = 'plot' must end in TRUE.  If not and if
+    Any \code{Keep} component of an element of 
+    \code{plotObject} with a component \code{fun} = 'plot' 
+    must end in TRUE.  If not and if 
     \code{any( lastFrame < nFrames )}, the function
-    \code{nFramesDefault} (called by \code{animate} and \code{animate1})
-    generates warnings that plots may not appear for \code{iFrame} >
-    \code{max(lastFrame)}.
+    \code{nFramesDefault} (called by \code{animate} and 
+    \code{animate1}) generates warnings that plots may not 
+    appear for \code{iFrame} > \code{max(lastFrame)}.
 
-    Apart from \code{firstFrame}, \code{lastFrame}, and \code{Keep}, the
-    names of columns of \code{plotObject[[j]]} are names of arguments for
-    \code{plotObject[[j]][['fun']]} with one more exception:  If a single
-    argument is to be interpolated linearly, ".0" and ".1" may be
-    appended;  in that case, the ".0" value is used with \code{iFrame} =
-    \code{firstFrame}, and the ".1" value is used when \code{iFrame} =
+    Apart from \code{firstFrame}, \code{lastFrame}, and 
+    \code{Keep}, the names of columns of 
+    \code{plotObject[[j]]} are names of arguments for 
+    \code{plotObject[[j]][['fun']]} with one more exception:  
+    If a single argument is to be interpolated linearly, 
+    ".0" and ".1" may be appended;  in that case, the 
+    ".0" value is used with \code{iFrame} = \code{firstFrame}, 
+    and the ".1" value is used when \code{iFrame} =
     \code{lastFrame}.
 
     Elements of \code{plotObject[[j]]} can optionally be quoted
-    expressions like \code{quote(x+fn(.6))} provided \code{x} and
-    \code{fn} are either defined globally or appear earlier in
-    \code{plotObject[[j]]}.  (For this purpose, \code{x} may be defined
-    indirectly via \code{x.0} and \code{x.1}.)
+    expressions like \code{quote(x+fn(.6))} provided \code{x} 
+    and \code{fn} are either defined globally or appear earlier 
+    in \code{plotObject[[j]]}.  (For this purpose, \code{x} may 
+    be defined indirectly via \code{x.0} and \code{x.1}.)
 
     If \code{names(plotObject)[j]} == 'text', the columns are used to
     construct a call to \code{text}, using linear interpolation of the
@@ -191,7 +206,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     next.  In this case, \code{duration} defaults to 2 seconds.
   }
   \item{envir}{
-    environment / names list to use with code{plotObject}.  This can 
+    environment / named list to use with code{plotObject}.  This can 
     optionally provide other variables to compute what gets plotted.
     This is passed from \code{animate} to \code{animate1}.  There, 
     it is passed to \code{\link{interpPairs}} with each sublist 
@@ -199,6 +214,9 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     local version of \code{envir}, which then becomes available to 
     succeeding calls to \code{\link{interpPairs}}.  See the example 
     below using this argument.  
+    
+    *** NOTE:  This has not been adequately tested and seems 
+    more difficult than passing globals.  
   }
   \item{graphicsFun}{
     named character vector:  The names must match the extensions in 
@@ -231,26 +249,24 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     nFrames.
   }
   \item{pairs}{    
-    a character vector of two regular expressions to identify elements
-    of \code{object} between which to interpolate and three 
-    replacements, as described in \code{\link{interpPairs}}.  
+    a character vector of length five, as described in 
+    \code{\link{interpPairs}}:  
     
+    [1:2] The first two are used in \code{\link{grep}}
+    to identify variables to be modified.  With the default 
+    \code{pairs}, \code{x.0} would be so identified.  
     
+    [3] The third is passed with the first two to 
+    \code{\link{sub}} to convert each \code{pairs[1:2]} name 
+    found to the desired name of the interpolate, from which 
+    pairs are identified for interpolation.  With the 
+    default \code{pairs}, \code{x.0} and \code{x.1} would
+    both be converted in this way to \code{x}.  
     
-    
-    (1) The first is used in \code{\link{sub}} to convert each
-    \code{pairs[1:2]} name found to the desired name of the 
-    interpolate, from which pairs are identified for interpolation.  
-    
-    
-    
-    
-    of the
-    interpolation. This is passed to \code{\link{interpPairs}}, which 
-    uses it to identify pairs of variables between which to interpolate
-    and to replace with a variable whose name is obtained by 
-    \code{\link{sub}} by substituting \code{pairs[1:2]} with 
-    \code{pairs['replacement']}.  
+    [4:5] \code{\link{interpPairs}} further calls 
+    \code{checkNames(plotObject, avoid = pairs[c(1, 3, 2, 5)])} 
+    to ensure that \code{plotObject} object has names, and all 
+    such names are unique.     
   }
   \item{plot.it}{ 
     logical:  If \code{TRUE}, create the desired plot.  Otherwise, convert 
@@ -274,7 +290,8 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   \href{https://en.wikipedia.org/wiki/FFmpeg}{FFmpeg}
   
   \code{animate} works by calling \code{animate1} once for each plot or 
-  "frame" to be produced.  Standard videos operate at 25 frames per second.  
+  "frame" to be produced.  Standard videos operate at 25 frames per 
+  second.  
 
   \code{animate} accepts either a plot function or a list whose elements 
   describe function calls to produce the desired images.  If 

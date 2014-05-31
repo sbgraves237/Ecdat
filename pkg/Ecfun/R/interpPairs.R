@@ -116,7 +116,7 @@ interpPairs.function <- function(object,
   In <- ((validProportion[1]<=pDone) & 
            (pDone<=validProportion[2]) )
   if(!any(In)){
-    return(quote(return(NULL)))
+    return(enquote(NULL))
   }
 ##
 ## 5.  find pairs
