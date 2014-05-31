@@ -106,7 +106,7 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #                 endFrames=endFrames, envir=envir, 
 #                 pairs=pairs, enforceEndFrames=enforceEndFrames,                  
 #                 ...)
-        animate1(plotObject, nFrames=nFrames, iFrame=iFrame,
+        an1 <- animate1(plotObject, nFrames=nFrames, iFrame=iFrame,
               endFrames=endFrames, envir=envir, 
               pairs=pairs, enforceEndFrames=enforceEndFrames,                  
               ...)
@@ -122,4 +122,5 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #
         if((iFrame%%10)==0) cat('\n')
     }
+    an1 
 }

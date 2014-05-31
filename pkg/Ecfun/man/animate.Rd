@@ -410,12 +410,23 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 %\source{}
 \value{
-  \code{animate} and \code{animate1} return "done" invisibly.
+  \code{animate1.function} returns a function that can be 
+  executed by itself to produce the desired plot.  It can be 
+  listed and processed line by line using \code{\link{debug}}
+  as desired to diagnose problems.  
+  
+  \code{animate1.list} returns its argument \code{envir} as 
+  modified during the course of creating the plot for the 
+  specified value of \code{iFrame}, etc.  
+  
+  \code{animate} returns the last value returned to it by 
+  \code{animate1}.  
 
-  \code{nFramesDefault} returns an integer or \code{NA} with an attribute
-  \code{plot.lastFrame.NA} identifying any elements of \code{plotObject}
-  with components \code{fun} = 'plot' and \code{lastFrame} ending in
-  \code{NA}.  If no element of \code{plotObject} meets these criteria, the
+  \code{nFramesDefault} returns an integer or \code{NA} with 
+  an attribute \code{plot.lastFrame.NA} identifying any 
+  elements of \code{plotObject} with components \code{fun} = 
+  'plot' and \code{lastFrame} ending in \code{NA}.  If no 
+  element of \code{plotObject} meets these criteria, the
   attribute \code{plot.lastFrame.NA} = \code{numeric(0)}.
 }
 %\references{}
