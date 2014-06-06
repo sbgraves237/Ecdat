@@ -4,6 +4,16 @@
 \alias{interpChar.default}
 \title{
   Interpolate between numbers or numbers of characters 
+}
+\description{
+  For \code{x} and \code{y} numeric:  
+  
+  \code{xOut <- x*(1-.proportion) + y*.proportion} 
+  
+  Otherwise, coerce to character and return a 
+  \code{\link{substring}} of \code{x} or \code{y} with 
+  number of characters interpolating linearly between 
+  \code{nchar(x)} and \code{nchar(y)};  see details.  
   
   *** NOTE:  This function is currently in flux.  
   The results may not match the documentation 
@@ -17,22 +27,12 @@
   for a missing argument being character(length(x)) 
   [or character(length(y)) or numeric(length(x)) or ...]
 }
-\description{
-  For \code{x} and \code{y} numeric:  
-  
-  \code{xOut <- x*(1-.proportion) + y*.proportion} 
-  
-  Otherwise, coerce to character and return a 
-  \code{\link{substring}} of \code{x} or \code{y} with 
-  number of characters interpolating linearly between 
-  \code{nchar(x)} and \code{nchar(y)};  see details.  
-}
 \usage{
 interpChar(x, ...)
 \method{interpChar}{list}(x, .proportion, 
-        argnames=character(3), Source=character(0), ...)
+        argnames=character(3), message0=character(0), ...)
 \method{interpChar}{default}(x, y, .proportion, 
-        argnames=character(3), Source=character(0), ...)
+        argnames=character(3), message0=character(0), ...)
 }
 \arguments{
   \item{x}{
@@ -46,11 +46,11 @@ interpChar(x, ...)
   }
   \item{argnames}{
     a character vector of length 3 giving args \code{name.x}, 
-    \code{name.y}, and \code{Source} to pass to 
+    \code{name.y}, and \code{.proportion} to pass to 
     \code{\link{compareLengths}} to improve the value  of 
     any diagnostic message in case lengths are not compatible.  
   }
-  \item{Source}{
+  \item{message0}{
     A character string to be passed with \code{argnames} to 
     \code{\link{compareLengths}} to improve the value of 
     any diagnostic message in case lengths are not compatible.  
@@ -70,8 +70,8 @@ interpChar(x, ...)
   
   3.  If \code{x}, \code{y}, and \code{.proportion} are all 
   provided with at least one of \code{x} and \code{y} not being 
-  numeric, the algorithm does linear interpolation on the 
-  difference in the number of characters between 
+  numeric  or logical, the algorithm does linear interpolation on 
+  the difference in the number of characters between 
   \code{x} and \code{y}.  It returns characters from 
   \code{y} except when \code{nchar(x)} > \code{nchar(y)}, 
   in which case it returns characters from \code{x}.  This 
@@ -85,7 +85,7 @@ interpChar(x, ...)
   replaced by a default vector of the same type and length;  
   for example, if \code{y} is missing and \code{x} is numeric, 
   \code{y} = \code{numeric(length(x))}.  (If the one supplied
-  is not numeric, it is coerced to character.)  
+  is not numeric or logical, it is coerced to character.)  
 }
 \value{
   A vector:  Numeric if \code{x} and \code{y} are both numeric 
@@ -122,8 +122,14 @@ all.equal(xN1, xN1.)
 ##
 ## 2.  Single character vector 
 ##
-i.5 <- interpChar(c('a', 'bc', 'def'), .p=0.3)
-# check:  0.3*(total 6 characters) = 1.8 characters
+i.5 <- interpChar(list(c('a', 'bc', 'def')), .p=0.3)
+# If cumulative characters:  
+#        0.3*(total 6 characters) = 1.8 characters
+# However, the current code does something different, 
+# returning "a", "bc", "d" <- like using 1-.p?  
+# This is a problem with the defaults with a single 
+# argument;  ignore this issue for now.  
+# 2014-06-04
 i.5. <- c('a', 'b', '')
 %\dontshow{stopifnot(}
 #all.equal(i.5, i.5.)
@@ -193,6 +199,12 @@ null2 <- interpChar('abc', NULL, .3)
 \dontshow{stopifnot(}
 all.equal(null2, 'ab')
 \dontshow{)}
-
+##
+## 7.  length=0 
+##
+log0 <- interpChar(logical(0), 2, .6)
+\dontshow{stopifnot(}
+all.equal(log0, 1.2)
+\dontshow{)}
 }
 \keyword{manip}

@@ -59,7 +59,7 @@ interpPairs.function <- function(object,
 ##
 # 1.1.  message0 
   if(sum(nchar(message0))<1){
-    message0 <- deparse(substitute(object), 25)[1]
+    message0 <- createMessage(deparse(object))
   }
   if((ns <- length(message0))>1){
     warning('length(message0) = ', ns, "; message0[1:2] = ", 
@@ -75,6 +75,7 @@ interpPairs.function <- function(object,
   Envir <- new.env() 
   if('firstFrame' %in% Names){
     firstF <- eval(object$firstFrame, Envir, envir) 
+    if(is.null(firstF))firstF <- 1
     Object$firstFrame <- NULL 
   } else firstF <- 1
   Envir$firstFrame <- firstF 
@@ -84,6 +85,7 @@ interpPairs.function <- function(object,
   }
   if('lastFrame' %in% Names){
     lastF <- eval(object$lastFrame, Envir, envir)  
+    if(is.null(lastF)) lastF <- (nFrames-endFrames+1) 
     Object$lastFrame <- NULL 
   } else lastF <- (nFrames-endFrames+1) 
 #
@@ -99,16 +101,16 @@ interpPairs.function <- function(object,
 ##
   chk.lf <- compareLengths(lastF, firstF, 
           name.x='lastFrame', name.y='firstFrame', 
-          Source=message0)
+          message0=message0)
   dF <- (lastF-firstF)
   chk.if <- compareLengths(iFrame, firstF, 
           name.x='iFrame', name.y='firstFrame', 
-          Source=message0)
+          message0=message0)
   pDone <- pmin((iFrame-firstF) / dF, 1)
   pDone[is.na(pDone)] <- 1
   chk.kf <- compareLengths(Keep, firstF, 
           name.x='Keep', name.y='FirstFrame', 
-          Source=message0 )
+          message0=message0 )
   pDone[iFrame>lastF] <- (2*Keep - 1)
 ##
 ## 4.  validProportion 
@@ -149,7 +151,7 @@ interpPairs.function <- function(object,
     if(!(si %in% suf12)) next 
 #  6.2.  eval si  
     Si <- eval(object[[si]], Envir, envir) 
-    Object[[si]] <- NULL 
+    if(is.null(Si))Si <- logical(0)
     Envir[[si]] <- Si 
 #  6.3.  match 
     k1 <- which(suf1 == si)
@@ -159,8 +161,9 @@ interpPairs.function <- function(object,
       if(length(i2)<1){
 #  6.4.  only s1 
         argnms <- c(si, '(no match)', '.proportion')
-        S. <- interpChar(x=Si, y=NULL, pDone, 
+        S. <- interpChar(x=Si, y=logical(0), pDone, 
                            argnms, message0)
+        if(is.null(S.))S. <- logical(0)
         Object[[s.]] <- S. 
         Envir[[s.]] <- S. 
         next 
@@ -171,6 +174,7 @@ interpPairs.function <- function(object,
         argnms <- c(si, s2, '.proportion') 
         S. <- interpChar(Si, Envir[[s2]], pDone, 
                            argnms, message0) 
+        if(is.null(S.))S. <- logical(0)
         Object[[s.]] <- S. 
         Envir[[s.]] <- S. 
       } 
@@ -184,8 +188,9 @@ interpPairs.function <- function(object,
     if(length(i1)<1){
 #  6.8.  only s2 
       argnms <- c('(no match)', si, '.proportion')
-      S. <- interpChar(x=NULL, y=Si, pDone, 
+      S. <- interpChar(x=logical(0), y=Si, pDone, 
                          argnms, message0)
+      if(is.null(S.))S. <- logical(0)
       Object[[s.]] <- S. 
       Envir[[s.]] <- S. 
       next 
@@ -196,16 +201,25 @@ interpPairs.function <- function(object,
       argnms <- c(s1, si, '.proportion') 
       S. <- interpChar(Envir[[s1]], Si, pDone, 
                    argnms, message0) 
+      if(is.null(S.))S. <- logical(0)
       Object[[s.]] <- S. 
       Envir[[s.]] <- S. 
     }       
   }
 ##
-## 7.  common length 
+## 7.  drop 
+##
+  Nam3 <- names(Object)
+  if(length(Nam3)==length(Object)){
+    drop <- (Nam3 %in% suf12)
+    Obj <- Object[!drop]
+  } else Obj <- Object 
+##
+## 8.  common length 
 ##
   len.p <- length(pDone)
   if(length(suf.)>0){
-    len1 <- sapply(Object[suf.], NROW)
+    len1 <- sapply(Obj[suf.], NROW)
   } else len1 <- integer(0)
   N <- max(1, len.p, len1)
   incomp.p <- (N %% len.p)
@@ -226,10 +240,10 @@ interpPairs.function <- function(object,
 #  pD <- rep_len(pDone, N)
   In. <- rep_len(In, N)
   for(s. in suf.){
-    Object[[s.]] <- Object[[s.]][In.]
+    Obj[[s.]] <- Obj[[s.]][In.]
   }    
 ##
-## 8.  Done 
+## 9.  Done 
 ##
-  Object 
+  Obj 
 }

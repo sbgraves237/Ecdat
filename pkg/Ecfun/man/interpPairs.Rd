@@ -116,11 +116,12 @@ interpPairs(object, ...)
     elements of \code{object} between which to interpolate and 
     three replacements.  
     
-    (1) The first is used in \code{\link{sub}} to convert each
-    \code{pairs[1:2]} name found to the desired name of the 
-    interpolate.  Common names found are then passed with 
-    \code{.proportion} to \code{\link{interpChar}}, which 
-    does the actual interpolation. 
+    (1) The first of the three replacements is used in 
+    \code{\link{sub}} to convert each \code{pairs[1:2]} name 
+    found to the desired name of the interpolate.  Common names 
+    found are then passed with \code{.proportion} to 
+    \code{\link{interpChar}}, which does the actual 
+    interpolation. 
     
     (2, 3) \code{interpPairs} also calls 
     \code{checkNames(object, avoid = pairs[c(1, 3, 2, 5)])}.  
@@ -157,7 +158,7 @@ interpPairs(object, ...)
   \code{interpPairs} does nothing, returning 
   \code{enquote(NULL)}.  
   
-  If \code{.proportion} is inside \code{validProportion}, 
+  If \code{any(.proportion)} is inside \code{validProportion}, 
   \code{interpPairs.function} next uses \code{\link{grep}} to 
   look for arguments with names matching \code{pairs[1:2]}.  
   If any are found, they are passed with \code{.proportion} 
@@ -287,17 +288,27 @@ iLines <- interpPairs(tstbo[[3]], nFrames=5, iFrame=2)
 # check:  
 # .proportion = (iFrame-firstFrame)/(lastFrame-firstFrame)
 #  = c(1/3, 0, -1/3)
-# if x.0 = x.1 and y.0 = y.1 by default 
-iL <- quote(lines(x=c(1, 1.5), y=c(1, 1.5), 
-                  z=c(1/3, 0), 
-                  txt=c('CR', '') ))
-# or if x.0 = 0 and y.0 = 0 by default:  
+%# if x.0 = x.1 and y.0 = y.1 by default 
+%iL <- quote(lines(x=c(1, 1.5), y=c(1, 1.5), 
+%                  z=c(1/3, 0), 
+%                  txt=c('CR', '') ))
+# if x.0 = 0 and y.0 = 0 by default:  
 iL <- quote(linex(x=c(1/3, 0), y=c(1/9, 0), z=c(1/3, 0), 
            tst=c('CR', '')))
+##
+##**** This example seems to give the wrong answer
+##**** 2014-06-03:  Ignore for the moment 
+##           
 %\dontshow{stopifnot(}
 #all.equal(iLines, iL)
 %\dontshow{)}
-                                    
+
+##
+## 1.4.  Don't throw a cryptic error with NULL 
+##
+ip0 <- interpPairs(quote(text(labels.1=NULL)))
+  
+  
 ###
 ###
 ### 2.  interpPairs.list

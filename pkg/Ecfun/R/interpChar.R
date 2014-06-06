@@ -3,12 +3,12 @@ interpChar <- function(x, ...){
 }
 
 interpChar.list <- function(x, .proportion, 
-         argnames=character(3), Source=character(0),  ...){
+         argnames=character(3), message0=character(0),  ...){
 ##
-## 1.  Source?  
+## 1.  message0?  
 ##
-  if(sum(nchar(Source))==0){
-    Source <- deparse(substitute(x), 25)
+  if(sum(nchar(message0))==0){
+    message0 <- deparse(substitute(x), 25)
   }
 ##
 ## 2.  length(x)<2
@@ -19,25 +19,24 @@ interpChar.list <- function(x, .proportion,
     xNm <- names(x)
     name0 <- FALSE 
     name.x <- argnames[1]
-    if(is.null(name.x) || (nchar(name.x)==0)) {
+    if(nchar0(x)) {
       name0 <- TRUE
-      name.x <- xNm
-      if(is.null(name.x) || (nchar(name.x)==0)) name.x <- 'x'
+      name.x <- createMessage(xNm, 35, default='x') 
     }
-    if(is.null(xNm) || (nchar(xNm)==0)) xNm <- name.x 
+    if(nchar0(xNm)) xNm <- name.x 
     name.y <- argnames[2] 
-    if(is.null(name.y) || (nchar(name.y)==0)) {
+    if(nchar0(name.y)) {
       name.y <- '.proportion'
       name0 <- TRUE 
     }
-    Source <- paste(Source, argnames[3]) 
+    message0 <- paste(message0, argnames[3]) 
     if(name0){
-      Source <- paste0('in interpChar.list:', Source)
+      message0 <- paste0('in interpChar.list:', message0)
     }  
     compareLengths(x[[1]], .proportion, name.x, name.y,
-                   Source, ...)    
+                   message0, ...)    
     if(is.numeric(x[[1]])){
-      if(is.null(xNm) || (nchar(xNm)<1)){
+      if(nchar0(xNm)){
         warning('numerical interpolation in a list of length 1', 
                 '\n returns the input')
       } else {
@@ -54,93 +53,99 @@ interpChar.list <- function(x, .proportion,
 ## 3.  length(x)>1 
 ##
   interpChar.default(x[[1]], x[[2]], .proportion, 
-                     argnames, Source, ...)
+                     argnames, message0, ...)
 }
 
 interpChar.default <- function(x, y, .proportion, 
-           argnames=character(3), Source=character(0), ...){
+           argnames=character(3), message0=character(0), ...){
 ##
-## 1.  Source?  
+## 1.  message0?  
 ##
-  if(sum(nchar(Source))==0){
-    Source <- deparse(substitute(x), 25)
+  misx <- missing(x)
+  misy <- missing(y)
+  if(sum(nchar(message0))==0){
+    message0 <- createMessage(deparse(x), 25L)
   }
 ##
 ## 2.  compareLengths(x, .proportion, ...)  
 ##  
-  Source <- paste(Source, argnames[3])
+  message0 <- paste(message0, argnames[3])
   name.x <- argnames[1]
   name0 <- FALSE 
-  if(is.null(name.x) || (nchar(name.x)==0)) {
-    Source <- paste0('in interpChar.default:', Source)
+  if(nchar0(name.x)) {
+    message0 <- paste0('in interpChar.default:', message0)
     name.x <- 'x'
     name0 <- TRUE 
   }
   name.p <- '.proportion'
 #
-  if(missing(x) || is.null(x)){ 
-    if(missing(y) || is.null(y)){
-      stop(Source, ':  both x and y are missing or NULL')
+  if(misx || is.null(x)){ 
+    if(misy || is.null(y)){
+      warning(message0, ':  both x and y are missing or NULL;', 
+              '   returning NULL')
+      return(NULL)
     }
-    if(is.numeric(y)){
-      x <- numeric(length(y)) 
+    ciy <- classIndex(y)
+    if(misx){ 
+      x <- do.call(index2class(ciy), list(length(y)))
     } else {
-      y <- as.character(y)
-      x <- character(length(y))
-    }        
+      x <- createX2matchY(x, y)
+    }
   } else {
-    if(missing(y) || is.null(y)){
-      if(is.numeric(x)){
-        y <- numeric(length(x))
+    if(misy || is.null(y)){
+      cix <- classIndex(x)
+      if(misy){
+        y <- do.call(index2class(cix), list(length(x)))      
       } else {
-        x <- as.character(x)
-        y <- character(length(x))
-      }
-    } else {
-      if(!is.numeric(x)){
-        x <- as.character(x)
-        y <- as.character(y) 
-      } else {
-        if(!is.numeric(y)){
-          x <- as.character(x)
-          y <- as.character(y)
-        }
+        y <- createX2matchY(y, x)
       }
     }
   }
-  n.x <- length(x)
-  n.y <- length(y)
+  nx <- length(x)
+  ny <- length(y)
+  cix <- classIndex(x)
+  ciy <- classIndex(y)
+  if(nx<1){
+    if(ny<1){
+      return(createX2matchY(x, y))
+    }
+    x <- createX2matchY(x, y)    
+    if(cix>ciy)
+      y <- as(y, index2class(cix))
+  } else {
+    if(ny<1)
+      y <- createX2matchY(y, x)
+  }
   cL <- compareLengths(x, .proportion, name.x, name.p,
-                 Source, ...)    
+                 message0, ...)    
 ##
 ## 3.  numeric? 
 ##  
-  if(missing(y)){
+#  if(missing(y)){
 #  3.1.  missing(y)    
-    if(is.numeric(x)){
-      warning('numeric interpolation with one input;', 
-              '  returning that.')
-      return(x)
-    }
-    y <- x
-    x <- '' 
-  } else { 
+#    if(is.numeric(x)){
+#      warning('numeric interpolation with one input;', 
+#              '  returning that.')
+#      return(x)
+#    }
+#    y <- x
+#    x <- '' 
+#  } else { 
 #  3.2.  y is not missing:  Check lengths     
-    name.y <- argnames[2]
-    if(is.null(name.y) || (nchar(name.y)==0)){
+  name.y <- argnames[2]
+  if(is.null(name.y) || (nchar(name.y)==0)){
       name.y <- 'y'
       if(!name0){
-        Source <- paste0('in interpChar.default:', Source)
+        message0 <- paste0('in interpChar.default:', message0)
       }
-    }  
-    cL.xy <- compareLengths(x, y, name.x, name.y,
-                   Source, ...)    
+  }  
+  cL.xy <- compareLengths(x, y, name.x, name.y,
+                   message0, ...)    
 #   Numeric?      
-    num <- (is.numeric(x) && is.numeric(y))
-    if(num){
+  ciz <- max(cix, ciy)
+  if(ciz<6){
       out <- (x*(1-.proportion) + y*.proportion) 
       return(out)
-    }
   }
 ##
 ## 4.  not numeric
@@ -149,8 +154,8 @@ interpChar.default <- function(x, y, .proportion,
   xc <- as.character(x)
   yc <- as.character(y)
 #  4.2.  Same length
-  nx <- length(xc)
-  ny <- length(yc)
+#  nx <- length(xc)
+#  ny <- length(yc)
   np <- length(.proportion)
   N <- max(nx, ny, np)
   X <- rep(xc, length=N)
