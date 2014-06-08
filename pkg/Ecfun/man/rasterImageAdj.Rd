@@ -22,7 +22,7 @@
 \usage{
 rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
      xright=par('usr')[2], ytop=par('usr')[4], angle = 0,
-     interpolate = TRUE, ...)
+     interpolate = TRUE, xsub=NULL, ysub=NULL, ...)
 }
 \arguments{
   \item{image}{
@@ -53,6 +53,9 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
   \item{interpolate}{
     a logical vector (or scalar) indicating whether to apply linear
     interpolation to the image when drawing.
+  }
+  \item{xsub, ysub}{
+    subscripts to subset \code{image}  
   }
   \item{\dots}{
     graphical parameters (see \code{\link{par}}).
@@ -152,6 +155,17 @@ if(require(jpeg)){
   plot(0:1, 0:1, type='n', asp=1)
   rasterImageAdj(Rlogo, .5, .5, 1, 1, 270)
   rasterImage(Rlogo, .5, .5, 1, 1, 270)
+## 
+## 3.  subset 
+##
+dim(Rlogo)
+# 76 100 3
+Rraster <- as.raster(Rlogo)
+dim(Rraster)
+# 76 100:  
+# x=1:100, left to right 
+# y=1:76, top to bottom 
+rasterImageAdj(Rlogo, 0, 0, .5, .5, xsub=40:94)
 }
 }
 \keyword{hplot}

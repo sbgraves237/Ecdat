@@ -13,18 +13,23 @@ strsplit1 <- function(x, split=',', Quote='"', ...){
   Qte <- ((0<Qt1) & (Qt1<spl1))
   Spl1 <- spl1 
   if(any(Qte)){
+#   quote followed by a split     
+    Spl1[Qte] <- (-1)
     Qt1. <- Qt1[Qte]
     xQt1 <- substr(x[Qte], Qt1.+1, nchar(x[Qte]))
-    Qt2 <- regexpr(Quote, xQt1)
+    Qt2 <- regexpr(Quote, xQt1, ...)
     if(any(Qt2>0)){
+#     matching quote       
       xQt2 <- xQt1[Qt2>0]
       Qt2. <- Qt2[Qt2>0]
       xQt2. <- substring(xQt2, Qt2.+1, nchar(xQt2))
       spl.1 <- regexpr(split, xQt2.)
       if(any(spl.1>0)){
-        Spl.1 <- (Qt1.+Qt2.+spl.1)[spl.1>0]
-        Spl1[Qte][Qt2>0][spl.1>0] <- Spl.1
-      }
+#        Need this in case 2 commas, 
+#        one before and one after the close quote:           
+        Spl.1 <- (Qt1.[Qt2>0]+Qt2.+spl.1)[spl.1>0]
+        Spl1[Qte][Qt2>0][spl.1>0] <- Spl.1 
+      } 
     }
   }
 ##

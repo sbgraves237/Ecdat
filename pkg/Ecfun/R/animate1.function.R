@@ -52,7 +52,7 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
   } else {
     Envir <- new.env()
     for(X in names(envir)){
-      Envir[[X]] <- envir[[X]]
+      Envir[[X]] <- eval(envir[[X]])
     }
   }
 # NOTE:  if(is(Envir, 'environment')), 
@@ -67,21 +67,55 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
     bi <- interpPairs(boi, nFrames=nFrames, 
         iFrame=iFrame, endFrames=endFrames, 
         envir=Envir, ...)
-    if(is.null(bi)) bi <- enquote(NULL)
-    Bo[[ib]] <- bi 
+    if(is.null(bi)){
+      bi <- enquote(NULL)
+    }# else {
+#      if(names(bi)[1]==''){
+#        bi <- pryr::standardise_call(bi)
+#        for(i in seq(2, length=max(0, length(bi)-1))){
+#          bi[[i]] <- eval(bi[[i]], Envir)
+#        }
+#      }
+#    }
+    Bo[[ib]] <- bi
+    if(bi[[1]]=='<-'){
+      assign(as.character(bi[[2]]), 
+             eval(bi[[3]]) )  
+    } else {
+      if(plot.it){
+        if(bi[[1]]=='on.exit'){
+          do.call(on.exit, as.list(bi[-1]))
+        } else {
+          do.call(as.character(bi[[1]]), as.list(bi[-1]), 
+                  envir=Envir)
+#          eval(bi, Envir)
+        }
+      }
+    }
 #    Envir[[ib]] <- bi 
 #    if(plot.it){
 #      eval(bi)#, ...)           
 #      eval(bi, Envir)      
+# PROBLEM:  This does not work properly for "assign" like 
+# op <- par(mar=rep(.1, 4))
+# *** I don't know where op is ... 
+# a temp environment discarded after "eval" is done?  
 #    }
   }
 ##
 ## 4.  done 
 ##
+#  *** I don't know how to make the local 
+#  environment available to po 
+#  It's environment is .GlobalEnv, 
+#  inherited from plotObject :-(
+#  Envir$iFrame <- iFrame
+#  Envir$nFrame <- nFrames
   body(po) <- Bo
-  if(plot.it){
-    po()    
+#  environment(po) <- Envir
+#  if(plot.it){
+#    po()    
 #    tst <- eval(po, Envir)
-  }
+#  }
   invisible(po)
 }

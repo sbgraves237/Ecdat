@@ -1,14 +1,32 @@
 rasterImageAdj <- function(image, xleft=par('usr')[1],
      ybottom=par('usr')[3], xright=par('usr')[2],
      ytop=par('usr')[4], angle = 0, interpolate = TRUE,
-                           ...){
+     xsub=NULL, ysub=NULL, ...){
 ##
 ## 1.  x, y pixels in image
 ##
+  if(is.null(image)){
+    stop("input 'image' is NULL")
+  }
+  Image <- as.raster(image)
 #   dim(image) = y, x, RGB
-    imagePixels <- dim(as.raster(image))[2:1]
+  imagePixels <- dim(Image)[2:1]
 #    imageAsp <- imagePixels[2]/imagePixels[1]
-    names(imagePixels) <- c('x', 'y')
+  names(imagePixels) <- c('x', 'y')
+  if(!(is.null(xsub) && is.null(ysub))){
+    if(is.null(xsub)){
+      xsub <- 1:imagePixels[1]
+    }
+    if(is.null(ysub)){
+      ysub <- 1:imagePixels[2]
+    }
+    if(length(dim(Image))>2){
+      Image <- Image[ysub, xsub, , drop=FALSE]
+    } else {
+      Image <- Image[ysub, xsub, drop=FALSE]
+    }    
+    imagePixels[1:2] <- dim(Image)[2:1]
+  }
 ##
 ## 2.  x, y pixels per inch
 ##
@@ -90,16 +108,16 @@ rasterImageAdj <- function(image, xleft=par('usr')[1],
     ytop0 <- (ybottom0 + imageUAdj.y) 
   }
 ##
-## 6.  rasterImage(image, xleft0, ybottom0, 
+## 7.  rasterImage(image, xleft0, ybottom0, 
 ##        xright0, ytop0, angle, interpolate, ...)
 ##
-  rasterImage(image=image, xleft=xleft0, ybottom=ybottom0,
+  rasterImage(image=Image, xleft=xleft0, ybottom=ybottom0,
                 xright=xright0, ytop=ytop0, angle=angle,
                 interpolate=interpolate, ...)
 ##
-## 9.  Done 
+## 8.  Done 
 ## 
   invisible(c(xleft=as.numeric(xleft0), 
-              ybottom=as.numeric(ybottom0), 
-    xright=as.numeric(xright0), ytop=as.numeric(ytop0)))
+    ybottom=as.numeric(ybottom0), xright=as.numeric(xright0), 
+    ytop=as.numeric(ytop0)))
 }

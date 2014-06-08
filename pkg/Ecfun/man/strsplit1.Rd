@@ -56,13 +56,20 @@ strsplit1(x, split=',', Quote='"', ...)
 }
 %\references{}
 \examples{
-chars2split <- c('abc,def', '"a,bc", def', 
-    'none', ',end', 'start,')
-split <- strsplit1(chars2split)
-# answer
+chars2split <- c(qs00='abcdefg', qs01='abc,def', 
+   qs10a='"abcdefg', qs10b='abc"defg', 
+   qs1.1='"abc,def', qs20='"abc" def', 
+   qs2.1='"ab,c" def', qs21='"abc", def', qs22.1='"a,b",c')    
 
-split. <- list(c('abc', '"a,bc"', 'none', '', 'start'), 
-               c("def", " def",    '', 'end', ''))
+split <- strsplit1(chars2split)
+
+# answer
+split. <- list(c(qs00='abcdefg', qs01='abc', qs10a='"abcdefg', 
+   qs10b='abc"defg', qs1.1='"abc,def', qs20='"abc" def', 
+   qs2.1='"ab,c" def', qs21='"abc"', qs22.1='"a,b"'), 
+               c(qs00='', qs01='def', qs10a='', 
+   qs10b='', qs1.1='', qs20='', qs2.1='', 
+   qs21=' def', qs22.1='c') )
 \dontshow{stopifnot(}
 all.equal(split, split.)
 \dontshow{)}

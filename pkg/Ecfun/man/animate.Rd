@@ -456,13 +456,16 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 # with CRANgrowth as a function     
-CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
-                          endFrames=round(0.2*nFrames), 
-                          data=CRANpackages){
-    plot(x=data[['Date']],
-         y=data[['Packages']],
-         xlim=range(data[['Date']]),
-         ylim=range(data[['Packages']]),
+%CRANgrowthFn <- function(iFrame=nFrames, nFrames=10,
+%                          endFrames=round(0.2*nFrames), 
+%                          data=CRANpackages){
+# Plot function should not have arguments;  
+# pass values as globals:  
+CRANgrowthFn <- function(){
+    plot(x=data.[['Date']],
+         y=data.[['Packages']],
+         xlim=range(data.[['Date']]),
+         ylim=range(data.[['Packages']]),
          log='y')
     rasterImageAdj(image=Rlogo,
                    xleft=as.Date('2002-01-01'), ybottom=1000,
@@ -473,6 +476,7 @@ if(require(jpeg)){
   Rlogo <- readJPEG(logo.jpg)
 
   if(require(Ecdat)){  
+    data. <- CRANpackages 
     CRANobs <- nrow(CRANpackages)
 \dontshow{cat('animate(CRANgrowthFn)\n')}    
     animate(CRANgrowthFn)
