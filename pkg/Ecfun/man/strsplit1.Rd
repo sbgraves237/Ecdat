@@ -27,6 +27,17 @@ strsplit1(x, split=',', Quote='"', ...)
   }
 }
 \details{
+  This function was written to help parse data from the US Department 
+  of Health and Human Services on 
+  \href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/breachtool.html}{cyber-security breaches affecting 500 or 
+  more individuals}.  As of 2014-06-03 the csv version of these 
+  data included commas in quotes that are not \code{sep} characters.  
+  this function was written to split the fields one at a time
+  to allow manual processing to make it easier to correct parsing 
+  errors.  
+  
+  Algorithm:  
+
   1.  spl1 <- regexpr(split, x, ...)
   
   2.  Qt1 <- regexpr(Quote, x, ...)
