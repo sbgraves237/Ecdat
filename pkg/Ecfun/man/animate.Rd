@@ -664,5 +664,16 @@ attr(chkPlot4., 'plot.lastFrame.NA') <- plot.lF.NA
 \dontshow{stopifnot(}
 all.equal(chkPlot4, chkPlot4.)
 \dontshow{)}
+
+%# 4.6.  with(...)
+%*** There is a problem with something like this 2014-06-14
+%;;; ignore for now 
+%tstNfr <- list(firstF=13)
+%tstNf <- nFramesDefault(with(tstNfr, firstFrame=firstF, 
+%       firstFrame))
+
+%\dontshow{stopifnot(}
+%all.equal(tstNf, 13)
+%\dontshow{)}
 }
 \keyword{hplot}

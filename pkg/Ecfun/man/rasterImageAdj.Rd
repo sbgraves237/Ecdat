@@ -42,8 +42,8 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
     a vector (or scalar) of top y positions.
   }
   \item{angle}{
-    angle of rotation (in degrees, anti-clockwise from positive x-axis,
-    about the bottom-left corner).
+    angle of rotation in degrees, anti-clockwise about the centroid
+    of \code{image}.  
     
     NOTE:  \code{\link{rasterImage}} rotates around 
     (\code{xleft}, \code{ybottom}).  \code{rasterImage} 
