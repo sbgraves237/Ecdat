@@ -19,13 +19,13 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
 #    plotList <- plotObject 
 #  }
 ##  
-## 2.  nFrames & iFrames?
+## 2.  nFrames, iFrames, fileNames 
 ##
   if(is.numeric(nFrames) && (length(nFrames)>0)
      && is.null(iFrames)){
     iFrames <- nFrames 
     nFrames <- NULL     
-  }
+  } else 
 #  2.1.  nFr <- nFrames
   if(!is.null(filenames)){
     nFiles <- length(filenames)

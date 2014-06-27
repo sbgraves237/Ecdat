@@ -467,7 +467,10 @@ CRANgrowthFn <- function(){
          xlim=range(data.[['Date']]),
          ylim=range(data.[['Packages']]),
          log='y')
-    rasterImageAdj(image=Rlogo,
+#   Make logo blue fade in over time 
+    Rlg <- Rlogo 
+    Rlg[,,3] <- ((iFrame/nFrames)*Rlogo[,,3])
+    rasterImageAdj(image=Rlg,
                    xleft=as.Date('2002-01-01'), ybottom=1000,
                    xright=as.Date('2005-01-01'), ytop=5000)
 }

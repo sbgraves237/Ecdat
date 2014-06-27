@@ -79,8 +79,8 @@ animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
 #    }
     Bo[[ib]] <- bi
     if(bi[[1]]=='<-'){
-      assign(as.character(bi[[2]]), 
-             eval(bi[[3]]) )  
+#      assign(as.character(bi[[2]]), eval(bi[[3]]) )  
+      eval(bi)
     } else {
       if(plot.it){
         if(bi[[1]]=='on.exit'){
