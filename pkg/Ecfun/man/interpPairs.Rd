@@ -233,7 +233,7 @@ interpPairs(object, ...)
   \code{\link{interpChar}} for details on interpolation.  
   \code{\link{compareLengths}} for how lengths are checked and 
   messages composed and written.  
-  \code{\link{animate1.list}}, which uses \code{interpPairs}.  
+  \code{\link{Animate1.list}}, which uses \code{interpPairs}.  
   \code{\link{enquote}}
 }
 %\references{}

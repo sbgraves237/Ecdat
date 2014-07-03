@@ -1,23 +1,23 @@
-\name{animate}
-\alias{animate}
-\alias{animate1}
-\alias{animate1.list}
-\alias{animate1.function}
+\name{Animate}
+\alias{Animate}
+\alias{Animate1}
+\alias{Animate1.list}
+\alias{Animate1.function}
 \alias{nFramesDefault}
 \title{
   Create a series of plots for an animation
 }
 \description{
-  \code{animate} creates a series of plots.  If
+  \code{Animate} creates a series of plots.  If
   \code{missing(filenames)}, pause for \code{duration} seconds after 
   the completion of one plot before starting the next.  Otherwise,
-  \code{animate} produces a series of graphics files with names
+  \code{Animate} produces a series of graphics files with names
   specified in filenames[iFrames].
 
-  \code{animate1} creates only one plot of the series.
+  \code{Animate1} creates only one plot of the series.
 }
 \usage{
-animate(plotObject, nFrames=NULL, iFrames=NULL,
+Animate(plotObject, nFrames=NULL, iFrames=NULL,
         filenames=NULL, endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
@@ -26,15 +26,15 @@ animate(plotObject, nFrames=NULL, iFrames=NULL,
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
         graphicsFunArgs=list(), enforceEndFrames=FALSE, ...)
-animate1(plotObject, nFrames=NULL, iFrame=NULL,
+Animate1(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
         ...)
-\method{animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
+\method{Animate1}{list}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), envir=list(), 
         pairs=c('1'='\\\\.0$', '2'='\\\\.1$', replace0='', 
                 replace1='.2', replace2='.3'),     
         enforceEndFrames=FALSE, ...)
-\method{animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
+\method{Animate1}{function}(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), envir=new.env(), 
         plot.it=TRUE, ...)        
 nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
@@ -53,7 +53,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     expect.  A \code{plotObject} function should be able to 
     find globals.  
     
-    \code{animate} executes repeated calls to \code{animate1}, with 
+    \code{Animate} executes repeated calls to \code{Animate1}, with 
     each call creating a potentially different plot.  
     
     If a list, it must be a list of lists that specify function 
@@ -102,8 +102,8 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     \code{plotObject} with a component \code{fun} = 'plot' 
     must end in TRUE.  If not and if 
     \code{any( lastFrame < nFrames )}, the function
-    \code{nFramesDefault} (called by \code{animate} and 
-    \code{animate1}) generates warnings that plots may not 
+    \code{nFramesDefault} (called by \code{Animate} and 
+    \code{Animate1}) generates warnings that plots may not 
     appear for \code{iFrame} > \code{max(lastFrame)}.
 
     Apart from \code{firstFrame}, \code{lastFrame}, and 
@@ -208,7 +208,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   \item{envir}{
     environment / named list to use with code{plotObject}.  This can 
     optionally provide other variables to compute what gets plotted.
-    This is passed from \code{animate} to \code{animate1}.  There, 
+    This is passed from \code{Animate} to \code{Animate1}.  There, 
     it is passed to \code{\link{interpPairs}} with each sublist 
     of \code{plotObject}, and the result added to the growing 
     local version of \code{envir}, which then becomes available to 
@@ -283,23 +283,23 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   }
 }
 \details{
-  \code{animate} is designed to turn a single plot into a series of plots.  
-  \code{animate} can optionally produce a series of image files with 
+  \code{Animate} is designed to turn a single plot into a series of plots.  
+  \code{Animate} can optionally produce a series of image files with 
   a summary of the image files written to \code{framesFile} with 
   \code{duration} a format suitable for 
   \href{https://en.wikipedia.org/wiki/FFmpeg}{FFmpeg}
   
-  \code{animate} works by calling \code{animate1} once for each plot or 
+  \code{Animate} works by calling \code{Animate1} once for each plot or 
   "frame" to be produced.  Standard videos operate at 25 frames per 
   second.  
 
-  \code{animate} accepts either a plot function or a list whose elements 
+  \code{Animate} accepts either a plot function or a list whose elements 
   describe function calls to produce the desired images.  If 
   \code{plotObject} is a list, it is converted into a function using 
-  \code{animate1.function}.  This can subsequently be edited to provide 
+  \code{Animate1.function}.  This can subsequently be edited to provide 
   finer control of the display.  
   
-  Each call to \code{animate1} loops over the elements of the list version 
+  Each call to \code{Animate1} loops over the elements of the list version 
   of \code{plotObject}.  Each such element is examined for components 
   named 'x', 'y', 'firstFrame', 'lastFrame', and 'Keep.  These are used to 
   compute a vector \code{proportion}, whose length is the max of the 
@@ -330,7 +330,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   more complicated.  It illustrates zoom, rotating images, and arrows 
   whose characteristics change over time.  
   
-  SIMPLE ANIMATION:  In Example 1 below, \code{animate} converts a 
+  SIMPLE ANIMATION:  In Example 1 below, \code{Animate} converts a 
   plot function \code{CRANgrowthFn} into a series of 10 plots.  The 
   last \code{endFrames} = 2 are the same; The first 9 are different.  
   As of 2014-05-01, the data \code{\link[Ecdat]{CRANpackages}} included 
@@ -343,7 +343,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   method for animating a plot:  First produce a function that produces
   the desired result.  To add additional effects like panning, zooming, 
   rotating images, or growing arrows, one can obtain a list version of 
-  the function as the output of \code{animate1.function}.  This list
+  the function as the output of \code{Animate1.function}.  This list
   version can then be modified as desired.  See Example 3 for examples
   of panning, zooming, etc.    
   
@@ -356,7 +356,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   sublist, \code{Keep} is \code{TRUE} for only the last pair of points 
   in \code{xlim.0}, etc.  
   
-  INTERPOLATING NUMBERS AND TEXT:  \code{animate1} calls 
+  INTERPOLATING NUMBERS AND TEXT:  \code{Animate1} calls 
   \code{\link{interpPairs}}, which further calls \code{\link{interpChar}} 
   to interpolate between sublist components indentified by \code{pairs} 
   based on 
@@ -410,17 +410,17 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 %\source{}
 \value{
-  \code{animate1.function} returns a function that can be 
+  \code{Animate1.function} returns a function that can be 
   executed by itself to produce the desired plot.  It can be 
   listed and processed line by line using \code{\link{debug}}
   as desired to diagnose problems.  
   
-  \code{animate1.list} returns its argument \code{envir} as 
+  \code{Animate1.list} returns its argument \code{envir} as 
   modified during the course of creating the plot for the 
   specified value of \code{iFrame}, etc.  
   
-  \code{animate} returns the last value returned to it by 
-  \code{animate1}.  
+  \code{Animate} returns the last value returned to it by 
+  \code{Animate1}.  
 
   \code{nFramesDefault} returns an integer or \code{NA} with 
   an attribute \code{plot.lastFrame.NA} identifying any 
@@ -431,7 +431,7 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
 }
 %\references{}
 \seealso{
-  \code{animate} calls \code{\link{nFramesDefault}}, which returns 
+  \code{Animate} calls \code{\link{nFramesDefault}}, which returns 
   the desired value for \code{nFrames} with an attribute identifying 
   elements of the \code{plotObject} list that contain \code{NA}s, which 
   must be replaced by \code{nFrames - endFrames + 1}.  
@@ -448,6 +448,15 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   \code{\link{png}}, \code{\link{Sys.sleep}},
   \code{\link{body}}, \code{\link{rasterImageAdj}}, 
   \code{\link{do.call}}
+  
+  \code{\link[raster]{animate}} sequentially plots the layers of a 
+  \code{RasterStack} or \code{RasterBrick*} object to create a movie.  
+  
+  The \code{\link[animation]{saveVideo}} package calls \code{FFmpeg} 
+  to produce a video from a sequence of images produced by other 
+  function(s).  The \code{animation} package includes several 
+  functions that produce such image sequences to illustrate various
+  statistical concepts.  
 }
 \examples{
 ##
@@ -481,8 +490,8 @@ if(require(jpeg)){
   if(require(Ecdat)){  
     data. <- CRANpackages 
     CRANobs <- nrow(CRANpackages)
-\dontshow{cat('animate(CRANgrowthFn)\n')}    
-    animate(CRANgrowthFn)
+\dontshow{cat('Animate(CRANgrowthFn)\n')}    
+    Animate(CRANgrowthFn)
 ##
 ## 2.  CRANgrowth as a list 
 ##
@@ -495,8 +504,8 @@ if(require(jpeg)){
              Rlogo=list(fun='rasterImageAdj', image=Rlogo,
                   xleft=as.Date('2002-01-01'), ybottom=1000,
                   xright=as.Date('2005-01-01'), ytop=5000) )
-\dontshow{cat('animate(CRANgrowth as a list)\n')}                  
-    animate(CRANgrowth)
+\dontshow{cat('Animate(CRANgrowth as a list)\n')}                  
+    Animate(CRANgrowth)
   }
 }
 ##
@@ -588,8 +597,8 @@ all.equal(nFrames.Rhist, nFrames.Rh)
 \dontshow{)}
 
 if(require(maps)){
-\dontshow{cat('animate(Rhist, ...)\n')}
-  animate(Rhist, envir=RhistEnv)
+\dontshow{cat('Animate(Rhist, ...)\n')}
+  Animate(Rhist, envir=RhistEnv)
 # Plot NZ in frame 1,
 # Zoom to include Switzerland by frame 11 then the world by frame 21.
 # Constant from frames 21 to the end.
@@ -598,8 +607,8 @@ if(require(maps)){
 
 # Create 27 image files for a video:
   RhistFiles <- sprintf('Rhist\%05d.png', 1:27)
-\dontshow{cat('animate(Rhist, filenames=...)\n')}  
-  animate(Rhist, filenames=RhistFiles, envir=RhistEnv)
+\dontshow{cat('Animate(Rhist, filenames=...)\n')}  
+  Animate(Rhist, filenames=RhistFiles, envir=RhistEnv)
 
 # creates files Rhistory00001.png, Rhistory00002.png, ...,
 # plus framesFiles.txt to be used by ffmpeg:

@@ -1,9 +1,9 @@
-animate1 <- function(plotObject, nFrames=NULL, iFrame=NULL,
+Animate1 <- function(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), ...){
-  UseMethod('animate1')
+  UseMethod('Animate1')
 }
 
-animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
+Animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), envir=new.env(), 
         plot.it=TRUE, ...){
 ##

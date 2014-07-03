@@ -1,4 +1,4 @@
-animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
+Animate1.list <- function(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), envir=list(), 
         pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
                         replace1='.2', replace2='.3'),

@@ -1,4 +1,4 @@
-animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
+Animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         filenames=NULL, endFrames=round(0.2*nFrames),
         framesFile='framesFiles.txt', duration, envir=list(), 
         pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
@@ -101,17 +101,18 @@ animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
             gFA <- graphicsFunArgs
             gFA$filename <- filenames[iFrame]
             do.call(gFns[iFrame], gFA)
+            on.exit(dev.off())
         }
 #        animate1.list(plotList, nFrames=nFrames, iFrame=iFrame,
 #                 endFrames=endFrames, envir=envir, 
 #                 pairs=pairs, enforceEndFrames=enforceEndFrames,                  
 #                 ...)
-        an1 <- animate1(plotObject, nFrames=nFrames, iFrame=iFrame,
+        an1 <- Animate1(plotObject, nFrames=nFrames, iFrame=iFrame,
               endFrames=endFrames, envir=envir, 
               pairs=pairs, enforceEndFrames=enforceEndFrames,                  
               ...)
         if(toFile){
-            dev.off()
+#            dev.off()
 #           write to framesFile
             cat('file ',filenames[iFrame],
                 '\nduration ', duration, '\n',
