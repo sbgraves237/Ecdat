@@ -101,7 +101,7 @@ Animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
             gFA <- graphicsFunArgs
             gFA$filename <- filenames[iFrame]
             do.call(gFns[iFrame], gFA)
-            on.exit(dev.off())
+#            on.exit(dev.off())
         }
 #        animate1.list(plotList, nFrames=nFrames, iFrame=iFrame,
 #                 endFrames=endFrames, envir=envir, 
@@ -112,7 +112,7 @@ Animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
               pairs=pairs, enforceEndFrames=enforceEndFrames,                  
               ...)
         if(toFile){
-#            dev.off()
+            dev.off()
 #           write to framesFile
             cat('file ',filenames[iFrame],
                 '\nduration ', duration, '\n',
