@@ -6,7 +6,8 @@ Animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'),
-        graphicsFunArgs=list(), enforceEndFrames=FALSE, ...){
+        graphicsFunArgs=list(width=720), 
+        enforceEndFrames=FALSE, ...){
 ##
 ## 1.  plotList <- plotObject or animate1(plotObject, ...) 
 ##
@@ -64,7 +65,7 @@ Animate <- function(plotObject, nFrames=NULL, iFrames=NULL,
     if(missing(duration)){
         if(missing(filenames)){
             duration <- 2
-        } else duration <- 0.04
+        } else duration <- 1/29.97
     }
 ##
 ## 4.  Create plots on the screen or write to a file?

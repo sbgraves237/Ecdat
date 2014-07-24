@@ -25,7 +25,8 @@ Animate(plotObject, nFrames=NULL, iFrames=NULL,
         graphicsFun = c(bmp='bmp', jpg='jpeg', jpeg='jpeg',
             png='png', tif='tiff', tiff='tiff', svg='svg',
             ps='cairo_ps', pdf='cairo_pdf'), 
-        graphicsFunArgs=list(), enforceEndFrames=FALSE, ...)
+        graphicsFunArgs=list(width=720), enforceEndFrames=FALSE, 
+        ...)
 Animate1(plotObject, nFrames=NULL, iFrame=NULL,
         endFrames=round(0.2*nFrames), 
         ...)
@@ -199,7 +200,12 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     seconds per frame.  If \code{filenames} is provided, this is the
     number written to \code{framesFile} as "duration";  see the
     discussion of \code{filenames} above.  In this case, \code{duration}
-    defaults to 0.04 for 25 frames per second.
+    defaults to 1/29.97 for 29.97 frames per second.  This is a common 
+    default, dating from 1953 when NTSC color television was introduced
+    in the US.  At that time the fps was set at 30/1.0001, with the 
+    adjustment made to avoid interference with the 60 Hz electricity.  
+    See \href{https://en.wikipedia.org/wiki/Frame_rate}{Wikipedia, 
+    "Frame rate"}.  
 
     If \code{filenemes} is not provided, this is the number of seconds
     to pause after the completion of each plot before starting the
@@ -231,7 +237,17 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
     would be opened with \code{do.call('png', graphicsFunArgs)}.  This
     uses the \code{graphicsFun} object described with the
     \code{filenames} argument above to translate the file extension 
-    into the name of a graphics device.
+    into the name of a graphics device.  The default is 
+    \code{list(width=720)}, which works well with \code{filenames} 
+    having extensions 'bmp', 'jpg', 'png' or 'tif', because their 
+    default height=480.  However it's terrible with 'svg', 'pdf', 
+    or 'ps', whose default height=7.  As of 2014-07-232, the code 
+    does not check for consistency with the extension.  
+    
+    This default with'bmp', 'jpg', 'png' or 'tif' gives 720 x 480 pixels, 
+    corresponds to Enhanced-definition television (EDTV).  See 
+    \href{https://en.wikipedia.org/wiki/Display_resolution}{Wikipedia, 
+    "Display resolution"}.  
   }
   \item{enforceEndFrames}{
     logical:  If \code{TRUE}, \code{firstFrame} and \code{lastFrame} 
