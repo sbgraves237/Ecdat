@@ -1,12 +1,30 @@
 asNumericChar <- function(x){
+##
+## 1.  Convert factors to character
+## 
+  X <- x
+  if(is.factor(x))x <- as.character(X)
+##
+## 1.  Delete leading $ 
+##
+  dol <- grep('^\\$', x)
+  x[dol] <- sub('^\\$', '', x[dol])
+##
+## 2.  find percent
+##  
   pct <- grep('%$', x)
   x0 <- sub('%$', '', x)
-# Delete commas (thousand separators) and footnote references
+##
+## 3.  Delete commas (thousand separators) and footnote references
+##
   x1 <- gsub(',', '', x0)
   x2 <- strsplit(x1, ' ')
   x. <- sapply(x2, '[', 1)
   x.[x1==''] <- NA
   xo <- as.numeric(x.)
+##
+## 4.  rescale percents 
+##
   xo[pct] <- xo[pct]/100
   xo
 }
