@@ -29,7 +29,7 @@
 }
 \usage{
 asNumericChar(x)
-asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy)
+asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy=NA)
 }
 \arguments{
   \item{x}{
@@ -42,7 +42,8 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy)
     something to indicate which columns to keep
   }
   \item{orderBy}{
-    Which columns to order the rows of \code{x[, keep]} by
+    Which columns to order the rows of \code{x[, keep]} by.  
+    Default is to keep the input order.  
   }
 }
 \details{
@@ -57,7 +58,7 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy)
 
   5.  lapply(x, 1-4)
 
-  6. order the rows;  by default, ascending on the first column
+  6. order the rows
 }
 \value{
   all numeric data.frame
@@ -72,7 +73,9 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy)
 }
 %\references{}
 \examples{
-
+##
+## 1.  simple example 
+##
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
                      q1=c('1,234', ''), duh=rep(NA, 2), 
                      dol=c('$1,234', ''), 
@@ -82,19 +85,25 @@ nF1 <- asNumericDF(fakeF1)
 nF1. <- data.frame(yr=asNumericChar(fakeF1$yr),
                    q1=asNumericChar(fakeF1$q1), 
                    dol=asNumericChar(fakeF1$dol), 
-                   pct=c(.01, .02))[2:1,]
-# correct answer
-row.names(nF1.) <- 2:1
+                   pct=c(.01, .02))
 
-nF1c <- data.frame(yr=1947:1948, q1=c(NA, 1234), 
-                   dol=c(NA, 1234), pct=c(.02, .01))
-row.names(nF1c) <- 2:1
+nF1c <- data.frame(yr=1948:1947, q1=c(1234, NA), 
+                   dol=c(1234, NA), pct=c(.01, .02))
 
 \dontshow{stopifnot(}
 all.equal(nF1, nF1.)
 \dontshow{)}
 \dontshow{stopifnot(}
 all.equal(nF1., nF1c)
+\dontshow{)}
+
+##
+## 2.  orderBy=1:2
+##
+nF. <- asNumericDF(fakeF1, orderBy=1:2)
+
+\dontshow{stopifnot(}
+all.equal(nF., nF1c[2:1,])
 \dontshow{)}
 }
 \keyword{manip}

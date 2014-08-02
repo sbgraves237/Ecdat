@@ -30,7 +30,7 @@ asNumericChar <- function(x){
 }
 
 asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
-                        orderBy){
+                        orderBy=NA){
 #
   if(is.function(keep)){
       Keep <- sapply(x, keep)
@@ -39,10 +39,15 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
 #
   X <- lapply(x., asNumericChar)
 #
-  if(missing(orderBy)){
-      orderBy <- 1:length(X)
+#  if(missing(orderBy)){
+#      orderBy <- 1:length(X)
+#  }
+  if((length(orderBy)<2) && is.na(orderBy)){
+    out <- as.data.frame(X)
+  } else {
+    o <- do.call(order, X[orderBy])
+    out <- as.data.frame(X)[o, ]
   }
-  o <- do.call(order, X[orderBy])
-  as.data.frame(X)[o, ]
+  out 
 }
 
