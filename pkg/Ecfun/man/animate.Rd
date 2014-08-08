@@ -468,11 +468,11 @@ nFramesDefault(plotObject, nFrames=NULL, iFrames=NULL,
   \code{\link[raster]{animate}} sequentially plots the layers of a 
   \code{RasterStack} or \code{RasterBrick*} object to create a movie.  
   
-  The \code{\link[animation]{saveVideo}} package calls \code{FFmpeg} 
-  to produce a video from a sequence of images produced by other 
-  function(s).  The \code{animation} package includes several 
-  functions that produce such image sequences to illustrate various
-  statistical concepts.  
+  The \code{\link[animation]{saveVideo}} function in the 
+  \code{animation} package calls \code{FFmpeg} to produce a video from 
+  a sequence of images produced by other function(s).  The 
+  \code{animation} package includes several functions that produce 
+  such image sequences to illustrate various statistical concepts.  
 }
 \examples{
 ##
