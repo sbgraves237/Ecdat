@@ -86,8 +86,8 @@ Animate1.function <- function(plotObject, nFrames=NULL, iFrame=NULL,
         if(bi[[1]]=='on.exit'){
           do.call(on.exit, as.list(bi[-1]))
         } else {
-          do.call(as.character(bi[[1]]), as.list(bi[-1]), 
-                  envir=Envir)
+          bo1 <- as.list(bi[-1])
+          do.call(as.character(bi[[1]]), bo1, envir=Envir)
 #          eval(bi, Envir)
         }
       }

@@ -6,7 +6,8 @@
   Interpolate between numbers or numbers of characters 
 }
 \description{
-  For \code{x} and \code{y} numeric:  
+  For \code{x} and \code{y} logical, integer, numeric, 
+  Date or POSIX:  
   
   \code{xOut <- x*(1-.proportion) + y*.proportion} 
   
@@ -22,10 +23,18 @@
   The current version does character interpolation on 
   the cumulative number of characters with defaults 
   with only one argument that may not be easy to 
-  understand and use.  Proposed:  interpolate on 
+  understand and use.  Proposed:  
+  
+  old:  interpolate on 
   number of characters in each string with the default
   for a missing argument being character(length(x)) 
   [or character(length(y)) or numeric(length(x)) or ...]
+  
+  2014-08-08: default with either x or y missing 
+  should be to set the other to the one we have, so 
+  interpChar becomes a no op -- except that 
+  values with .proportion outside ("validProportion" = 
+  [0, 1] by default) should be dropped.  
 }
 \usage{
 interpChar(x, ...)
@@ -125,6 +134,7 @@ all.equal(xN1, xN1.)
 i.5 <- interpChar(list(c('a', 'bc', 'def')), .p=0.3)
 # If cumulative characters:  
 #        0.3*(total 6 characters) = 1.8 characters
+#
 # However, the current code does something different, 
 # returning "a", "bc", "d" <- like using 1-.p?  
 # This is a problem with the defaults with a single 
@@ -206,5 +216,16 @@ log0 <- interpChar(logical(0), 2, .6)
 \dontshow{stopifnot(}
 all.equal(log0, 1.2)
 \dontshow{)}
+
+##
+## 8.  Date
+##
+
+
+
+##
+## 9.  POSIXct 
+##
+
 }
 \keyword{manip}

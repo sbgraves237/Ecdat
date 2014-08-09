@@ -13,6 +13,11 @@ interpPairs <- function(object, ...){
 }
 
 #"interpPairs.<-" <- function(object, 
+#
+# *** THIS DID NOT WORK:  
+# *** S3 methods dispatch seemed not to recognize "<-" as a class.
+# *** It does use "call";  see interpPairs.call
+#
 #     nFrames=1, iFrame=nFrames, endFrames=round(0.2*nFrames), 
 #     envir = parent.frame(), 
 #     pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
@@ -160,10 +165,11 @@ interpPairs.function <- function(object,
       i2 <- which(suf2. == s.)
       if(length(i2)<1){
 #  6.4.  only s1 
-        argnms <- c(si, '(no match)', '.proportion')
-        S. <- interpChar(x=Si, y=logical(0), pDone, 
-                           argnms, message0)
-        if(is.null(S.))S. <- logical(0)
+#        argnms <- c(si, '(no match)', '.proportion')
+#        S. <- interpChar(x=Si, y=logical(0), pDone, 
+#                           argnms, message0)
+#        if(is.null(S.))S. <- logical(0)
+        S. <- Si        
         Object[[s.]] <- S. 
         Envir[[s.]] <- S. 
         next 
@@ -187,12 +193,15 @@ interpPairs.function <- function(object,
     i1 <- which(suf1. == s.)
     if(length(i1)<1){
 #  6.8.  only s2 
-      argnms <- c('(no match)', si, '.proportion')
-      S. <- interpChar(x=logical(0), y=Si, pDone, 
-                         argnms, message0)
-      if(is.null(S.))S. <- logical(0)
+#      argnms <- c('(no match)', si, '.proportion')
+#      S. <- interpChar(x=logical(0), y=Si, pDone, 
+#                         argnms, message0)
+#      if(is.null(S.))S. <- logical(0)
+      S. <- Si 
       Object[[s.]] <- S. 
       Envir[[s.]] <- S. 
+#      object[[s.]] <- Si 
+#      Envir[[s.]] <- Si
       next 
     }
 #  6.9. s1 and s2;  s1 yet?           
