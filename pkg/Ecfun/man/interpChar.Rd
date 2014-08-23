@@ -105,7 +105,11 @@ interpChar(x, ...)
 %\references{}
 \author{Spencer Graves}
 \seealso{
-  \code{\link{interpPairs}}
+  \code{\link{interpPairs}}, which calls \code{interpChar}
+  
+  \code{\link{classIndex}}, which is called by 
+  \code{interpChar} to help decide the class of the 
+  interpoland.  
 }
 \examples{
 ##

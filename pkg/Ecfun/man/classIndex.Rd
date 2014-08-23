@@ -2,7 +2,7 @@
 \alias{classIndex}
 \alias{index2class}
 \title{
-  Convert class to an integer 1-7 and vice versa 
+  Convert class to an integer 1-8 and vice versa 
 }
 \description{
   \code{classIndex} converts the class of \code{x} to an integer:  
@@ -13,6 +13,7 @@
     \item integer 
     \item numeric
     \item complex 
+    \item raw 
     \item character 
     \item other 
   }  
@@ -33,11 +34,34 @@ index2class(i, otherCharacter=TRUE)
     corresponding class 
   }
   \item{otherCharacter}{
-    logical:  TRUE to convert 7 to "character";  
-    FALSE to convert 7 to "other".  
+    logical:  TRUE to convert 8 to "character";  
+    FALSE to convert 8 to "other".  
   }
 }
-%\details{}
+\details{
+  The \href{http://127.0.0.1:10705/doc/manual/R-exts.html}{
+  Writing R Extensions} lists six different kinds of "atomic 
+  vectors":  logical, integer, numeric, complex, character,
+  and raw:  See also 
+  \href{http://adv-r.had.co.nz/Data-structures.html}{Wickham 
+  (2013, section on "Atomic vectors" in the chapter on   
+  "Data structures")}.  These form a standard heirarchy, 
+  except for "raw", in that standard operations combining 
+  objects with different atomic classes will create an 
+  object of the higher class.  For example, \code{TRUE + 
+  2 + pi} returns a numeric object ((approximately 
+  6.141593).  Similarly, \code{paste(1, 'a')} returns
+  the character string "1 a". 
+  
+  For "interpolation", we might expect users interpolating 
+  between objects of class "raw" (i.e., bytes) might most 
+  likely prefer "Numeric" to "Character" interpolation, 
+  coerced back to type "raw".  
+  
+  The index numbers for the classes run from 1 to 8 to 
+  make it easy to convert them back from integers to 
+  character strings.  
+}
 \value{
   \code{classIndex} returns an integer between 1 and 7 
   depending on \code{class(x)}.  
@@ -51,7 +75,12 @@ index2class(i, otherCharacter=TRUE)
 \seealso{
   \code{\link{interpChar}} 
 }
-%\references{}
+\references{
+Wickham, Hadley (2014) \emph{Advanced R}, 
+especially \href{http://adv-r.had.co.nz/Data-structures.html}{Wickham 
+  (2013, section on "Atomic vectors" in the chapter on   
+  "Data structures")}.  
+}
 \examples{
 ##
 ## 1.  classIndex
@@ -61,12 +90,13 @@ x2 <- classIndex(logical(0))
 x3 <- classIndex(integer(1))
 x4 <- classIndex(numeric(2))
 x5 <- classIndex(complex(3))
-x6 <- classIndex(character(4))
-x7 <- classIndex(list())
+x6 <- classIndex(raw(4))
+x7 <- classIndex(character(5))
+x8 <- classIndex(list())
 
 # check 
 \dontshow{stopifnot(}
-all.equal(c(x1, x2, x3, x4, x5, x6, x7), 1:7)
+all.equal(c(x1, x2, x3, x4, x5, x6, x7, x8), 1:8)
 \dontshow{)}
 
 ##
@@ -79,13 +109,15 @@ c4 <- index2class(4)
 c5 <- index2class(5) 
 c6 <- index2class(6) 
 c7 <- index2class(7)
-c7o <- index2class(7, FALSE)
+c8 <- index2class(8)
+c8o <- index2class(8, FALSE)
 
 # check 
 \dontshow{stopifnot(}
-all.equal(c(c1, c2, c3, c4, c5, c6, c7, c7o), 
+all.equal(c(c1, c2, c3, c4, c5, c6, c7, c8, c8o), 
           c('NULL', 'logical', 'integer', 'numeric', 
-            'complex', 'character', 'character', 'other'))
+            'complex', 'raw', 'character', 'character', 
+            'other'))
 \dontshow{)}
 
 }

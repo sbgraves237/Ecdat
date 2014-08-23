@@ -4,16 +4,17 @@ classIndex <- function(x){
   if(is(x, 'integer'))return(3)
   if(is(x, 'numeric'))return(4)
   if(is(x, 'complex'))return(5)
-  if(is(x, 'character'))return(6)
-  7
+  if(is(x, 'raw'))return(6)
+  if(is(x, 'character'))return(7)
+  8
 }
 
 index2class <- function(i, otherCharacter=TRUE){
 ##
-## 1.  1 <= i <= 7
+## 1.  1 <= i <= 8
 ##
   if(i<1)stop('i = ', i, '; must be positive')
-  if(i>7)stop('i = ', i, '; must be at most 7')
+  if(i>8)stop('i = ', i, '; must be at most 8')
 ##
 ## 2.  integer?  
 ##
@@ -21,14 +22,14 @@ index2class <- function(i, otherCharacter=TRUE){
 ##
 ## 3.  other? 
 ##
-  if(i==7){
+  if(i==8){
     if(otherCharacter)return('character')
     return('other')
   }
 ## 
-## 4.  1 <= i <= 6
+## 4.  1 <= i <= 7
 ##
   c('NULL', 'logical', 'integer', 'numeric', 
-    'complex', 'character')[i]
+    'complex', 'raw', 'character')[i]
 }
 

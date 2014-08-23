@@ -62,18 +62,8 @@ qqnormPlus(y, xlim, ylim, main = "",
     the output of \code{qqnorm(y, plot.it=FALSE, datax=datax)}.      
   }
 }
-\details{
-
-
-
-
-}
-\value{
-
-
-
-
-}
+%\details{}
+%\value{}
 \author{
   Spencer Graves
 }

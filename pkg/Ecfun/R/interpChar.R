@@ -176,7 +176,11 @@ interpChar.default <- function(x, y, .proportion,
   dxy <- (Ny-Nx)
   Dxy <- cumsum(dxy)
   DN <- Dxy[N]
-  cumCh <- P*DN 
+  cumCh <- P*DN
+# 0 <= DN < Inf, 
+# so the only way is.na(cumCh) 
+# is abs(P)==Inf & DN==0 
+  cumCh[is.na(cumCh)] <- P[is.na(cumCh)]
 #  
   D.xy <- c(0, Dxy[-N])
   Pd <- (cumCh - D.xy) 
