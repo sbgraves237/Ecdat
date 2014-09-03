@@ -74,6 +74,9 @@ xlim <- range(pk[, 'PublicMediaPerCapita'])
 ylim <- 100*range(pk[2:7])
 text.cex <- 2
 
+# to label the lines 
+(US.UK <- (pk[2, -1]+pk[3, -1])/2)
+
 #png('Knowledge v. public media.png')
 op <- par(mar=c(5, 7, 4, 2)+.1)
 plot(c(0, 110), 100*ylim, type='n', axes=FALSE,
@@ -133,13 +136,6 @@ with(pk, lines(PublicMediaPerCapita, 100*PoliticalKnowledge.sc,
                type='b', pch=' '))
 with(pk, lines(PublicMediaPerCapita, 100*PoliticalKnowledge.c,
                type='b', pch=' '))
-with(US.UK, text(PublicMediaPerCapita, 100*PoliticalKnowledge.hs,
-                 'High School\nor less', srt=37, cex=1.5))
-with(US.UK, text(PublicMediaPerCapita, 100*PoliticalKnowledge.sc,
-                 'some\ncollege', srt=10.5, cex=1.5))
-with(US.UK, text(PublicMediaPerCapita, 100*PoliticalKnowledge.c,
-                 "Bachelor's\nor more", srt=-1, cex=1.5))
-
 par(op)
 #dev.off()
 
