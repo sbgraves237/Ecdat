@@ -15,7 +15,7 @@ data(politicalKnowledge)
 
   \describe{
     \item{country}{
-      a \code{\link{factor}} of Denmark, Finland, UK, and 
+      a character vector of Denmark, Finland, UK, and 
       US, being the four countries comparied in this data set.  
     }
     \item{DomesticKnowledge.hs, DomesticKnowledge.sc, 
