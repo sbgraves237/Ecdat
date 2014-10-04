@@ -67,7 +67,73 @@
     }
   }
 }
-%\details{}
+\details{
+  The data primarily consists of breaches that occurred from 2010 
+  through early 2014 when the extract was taken.  However, a few 
+  breaches are recorded including 1 from 1997, 8 from 2002-2007, 
+  13 from 2008 and 56 from 2009.  The numbers of breaches from 2010 
+  - 2014 are 211, 229, 227, 254 and 56, respectively.  (A chi-square
+  test for equality of the counts from 2010 through 2013 is 4.11, 
+  which with 3 degrees of freedom has a significance probability of 
+  0.25.  Thus, even though the lowest number is the first and the 
+  largest count is the last, the apparent trend is  not 
+  statistically significant under the usual assumption of 
+  independent Poisson trials.)  
+  
+  The following corrections were made to the file:  
+  
+  \tabular{rlll}{
+    Number \tab Name of Covered Entity \tab Corrections\cr
+    \cr
+    45 \tab Wyoming Department of Health \tab Cause of breach was 
+    missing.  Added "Unauthorized Access / Disclosure per 
+    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{smartbreif.com/03/29/10} \cr
+    
+    55 \tab Reliant Rehabilitation Hospital North Houston 
+    \tab Cause of breach was missing.  Added Unauthorized 
+    Access / Disclosure per 
+    \href{http://www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification/}{Dissent. "Two Breaches Involving 
+    Unauthorized Access Lead to Notification." PHIprivacy.net. 
+    N.p., 20 Apr. 2010.} \cr 
+    
+    123 \tab Aetna \tab Cause of breach was missing \tab added 
+    Improper disposal per \href{http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
+    Aetna.com/news/newsReleases/2010/0630}
+    \cr 
+    
+    157 \tab Mayo Clinic \tab Cause of breach was missing.  Added 
+    Unauthorized Access/Disclosure per \href{http://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Anderson, Howard. "Home 
+    Articles Mayo Fires Employees in 2 Incidents: Both Involved 
+    Unauthorized Access to Records." Data Breach Today. N.p., 4 Oct. 
+    2010}\cr
+  
+    341 \tab Saint Barnabas MedicL Center \tab Misspelled "Saint 
+    Barnabas Medical Center" \cr 
+  
+    347 \tab Americar Health Medicare \tab Misspelled "American 
+    Health Medicare" \cr
+  
+    484 \tab Lake Granbury Medicl Ceter \tab Misspelled "Lake 
+    Granbury Medical Center" \cr 
+  
+    782 \tab See list of Practices under Item 9 \tab Replaced name 
+    as "Cogent Healthcare, Inc." checked from XML and web documents
+    \cr 
+  
+    805 \tab Dermatology Associates of Tallahassee \tab Had 
+    00/00/0000 on breach date.  This was crossed check to determine 
+    that it was Sept 4, 2013 with 916 records \cr
+  
+    815 \tab Santa Clara Valley Medical Center \tab Mistype breach 
+    year as 09/14/2913 corrected as 09/14/2013 \cr
+  
+    961 \tab Valley View Hosptial Association \tab Misspelled 
+    "Valley View Hospital Association" \cr 
+
+    1034 \tab Bio-Reference Laboratories, Inc. \tab Date changed 
+    from 00/00/000 to 2/02/2014 as subsequently determined.  \cr
+  }
+}
 \source{
   U.S. Department of Health and Human Services: Health Information 
   Privacy: \href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/breachtool.html}{Breaches Affecting 500 or More Individuals}
