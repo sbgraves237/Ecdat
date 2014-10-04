@@ -86,26 +86,32 @@
     Number \tab Name of Covered Entity \tab Corrections\cr
     \cr
     45 \tab Wyoming Department of Health \tab Cause of breach was 
-    missing.  Added "Unauthorized Access / Disclosure per 
+    missing.  Added "Unauthorized \cr
+    \tab \tab Access / Disclosure" per 
     \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{smartbreif.com/03/29/10} \cr
     
-    55 \tab Reliant Rehabilitation Hospital North Houston 
-    \tab Cause of breach was missing.  Added Unauthorized 
-    Access / Disclosure per 
-    \href{http://www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification/}{Dissent. "Two Breaches Involving 
-    Unauthorized Access Lead to Notification." PHIprivacy.net. 
+    55 \tab Reliant Rehabilitation Hospital North
+    \tab Cause of breach was missing.  Added "Unauthorized \cr
+
+    \tab Houston \tab Access / Disclosure" per Dissent. "Two Breaches 
+    \cr
+    \tab \tab Involving Unauthorized Access Lead to Notification." 
+    \cr
+    \tab \tab \href{http://www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification/}{PHIprivacy.net. 
     N.p., 20 Apr. 2010.} \cr 
-    
-    123 \tab Aetna \tab Cause of breach was missing \tab added 
-    Improper disposal per \href{http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
+
+    123 \tab Aetna \tab Cause of breach was missing. Added Improper \cr
+    \tab \tab disposal per \href{http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
     Aetna.com/news/newsReleases/2010/0630}
     \cr 
     
     157 \tab Mayo Clinic \tab Cause of breach was missing.  Added 
-    Unauthorized Access/Disclosure per \href{http://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Anderson, Howard. "Home 
-    Articles Mayo Fires Employees in 2 Incidents: Both Involved 
-    Unauthorized Access to Records." Data Breach Today. N.p., 4 Oct. 
-    2010}\cr
+    Unauthorized \cr 
+    \tab \tab Access/Disclosure per Anderson, Howard. 
+    "Mayo Fires \cr
+    \tab \tab "Employees in 2 Incidents: Both Involved \cr 
+    \tab \tab Unauthorized Access to Records." \cr
+    \tab \tab \href{http://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Data Breach Today. N.p., 4 Oct. 2010}\cr
   
     341 \tab Saint Barnabas MedicL Center \tab Misspelled "Saint 
     Barnabas Medical Center" \cr 
@@ -117,12 +123,14 @@
     Granbury Medical Center" \cr 
   
     782 \tab See list of Practices under Item 9 \tab Replaced name 
-    as "Cogent Healthcare, Inc." checked from XML and web documents
+    as "Cogent Healthcare, Inc." checked \cr
+    \tab \tab from XML and web documents
     \cr 
   
     805 \tab Dermatology Associates of Tallahassee \tab Had 
-    00/00/0000 on breach date.  This was crossed check to determine 
-    that it was Sept 4, 2013 with 916 records \cr
+    00/00/0000 on breach date.  This was crossed \cr
+    \tab \tab check to determine that it was Sept 4, 2013 with 
+    916 records \cr
   
     815 \tab Santa Clara Valley Medical Center \tab Mistype breach 
     year as 09/14/2913 corrected as 09/14/2013 \cr
@@ -131,7 +139,8 @@
     "Valley View Hospital Association" \cr 
 
     1034 \tab Bio-Reference Laboratories, Inc. \tab Date changed 
-    from 00/00/000 to 2/02/2014 as subsequently determined.  \cr
+    from 00/00/000 to 2/02/2014 as \cr
+    \tab \tab subsequently determined.  \cr
   }
 }
 \source{
