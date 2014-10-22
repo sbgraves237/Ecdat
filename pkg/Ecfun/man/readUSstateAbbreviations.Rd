@@ -53,7 +53,9 @@ readUSstateAbbreviations(url.=
   \code{\link[Ecdat]{USstateAbbreviations}}
 }
 \examples{
+if(!fda::CRAN()){
 abbreviations <- readUSstateAbbreviations()
+}
 }
 \keyword{datasets}
 \keyword{IO}

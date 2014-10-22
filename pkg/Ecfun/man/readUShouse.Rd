@@ -108,6 +108,8 @@ readUShouse(url.="http://house.gov/representatives/",
   \code{\link{readCookPVI}}
 }
 \examples{
+if(!fda::CRAN()){
 UShouse <- readUShouse()
+}
 }
 \keyword{IO}

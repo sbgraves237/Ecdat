@@ -59,9 +59,11 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
   \code{\link{readUSsenate}}
 }
 \examples{
+if(!fda::CRAN()){
 house <- readUShouse()
 
 USreps <- UShouse.senate(house)
+}
 }
 \keyword{datasets}
 \keyword{IO}

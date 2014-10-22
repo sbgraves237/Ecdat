@@ -102,6 +102,7 @@ tst <- data.frame(Office=factor(c("House", "Senate", "Senate", 'Senate')),
                   surname=c("Jones", "DeMint", "Graham", 'Smith'),
                   district=c("9", NA, NA, NA),
                   stringsAsFactors=FALSE)
+if(!fda::CRAN()){                  
 tst. <- USsenateClass(tst)
 
 chk <- data.frame(incumbent=c(NA, FALSE, TRUE, FALSE),
@@ -121,6 +122,6 @@ tst2. <- USsenateClass(tst2, Office='a',
 \dontshow{stopifnot(}
 all.equal(tst., tst2.)
 \dontshow{)}
-
+}
 }
 \keyword{manip}

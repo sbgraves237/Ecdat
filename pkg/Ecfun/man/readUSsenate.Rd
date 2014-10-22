@@ -98,6 +98,8 @@ readUSsenate(url.=
   \code{\link{subNonStandardNames}}
 }
 \examples{
+if(!fda::CRAN()){
 USsenate <- readUSsenate()
+}
 }
 \keyword{IO}
