@@ -43,7 +43,7 @@ readFinancialCrisisFiles <- function(files, crisisType=7, ...){
 ##
 ## 2.  for each file
 ##
-  library(gdata)
+#  library(gdata)
   iCtry <- 0
   for(i in 1:nFiles){
       iFile <- files[[i]]

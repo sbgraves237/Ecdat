@@ -30,7 +30,7 @@ readCookPVI <- function(url.=
 ##
 ## 1.  download content
 ##
-  library(RCurl)
+#  library(RCurl)
   Start <- paste(date(), ': readCookPVI(',
                  url., ')', sep='')
   cat(Start)
@@ -47,7 +47,7 @@ readCookPVI <- function(url.=
 ##
 ## 2.  readHTMLTable
 ##
-  library(XML)
+#  library(XML)
   Wikitbls <- readHTMLTable(Url., stringsAsFactors=FALSE)
 ##
 ## 3.  Find House and Senate tables

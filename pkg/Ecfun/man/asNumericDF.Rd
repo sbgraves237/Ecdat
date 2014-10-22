@@ -9,9 +9,9 @@
   and drop information after a blank, then coerce to numeric.  
   
   For a \code{\link{data.frame}}, apply to all columns, drop 
-  non-numeric columns, and and order the rows by the
-  \code{orderBy}.  Some Excel imports include commas as thousand
-  separators;  this replaces any commas with char(0), ''.  
+  non-numeric columns, and order the rows by the \code{orderBy}.  
+  Some Excel imports include commas as thousand separators;  
+  this replaces any commas with char(0), ''.  
   
   Similarly, if "\%" is found as the last character in any field,
   drop the percent sign and divide the resulting numeric conversion 

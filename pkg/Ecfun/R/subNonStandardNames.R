@@ -29,12 +29,12 @@ subNonStandardNames <- function(x,
 ##
 ## 4.  Eliminate leading and trailing blanks
 ##
-  if(require(tis)){
+#  if(require(tis)){
       x. <- stripBlanks(x.)
-  } else {
-      warning('need stripBlanks{tis} to delete leading and trailing',
-              ' blanks;  not available')
-  }
+#  } else {
+#      warning('need stripBlanks{tis} to delete leading and trailing',
+#              ' blanks;  not available')
+#  }
 ##
 ## 5.  Done
 ##

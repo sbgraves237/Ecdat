@@ -9,9 +9,9 @@ read.testURLs <- function(file.='testURLresults.csv', ...){
     if('Time' %in% names(dat)){
         tm <- dat$Time
         if(is.numeric(tm)){
-            if(require(fda)){
+#            if(require(fda)){
                 Tm <- as.POSIXct1970(tm)
-            }
+#            }
         } else {
             if(is.factor(tm))tm <- as.character(tm)
             if(is.character(tm)){

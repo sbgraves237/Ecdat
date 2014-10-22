@@ -17,7 +17,7 @@ financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
 ##
 ## populate it
 ##
-  library(gdata)
+#  library(gdata)
   for(i in 1:nFiles){
 ##
 ## 1.  Read the first sheet

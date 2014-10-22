@@ -5,7 +5,7 @@ readUSstateAbbreviations <- function(url.=
 ##
 ## 1.  download content
 ##
-  library(RCurl)
+#  library(RCurl)
   Start <- paste(date(), ': readUSstateAbbreviations(',
                  url., ')', sep='')
   cat(Start)
@@ -22,7 +22,7 @@ readUSstateAbbreviations <- function(url.=
 ##
 ## 2.  Find the primary table
 ##
-  library(XML)
+#  library(XML)
   Abbrev <- readHTMLTable(abbrev, stringsAsFactors=FALSE)
 #
   len <- sapply(Abbrev, length)

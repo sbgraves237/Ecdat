@@ -7,7 +7,7 @@ readUShouse <- function(url.="http://house.gov/representatives/",
 ##
 ## 1.  download content
 ##
-  library(RCurl)
+#  library(RCurl)
   Start <- paste(date(), ': readUShouse(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
@@ -36,7 +36,7 @@ readUShouse <- function(url.="http://house.gov/representatives/",
 ##
 ## 3.  Convert to tables
 ##
-  library(XML)
+#  library(XML)
   House.gov <- readHTMLTable(house.gov, stringsAsFactors=FALSE)
   names(House.gov) <- stCodes
 ##

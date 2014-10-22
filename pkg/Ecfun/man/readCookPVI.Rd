@@ -107,6 +107,8 @@ readCookPVI.(url.=
 CookPVI <- readCookPVI()
 }
 
+if(!fda::CRAN()){
 CookPVI. <- readCookPVI.()
+}
 }
 \keyword{IO}

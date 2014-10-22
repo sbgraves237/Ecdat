@@ -5,7 +5,7 @@ readUSsenate <- function(url.=
 ##
 ## 1.  download content
 ##
-  library(RCurl)
+#  library(RCurl)
   Start <- paste(date(), ': readUSsenate(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
@@ -21,7 +21,7 @@ readUSsenate <- function(url.=
 ##
 ## 2.  readHTMLTable
 ##
-  library(XML)
+#  library(XML)
   senate <- readHTMLTable(senate.gov, stringsAsFactors=FALSE)
 ##
 ## 3.  Find table with 100 rows

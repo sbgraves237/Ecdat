@@ -8,7 +8,7 @@ testURLs <- function(urls=c(
 ##
 ## 1. set up
 ##
-  library(RCurl)
+#  library(RCurl)
   ku <- length(urls)
   uNames <- names(urls)
   if(is.null(uNames))

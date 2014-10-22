@@ -25,12 +25,12 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           x.woP <- substring(x.endP, 1, nch3.)
           x[endParen] <- x.woP
       }
-      if(require(tis)){
+#      if(require(tis)){
           x <- stripBlanks(x)
-      } else {
-          warning('need stripBlanks{tis} to delete leading and trailing',
-                  ' blanks;  not available')
-      }
+#      } else {
+#          warning('need stripBlanks{tis} to delete leading and trailing',
+#                  ' blanks;  not available')
+#      }
       x
   }
   x0 <- x
@@ -59,12 +59,12 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
       sur <- dropEndParen(sur.)
 #
       giv <- substring(x, Sep+1)
-      if(require(tis)){
+#      if(require(tis)){
           giv <- stripBlanks(giv)
-      } else {
-          warning('need stripBlanks{tis} to delete leading and trailing',
-                  ' blanks;  not available')
-      }
+#      } else {
+#          warning('need stripBlanks{tis} to delete leading and trailing',
+#                  ' blanks;  not available')
+#      }
       Sur <- fixNonStandard(sur, ...)
       Sur. <- strsplit(Sur, ' ')
       look4suf <- sapply(Sur., tail, n=1)
