@@ -84,7 +84,7 @@ bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
 
 ##
 ## Toy example using local data to check the code
-## and illustrate returning all the data not just one crisisTpe
+## and illustrate returning all the data not just one crisisType
 ##
 Ecdat.demoFiles <- system.file('demoFiles', package='Ecdat')
 Ecdat.xls <- dir(Ecdat.demoFiles, pattern='xls$',
@@ -93,6 +93,8 @@ if(require(gdata)){
   tst <- financialCrisisFiles(Ecdat.xls)
 
   bankingCrises.tst <- readFinancialCrisisFiles(tst)
+# optional tests if not CRAN   
+  if(!fda::CRAN()){
   allCrises.tst <- readFinancialCrisisFiles(tst, 1:8)
 
 # Manually construct tst from allCrises.tst
@@ -114,6 +116,7 @@ all.equal(bankingCrises.tst,
    bankingCrises[1:200, c('year', 'Algeria', 'CentralAfricanRep',
                            'Taiwan', 'UK')])
 \dontshow{)}
+}
 }
 }
 \keyword{datasets}
