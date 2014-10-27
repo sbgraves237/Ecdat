@@ -81,9 +81,8 @@ interpPairs(object, ...)
   }
   \item{nFrames}{
     number of distinct plots to create.
-
-    The default is computed by the function 
-    \code{\link{nFramesDefault}}.  
+%    The default is computed by the function 
+%    \code{\link{nFramesDefault}}.  
   }
   \item{iFrame}{
     integer giving the index of the single frame to create.  Default =
@@ -233,7 +232,7 @@ interpPairs(object, ...)
   \code{\link{interpChar}} for details on interpolation.  
   \code{\link{compareLengths}} for how lengths are checked and 
   messages composed and written.  
-  \code{\link{Animate1.list}}, which uses \code{interpPairs}.  
+%  \code{\link{Animate1.list}}, which uses \code{interpPairs}.  
   \code{\link{enquote}}
 }
 %\references{}
