@@ -28,14 +28,14 @@
 %\source{}
 %\references{}
 \seealso{
-  \code{\link{grepNonStandardCharacters}},
-  \code{\link{subNonStandardCharacters}}
+  \code{\link[Ecfun]{grepNonStandardCharacters}},
+  \code{\link[Ecfun]{subNonStandardCharacters}}
 }
 \examples{
 data(nonEnglishNames)
 
 \dontshow{stopifnot(}
-all.equal(dim(nonEnglishNames), c(17, 2))
+all.equal(ncol(nonEnglishNames), 2)
 \dontshow{)}
 
 }
