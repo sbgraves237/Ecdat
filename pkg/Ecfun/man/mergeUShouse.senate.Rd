@@ -88,21 +88,24 @@ tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
          amount=c(5000, 2000, 29500, 1000, 1000, 11500),
          xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
          incumbent=NA, stringsAsFactors=FALSE )
-tst2 <- mergeUShouse.senate(tst)
+         
+if(!fda::CRAN()){         
+  tst2 <- mergeUShouse.senate(tst)
 
 # A couple of simple tests;  don't test too much,
 # because the results of UShouse.senate change,
 # and we don't want this test to fail
 # due to changes that don't affect Ecdat code
 
-tst3 <- tst2[!tst2$amount0, c(1, 4:6, 8:10)]
-row.names(tst) <- row.names(tst3)
+  tst3 <- tst2[!tst2$amount0, c(1, 4:6, 8:10)]
+  row.names(tst) <- row.names(tst3)
 
 \dontrun{
-all.equal(tst[c(1, 4:6, 8:10)], tst3)
+  all.equal(tst[c(1, 4:6, 8:10)], tst3)
 }
 # tst3[2] = state = factor with 56 levels,
 # and tst[2] only has 5;  compare without this
 
+}
 }
 \keyword{manip}
