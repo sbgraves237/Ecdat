@@ -6,7 +6,7 @@
 \description{
   Find the first and last character not in \code{standardCharacters} and
   replace all between them with \code{replacement}.  For example, a
-  string like "Ruben" where "e" carries and accent and is mangled by
+  string like "Ruben" where "e" carries an accent and is mangled by
   some software would become something like "Rub_n" using the default
   values for \code{standardCharacters} and \code{replacement}.
 }
@@ -50,6 +50,17 @@ subNonStandardCharacters(x,
 
   4.  for(ix in 1:nx) find the first and last \code{standardCharacters}
   in x.[ix] and substitute \code{replacement} for everything in between.
+  
+    
+  NOTE:  On 13 May 2013 Jeff Newmiller at the University of California, 
+  Davis, wrote, 'I think it is a fools errand to think that you can 
+  automatically "normalize" arbitrary Unicode characters to an ASCII 
+  form that everyone will agree on.'  (This was a reply on 
+  r-help@r-project.org, subject:  "Re: [R] Matching names with non-
+  English characters".)  Doubtless someone has software to do a better 
+  job of this than what this function does, but I've so far been unable 
+  to find it in R.  If you know of a better solution to this problem, 
+  I'd be pleased to hear from you.  Spencer Graves
 }
 \value{
   a character vector with everthing between the first and last character
@@ -74,14 +85,15 @@ subNonStandardCharacters(x,
 #    (The standard checks for R packages complains about
 #    non-standard characters, so none are included here.)
 #
-Names <- c('Ra`l', 'Ra`', '`l', 'Torres, Raul',
-           "Robert C. \\\\Bobby\\\\\\\\")
+nonstdNames <- c('Ra`l', 'Ra`', '`l', 'Torres, Raul',
+           "Robert C. \\\\Bobby\\\\\\\\", NA, '', '  ')
+%NOTE: "\\" gets converted to "\" before testing this.             
 #  confusion in character sets can create
 #  names like Names[2]
-Name2 <- subNonStandardCharacters(Names)
+Name2 <- subNonStandardCharacters(nonstdNames)
 
-Name2. <- c('Ra_l', 'Ra_', '_l', Names[4],
-            'Robert C. "Bobby"')
+Name2. <- c('Ra_l', 'Ra_', '_l', nonstdNames[4],
+            'Robert C. "Bobby"', NA, '', '  ')
 
 \dontshow{stopifnot(}
 all.equal(Name2, Name2.)

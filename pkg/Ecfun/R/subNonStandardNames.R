@@ -8,10 +8,19 @@ subNonStandardNames <- function(x,
 ##
 ## 1.  removeSecondLine
 ##
+  x0 <- x
+  if(is.data.frame(x0))x <- as.matrix(x0)
   if(removeSecondLine){
-      X2 <- strsplit(x, '\n')
-      x2 <- sapply(X2, '[', 2)
-      x <- sapply(X2, '[', 1)
+    nch0 <- (nchar(x)<1)
+    X2. <- strsplit(x, '\n')
+    x2 <- sapply(X2., function(xx){
+        xx2 <- xx[-1]
+        paste(xx2, collapse='\n')
+    } ) 
+    no2 <- sapply(X2., length)
+    x2[no2<2] <- NA
+    x <- sapply(X2., '[', 1)
+    x[nch0] <- '' 
   } else x2 <- NULL
 ##
 ## 2.  x. <- subNonStandardCharacters(x, ...)
@@ -36,8 +45,20 @@ subNonStandardNames <- function(x,
 #              ' blanks;  not available')
 #  }
 ##
-## 5.  Done
+## 5.  Reformat at matrix or data.frame 
 ##
-  attr(x., 'secondLine') <- x2
+  if(is.matrix(x0)){
+    attributes(x.) <- attributes(x0)
+  } else if(is.data.frame(x0)){
+    dim(x.) <- dim(x0)
+    colnames(x.) <- colnames(x0)
+    x. <- as.data.frame(x.)
+  }
+##
+## 6.  Done
+##
+  nchx2 <- nchar(x2)
+  nchx2[is.na(x2)] <- 0 
+  if(any(nchx2>0))attr(x., 'secondLine') <- x2
   x.
 }

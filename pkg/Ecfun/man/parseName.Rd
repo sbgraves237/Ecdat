@@ -6,12 +6,18 @@
 \description{
   Identify the presumed surname in a character string assumed to
   represent a name and return the result in a character matrix with
-  "surname" followed by "givenName".
+  "surname" followed by "givenName".  If only one name is provided 
+  (without punctuation), it is assumed to be the givenName;  
+  see Wikipedia, 
+  \href{https://en.wikipedia.org/wiki/Given_name}{"Given name"} 
+  and \href{https://en.wikipedia.org/wiki/Surname}{"Surname"}.  
 }
 \usage{
 parseName(x, surnameFirst=(median(regexpr(',', x))>0),
-          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.'),
-          fixNonStandard=subNonStandardNames, ...)
+          suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.', 'Dr.', 
+                   'Jr', 'Sr'),
+          fixNonStandard=subNonStandardNames, 
+          removeSecondLine=TRUE, ...)
 }
 \arguments{
   \item{x}{
@@ -34,6 +40,10 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
     containing characters with accent marks that are sometimes mangled
     by different software.  Use \code{\link{identity}} if this is not
     desired.
+  }
+  \item{removeSecondLine}{
+    logical:  If TRUE, delete anything following "\\n" and return it as
+    an attribute "secondLine".  
   }
   \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
@@ -77,28 +87,28 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
 ##
 ## 1.  Parse standard first-last name format
 ##
-tst <- c('Joe Smith (AL)', 'Teresa Angelica Sanchez de Gomez',
+tstParse <- c('Joe Smith (AL)', 'Teresa Angelica Sanchez de Gomez',
          'John Brown, Jr.', 'John Brown Jr.',
          'John W. Brown III', 'John Q. Brown,I',
          'Linda Rosa Smith-Johnson', 'Anastasio Somoza Debayle',
-         'Ra_l Vel_zquez')
-library(Ecdat)
-parsed <- parseName(tst)
+         'Ra_l Vel_zquez', 'Sting', 'Colette, ')
+%library(Ecdat)
+parsed <- parseName(tstParse)
 
-tst2 <- matrix(c('Smith', 'Joe', 'Gomez', 'Teresa Angelica Sanchez de',
+tstParse2 <- matrix(c('Smith', 'Joe', 'Gomez', 'Teresa Angelica Sanchez de',
   'Brown', 'John, Jr.', 'Brown', 'John, Jr.',
   'Brown', 'John W., III', 'Brown', 'John Q., I',
   'Smith-Johnson', 'Linda Rosa', 'Debayle', 'Anastasio Somoza',
-  'Velazquez', 'Raul'),
+  'Velazquez', 'Raul', '', 'Sting', 'Colette', ''),
   ncol=2, byrow=TRUE)
-# NOTE:  This second to last example is in the Spanish tradition
+# NOTE:  The 'Anastasio Somoza Debayle' is in the Spanish tradition
 # and is handled incorrectly by the current algorithm.
 # The correct answer should be "Somoza Debayle", "Anastasio".
 # However, fixing that would complicate the algorithm excessively for now.
-colnames(tst2) <- c("surname", 'givenName')
+colnames(tstParse2) <- c("surname", 'givenName')
 
 \dontshow{stopifnot(}
-all.equal(parsed, tst2)
+all.equal(parsed, tstParse2)
 \dontshow{)}
 
 ##
@@ -107,18 +117,46 @@ all.equal(parsed, tst2)
 tst3 <- c('Smith (AL),Joe', 'Sanchez de Gomez, Teresa Angelica',
      'Brown, John, Jr.', 'Brown, John W., III', 'Brown, John Q., I',
      'Smith-Johnson, Linda Rosa', 'Somoza Debayle, Anastasio',
-     'Vel_zquez, Ra_l')
+     'Vel_zquez, Ra_l', ', Sting', 'Colette,')
 tst4 <- parseName(tst3)
 
 tst5 <- matrix(c('Smith', 'Joe', 'Sanchez de Gomez', 'Teresa Angelica',
   'Brown', 'John, Jr.', 'Brown', 'John W., III', 'Brown', 'John Q., I',
   'Smith-Johnson', 'Linda Rosa', 'Somoza Debayle', 'Anastasio',
-  'Velazquez', 'Raul'),
+  'Velazquez', 'Raul', '','Sting', 'Colette',''),
   ncol=2, byrow=TRUE)
 colnames(tst5) <- c("surname", 'givenName')
 
 \dontshow{stopifnot(}
 all.equal(tst4, tst5)
+\dontshow{)}
+
+##
+## 3.  secondLine 
+##
+L2 <- parseName(c('Adam\\n2nd line', 'Ed  \\n --Vacancy', 'Frank'))
+
+# check 
+L2. <- matrix(c('', 'Adam', '', 'Ed', '', 'Frank'), 
+              ncol=2, byrow=TRUE)
+colnames(L2.) <- c('surname', 'givenName')
+attr(L2., 'secondLine') <- c('2nd line', ' --Vacancy', NA)
+\dontshow{stopifnot(}
+all.equal(L2, L2.)
+\dontshow{)}
+
+##
+## 4.  Force surnameFirst when in a minority 
+##
+snf <- c('Sting', 'Madonna', 'Smith, Al')
+SNF <- parseName(snf, surnameFirst=TRUE)
+
+# check 
+SNF2 <- matrix(c('', 'Sting', '', 'Madonna', 'Smith', 'Al'), 
+               ncol=2, byrow=TRUE)
+colnames(SNF2) <- c('surname', 'givenName')               
+\dontshow{stopifnot(}
+all.equal(SNF, SNF2)
 \dontshow{)}
 }
 \keyword{manip}
