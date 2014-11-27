@@ -12,6 +12,7 @@ matchName <- function(x, data, Names=1:2,
       stop('class(as.matrix(x)) must be character;',
            ' is ', class(x))
     }
+    if(is.null(x))return(NULL)
     stop('class(x) = ', class(x), '; must be either character', 
          ' or a data.frame that can be converted to character')
   }

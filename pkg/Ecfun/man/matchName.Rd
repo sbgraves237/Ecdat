@@ -184,5 +184,12 @@ match1a <- list("Cardenas, Andre Bruce"=Data1[1, ],
 \dontshow{stopifnot(}
 all.equal(match1, match1a)
 \dontshow{)}
+##
+## 5.  matchName(NULL) to simplify use 
+##
+mtchNULL <- matchName(NULL, Data1)
+\dontshow{stopifnot(}
+all.equal(mtchNULL, NULL)
+\dontshow{)}
 }
 \keyword{manip}
