@@ -81,6 +81,7 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
 \seealso{
   \code{\link{strsplit}}
   \code{\link{identity}}
+  \code{\link{subNonStandardNames}}
 }
 %\references{}
 \examples{
