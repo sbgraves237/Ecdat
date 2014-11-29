@@ -10,6 +10,9 @@ subNonStandardNames <- function(x,
 ##
   x0 <- x
   if(is.data.frame(x0))x <- as.matrix(x0)
+  if(length(x)<1){
+    return(NULL)
+  }
   if(removeSecondLine){
     nch0 <- (nchar(x)<1)
     X2. <- strsplit(x, '\n')
