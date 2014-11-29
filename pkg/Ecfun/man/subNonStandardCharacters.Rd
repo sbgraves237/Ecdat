@@ -99,10 +99,12 @@ nonstdNames <- c('Ra`l', 'Ra`', '`l', 'Torres, Raul',
 #  confusion in character sets can create
 #  names like Names[2]
 Name2 <- subNonStandardCharacters(nonstdNames)
+str(Name2)
 
+# check 
 Name2. <- c('Ra_l', 'Ra_', '_l', nonstdNames[4],
             'Robert C. "Bobby"', NA, '', '  ')
-
+str(Name2.)
 \dontshow{stopifnot(}
 all.equal(Name2, Name2.)
 \dontshow{)}

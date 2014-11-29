@@ -5,7 +5,12 @@ subNonStandardCharacters <- function(x,
    gsubList=list(list(pattern='\\\\\\\\|\\\\', replacement='\"')),
    ... ) {
 ##
-## 1.  gsubList
+## 1.  length(x)<1?
+##
+  nx <- length(x)
+  if(nx<1)return(integer(0))
+##
+## 2.  gsubList
 ##
   xo <- x
   ng <- length(gsubList)
@@ -20,12 +25,11 @@ subNonStandardCharacters <- function(x,
       xo <- gsub(gsLi$pattern, gsLi$replacement, xo)
   }
 ##
-## 2.  x. <- strsplit(x, "", ...)
+## 3.  x. <- strsplit(x, "", ...)
 ##
-  nx <- length(xo)
   x. <- strsplit(xo, "", ...)
 ##
-## 3.  check each and modify as needed
+## 4.  check each and modify as needed
 ##
   for(ix in seq(length=nx)){
       gi <- which(!(x.[[ix]] %in% standardCharacters))
@@ -41,7 +45,7 @@ subNonStandardCharacters <- function(x,
       }
   }
 ##
-## 4.  Done
+## 5.  Done
 ##
   xo
 }
