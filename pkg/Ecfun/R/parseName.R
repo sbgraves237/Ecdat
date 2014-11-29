@@ -2,7 +2,8 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.', 'Dr.', 
                    'Jr', 'Sr'),
           fixNonStandard=subNonStandardNames, 
-          removeSecondLine=TRUE, ...){
+          removeSecondLine=TRUE, 
+          namesNotFound="attr.replacement", ...){
 ##
 ## 1.  length(x)<1?
 ##
@@ -18,7 +19,7 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
 # else x changes and surnameFirst may change 
   miSNF <- missing(surnameFirst)
   surnameFirst <- surnameFirst
-  x <- x01 <- stripBlanks(x00)
+  x <- x01 <- tis::stripBlanks(x00)
 ##
 ## 2.  secondLine?
 ##
@@ -33,7 +34,7 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
     x <- sapply(X2., '[', 1)
     nch0 <- (nchar(x01)<1)
     x[nch0] <- x01[nch0] 
-    x <- stripBlanks(x)
+    x <- tis::stripBlanks(x)
   } else x2 <- NULL
 ##
 ## 3.  Drop "(AL)", etc.
@@ -86,7 +87,7 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
 #          warning('need stripBlanks{tis} to delete leading and trailing',
 #                  ' blanks;  not available')
 #      }
-      Sur <- fixNonStandard(sur, ...)
+      Sur <- fixNonStandard(sur, namesNotFound=namesNotFound, ...)
       Sur. <- strsplit(Sur, ' ')
       look4suf <- sapply(Sur., tail, n=1)
       suf <- (look4suf %in% suffix)
@@ -97,10 +98,13 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
           surname[ix] <- paste(xi, collapse=' ')
       }
 #
-      Giv <- fixNonStandard(giv, ...)
+      Giv <- fixNonStandard(giv, namesNotFound=namesNotFound, ...)
       Giv[suf] <- paste(Giv[suf], look4suf[suf], sep=', ')
       out <- cbind(surname, Giv)
       colnames(out) <- c('surname', 'givenName')
+      nNF <- c(attr(Sur, 'namesNotFound'), 
+               attr(Giv, 'namesNotFound'))
+      if(!is.null(nNF))attr(out, 'namesNotFound') <- nNF
       return(out)
   }
 ##
@@ -144,8 +148,8 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
 ##
 ## 8.  fixNonStandard
 ##
-  Sur <- fixNonStandard(surname, ...)
-  Giv <- fixNonStandard(givenName, ...)
+  Sur <- fixNonStandard(surname, namesNotFound=namesNotFound, ...)
+  Giv <- fixNonStandard(givenName, namesNotFound=namesNotFound, ...)
 ##
 ## 9.  Done
 ##
@@ -153,6 +157,9 @@ parseName <- function(x, surnameFirst=(median(regexpr(',', x))>0),
   nchx2 <- nchar(x2)
   nchx2[is.na(x2)] <- 0 
   if(any(nchx2>0))attr(out, 'secondLine') <- x2
+  nNF <- c(attr(Sur, 'namesNotFound'), 
+           attr(Giv, 'namesNotFound'))
+  if(!is.null(nNF))attr(out, 'namesNotFound') <- nNF
   out
 }
 

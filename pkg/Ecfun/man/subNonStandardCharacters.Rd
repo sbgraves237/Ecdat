@@ -52,7 +52,15 @@ subNonStandardCharacters(x,
   in x.[ix] and substitute \code{replacement} for everything in between.
   
     
-  NOTE:  On 13 May 2013 Jeff Newmiller at the University of California, 
+  NOTES:  
+  
+  ** To find the elements of x that have changed, use either 
+  \code{subNonStandardCharacters(x) != x} or 
+  \code{grep(replacement, subNonStandardCharacters(x))}, where 
+  \code{replacement} is the \code{replacement} argument = "_" by 
+  default.  
+  
+  ** On 13 May 2013 Jeff Newmiller at the University of California, 
   Davis, wrote, 'I think it is a fools errand to think that you can 
   automatically "normalize" arbitrary Unicode characters to an ASCII 
   form that everyone will agree on.'  (This was a reply on 
@@ -64,7 +72,7 @@ subNonStandardCharacters(x,
 }
 \value{
   a character vector with everthing between the first and last character
-  not in \code{standardCharacters} replaced by \code{replacement}.
+  not in \code{standardCharacters} replaced by \code{replacement}.  
 }
 \author{
   Spencer Graves

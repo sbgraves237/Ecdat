@@ -17,7 +17,8 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
           suffix=c('Jr.', 'I', 'II', 'III', 'IV', 'Sr.', 'Dr.', 
                    'Jr', 'Sr'),
           fixNonStandard=subNonStandardNames, 
-          removeSecondLine=TRUE, ...)
+          removeSecondLine=TRUE, 
+          namesNotFound="attr.replacement", ...)
 }
 \arguments{
   \item{x}{
@@ -44,6 +45,11 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
   \item{removeSecondLine}{
     logical:  If TRUE, delete anything following "\\n" and return it as
     an attribute "secondLine".  
+  }
+  \item{namesNotFound}{
+    character vector passed to \code{subNonStandardNames} and used 
+    to compute any "namesNotFound" attribute of the object returned 
+    by \code{parseName}.  
   }
   \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
@@ -73,7 +79,10 @@ parseName(x, surnameFirst=(median(regexpr(',', x))>0),
   6.  Recompose the rest with any suffix as the givenName.
 }
 \value{
-  a character matrix with two columns:  surname and givenName
+  a character matrix with two columns:  surname and givenName.  
+  
+  This matrix also has a "namesNotFound" attribute if one is 
+  returned by \code{subNonStandardNames}.  
 }
 \author{
   Spencer Graves
@@ -158,6 +167,19 @@ SNF2 <- matrix(c('', 'Sting', '', 'Madonna', 'Smith', 'Al'),
 colnames(SNF2) <- c('surname', 'givenName')               
 \dontshow{stopifnot(}
 all.equal(SNF, SNF2)
+\dontshow{)}
+
+##
+## 5.  nameNotFound
+##
+noSub <- parseName('xx_x')
+
+# check 
+noSub. <- matrix(c('', 'xx_x'), 1)
+colnames(noSub.) <- c('surname', 'givenName')               
+attr(noSub., 'namesNotFound') <- 'xx_x'
+\dontshow{stopifnot(}
+all.equal(noSub, noSub.)
 \dontshow{)}
 }
 \keyword{manip}
