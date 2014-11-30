@@ -17,8 +17,9 @@
 }
 \usage{
 subNonStandardNames(x,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
+   standardCharacters=c(letters, LETTERS, ' ','.', '?', '!', 
+      ',', 0:9,   '/', '*', '$', '\%', '\"', "\'", '-', '+', '&', '_', ';', 
+      '(', ')', '[', ']', '\n'),
    replacement='_',
    gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
       replacement='\"')),
@@ -111,7 +112,7 @@ subNonStandardNames(x,
 ##
 ## 1.  Example 
 ##
-tstSNSN <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul',
+tstSNSN <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Ra`l',
            "Robert C. \\\\Bobby\\\\\\\\", 'Ed  \\n --Vacancy', '', '  ')
 % '\\' is converted to '\' before testing this in R CMD check            
 #  confusion in character sets can create
@@ -121,9 +122,10 @@ tstSNSN <- c('Raul', 'Ra`l', 'Torres,Raul', 'Torres, Raul',
 ##
 %library(Ecdat)
 SNS2 <- subNonStandardNames(tstSNSN)
+SNS2
 
 # check 
-SNS2. <- c('Raul', 'Raul', tstSNSN[3:4],
+SNS2. <- c('Raul', 'Raul', 'Torres,Raul', 'Torres, Raul',
             'Robert C. "Bobby"', 'Ed', '', '')
 attr(SNS2., 'secondLine') <- c(rep(NA, 5), ' --Vacancy', NA, NA)
 
