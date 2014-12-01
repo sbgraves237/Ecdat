@@ -115,14 +115,14 @@ matchName <- function(x, data, Names=1:2,
         jd2 <- matchName1(xi[j], data[jd,], Names[jd, -1], 
                           nicknames=nicknames, ...)[[1]]
         if(length(jd2)>0){
-          jd <- jd2
+          jd <- jd[jd2]
 #          if(length(jd)<2) next 
           if(length(jd)<2) break # j  
         } # else if(length(jd2)<2) break         
       }
     } 
     ni <- length(jd)
-    if((0<ni) & (ni < dimd[1]))out[[ix]] <- data[jd,]
+    if((0<ni) & (ni < dimd[1]))out[[ix]] <- data[jd,, drop=FALSE]
   }    
 ##
 ## 7.  done 
