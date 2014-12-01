@@ -80,6 +80,9 @@ subNonStandardNames(x,
 
   4.  Eliminate leading and trailing blanks.
   
+  5.  if(is.matrix(x)) return a matrix;  if(is.data.frame(x)) return 
+  a data.frame(..., stringsAsFactors=FALSE) 
+  
   NOTE: On 13 May 2013 Jeff Newmiller at the University of California, 
   Davis, wrote, 'I think it is a fools errand to think that you can 
   automatically "normalize" arbitrary Unicode characters to an ASCII 
