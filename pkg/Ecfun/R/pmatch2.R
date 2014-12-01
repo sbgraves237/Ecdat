@@ -24,9 +24,18 @@ pmatch2 <- function(x, table){
 #    xi <- which(x[ix] %in% table)
     xi <- which(table %in% x[ix])
     if(length(xi)<1){
-      xi1 <- paste0('^', x[ix])
-      xi <- grep(xi1, table)
-      if(length(xi)<1)xi <- grep(x[ix], table)
+      oops <- c(grep('(', x[ix], fixed=TRUE),  
+                grep('[', x[ix], fixed=TRUE), 
+                grep('{', x[ix], fixed=TRUE) )
+      if(length(oops)>0){
+        warning('strange character string = ', 
+                x[ix]) 
+        xi <- grep(x[ix], table, fixed=TRUE)
+      } else {
+        xi1 <- paste0('^', x[ix])
+        xi <- grep(xi1, table)
+        if(length(xi)<1)xi <- grep(x[ix], table)
+      }
     }
     out[[ix]] <- xi 
   }

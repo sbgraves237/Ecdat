@@ -8,7 +8,7 @@
   partial matches of \code{x} in \code{table}.  
   
   This does sloppy matching to find "Peter" to match "Pete" 
-  only of "Pete" is not in \code{table}, and we want 
+  only if "Pete" is not in \code{table}, and we want 
   "John Peter" if neither "Pete" nor "Peter" are in 
   \code{table}.  
 }
@@ -53,6 +53,9 @@ pmatch2(x, table)
 }
 %\references{}
 \examples{
+##
+## 1.  common examples 
+##
 x2match <- c('Pete', 'Peter', 'Ma', 'Mo', 'Paul', 
              'Cardenas')
 
@@ -67,5 +70,16 @@ x2mtchd. <- list(Pete=c(1, 5), Peter=c(1, 5), Ma=2:3,
 \dontshow{stopifnot(}
 all.equal(x2mtchd, x2mtchd.)
 \dontshow{)}
+##
+## 2.  strange cases that caused errors and are now warnings
+##
+huh <- pmatch2("(7", tbl)
+
+# answer 
+huh. <- list("(7"=integer(0))
+\dontshow{stopifnot(}
+all.equal(huh, huh.)
+\dontshow{)}
+
 }
 \keyword{manip}
