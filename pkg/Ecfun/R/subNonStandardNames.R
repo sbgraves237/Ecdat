@@ -65,7 +65,7 @@ subNonStandardNames <- function(x,
   } else if(is.data.frame(x0)){
     dim(x.) <- dim(x0)
     colnames(x.) <- colnames(x0)
-    x. <- as.data.frame(x.)
+    x. <- as.data.frame(x., stringsAsFactors=FALSE)
   }
 ##
 ## 7.  attr(x., 'namesNotFound') 

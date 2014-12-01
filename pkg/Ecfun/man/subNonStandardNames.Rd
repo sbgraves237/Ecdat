@@ -151,7 +151,7 @@ tstdf <- as.data.frame(tstmat)
 subdf <- subNonStandardNames(tstdf)
 
 # check 
-SNSdf <- as.data.frame(SNSmat)
+SNSdf <- as.data.frame(SNSmat, stringsAsFactors=FALSE)
 \dontshow{stopifnot(}
 all.equal(subdf, SNSdf)
 \dontshow{)}
