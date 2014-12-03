@@ -163,8 +163,9 @@ Names2mtch <- c("Andr_ Bruce C_rdenas", "Dolores Ella Feinstein",
 Data1 <- matrix(c("Feld", "Don", "789", 
                   "C_rdenas", "Don", "456", 
                   "C_rdenas", "Andre B.", "123", 
+                  "Smith", "George", "aaa", 
                   "Young", "Bill", "369"), 
-                4, byrow=TRUE)
+                ncol=3, byrow=TRUE)
 Data1. <- subNonStandardNames(Data1)                
 ##
 ## 3.  matchName1
@@ -175,7 +176,7 @@ match1.1 <- matchName1(parceNm1[, 'surname'], Data1.)
 # check
 match1.1s <- vector('list', 10)
 match1.1s[[1]] <- 2:3
-match1.1s[[9]] <- 4
+match1.1s[[9]] <- 5
 names(match1.1s) <- parceNm1[, 'surname'] 
 \dontshow{stopifnot(}
 all.equal(match1.1, match1.1s)
@@ -207,7 +208,7 @@ match1a <- list("Cardenas, Andre Bruce"=Data1[3,, drop=FALSE ],
                 "Noel, Luke Michael"=NULL, "Papa, Oscar"=NULL, 
                 "Stevens, Quincy Raul"=NULL, 
                 "Velazquez, Thomas U."=NULL, 
-                "Young, William X."=Data1[4,, drop=FALSE], 
+                "Young, William X."=Data1[5,, drop=FALSE], 
                 "Zebra"=NULL)
 \dontshow{stopifnot(}
 all.equal(match1, match1a)

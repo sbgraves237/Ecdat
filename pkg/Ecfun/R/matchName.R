@@ -105,7 +105,9 @@ matchName <- function(x, data, Names=1:2,
     jd <- xlist[[ix]]
     ni <- length(jd)
     if(ni != 1){
-      if(ni<1)jd <- id 
+#      if(ni<1)jd <- id 
+#   If ni < 1:  No match for first name;  next       
+      if(ni<1)next 
       xi <- strsplit(x[ix, 2], ' ')[[1]] 
       for(j in seq(along=xi)){
 #        jd2 <- matchName1(xi[j], data[jd,, drop=FALSE], 

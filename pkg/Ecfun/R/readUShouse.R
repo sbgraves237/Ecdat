@@ -11,7 +11,7 @@ readUShouse <- function(url.="http://house.gov/representatives/",
   Start <- paste(date(), ': readUShouse(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  house.gov <- try(getURL(url.))
+  house.gov <- try(RCurl::getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(house.gov), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -37,7 +37,7 @@ readUShouse <- function(url.="http://house.gov/representatives/",
 ## 3.  Convert to tables
 ##
 #  library(XML)
-  House.gov <- readHTMLTable(house.gov, stringsAsFactors=FALSE)
+  House.gov <- XML::readHTMLTable(house.gov, stringsAsFactors=FALSE)
   names(House.gov) <- stCodes
 ##
 ## 4.  Rbind tables with the same headers
@@ -65,10 +65,19 @@ readUShouse <- function(url.="http://house.gov/representatives/",
       return(out)
   }
   n. <- sapply(out, nrow)
-  if(n.[1] != n.[2])
-      stop('2 tables found with different numbers of rows')
+  if(n.[1] != n.[2]){
+    warning('2 tables found with differing numbers of rows:  ', 
+            paste(n., collapse=' and '), '; returning the larger')
+#      stop('2 tables found with different numbers of rows')
+#    return(out)
+  }
 #
-  Dist <- out[[2]]$District
+  n2 <- max(n.)
+  i2 <- which(n.==n2)
+  i1 <- 3-i2
+  n1 <- n.[i1]
+#  Dist <- out[[2]]$District
+  Dist <- out[[i2]]$District
   D. <- strsplit(Dist, ' ')
   state <- sapply(D., function(x){
       nx <- length(x)
@@ -77,12 +86,14 @@ readUShouse <- function(url.="http://house.gov/representatives/",
       x.
   } )
 # but in the wrong order
-  State <- character(n.[1])
-  for(i. in 1:n.[1]){
-      j. <- which(out[[2]]$Name==out[[1]]$Name[i.])
-      if((nj <- length(j.)) != 1)
-          stop('for row ', i., ' found ', nj, ' matches')
-      State[i.] <- state[j.]
+#  State <- character(n.[1])
+  State <- character(n2)
+#  for(i. in 1:n.[1]){
+  for(i. in 1:n2){
+      j. <- which(out[[i2]]$Name==out[[i1]]$Name[i.])
+      if((nj <- length(j.)) != 1){
+        warning('for row ', i., ' found ', nj, ' matches')
+      } else State[i.] <- state[j.]
   }
 #
 #  USPS <- grep('USPS', names(USstateAbbreviations))
@@ -95,10 +106,12 @@ readUShouse <- function(url.="http://house.gov/representatives/",
 #  which(!(ST2 %in% USPScds))
 # state <- stateAbbr[ST2, "Name"]
 #
+# Out <- cbind(data.frame(State = State, state = ST2), out[[1]][1:5])
   Out <- cbind(data.frame(State=State, state=ST2),
-               out[[1]][1:5])
+               out[[i2]][1:5])
   Out$Party <- factor(Out$Party)
-  Out$Committees <- out[[1]][["Committee Assignment"]]
+# Out$Committees <- out[[1]][["Committee Assignment"]]
+#  Out$Committees <- out[[i2]][["Committee Assignment"]]
   Out$nonvoting <- (Out$State %in% nonvoting)
 #
   surnm <- parseName(Out$Name, TRUE)

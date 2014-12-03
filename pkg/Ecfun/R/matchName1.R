@@ -1,7 +1,7 @@
 matchName1 <- function(x1, data, name=data[,1], 
       nicknames=matrix(character(0), 0, 2), ...){
 ##
-## 1.  Check x1, data, name, nicknames  
+de## 1.  Check x1, data, name, nicknames  
 ##
 #  1.1.  x1   
   nx <- length(x1)

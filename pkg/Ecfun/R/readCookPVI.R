@@ -9,7 +9,7 @@ readCookPVI. <- function(url.=
 ## 2.  merge with UShouse
 ##
   keyPVI <- with(CookPVI$House, paste(State, District, sep='.'))
-  houseKey <- with(UShouse, paste(State, district, sep='.'))
+  houseKey <- with(UShouse, paste(state, district, sep='.'))
   rownames(UShouse) <- houseKey
   House <- cbind(UShouse[keyPVI, ], CookPVI$House[, c('PVInum', 'PVIchar')])
 ##
@@ -35,7 +35,7 @@ readCookPVI <- function(url.=
                  url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  Url. <- try(getURL(url.))
+  Url. <- try(RCurl::getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(Url.), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -48,7 +48,7 @@ readCookPVI <- function(url.=
 ## 2.  readHTMLTable
 ##
 #  library(XML)
-  Wikitbls <- readHTMLTable(Url., stringsAsFactors=FALSE)
+  Wikitbls <- XML::readHTMLTable(Url., stringsAsFactors=FALSE)
 ##
 ## 3.  Find House and Senate tables
 ##
