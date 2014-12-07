@@ -31,6 +31,8 @@ readUShouse <- function(url.="http://house.gov/representatives/",
       x2 <- (x+regexpr('\">', hgi))
   } )
   stCodes <- substring(house.gov, st+9, st.-2)
+# 2014-12-06: state_al (Alabama representatives)... 
+#    name_y (names beginning with y)
   st. <- strsplit(stCodes, "_")
   St. <- sapply(st., "[", 2)
 ##
@@ -73,7 +75,7 @@ readUShouse <- function(url.="http://house.gov/representatives/",
   }
 #
   n2 <- max(n.)
-  i2 <- which(n.==n2)
+  i2 <- which(n.==n2)[1]
   i1 <- 3-i2
   n1 <- n.[i1]
 #  Dist <- out[[2]]$District
