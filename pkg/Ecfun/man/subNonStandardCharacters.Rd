@@ -10,9 +10,9 @@
   "double s" or "eszett" (\\xdf)} to "ss".  Then find the first 
   and last character not in 
   \code{standardCharacters} and replace all between them with 
-  \code{replacement}.  For example, a string like "Ruben" where "e" 
-  carries an accent and is mangled by some software would become 
-  something like "Rub_n" using the default values for 
+  \code{replacement}.  For example, a string like "Ruben" where 
+  "e" carries an accent and is mangled by some software would 
+  become something like "Rub_n" using the default values for 
   \code{standardCharacters} and \code{replacement}.
 }
 \usage{
