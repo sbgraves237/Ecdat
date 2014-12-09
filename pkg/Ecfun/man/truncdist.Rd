@@ -150,6 +150,16 @@ dx10log <- dtruncdist(x10, log(100), 2, log=TRUE,
 all.equal(dx10log, log(dx10))
 \dontshow{)}
 
+#  1.5.  Poisson without 0.  
+
+dPois0.9 <-dtruncdist(0:9, lambda=1, dist='pois', truncmin=0) 
+
+# check 
+dP0.9 <- c(0, dpois(1:9, lambda=1)/ppois(0, lambda=1, lower.tail=FALSE))
+\dontshow{stopifnot(}
+all.equal(dPois0.9, dP0.9)
+\dontshow{)}
+
 ##
 ## 2.  ptruncdist
 ##
