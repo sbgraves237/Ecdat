@@ -5,10 +5,7 @@
 }
 \description{
   First convert to ASCII, stripping standard accents and special
-  characters, e.g., 
-  \href{https://en.wikipedia.org/wiki/\%C3\%9F}{the German 
-  "double s" or "eszett" (\\xdf)} to "ss".  Then find the first 
-  and last character not in 
+  characters.  Then find the first and last character not in 
   \code{standardCharacters} and replace all between them with 
   \code{replacement}.  For example, a string like "Ruben" where 
   "e" carries an accent and is mangled by some software would 
@@ -22,13 +19,12 @@ subNonStandardCharacters(x,
       '_', ';', '(', ')', '[', ']', '\n'),
    replacement='_',
    gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
-      replacement='\"'), list(pattern="\\xdf", replacement="ss")),
-   ... )
+      replacement='\"')), ... )
 }
 \arguments{
   \item{x}{
-    character vector in which it is desired to find the first and last
-    character not in \code{standardCharacters} and replace that
+    character vector in which it is desired to find the first and
+    last character not in \code{standardCharacters} and replace that
     substring by \code{replacement}.
   }
   \item{standardCharacters}{
@@ -40,7 +36,8 @@ subNonStandardCharacters(x,
   }
   \item{gsubList}{
     list of lists of \code{pattern} and \code{replacement} arguments
-    to be called in succession before looking for nonStandardCharacters
+    to be called in succession before looking for 
+    nonStandardCharacters
   }
   \item{\dots}{
     optional arguments passed to \code{\link{strsplit}}
@@ -50,7 +47,7 @@ subNonStandardCharacters(x,
   1.  for(il in 1:length(gsubList))x <- gsub(
   gsubList[[il]][["pattern"]], gsublist[[il]][['replacement']], x)
   
-  2.  x <- iconv(x, "", "ASCII//TRANSLIT")
+  2.  x <- stringi::stri_trans_general(x, "Latin-ASCII")
 
   3.  nx <- length(x)
 
@@ -73,19 +70,23 @@ subNonStandardCharacters(x,
   automatically "normalize" arbitrary Unicode characters to an ASCII 
   form that everyone will agree on.'  (This was a reply on 
   r-help@r-project.org, subject:  "Re: [R] Matching names with non-
-  English characters".)  Doubtless someone has software to do a better 
-  job of this than what this function does, but I've so far been unable 
-  to find it in R.  If you know of a better solution to this problem, 
-  I'd be pleased to hear from you.  Spencer Graves
+  English characters".)  
+  
+  ** On 2014-12-15 Ista Zahn suggested 
+  \code{\link[stringi]{stri_trans_general}}.  (This was a reply on 
+  r-help@r-project.org, subject:  "[R] Comparing Latin characters
+  with and without accents?".)  
 }
 \value{
-  a character vector with everthing between the first and last character
-  not in \code{standardCharacters} replaced by \code{replacement}.  
+  a character vector with everthing between the first and last
+  character not in \code{standardCharacters} replaced by 
+  \code{replacement}.  
 }
 \author{
   Spencer Graves with thanks to Jeff Newmiller, who described this 
-  as a "fool's errand", and Milan Bouchet-Valat, who directed me to 
-  \code{\link{iconv}}.  
+  as a "fool's errand", Milan Bouchet-Valat, who directed me to 
+  \code{\link{iconv}}, and Ista Zahn, who suggested 
+  \code{\link[stringi]{stri_trans_general}}.  
 }
 \seealso{
   \code{\link{sub}}, \code{\link{strsplit}},
@@ -93,7 +94,10 @@ subNonStandardCharacters(x,
   \code{\link{subNonStandardNames}}
   \code{\link[tools]{encoded_text_to_latex}}
   \code{\link{subNonStandardNames}}
-  \code{\link{iconv}}
+  \code{\link{iconv}} in the \code{base} package does some 
+  conversion, but is not consistent across platforms, at least 
+  using R 3.1.2 on 2015-01.25.  
+  \code{\link[stringi]{stri_trans_general}} seems better.  
 }
 %\references{}
 \examples{

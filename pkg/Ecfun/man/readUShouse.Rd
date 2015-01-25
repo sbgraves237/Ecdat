@@ -9,7 +9,7 @@
   Representatives.
 }
 \usage{
-readUShouse(url.="http://house.gov/representatives/",
+readUShouse(url.="http://www.house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands'),
@@ -17,8 +17,8 @@ readUShouse(url.="http://house.gov/representatives/",
 }
 \arguments{
   \item{url.}{
-    Universal resource locator to be read and processed to obtain the
-    desired list
+    Universal resource locator to be read and processed to obtain
+    the desired list
   }
   \item{nonvoting}{
     Character vector of the names of US territories that send a
@@ -26,17 +26,17 @@ readUShouse(url.="http://house.gov/representatives/",
   }
   \item{fixNonStandard}{
     function to look for and repair nonstandard names such as names
-    containing characters with accent marks that are sometimes mangled
-    by different software.  Use \code{\link{identity}} if this is not
-    desired.
+    containing characters with accent marks that are sometimes
+    mangled by different software.  Use \code{\link{identity}} if
+    this is not desired.
   }
   \item{\dots}{ optional arguments passed to \code{fixNonStandard}}
 }
 \details{
-  1.  \code{House.gov <- readHTMLTable(url)}.  As of April 2013, this is
-  a list of 80 tables.  The first 56 are for the 50 states and 6
-  territories.  The remaining 24 are for the first letter of the last
-  name of the representatives.
+  1.  \code{House.gov <- readHTMLTable(url)}.  As of April 2013,
+  this is a list of 80 tables.  The first 56 are for the 50 states 
+  and 6 territories.  The remaining 24 are for the first letter of 
+  the last name of the representatives.
 
   2.  Use \code{\link{rbind}} to collapse these into 2 tables.  The
   first has the district as a number without identifying the state
@@ -44,8 +44,8 @@ readUShouse(url.="http://house.gov/representatives/",
   House.gov).  The second has the state names but with the district
   numbers in a form not easily parsed.
 
-  3.  Obtain the state names from the second table to match the names of
-  the representatives in the first.
+  3.  Obtain the state names from the second table to match the
+  names of the representatives in the first.
 
   4.  Add a \code{nonvoting} column for those "States" in
   \code{nonvoting}.
@@ -59,23 +59,25 @@ readUShouse(url.="http://house.gov/representatives/",
   columns:
 
   \item{State}{
-    A factor identifying the state or territory the person represents
+    A factor identifying the state or territory the person 
+    represents
   }
   \item{state}{
-    2-letter US Postal Service abbreviation for the state or territory
+    2-letter US Postal Service abbreviation for the state or
+    territory
   }
   \item{district}{
     the character vector identifying the district each person
-    represents.  This is either an integer in character format or 0 for
-    "At Large".
+    represents.  This is either an integer in character format or 0
+    for "At Large".
   }
   \item{Name}{
-    A character vector giving the name of each representative (in surname,
-    given name format)
+    A character vector giving the name of each representative (in 
+    surname, given name format)
   }
   \item{party}{
-    a factor identifying the party affiliation of each representative
-    ("D" or "R").
+    a factor identifying the party affiliation of each 
+    representative ("D" or "R").
   }
   \item{Room}{
     character vector identifying the room number of the office

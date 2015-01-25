@@ -4,8 +4,8 @@
   grep for nonstandard characters
 }
 \description{
-  Return the indices of elements of \code{x} containing characters that
-  are not in \code{standardCharacters}.
+  Return the indices of elements of \code{x} containing characters
+  that are not in \code{standardCharacters}.
 }
 \usage{
 grepNonStandardCharacters(x, value=FALSE,
@@ -44,6 +44,7 @@ grepNonStandardCharacters(x, value=FALSE,
   Spencer Graves
 }
 \seealso{
+  \code{\link[stringi]{stringi-package}}
   \code{\link{grep}},
   \code{\link{regexpr}},
   \code{\link{subNonStandardCharacters}},

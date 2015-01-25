@@ -1,4 +1,4 @@
-readUShouse <- function(url.="http://house.gov/representatives/",
+readUShouse <- function(url.="http://www.house.gov/representatives/",
    nonvoting=c('American Samoa', 'District of Columbia',
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands'),
