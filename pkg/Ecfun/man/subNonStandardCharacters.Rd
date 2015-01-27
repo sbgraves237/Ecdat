@@ -53,8 +53,10 @@ subNonStandardCharacters(x,
 
   4.  x. <- strsplit(x, "", ...)
 
-  5.  for(ix in 1:nx) find the first and last \code{standardCharacters}
-  in x.[ix] and substitute \code{replacement} for everything in between.
+  5.  for(ix in 1:nx) find the first and last 
+  \code{standardCharacters}
+  in x.[ix] and substitute \code{replacement} for everything in
+  between.
   
     
   NOTES:  
