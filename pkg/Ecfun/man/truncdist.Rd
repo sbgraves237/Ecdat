@@ -52,15 +52,18 @@ rtruncdist(n, ..., dist='norm', truncmin=-Inf, truncmax=Inf)
   }
 }
 \details{
-  NOTE:  This is different from "censoring", where it's known
-  that an observation lies between certain limits; it's just 
+  NOTE:  Truncation is different from "censoring", where it's 
+  known that an observation lies between certain limits; it's just 
   not known exactly where it lies between those limits.  
   
-  For a truncated distrubion, observations below 
-  \code{truncmin} and \code{truncmax} are not observed at 
-  all.  Thus, it's not known how many observations like 
-  outside the given range, \code{truncmin} to \code{truncmax}, 
-  if any.  
+  By contrast, with a truncated distrubion, events below 
+  \code{truncmin} and above \code{truncmax} may exist but are 
+  not observed.  Thus, it's not known how many events occur  
+  outside the given range, \code{truncmin} to 
+  \code{truncmax}, if any.  Given data believed to come from 
+  a truncated distribution, estimating the parameters provide 
+  a means of estimating the number of unobserved events, 
+  assuming a particular form for their distribution.  
   
   1.  Setup
   
