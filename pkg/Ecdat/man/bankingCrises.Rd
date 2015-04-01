@@ -5,10 +5,11 @@
   Countries in Banking Crises
 }
 \description{
-  A \code{data.frame} identifying which of 70 countries had a banking
-  crisis each year 1800:2010. The first column is \code{year}.  The
-  remaining columns carry the names of the countries;  those columns are
-  1 for years with banking crises and 0 otherwise.
+  A \code{data.frame} identifying which of 70 countries had a 
+  banking crisis each year 1800:2010. The first column is 
+  \code{year}.  The remaining columns carry the names of the
+  countries;  those columns are 1 for years with banking 
+  crises and 0 otherwise.
 }
 \usage{data(bankingCrises)}
 \format{ A \code{data.frame} }
@@ -20,19 +21,25 @@
   This is documented further in the help file for
   \code{\link{readFinancialCrisisFiles}}.
 
-  This is an update of a subset of the data used to create Figure 10.1.
-  Capital Mobility and the Incidence of Banking Crises, All Countries,
-  1800-2008, Reinhart and Rogoff (2009, p. 156).
+  This is an update of a subset of the data used to create 
+  Figure 10.1.  Capital Mobility and the Incidence of 
+  Banking Crises, All Countries, 1800-2008, Reinhart and 
+  Rogoff (2009, p. 156).
 
-  The general upward trend visible in a plot of these data may be
-  attributed to at least two different factors:  (1) The gradual 
-  increase in the proportion of human labor that is monetized.  (2) An
-  increase in the general ability of cronies of those in power to 
-  gamble with other people's money in forming and bankrupting financial
-  institutions.  The marked feature of this plot is the virtual absence
-  of banking crises during the period of the Bretton Woods agreement,
-  1944, to 1971 when US President Nixon in effect canceled it by taking
-  the US off the silver standard.
+  The general upward trend visible in a plot of these data 
+  may be attributed to at least two different factors:  
+  
+  (1) The gradual increase in the proportion of human labor 
+  that is monetized.  
+
+  (2) An increase in the general ability of cronies of 
+  those in power to gamble with other people's money in 
+  forming and bankrupting financial institutions.  The 
+  marked feature of this plot is the virtual absence
+  of banking crises during the period of the Bretton Woods 
+  agreement, 1944 to 1971.  This period ended when US 
+  President Nixon in effect canceled the Bretton Woods 
+  agreement by taking the US off the silver standard.
 }
 \source{
   \url{http://www.reinhartandrogoff.com}
