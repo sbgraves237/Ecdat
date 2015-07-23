@@ -159,6 +159,10 @@
   these data downloaded more recently.  This newer version 
   includes changes in reporting and in the variables included
   in the \code{\link{data.frame}}.  
+  
+  \code{\
+  
+  }
 }
 \examples{
 data(breaches)

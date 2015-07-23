@@ -6,9 +6,10 @@ Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0), Ecfun
 Suggests: car, systemfit, sem, lmtest, sandwich, gdata, RCurl, XML,
-          tis
+          tis,
+    knitr
 Description: Data sets for econometrics
 LazyData: true
 License: GPL (>=2)
 URL: http://www.r-project.org
-
+VignetteBuilder: knitr

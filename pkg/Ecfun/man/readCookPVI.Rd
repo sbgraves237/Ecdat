@@ -15,7 +15,7 @@
 readCookPVI(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
 readCookPVI.(url.=
-"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+"https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
       UShouse=readUShouse(), USsenate=readUSsenate(), ...)
 }
 \arguments{

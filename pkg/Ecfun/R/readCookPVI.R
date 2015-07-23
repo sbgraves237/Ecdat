@@ -1,5 +1,5 @@
 readCookPVI. <- function(url.=
-"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
+"https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
       UShouse=readUShouse(), USsenate=readUSsenate(), ...){
 ##
 ## 1.  readCookPVI()

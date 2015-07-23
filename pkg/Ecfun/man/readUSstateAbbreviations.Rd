@@ -1,16 +1,16 @@
 \name{readUSstateAbbreviations}
 \alias{readUSstateAbbreviations}
 \title{
-  Read a list of abbreviations of states and territories of the United
-  States
+  Read a list of abbreviations of states and territories of the
+  United States
 }
 \description{
-  Read the list of abbreviations of states and territories of the United
-  states from the relevant Wikipedia article
+  Read the list of abbreviations of states and territories of the 
+  United States from the relevant Wikipedia article
 }
 \usage{
 readUSstateAbbreviations(url.=
-"http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations",
+"https://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations",
       clean=TRUE, Names=c('Name', 'Status', 'ISO', 'ANSI.letters',
           'ANSI.digits', 'USPS', 'USCG', 'Old.GPO', 'AP', 'Other') )
 }

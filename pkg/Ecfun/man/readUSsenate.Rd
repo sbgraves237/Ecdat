@@ -8,7 +8,7 @@
 }
 \usage{
 readUSsenate(url.=
-"http://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
+"https://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
     stateAbbreviations=Ecdat::USstateAbbreviations,
    fixNonStandard=subNonStandardNames, ...)
 }
