@@ -10,7 +10,7 @@ readUSstateAbbreviations <- function(url.=
                  url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  abbrev <- try(getURL(url.))
+  abbrev <- try(RCurl::getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(abbrev), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -23,7 +23,7 @@ readUSstateAbbreviations <- function(url.=
 ## 2.  Find the primary table
 ##
 #  library(XML)
-  Abbrev <- readHTMLTable(abbrev, stringsAsFactors=FALSE)
+  Abbrev <- XML::readHTMLTable(abbrev, stringsAsFactors=FALSE)
 #
   len <- sapply(Abbrev, length)
   abbr <- Abbrev[len>0]

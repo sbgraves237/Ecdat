@@ -60,7 +60,7 @@ testURLs <- function(urls=c(
               }
 #
               start.time <- proc.time()
-              readi <- try(getURL(urls[j]), silent=TRUE)
+              readi <- try(RCurl::getURL(urls[j]), silent=TRUE)
               et <- max(proc.time() - start.time, na.rm=TRUE)
               elapsed.time[iout] <- et
               si <- (class(readi)!='try-error')

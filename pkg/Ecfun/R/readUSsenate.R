@@ -9,7 +9,7 @@ readUSsenate <- function(url.=
   Start <- paste(date(), ': readUSsenate(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  senate.gov <- try(getURL(url.))
+  senate.gov <- try(RCurl::getURL(url.))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(senate.gov), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -22,7 +22,7 @@ readUSsenate <- function(url.=
 ## 2.  readHTMLTable
 ##
 #  library(XML)
-  senate <- readHTMLTable(senate.gov, stringsAsFactors=FALSE)
+  senate <- XML::readHTMLTable(senate.gov, stringsAsFactors=FALSE)
 ##
 ## 3.  Find table with 100 rows
 ##
