@@ -8,7 +8,7 @@ Depends: R (>= 1.8.0), Ecfun
 Suggests: car, systemfit, sem, lmtest, sandwich, gdata, RCurl, XML,
           tis,
     knitr
-Description: Data sets for econometrics
+Description: Data sets for econometrics.
 LazyData: true
 License: GPL (>=2)
 URL: http://www.r-project.org
