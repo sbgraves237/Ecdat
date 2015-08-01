@@ -1,7 +1,7 @@
 Package: Ecdat
 Version: 0.2-8
-Date: 2013-04-25
-Title: Data sets for econometrics
+Date: 2015-08-01
+Title: Data Sets for Econometrics
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0), Ecfun
