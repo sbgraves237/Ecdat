@@ -1,0 +1,52 @@
+#exportPattern("^[^\\.]")
+
+## Quick and dirty: {just to confirm that it is sufficient}
+
+export(Arrows, as.Date1970, asNumericChar, asNumericDF, 
+       BoxCox, camelParse, checkNames, classIndex, 
+       compareLengths, createMessage, createX2matchY, 
+       dtruncdist, financialCrisisFiles, 
+       getElement2, grepNonStandardCharacters, 
+       index2class, Interp, 
+       interpChar, InterpChar, InterpChkArgs, InterpNum, 
+       interpPairs, invBoxCox, lines.qqnorm2, 
+       match.data.frame, matchName, 
+       matchName1, matchQuote, 
+       mergeUShouse.senate, mergeVote, 
+       missing0, nchar0, parseCommas, parseDollars, 
+       parseName, 
+       plot.qqnorm2, plot.qqnorm2s, 
+       pmatch2, points.qqnorm2, ptruncdist, 
+       qqnorm2, qqnorm2s, qtruncdist, 
+       rasterImageAdj, read.testURLs, 
+       read.transpose, readCookPVI, readCookPVI., 
+       readFinancialCrisisFiles, readNIPA, 
+       readUShouse, readUSsenate, readUSstateAbbreviations, 
+       recode2, rtruncdist, 
+       strsplit1, subNonStandardCharacters, 
+       subNonStandardNames, 
+       testURLs, trimImage, 
+       UShouse.senate, USsenateClass, 
+       whichAeqB)
+
+#importFrom(base, mean, coefficients)
+import(MASS)
+import(TeachingDemos)
+import(fda)
+import(jpeg)
+
+#import(DierckxSpline)
+
+S3method(Interp, default)
+S3method(interpChar, default)
+S3method(interpChar, list)
+S3method(interpPairs, call)
+S3method(interpPairs, "function")
+S3method(interpPairs, list)
+S3method(lines, qqnorm2)
+S3method(parseCommas, data.frame)
+S3method(parseCommas, default)
+S3method(plot, qqnorm2)
+S3method(plot, qqnorm2s)
+S3method(points, qqnorm2)
+
