@@ -30,6 +30,15 @@ export(Arrows, as.Date1970, asNumericChar, asNumericDF,
        whichAeqB)
 
 #importFrom(base, mean, coefficients)
+importFrom("grDevices", "as.raster")
+importFrom("graphics", "arrows", "legend", "lines", "par", "plot",
+             "points", "rasterImage", "text", "xyinch")
+#importFrom("methods", "as", "is")
+#* checking package dependencies ... ERROR
+#Namespace dependency not required: ‘methods’
+importFrom("stats", "median", "qqnorm", "runif", "sd")
+importFrom("utils", "de", "head", "read.csv", "tail")
+
 import(MASS)
 import(TeachingDemos)
 import(fda)
