@@ -262,7 +262,7 @@ InterpNum(argsChk, ...)
 }
 %\source{}
 \references{
-  The \href{http://127.0.0.1:10705/doc/manual/R-exts.html}{
+  The \href{https://cran.r-project.org/doc/manuals/r-release/R-exts.html}{
   \emph{Writing R Extensions}} manual (available via 
   \code{help.start()}) lists six different classes of 
   atomic vectors:  \code{\link{logical}}, 

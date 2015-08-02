@@ -36,14 +36,14 @@ matchQuote(x,  Quote='"', sep=' ', maxChars2append=2, ...)
 \details{
   This function was written to help parse data from the US Department 
   of Health and Human Services on 
-  \href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/breachtool.html}{cyber-security breaches affecting 500 or 
-  more individuals}.  As of 2014-06-03 the csv version of these 
-  data included commas in quotes that are not \code{sep} characters, 
-  quotes that are not matched, lines with zero characters, 
-  followed by lines with 3 characters being a quote and a comma.  
-  This function was written to drop the blank lines and 
-  append the quote-comma line to the preceeding line so 
-  it contained matching quotes.  
+  \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{
+  cyber-security breaches affecting 500 or more individuals}.  
+  As of 2014-06-03 the csv version of these data included commas 
+  in quotes that are not \code{sep} characters, quotes that are 
+  not matched, lines with zero characters, followed by lines 
+  with 3 characters being a quote and a comma.  This function 
+  was written to drop the blank lines and append the quote-comma 
+  line to the preceeding line so it contained matching quotes.  
 }
 %\source{ }
 \value{

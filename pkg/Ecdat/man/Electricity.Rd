@@ -32,7 +32,7 @@
 \references{
     Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{http://www.prenhall.com/greene/greene1.html}, chapter 4, 317-320.
 
-    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://www.e.u-tokyo.ac.jp/~hayashi/hayashi_econometrics.htm}, chapter 1, 76-84.
+    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/hayashi_econometrics.htm}, chapter 1, 76-84.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}

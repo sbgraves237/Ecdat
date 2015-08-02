@@ -40,7 +40,7 @@
 
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://www.econ.kuleuven.ac.be/GME}, chapter 7.
+    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://feb.kuleuven.be/GME/}, chapter 7.
 
       Journal of Business Economics and Statistics web site : \url{http://www.amstat.org/publications/jbes/}.
 }

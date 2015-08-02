@@ -150,7 +150,7 @@
 }
 \source{
   U.S. Department of Health and Human Services: Health Information 
-  Privacy: \href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/breachtool.html}{Breaches Affecting 500 or More Individuals}
+  Privacy: \href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/Breach Notification Rule/postedbreaches.html}{Breaches Affecting 500 or More Individuals}
 }
 %\references{}
 %\author{Spencer Graves}

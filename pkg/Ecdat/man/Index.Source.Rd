@@ -45,7 +45,8 @@
 \item \code{\link{Yogurt}} : Choice of Brand for Yogurts
 }
 
-\item Journal of Statistics Education's data archive : \url{http://www.amstat.org/publications/jse/jse_data_archive.html}
+\item Journal of Statistics Education's data archive : 
+\url{http://www.amstat.org/publications/jse/jse_data_archive.htm}
  \itemize{
 \item \code{\link{Diamond}} : Pricing the C's of Diamond Stones
 \item \code{\link{FriendFoe}} : Data from the Television Game Show Friend Or Foe ?
@@ -129,7 +130,7 @@
 \item \code{\link{TranspEq}} : Statewide Data on Transportation Equipment Manufacturing
 }
 
-\item Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://www.e.u-tokyo.ac.jp/~hayashi/hayashi_econometrics.htm}
+\item Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/hayashi_econometrics.htm}
  \itemize{
 \item \code{\link{DM}} : DM Dollar Exchange Rate
 \item \code{\link{Electricity}} : Cost Function for Electricity Producers
@@ -157,7 +158,7 @@
 \item \code{\link{Star}} : Effects on Learning of Small Class Sizes
 }
 
-\item Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://www.econ.kuleuven.ac.be/GME}
+\item Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://feb.kuleuven.be/GME/}
  \itemize{
 \item \code{\link{Airq}} : Air Quality for Californian Metropolitan Areas
 \item \code{\link{Benefits}} : Unemployement of Blue Collar Workers

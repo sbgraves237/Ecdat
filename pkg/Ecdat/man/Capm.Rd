@@ -19,11 +19,12 @@
   }
 }
 \source{
-    most of the above data are from Kenneth French's data library at\url{ http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data\_Library}.
+    most of the above data are from Kenneth French's data library
+    at \url{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html}.
 
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://www.econ.kuleuven.ac.be/GME}, chapter 2.
+    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://feb.kuleuven.be/GME/}, chapter 2.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},

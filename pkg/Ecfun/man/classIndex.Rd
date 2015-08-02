@@ -39,7 +39,7 @@ index2class(i, otherCharacter=TRUE)
   }
 }
 \details{
-  The \href{http://127.0.0.1:10705/doc/manual/R-exts.html}{
+  The \href{https://cran.r-project.org/doc/manuals/r-release/R-exts.html}{
   Writing R Extensions} lists six different kinds of "atomic 
   vectors":  logical, integer, numeric, complex, character,
   and raw:  See also 
