@@ -33,9 +33,7 @@ export(Arrows, as.Date1970, asNumericChar, asNumericDF,
 importFrom("grDevices", "as.raster")
 importFrom("graphics", "arrows", "legend", "lines", "par", "plot",
              "points", "rasterImage", "text", "xyinch")
-#importFrom("methods", "as", "is")
-#* checking package dependencies ... ERROR
-#Namespace dependency not required: ‘methods’
+importFrom("methods", "as", "is")
 importFrom("stats", "median", "qqnorm", "runif", "sd")
 importFrom("utils", "de", "head", "read.csv", "tail")
 
