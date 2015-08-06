@@ -158,7 +158,7 @@
 \item \code{\link{Star}} : Effects on Learning of Small Class Sizes
 }
 
-\item Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{http://feb.kuleuven.be/GME/}
+\item Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{https://feb.kuleuven.be/GME/}
  \itemize{
 \item \code{\link{Airq}} : Air Quality for Californian Metropolitan Areas
 \item \code{\link{Benefits}} : Unemployement of Blue Collar Workers
