@@ -54,8 +54,8 @@ data(USstateAbbreviations)
 ##
 ## to update
 ##
-
+\dontrun{
 USstateAbb2 <- readUSstateAbbreviations()
-
+}
 }
 \keyword{datasets}
