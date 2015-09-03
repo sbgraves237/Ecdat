@@ -57,7 +57,9 @@ dateCols(col.names, YMD=c('Year', 'Month', 'Day'))
 \author{
   Spencer Graves
 }
-%\seealso{}
+\seealso{
+  \code{\link{Date3to1}}
+}
 %\references{}
 \examples{
 ##
