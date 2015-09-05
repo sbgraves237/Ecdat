@@ -52,20 +52,20 @@ Date3to1(data, default='Start')
 }
 %\references{}
 \examples{
-date.frame <- data.frame(Year=c(NA, 1971:1979), 
-      Month=c(1, -1, NA, 13, 2, 12, 6:9), 
-      Day=c(0:6, NA, -1, 32) )
+date.frame <- data.frame(Year=c(NA, -1, 1971:1979), 
+      Month=c(1:2, -1, NA, 13, 2, 12, 6:9), 
+      Day=c(0, 0:6, NA, -1, 32) )
      
 DateVecS <- Date3to1(date.frame)
 DateVecE <- Date3to1(date.frame, "End")
                          
 # check 
-na <- c(1:4, 8:10) 
-DateVs <- as.Date(c(NA, 
+na <- c(1:5, 9:11)
+DateVs <- as.Date(c(NA, NA, 
   '1971-01-01', '1972-01-01', '1973-01-01', 
   '1974-02-04', '1975-12-05', '1976-06-06', 
   '1977-07-01', '1978-08-01', '1979-09-01') ) 
-DateVe <- as.Date(c(NA, 
+DateVe <- as.Date(c(NA, NA, 
   '1971-12-31', '1972-12-31', '1973-12-31', 
   '1974-02-04', '1975-12-05', '1976-06-06', 
   '1977-07-31', '1978-08-31', '1979-09-30') ) 

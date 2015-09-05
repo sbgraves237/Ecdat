@@ -24,7 +24,7 @@ Date3to1 <- function(data, default='Start'){
 ##
 #  3.1.  is.na(YEAR) 
   Dt <- as.list(data)
-  YrNA <- is.na(Dt[[1]])
+  YrNA <- (is.na(Dt[[1]]) | (Dt[[1]]<1))
 #  3.2.  Month <1 or >12
   MoNA <- which(is.na(Dt[[2]]) |     
         (Dt[[2]]<1) | (Dt[[2]]>12))
