@@ -18,7 +18,8 @@ Dates3to1 <- function(data, YMD=c('Year', 'Month', 'Day')){
     for(i in seq(length=nC)){
       dCi <- dC[[i]]
       if(length(dCi)>0){
-        Dates[[i]] <- Date3to1(data[dCi])
+        dati <- data[dCi]
+        Dates[[i]] <- Date3to1(dati)
       }
     }
     Dnull <- sapply(Dates, is.null)

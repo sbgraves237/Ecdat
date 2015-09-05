@@ -6,15 +6,28 @@
 \description{
   Given a \code{\link{data.frame}} with 3 columns, assume 
   they represent Year, Month and Day and return a vector 
-  of class "Date"
+  of class "Date".  
 }
 \usage{
-Date3to1(data)
+Date3to1(data, default='Start')
 }
 \arguments{
   \item{data}{
     a \code{\link{data.frame}} with 3 columns assumed to 
     represent Year, Month and Day.    
+  }
+  \item{default}{
+    A character string to indicate how missing months and 
+    days should be treated.  If the first letter is "S" 
+    or "s", the default month will be 1 and the default 
+    day will be 1.  Otherwise, "End" is assumed, for 
+    which the default month will be 12 and the default 
+    day will be the last day of the month.  
+    
+    NOTE:  Any number outside the range of 1 to the 
+    last day of the month is considered missing and 
+    its subscript is noted in the optional attribute 
+    "missing".  
   }
 }
 \details{
@@ -26,8 +39,10 @@ Date3to1(data)
   triple and translate it into a vector of class "Date". 
 }
 \value{
-  Returns a named list of integer vectors of length 3 identifying 
-  the positions in \code{col.names} of the desired date components.  
+  Returns an object of class "Date" with an optional 
+  attribute "missing" giving the indices of any elements 
+  with missing months or days, for which a default month
+  or day was supplied.  
 }
 \author{
   Spencer Graves
@@ -37,14 +52,32 @@ Date3to1(data)
 }
 %\references{}
 \examples{
-date.frame <- data.frame(Year=1971:1973, Month=1:3, Day=4:6)
-
-DateVec <- Date3to1(date.frame)
-
+date.frame <- data.frame(Year=c(NA, 1971:1979), 
+      Month=c(1, -1, NA, 13, 2, 12, 6:9), 
+      Day=c(0:6, NA, -1, 32) )
+     
+DateVecS <- Date3to1(date.frame)
+DateVecE <- Date3to1(date.frame, "End")
+                         
 # check 
-DateV <- as.Date(c('1971-01-04', '1972-02-05', '1973-03-06'))
+na <- c(1:4, 8:10) 
+DateVs <- as.Date(c(NA, 
+  '1971-01-01', '1972-01-01', '1973-01-01', 
+  '1974-02-04', '1975-12-05', '1976-06-06', 
+  '1977-07-01', '1978-08-01', '1979-09-01') ) 
+DateVe <- as.Date(c(NA, 
+  '1971-12-31', '1972-12-31', '1973-12-31', 
+  '1974-02-04', '1975-12-05', '1976-06-06', 
+  '1977-07-31', '1978-08-31', '1979-09-30') ) 
+
+attr(DateVs, 'missing') <- na
+attr(DateVe, 'missing') <- na
+
 \dontshow{stopifnot(}
-all.equal(DateVec, DateV)
+all.equal(DateVecS, DateVs)
+\dontshow{)}
+\dontshow{stopifnot(}
+all.equal(DateVecE, DateVe)
 \dontshow{)}
 }
 \keyword{manip}
