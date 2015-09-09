@@ -4,7 +4,8 @@
 
 export(Arrows, as.Date1970, asNumericChar, asNumericDF, 
        BoxCox, camelParse, checkNames, classIndex, 
-       compareLengths, createMessage, createX2matchY, 
+       compareLengths, countByYear, 
+       createMessage, createX2matchY, 
        dateCols, Date3to1, Dates3to1, 
        dtruncdist, financialCrisisFiles, 
        getElement2, grepNonStandardCharacters, 
