@@ -10,7 +10,8 @@
 }
 \usage{
 countsByYear(data, start="Start1", end='End1', 
-             total='BatDeath', event='WarName')
+             total='BatDeath', event='WarName', 
+             endNA=max(data[, c(start,end)]))
 }
 \arguments{
   \item{data}{
@@ -28,6 +29,9 @@ countsByYear(data, start="Start1", end='End1',
   }
   \item{event}{
     name of the event whose total is to be allocated.  
+  }
+  \item{endNA}{
+    Date to use if \code{is.na(data[, end])}.  
   }
 }
 %\details{}
@@ -51,12 +55,13 @@ countsByYear(data, start="Start1", end='End1',
 start73 <- as.Date('1973-01-22')
 tstWars <- data.frame(WarName=c('short', '2yr', '10yr'), 
     Start1=c(start73, start73+365, start73-365), 
-    End1=start73+c(99, 2*365, 9*365.2), 
+    End1=start73+c(99, 2*365, NA), 
     BatDeath=c(100, 123, 456)) 
 ##
 ## 2.  do
 ##
-deathsByYr <- countsByYear(tstWars)
+deathsByYr <- countsByYear(tstWars, 
+              endNA=start73+9*365.2)
 
 # check 
 Counts <- matrix(0, 11, 3, 
@@ -65,7 +70,7 @@ Counts['1973', 1] <- 100
 Counts[as.character(1974:1975), 2] <- with(tstWars, 
     countByYear(Start1[2], End1[2], BatDeath[2]) )
 Counts[as.character(1972:1982), 3] <- with(tstWars, 
-    countByYear(Start1[3], End1[3], BatDeath[3]) )
+    countByYear(Start1[3], start73+9*365.2, BatDeath[3]) )
 
 \dontshow{stopifnot(}
 all.equal(deathsByYr, Counts)

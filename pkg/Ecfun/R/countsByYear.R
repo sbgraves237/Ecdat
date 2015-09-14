@@ -1,5 +1,6 @@
 countsByYear <- function(data, start="Start1", 
-      end='End1', total='BatDeath', event='WarName'){
+      end='End1', total='BatDeath', event='WarName', 
+      endNA=max(data[, c(start,end)])){
 ##
 ## 1.  checks 
 ##
@@ -39,6 +40,11 @@ countsByYear <- function(data, start="Start1",
     stop('data[, end] must be a Date;  has class = ', 
          class(data[, end]))
   }
+  if(any(is.na(data[, start]))){
+      stop('NA found in start;  not allowed')    
+  }
+  endNAs <- is.na(data[, end])
+  data[endNAs, end] <- endNA
 ##
 ## 2.  compute start, end year 
 ##
