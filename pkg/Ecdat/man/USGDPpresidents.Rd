@@ -38,7 +38,7 @@
   million population.  
 }
 \usage{data(USGDPpresidents)}
-\format{A dataframe containing :
+\format{A \code{\link{data.frame}} containing :
   \describe{
     \item{Year}{ the year, 1790:2014 } 
     \item{GDPdeflator}{
