@@ -40,29 +40,36 @@
 \usage{data(USGDPpresidents)}
 \format{A dataframe containing :
   \describe{
-    \item{year}{ the year, 1790:2014 } 
-    \item{population.K}{ US population in thousands }
+    \item{Year}{ the year, 1790:2014 } 
+    \item{GDPdeflator}{
+      Numeric:  Implicit price deflators for 
+      Gross Domestic Product with 2009 = 100.  
+    }
+    \item{population.K}{ 
+      integer:  US population in thousands 
+    }
     \item{realGDPperCapita}{
-      real Gross Domestic Product per capita in 2009 
-      dollars 
+      numeric:  real Gross Domestic Product per capita 
+      in 2009 dollars 
     } 
     \item{president}{
-      President of the US.  Two presidents are not listed 
-      here (William Henry Harrison and James A. Garfield),
-      because they died so soon after inauguration that any 
-      contribution they made to the economic growth of the 
-      nation might seem too slight to measure accurately in 
-      annual data like this;  their contributions therefore 
-      appear combined with their replacements (Millard 
-      Fillmore and Chester A. Arthur, respectively).  The 
-      service of two other presidents is officially 
-      combined here:  "Taylor-Fillmore" refers to the 16 
-      months served by Zachary Taylor with the 32 months of 
-      Millard Fillmore.  
+      factor:  President of the US.  Two presidents are not 
+      listed here (William Henry Harrison and James A. 
+      Garfield), because they died so soon after 
+      inauguration that any contribution they made to the 
+      economic growth of the nation might seem too slight 
+      to measure accurately in annual data like this;  
+      their contributions therefore appear combined with 
+      their replacements (Millard Fillmore and Chester A. 
+      Arthur, respectively).  The service of two other 
+      presidents is officially combined here:  
+      "Taylor-Fillmore" refers to the 16 months served by 
+      Zachary Taylor with the 32 months of Millard 
+      Fillmore.  
     }
     \item{war}{
-      This lists the major wars in US history by years 
-      involving active hostilities.  A war is 
+      factor:  This lists the major wars in US history by 
+      years involving active hostilities.  A war is 
       "major" for present purposes if it met two 
       criteria:  
       
@@ -128,32 +135,31 @@
       might be small and difficult to estimate.
     }
     \item{battleDeaths}{
-      Numbers of battle deaths by year estimated by 
-      allocating to the different years the totals reported 
-      for each major war in proportion to the number of 
-      days officially in conflict each year.  The totals 
-      were obtained (in August-September 2015) from 
-      \href{http://correlatesofwar.org/}{The Correlates of 
-      War} data for conflicts since 1816 and from 
-      Wikipedia for previous wars, as noted above.  
+      numeric:  Numbers of battle deaths by year estimated 
+      by allocating to the different years the totals 
+      reported for each major war in proportion to the 
+      number of days officially in conflict each year.  
+      The totals were obtained (in August-September 2015) 
+      from \href{http://correlatesofwar.org/}{The 
+      Correlates of War} data for conflicts since 1816 and 
+      from Wikipedia for previous wars, as noted above.  
     }
     \item{deathsPerMillionPop}{
-      battle deaths per million population = 
+      numeric:  battle deaths per million population = 
       \code{1000*battleDeaths/population.K}
     }
     \item{Keynes}{
-      A numeric indicator taking the value 1 between 1939 
-      and 1979 and 0 otherwise, as suggested by the 
-      section entitled "The Keynesian Ascendancy 
-      1939-1979" in the Wikipedia article on     
+      integer taking the value 1 between 1939 and 1979 
+      and 0 otherwise, as suggested by the section 
+      entitled "The Keynesian Ascendancy 1939-1979" in 
+      the Wikipedia article on     
       \href{https://en.wikipedia.org/wiki/John_Maynard_Keynes}{
       John Maynard Keynes}. 
     }
   }
 }
 %\details{}
-%\source{}
-\references{
+\source{
   Louis Johnston and Samuel H. Williamson, "What Was the 
   U.S. GDP Then?", 
   \href{http://www.measuringworth.org/usgdp/}{Measuring 
@@ -167,11 +173,12 @@
   \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
   accessed 2015-09-13.  
 }
+%\references{}
 \author{Spencer Graves}
 %\seealso{}
 \examples{
 data(USGDPpresidents)
-plot(realGDPperCapita/1000~year, USGDPpresidents, 
+plot(realGDPperCapita/1000~Year, USGDPpresidents, 
      log='y', type='l', 
      ylab='real GDP per capita (2009 $ thousands)', 
      las=1)
