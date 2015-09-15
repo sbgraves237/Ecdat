@@ -1,0 +1,184 @@
+\name{USGDPpresidents}
+\docType{data}
+\alias{USGDPpresidents}
+\title{
+  US GDP per capita with presidents and wars 
+}
+\description{
+  It is commonly claimed that Franklin Roosevelt (FDR) did 
+  not end the Great Depression:  World War II did.  This 
+  is supported by the 10.6 percent growth per year in 
+  Gross Domestic Product (GDP) per capita seen in the 
+  standard GDP estimates from 1940 to 1945.  
+  
+  However, no comparable growth spurts for other wars catch 
+  the eye in a plot of log(GDP per capita) from 1790 to 2014, 
+  using the \href{http://measuringworth.com/}{Measuring 
+  Worth} data.  The only other features of that plot that 
+  seem visually comparable are the economic disaster of 
+  Herbert Hoover's presidency (when GDP per capital fell by 
+  10 percent per year, 1929-1932), the impressive growth of 
+  the US economy during the first seven years of Franklin
+  Roosevelt's presidency (6.4 percent per year, 1933-1940), 
+  and the post-World War II recession (when GDP per capita
+  fell by 7.9 percent per year, 1945-1947).  
+  
+  Closer inspection of this plot suggests that the US 
+  economy has generally grown faster after FDR than before.  
+  This might plausibly be attributed to 
+  \href{https://en.wikipedia.org/wiki/John_Maynard_Keynes}{
+  "The Keynesian Ascendancy 1939-1979"}.  
+  
+  This data set provides a platform for testing the effects 
+  of presidency, war, and Keynes.  It does this by 
+  combining the numbers for US population and real GDP per 
+  capital dollars from \href{http://measuringworth.com/}{
+  Measuring Worth}  with the presidency and a list of major 
+  wars and an estimate of the battle deaths by year per 
+  million population.  
+}
+\usage{data(USGDPpresidents)}
+\format{A dataframe containing :
+  \describe{
+    \item{year}{ the year, 1790:2014 } 
+    \item{population.K}{ US population in thousands }
+    \item{realGDPperCapita}{
+      real Gross Domestic Product per capita in 2009 
+      dollars 
+    } 
+    \item{president}{
+      President of the US.  Two presidents are not listed 
+      here (William Henry Harrison and James A. Garfield),
+      because they died so soon after inauguration that any 
+      contribution they made to the economic growth of the 
+      nation might seem too slight to measure accurately in 
+      annual data like this;  their contributions therefore 
+      appear combined with their replacements (Millard 
+      Fillmore and Chester A. Arthur, respectively).  The 
+      service of two other presidents is officially 
+      combined here:  "Taylor-Fillmore" refers to the 16 
+      months served by Zachary Taylor with the 32 months of 
+      Millard Fillmore.  
+    }
+    \item{war}{
+      This lists the major wars in US history by years 
+      involving active hostilities.  A war is 
+      "major" for present purposes if it met two 
+      criteria:  
+      
+      (1) It averaged at least 10 battle deaths per 
+      year per million US population.  
+      
+      (2) It was listed in one of two lists of wars:  
+      For wars since 1816, it must have appeared in the 
+      \href{http://correlatesofwar.org/}{Correlates of 
+      War}.  For wars between 1790 and 1815, it must 
+      have appeared in the Wikipedia 
+      \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{
+      "List of wars involving the United States"}.  
+      
+      The resulting list includes a few adjustments to 
+      the list of wars that might come readily to mind 
+      for people moderately familiar with US history.    
+      
+      A traditional list might start with the War of 1812, 
+      the Mexican-American war, the Civil War, the Spanish-
+      American war, World Wars I and II, Korea, and 
+      Vietnam.  In addition, the 
+      \href{https://en.wikipedia.org/wiki/Northwest_Indian_War}{
+      Northwest Indian War} involved very roughly 60 battle 
+      deaths per year per million population 1790-1795.  
+      This compares with the roughly 100 battle deaths per 
+      year 1812-1815 for the 
+      \href{https://en.wikipedia.org/wiki/War_of_1812}{
+      War of 1812}.  
+      
+      For present purposes, the Spanish-American War is 
+      combined with the lesser-known American-Philippine War:  
+      The latter involved 50 percent more battle deaths but 
+      over a longer period of time and arguably with less 
+      impact on the stature of the US as a growing world 
+      power.  However, its magnitude suggest it might have 
+      impacted the US economy in a way roughly comparable to 
+      the Spanish-American war.  The two are therefore 
+      listed here together as "Spanish-American-Philippine" 
+      war.  
+      
+      \href{http://correlatesofwar.org/}{The Correlates of 
+      War (COW)} data include multiple US uses of militar force 
+      during the Vietnam War era.  It starts with "Vietnam 
+      Phase 1", 1961-65, with 506 battle deaths in the COW 
+      data base.  It includes the "Second Laotian" war phases 
+      1 and 2, plus engagement with a "Communist Coalition"
+      and Kmer Rouge as well as actions in the Dominican 
+      Republic and Guatemala.  The current 
+      \code{\link{data.frame}} includes only "Vietnam", 
+      referring primarily to COW's "Vietnam War, Phase 2", 
+      1965-1973.  The associated battle deaths include 
+      battle deaths from these other, lesser concurrent 
+      conflicts.  
+
+      The COW data currently ends in 2007.  However, the 
+      post-2000 conflicts in Afghanistan and Iraq averaged 
+      less than 1,000 battle deaths per year or roughly 
+      3 battle deaths per year per million population.  
+      This is below the threshold of 10 battle deaths per 
+      year per million population.  This in turn suggests 
+      that any impact of those conflicts on the US economy 
+      might be small and difficult to estimate.
+    }
+    \item{battleDeaths}{
+      Numbers of battle deaths by year estimated by 
+      allocating to the different years the totals reported 
+      for each major war in proportion to the number of 
+      days officially in conflict each year.  The totals 
+      were obtained (in August-September 2015) from 
+      \href{http://correlatesofwar.org/}{The Correlates of 
+      War} data for conflicts since 1816 and from 
+      Wikipedia for previous wars, as noted above.  
+    }
+    \item{deathsPerMillionPop}{
+      battle deaths per million population = 
+      \code{1000*battleDeaths/population.K}
+    }
+    \item{Keynes}{
+      A numeric indicator taking the value 1 between 1939 
+      and 1979 and 0 otherwise, as suggested by the 
+      section entitled "The Keynesian Ascendancy 
+      1939-1979" in the Wikipedia article on     
+      \href{https://en.wikipedia.org/wiki/John_Maynard_Keynes}{
+      John Maynard Keynes}. 
+    }
+  }
+}
+%\details{}
+%\source{}
+\references{
+  Louis Johnston and Samuel H. Williamson, "What Was the 
+  U.S. GDP Then?", 
+  \href{http://www.measuringworth.org/usgdp/}{Measuring 
+  Worth}, accessed 2015-09-08.  
+  
+  Sarkees, Meredith Reid; Wayman, Frank (2010). 
+  \href{http://correlatesofwar.org/data-sets/COW-war}{
+  "The Correlates of War Project: COW War Data, 1816 - 
+  2007 (v4.0)"}, accessed 2015-09-02.  
+  
+  \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
+  accessed 2015-09-13.  
+}
+\author{Spencer Graves}
+%\seealso{}
+\examples{
+data(USGDPpresidents)
+plot(realGDPperCapita/1000~year, USGDPpresidents, 
+     log='y', type='l', 
+     ylab='real GDP per capita (2009 $ thousands)', 
+     las=1)
+abline(v=c(1929, 1933, 1945), lty='dashed')
+abline(v=1940, lty='dotted')
+text(1930, 2, "Hoover", srt=90)
+text(1939.5, 30, 'FDR', srt=90, cex=1.2)
+text(1942.5, 3, 'WW II', srt=90)
+}
+\keyword{datasets}
