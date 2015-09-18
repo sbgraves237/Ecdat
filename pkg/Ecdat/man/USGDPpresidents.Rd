@@ -170,7 +170,7 @@
   "The Correlates of War Project: COW War Data, 1816 - 
   2007 (v4.0)"}, accessed 2015-09-02.  
   
-  \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
+  Wikipedia, \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
   accessed 2015-09-13.  
 }
 %\references{}
