@@ -5,9 +5,11 @@ Title: Functions for Ecdat
 Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.0.1)
-Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr
+Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr, 
+          knitr
 Imports:  fda, gdata, RCurl, XML, tis, jpeg, 
           MASS, TeachingDemos, stringi, methods
+VignetteBuilder: knitr 
 Description: Functions to update datasets in Ecdat and to create,
           manipulate, plot and analyze those and similar datasets.
 LazyData: true
