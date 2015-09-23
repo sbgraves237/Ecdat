@@ -40,22 +40,36 @@
 \usage{data(USGDPpresidents)}
 \format{A \code{\link{data.frame}} containing :
   \describe{
-    \item{Year}{ the year, 1790:2014 } 
+    \item{Year}{ the year, 1774:2014 } 
+    \item{CPI}{
+      U. S. Consumer Price Index per Officer and Williamson 
+      (2015).  Average 1982-84 = 100.  
+    }    
     \item{GDPdeflator}{
       Numeric:  Implicit price deflators for 
-      Gross Domestic Product with 2009 = 100.  
+      Gross Domestic Product with 2009 = 100 per 
+      Johnston and Williamson.  
     }
     \item{population.K}{ 
-      integer:  US population in thousands 
+      integer:  US population in thousands.  
+      
+      Population figures for 1770 and 1780 were taken 
+      "Colonial and Pre-Federal Statistics".  Figures 
+      for 1774-1779 and 1781-1789 were computed 
+      assuming a constatnt percentage increase each 
+      year between 1770 and 1780 and other constant 
+      to 1790.  
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product per capita 
       in 2009 dollars 
     } 
-    \item{president}{
-      factor:  President of the US.  Two presidents are not 
-      listed here (William Henry Harrison and James A. 
-      Garfield), because they died so soon after 
+    \item{executive}{
+      factor:  President of the US since 1789, 
+      KingGeorgeII, ContinentalCongress, and 
+      ArticlesOfConfederation 1774-1788.  Two presidents 
+      are not listed here (William Henry Harrison and 
+      James A. Garfield), because they died so soon after 
       inauguration that any contribution they made to the 
       economic growth of the nation might seem too slight 
       to measure accurately in annual data like this;  
@@ -88,28 +102,29 @@
       the list of wars that might come readily to mind 
       for people moderately familiar with US history.    
       
-      A traditional list might start with the War of 1812, 
-      the Mexican-American war, the Civil War, the Spanish-
-      American war, World Wars I and II, Korea, and 
-      Vietnam.  In addition, the 
+      A traditional list might start with the American 
+      Revolution, the War of 1812, the Mexican-American 
+      war, the Civil War, the Spanish-American war, 
+      World Wars I and II, Korea, and Vietnam.  In 
+      addition, the 
       \href{https://en.wikipedia.org/wiki/Northwest_Indian_War}{
-      Northwest Indian War} involved very roughly 60 battle 
-      deaths per year per million population 1790-1795.  
+      Northwest Indian War} involved very roughly 30 battle 
+      deaths per year per million population 1785-1795.  
       This compares with the roughly 100 battle deaths per 
       year 1812-1815 for the 
       \href{https://en.wikipedia.org/wiki/War_of_1812}{
       War of 1812}.  
       
       For present purposes, the Spanish-American War is 
-      combined with the lesser-known American-Philippine War:  
-      The latter involved 50 percent more battle deaths but 
-      over a longer period of time and arguably with less 
-      impact on the stature of the US as a growing world 
-      power.  However, its magnitude suggest it might have 
-      impacted the US economy in a way roughly comparable to 
-      the Spanish-American war.  The two are therefore 
-      listed here together as "Spanish-American-Philippine" 
-      war.  
+      combined with the lesser-known American-Philippine 
+      War:  The latter involved 50 percent more battle 
+      deaths but over a longer period of time and arguably 
+      with less impact on the stature of the US as a 
+      growing world power.  However, its magnitude suggest 
+      it might have impacted the US economy in a way 
+      roughly comparable to the Spanish-American war.  The 
+      two are therefore listed here together as 
+      "Spanish-American-Philippine" war.  
       
       \href{http://correlatesofwar.org/}{The Correlates of 
       War (COW)} data include multiple US uses of militar force 
@@ -160,10 +175,14 @@
 }
 %\details{}
 \source{
-  Louis Johnston and Samuel H. Williamson, "What Was the 
-  U.S. GDP Then?", 
-  \href{http://www.measuringworth.org/usgdp/}{Measuring 
-  Worth}, accessed 2015-09-08.  
+  \href{http://www.measuringworth.org/usgdp/}{Louis 
+  Johnston and Samuel H. Williamson, "What Was the U.S. GDP 
+  Then?", Measuring Worth}, accessed 2015-09-08.  
+  
+  \href{http://www.measuringworth.com/uscpi/}{Lawrence 
+  H. Officer and Samuel H. Williamson (2015) 'The Annual 
+  Consumer Price Index for the United States, 1774-2014,' 
+  MeasuringWorth}, accessed 2015-09-19.     
   
   Sarkees, Meredith Reid; Wayman, Frank (2010). 
   \href{http://correlatesofwar.org/data-sets/COW-war}{
@@ -177,15 +196,42 @@
 \author{Spencer Graves}
 %\seealso{}
 \examples{
+##
+## GDP, Presidents and Wars 
+##
 data(USGDPpresidents)
-plot(realGDPperCapita/1000~Year, USGDPpresidents, 
-     log='y', type='l', 
-     ylab='real GDP per capita (2009 $ thousands)', 
-     las=1)
+(wars <- levels(USGDPpresidents$war))
+nWars <- length(wars)
+plot(realGDPperCapita/1000~Year, 
+     USGDPpresidents, log='y', type='l', 
+     ylab='average annual income (K$)', 
+     las=1)     
 abline(v=c(1929, 1933, 1945), lty='dashed')
-abline(v=1940, lty='dotted')
-text(1930, 2, "Hoover", srt=90)
-text(1939.5, 30, 'FDR', srt=90, cex=1.2)
-text(1942.5, 3, 'WW II', srt=90)
+text(1930, 2.5, "Hoover", srt=90, cex=0.9)
+text(1939.5, 30, 'FDR', srt=90, cex=1.1, col='blue')
+
+# label wars
+(logGDPrange <- log(range(USGDPpresidents$realGDPperCapita, 
+                    na.rm=TRUE)/1000))
+(yrRange <- range(USGDPpresidents$Year))
+(yrMid <- mean(yrRange))
+for(i in 2:nWars){
+  w <- wars[i]
+  sel <- (USGDPpresidents$war==w)
+  yrs <- range(USGDPpresidents$Year[sel])
+  abline(v=yrs, lty='dotted', col='grey')
+  yr. <- mean(yrs)
+  w.adj <- (0.5 - 0.6*(yr.-yrMid)/diff(yrRange))
+  logy <- (logGDPrange[1]+w.adj*diff(logGDPrange))
+  y. <- exp(logy)
+  text(yr., y., w, srt=90, col='red', cex=0.5)
+}
+
+##
+## CPI v. GDPdeflator
+## 
+plot(GDPdeflator~CPI, USGDPpresidents, type='l', 
+     log='xy')
+
 }
 \keyword{datasets}
