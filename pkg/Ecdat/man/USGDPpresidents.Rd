@@ -53,12 +53,8 @@
     \item{population.K}{ 
       integer:  US population in thousands.  
       
-      Population figures for 1770 and 1780 were taken 
-      "Colonial and Pre-Federal Statistics".  Figures 
-      for 1774-1779 and 1781-1789 were computed 
-      assuming a constatnt percentage increase each 
-      year between 1770 and 1780 and other constant 
-      to 1790.  
+      Population figures for 1770 and 1780 were taken from 
+      "Colonial and Pre-Federal Statistics".  
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product per capita 
