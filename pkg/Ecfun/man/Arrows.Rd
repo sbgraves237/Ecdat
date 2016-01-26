@@ -58,4 +58,4 @@ plot(1:3, type='n')
 Arrows(1, 1, c(1, 2, 2), c(1, 2, NA), col=1:3, length=c(1, .2, .6))
 
 }
-\keyword{IO}
+\keyword{aplot}
