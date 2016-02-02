@@ -155,7 +155,7 @@
       Correlates of War} data for conflicts since 1816 and 
       from Wikipedia for previous wars, as noted above.  
     }
-    \item{deathsPerMillionPop}{
+    \item{battleDeathsPMP}{
       numeric:  battle deaths per million population = 
       \code{1000*battleDeaths/population.K}
     }
