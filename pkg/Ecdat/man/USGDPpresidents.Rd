@@ -61,7 +61,7 @@
       in 2009 dollars 
     } 
     \item{executive}{
-      factor:  President of the US since 1789, 
+      \code{\link{ordered}}:  President of the US since 1789, 
       KingGeorgeII, ContinentalCongress, and 
       ArticlesOfConfederation 1774-1788.  Two presidents 
       are not listed here (William Henry Harrison and 
@@ -78,9 +78,9 @@
       Fillmore.  
     }
     \item{war}{
-      factor:  This lists the major wars in US history by 
-      years involving active hostilities.  A war is 
-      "major" for present purposes if it met two 
+      \code{\link{ordered}}:  This lists the major wars in 
+      US history by years involving active hostilities.  A 
+      war is "major" for present purposes if it met two 
       criteria:  
       
       (1) It averaged at least 10 battle deaths per 
