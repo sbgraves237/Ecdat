@@ -854,6 +854,8 @@ EWMA2pres4updtx()
 
 This claimed convergence to essentially the same place as [fitSSM(EWMA2pres4mdl, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) above.  
 
+I also tried nloptr but couldn't get it to work.  
+
 #```{r}
 library(nloptr)
 (EWMA2pres4fito <- nloptr(EWMA2pres3init, EWMA2pres4updtx, 
