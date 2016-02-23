@@ -10,7 +10,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-02-11" />
+<meta name="date" content="2016-02-12" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-02-11</em></h4>
+<h4 class="date"><em>2016-02-12</em></h4>
 </div>
 
 
@@ -792,7 +792,7 @@ EWMA2pres4mdl$T &lt;-<span class="st"> </span>pres4T </code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attr</span>(EWMA2pres4mdl, <span class="st">'tv'</span>) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Z=</span>0L, <span class="dt">H=</span>0L, <span class="dt">T=</span>1L, <span class="dt">R=</span>0L, <span class="dt">Q=</span>1L)</code></pre></div>
 <p>We have 4 parameters to estimate, as in the previous model, but the state vector now has 3 dimensions, not 2 as before. This required a different ‘updatefn’:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2pres4updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>EWMA2pres3init, 
-                      <span class="dt">model=</span>EWMA2pres1mdl, ...){
+                      <span class="dt">model=</span>EWMA2pres4mdl, ...){
   vars &lt;-<span class="st"> </span><span class="kw">exp</span>(pars)
   Q &lt;-<span class="st"> </span>model$Q
   Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">1</span>]
@@ -810,8 +810,37 @@ EWMA2pres4fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2pres4.KFS &lt;-<span class="st"> </span><span class="kw">KFS</span>(EWMA2pres4fit$model)
 <span class="kw">sqrt</span>(<span class="kw">mean</span>(EWMA2pres4.KFS$v^<span class="dv">2</span>))</code></pre></div>
 <pre><code>## [1] 0.04280084</code></pre>
-<p>This confirms the deficiencies of this model.</p>
-<p>Let’s continue with the other models.</p>
+<p>This confirms the deficiencies of this model fit.</p>
+<p>Let’s try another optimizer: <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> calls [optim]((<a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/optim.html" class="uri">https://stat.ethz.ch/R-manual/R-devel/library/stats/html/optim.html</a>). <a href="https://cran.r-project.org/web/packages/optimx/optimx.pdf">optimx</a> use a more modern and robust algorithm.</p>
+<p>To use this, we modify EWMA2pres4updt to return (-logLik(model)):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2pres4updtx &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>EWMA2pres3init, 
+                      <span class="dt">model=</span>EWMA2pres4mdl, ...){
+  vars &lt;-<span class="st"> </span><span class="kw">exp</span>(pars)
+  Q &lt;-<span class="st"> </span>model$Q
+  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">1</span>]
+  Q[<span class="dv">2</span>,<span class="dv">2</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">2</span>]
+  Q[<span class="dv">3</span>,<span class="dv">3</span>,presLastYr] &lt;-<span class="st"> </span>vars[<span class="dv">3</span>]
+  model$Q &lt;-<span class="st"> </span>Q
+  model$H[] &lt;-<span class="st"> </span>vars[<span class="dv">4</span>]
+  (-<span class="kw">logLik</span>(model))
+} 
+<span class="kw">library</span>(optimx)
+<span class="kw">EWMA2pres4updtx</span>()</code></pre></div>
+<pre><code>## [1] 401.2674</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(EWMA2pres4fitx &lt;-<span class="st"> </span><span class="kw">optimx</span>(EWMA2pres3init, EWMA2pres4updtx) )</code></pre></div>
+<pre><code>## Warning in max(logpar): no non-missing arguments to max; returning -Inf</code></pre>
+<pre><code>## Warning in min(logpar): no non-missing arguments to min; returning Inf</code></pre>
+<pre><code>##             lnQ.level   lnQ.slope lnQ.slopePres       lnH     value fevals
+## Nelder-Mead -6.308372 -1738.56199     -78.80880 -24.51141 -382.4992    473
+## BFGS        -6.308179   -21.40384     -29.73039 -19.42138 -382.4988     42
+##             gevals niter convcode kkt1  kkt2 xtimes
+## Nelder-Mead     NA    NA        0 TRUE FALSE  0.254
+## BFGS            20    NA        0 TRUE FALSE  0.101</code></pre>
+<p>This claimed convergence to essentially the same place as <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM(EWMA2pres4mdl, …)</a> above.</p>
+<p>I also tried nloptr but couldn’t get it to work.</p>
+</div>
+<div id="r-librarynloptr-ewma2pres4fito---nloptrewma2pres3init-ewma2pres4updtx-modelewma2pres4mdl" class="section level1">
+<h1><code>{r} library(nloptr) (EWMA2pres4fito &lt;- nloptr(EWMA2pres3init, EWMA2pres4updtx,                            model=EWMA2pres4mdl) ) #</code></h1>
 </div>
 <div id="ewma2-with-a-separate-component-of-the-state-vector-for-each-president" class="section level1">
 <h1>7. EWMA2 with a separate component of the state vector for each president</h1>

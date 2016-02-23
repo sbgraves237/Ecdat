@@ -157,7 +157,7 @@
     }
     \item{battleDeathsPMP}{
       numeric:  battle deaths per million population = 
-      \code{1000*battleDeaths/population.K}
+      \code{1000*battleDeaths/population.K}.   
     }
     \item{Keynes}{
       integer taking the value 1 between 1939 and 1979 
