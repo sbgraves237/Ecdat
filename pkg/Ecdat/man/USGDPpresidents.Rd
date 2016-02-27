@@ -61,21 +61,26 @@
       in 2009 dollars 
     } 
     \item{executive}{
-      \code{\link{ordered}}:  President of the US since 1789, 
-      KingGeorgeII, ContinentalCongress, and 
-      ArticlesOfConfederation 1774-1788.  Two presidents 
-      are not listed here (William Henry Harrison and 
-      James A. Garfield), because they died so soon after 
+      \code{\link{ordered}}:  Crown of England through 1774, 
+      followed by the "ContinentalCongress" and the 
+      "ArticlesOfConfederation" until Washington, who 
+      became President under the current base constitution 
+      in 1789.  Two nineteenth century presidents are not 
+      listed here (William Henry Harrison and James A. 
+      Garfield), because they died so soon after 
       inauguration that any contribution they made to the 
       economic growth of the nation might seem too slight 
       to measure accurately in annual data like this;  
       their contributions therefore appear combined with 
-      their replacements (Millard Fillmore and Chester A. 
+      their replacements (John Tyler and Chester A. 
       Arthur, respectively).  The service of two other 
       presidents is officially combined here:  
       "Taylor-Fillmore" refers to the 16 months served by 
       Zachary Taylor with the 32 months of Millard 
-      Fillmore.  
+      Fillmore.  These modifications make 
+      \href{https://en.wikipedia.org/wiki/Barack_Obama}{Barack Obama}
+      number 41 on this list, even though he's the 44th 
+      president of the U.S.  
     }
     \item{war}{
       \code{\link{ordered}}:  This lists the major wars in 

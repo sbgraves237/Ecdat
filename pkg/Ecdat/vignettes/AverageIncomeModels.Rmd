@@ -23,24 +23,70 @@ BibOptions(check.entries = FALSE, style = "markdown", cite.style = "authoryear",
 
 # Abstract 
 
-This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R in evaluating the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is tne dominant view of the evolution of the US economy between 1933 and 1945.  It is, however, superficially contradicted by our naive review of a plot of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2014, from [MeasuringWorth](http://measuringworth.com/)).  In particular, we do not see similar growth spurts associated with other wars, and the growth of the U.S. economy under FDR before the war was not matched by that for any other president (not counting the negative record of [Herert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a destailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  The conclusions regarding FDR vs. WW II must be considered tentative, pending further research using other data.  
+This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R to evaluate the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is tne dominant view of the evolution of the US economy between 1933 and 1945.  It is, however, superficially contradicted by our naive review of a plot of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2014, from [MeasuringWorth](http://measuringworth.com/)) in two ways:  First, other wars have not been accompanied by such obvious growth spurts.  Second, FDR's economic performance even without World War II seems unmatched by any other U.S. president.  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a destailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  We have two conclusions:  First, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.  Second, any conclusions regarding FDR vs. WW II must be considered tentative, pending further research using other data.  
 
 # Introduction  
+
+The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implactions for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horwitz2011")` recently claimed that Hoover had more agressive deficit spending and public works programs than Franklin Roosavelt, and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable."  
+
+Whatever the specific cause, the growth of the U.S. economy under FDR before the war was not matched by that of any other president (not counting the negative record of [Herert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  The conclusions regarding FDR vs. WW II must be considered tentative, pending further research using other data.  
+
+# Plots
 
 We start by plotting the [MeasuringWorth](http://measuringworth.com/) estimates of average annual income in the US (adjusted for inflation) from 1790 to 2014:  
 
 ```{r,fig.cap = "real US GDP per capita (thousands of 2009 $)"}
 library(Ecdat)
-plot(realGDPperCapita/1000~Year, USGDPpresidents, type='l', 
-     xlim=c(1790, max(Year, na.rm=TRUE)), log='y', 
-     main=paste0('US average annual income\n', 
-                 '(GDP per capita)'), 
-     ylab='thousands of 2009 dollars', las=1)     
+plot(realGDPperCapita/1000~Year, USGDPpresidents)     
+```     
+
+This plot could be changed in many ways to make it more informative.  First, this [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) covers many years for which we have no GDP data.  Let's start by checking missing data:  
+
+```{r}
+which(GDPna <- is.na(USGDPpresidents$realGDPperCapita))
+```
+
+The only NAs are the first 33 observations.  Those contain data on other variables for years prior to 1790.  We won't use any of that data for this analysis.  Let's discard it:  
+
+```{r}
+GDP <- USGDPpresidents[!GDPna,]
+```
+
+Let's try that plot again, this time on a log scale with improved labeling:  
+
+```{r,fig.cap = "real US GDP per capita (thousands of 2009 $)"}
+plot(realGDPperCapita/1000~Year, GDP, log='y', type='l',
+     ylab='thousands of 2009 dollars', las=1, 
+     main='Real US GDP per capita')     
 ```     
 
 This plot suggests relatively steady growth from 1790 to 2014 with the exception of a dramatic rise roughly two thirds of the way through the series preceeded and followed by declines.  
 
-This document first discusses this plot then considers a series of models that estimate a base growth rate separate from other potential explanitory variables such as the administration (the president) and wars.  Readers interested in the results are encouraged to focus on the plots and tables, skipping the math and software.  
+The president is identified in an [ordered factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html), "executive", giving the names of the chief executive (president since 1790).  We need to drop the unused levels from the colonial period:  
+
+```{r}
+GDP$executive <- ordered(GDP$executive)
+levels(GDP$executive)
+```
+
+This [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) includes three variables for war.  The first is an [ordered factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html).  We need to drop the unused levels of "war", as we just did for "executive":  
+
+```{r}
+GDP$war <- ordered(GDP$war)
+levels(GDP$war)
+```
+
+The next war variable is the number of "battleDeaths" for each war apportioned by the number of days in each year between the official start and end of each war.  However, it hardly makes sense to use this directly as a measure of the impact of the war on the economy, as the nation grew from 3.9 million souls in 1790 to 319 million in 2014.  Instead, we use battle deaths per million population:  
+
+```{r,fig.cap = "Battle deaths per million population"}
+plot(battleDeathsPMP~Year, GDP, type='l',
+     ylab='battle deaths per million pop', las=1, 
+     main='Battle deaths during war')     
+```     
+
+Wars involving fewer than 10 battle deaths per million US population per year are not included.  No war since Vietnam has reache that threshold.  This explains why the 2001-2014 [War in Afghanistan](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%9314)) and the 2003-2011 [Iraq war](https://en.wikipedia.org/wiki/Iraq_War) do not appear here:  As noted in the help page for USGDPpresidents, the two together averaged fewer than 3 battle deaths per year per million population.  
+
+This document first adds annotations to the above plot of realGDPperCapita then considers a series of models that estimate a base growth rate separate from other potential explanitory variables such as the administration (the president) and wars.  Readers interested in the results are encouraged to focus on the plots and tables, skipping the math and software.  
 
 # Graphical analysis 
 
