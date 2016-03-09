@@ -29,6 +29,48 @@ This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/w
 
 The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implications for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horowitz2011")` recently claimed that Hoover had more aggressive deficit spending and public works programs than [Franklin Roosevelt](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable."  
 
+`r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." `r Citet(bib2, "Pollin2009")` claim their research indicates that tax cuts for household consumption, clean energy, health care and education all generate more jobs per dollar than military spending: 
+
+```{r,fig.cap = "Job creation in the U.S. through $1 billion in spending"}
+Pollin.jobs <- c(Military=11600, 
+    "Household consumption"=14800, "Clean energy"=17100, 
+    "Health care"=19600, Education=29100)
+barplot(Pollin.jobs, horiz=TRUE, 
+        axisnames=FALSE, col='white')
+text(2000, seq(.65, by=1.2, len=5), names(Pollin.jobs), 
+     cex=1.2, adj=0)
+```
+
+
+As previously mentioned, the primary purpose of this work is to demostrate the use of the [KFAS](
+
+
+) package for addressing questions like those considered here.  Better answers would require simultaneous modeling of unemployment 
+
+with 
+
+inflation, as [Milton Friedman](
+
+
+) famously wrote, and possibly including other factors such as education (
+
+
+).  
+)
+
+
+unemployment 
+
+and 
+
+inflation, 
+
+these questions 
+[Milton Friedman](
+
+
+) 
+
 Whatever the specific cause, the growth of the U.S. economy under FDR before the war was not matched by that of any other president (not counting the negative record of [Herbert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  The conclusions regarding FDR vs. WW II must be considered tentative, pending further research using other data.
 
 # Initial Plots
@@ -1003,14 +1045,14 @@ logLik(EWMA2war0fit$model)
 
 At 370.9859, this looks like a worse fit than EWMA1.  
 
-Let's try again with inits=EWMA2fit\$optim.out\$pars:  
+Let's try [logLik(..., marginal=TRUE, ..)](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html):  
 
 ```{r}
-(EWMA2war0fit2 <- fitSSM(EWMA2war0mdl, inits=EWMA2init)) 
-logLik(EWMA2war0fit2$model)
+logLik(EWMA2war0fit$model,marginal=TRUE)
+logLik(EWMA2fit$model,marginal=TRUE)
 ```
 
-Same nonsense answer.  
+Conclusion:  If we use the marginal likelihood rather than the diffuse likelihood, it says that EWMA2war0 gives a slightly better fit:  394.7362 vs. 394.2869.  In other words, the difference was primarily due to the use of diffuse likelihood, which is different with the addition of another component to the state vector.  
 
 Let's try setting the war components of P1inf to 0 to see if that forces the model to match EWMA2:  
 
@@ -1019,11 +1061,12 @@ EWMA2war0mdl2 <- EWMA2war0mdl
 war0P1inf <- diag(c(1, 1, 0, 0))
 dimnames(war0P1inf) <- list(warStates, warStates)
 EWMA2war0mdl2$P1inf <- war0P1inf
-EWMA2war0fit3 <- fitSSM(EWMA2war0mdl2, inits=EWMA2init)
-logLik(EWMA2war0fit3$model)
+EWMA2war0fit2 <- fitSSM(EWMA2war0mdl2, inits=EWMA2init)
+logLik(EWMA2war0fit2$model)
+logLik(EWMA2war0fit2$model, marginal=TRUE)
 ```
 
-This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) as EWMA2.  Let's modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from diag(0, 2):  
+This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) as EWMA2, as we might expect.  Let's modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from diag(0, 2):  
 
 <center> 
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(make the state transition matrix, T, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) 
@@ -1050,8 +1093,7 @@ EWMA2war0updt <- function(pars=EWMA2war0init,
                         updatefn=EWMA2war0updt))$optim.out
 ```
 
-This is worse than EWMA2war0fit, EWMA2war0fit2 and EWMA2war0fit3.  Let's check with starting values designed to give 
-the same answer as EWMA2:  
+This is worse than EWMA2war0fit and EWMA2war0fit2.  Let's check with starting values designed to give the same answer as EWMA2:  
 
 ```{r}
 EWMA2war0init2 <- c(EWMA2fit$optim.out$par, 
@@ -1197,10 +1239,13 @@ EWMA2war1init0 <- c(EWMA2fit$optim.out$par,
                 lnP1.33=-999, lnP1.44=-999, lnP1.34=0)
 (EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
                         updatefn=EWMA2war1updt))$optim.out
+logLik(EWMA2war1fit0$model)
+logLik(EWMA2war0fit$model, marginal=TRUE)
+logLik(EWMA2war1fit0$model, marginal=TRUE)
+logLik(EWMA2fit$model, marginal=TRUE)
 ```
 
-JOUNI:  What am I doing wrong?  Thanks, sg
-???
+(say something about marginal vs. diffuse likelihood)
 
 
 # 8.  EWMA2pres3 plus war ??? 

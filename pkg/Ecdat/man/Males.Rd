@@ -36,7 +36,7 @@
 
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{https://feb.kuleuven.be/GME/}, chapter 10.
+    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, chapter 10.
 
       Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
 }

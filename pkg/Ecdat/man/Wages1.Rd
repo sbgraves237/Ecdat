@@ -22,7 +22,7 @@
   }
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, \url{https://feb.kuleuven.be/GME/}.
+    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
 

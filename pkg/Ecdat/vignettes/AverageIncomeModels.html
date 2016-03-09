@@ -10,7 +10,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-03-04" />
+<meta name="date" content="2016-03-08" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-03-04</em></h4>
+<h4 class="date"><em>2016-03-08</em></h4>
 </div>
 
 
@@ -83,6 +83,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>The Legacy of the <a href="https://en.wikipedia.org/wiki/New_Deal">New Deal</a> and the <a href="https://en.wikipedia.org/wiki/Great_Depression">Great Depression</a> still carry profound implications for the current economic policies of the world’s most economically advanced countries. <a name="cite-Horowitz2011"></a><a href="#bib-Horowitz2011">Horowitz (2011)</a> recently claimed that Hoover had more aggressive deficit spending and public works programs than <a href="https://en.wikipedia.org/wiki/Franklin_D._Roosevelt">Franklin Roosevelt</a>, and far from contributing to the recovery, these programs actually made the economy worse. He concluded that “The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable.”</p>
+<p>An alternative view was expressed by <a name="cite-McChesney2014"></a><a href="#bib-McChesney2014">McChesney (2014)</a></p>
+<p>…</p>
 <p>Whatever the specific cause, the growth of the U.S. economy under FDR before the war was not matched by that of any other president (not counting the negative record of <a href="https://en.wikipedia.org/wiki/Herbert_Hoover">Herbert Hoover</a>). This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration (“president”). This includes a detailed discussion and comparison of alternative models of economic growth and how <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> was used to fit them. The conclusions regarding FDR vs. WW II must be considered tentative, pending further research using other data.</p>
 </div>
 <div id="initial-plots" class="section level1">
@@ -1071,56 +1073,23 @@ war0T[<span class="dv">1</span>, <span class="dv">4</span>,] &lt;-<span class="s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war0fit$model)</code></pre></div>
 <pre><code>## [1] 370.9859</code></pre>
 <p>At 370.9859, this looks like a worse fit than EWMA1.</p>
-<p>Let’s try again with inits=EWMA2fit$optim.out$pars:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(EWMA2war0fit2 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2war0mdl, <span class="dt">inits=</span>EWMA2init)) </code></pre></div>
-<pre><code>## $optim.out
-## $optim.out$par
-##    lnQ.lvl  lnQ.slope        lnH 
-##  -6.312221 -25.341160 -96.748732 
-## 
-## $optim.out$value
-## [1] -370.9859
-## 
-## $optim.out$counts
-## function gradient 
-##      154       NA 
-## 
-## $optim.out$convergence
-## [1] 0
-## 
-## $optim.out$message
-## NULL
-## 
-## 
-## $model
-## Call:
-## SSModel(formula = EWMA2war0fmla, data = GDP, H = matrix(NA))
-## 
-## State space model object of class SSModel
-## 
-## Dimensions:
-## [1] Number of time points: 225
-## [1] Number of time series: 1
-## [1] Number of disturbances: 4
-## [1] Number of states: 4
-## Names of the states:
-## [1]  level  slope  war0   war1 
-## Distributions of the time series:
-## [1]  gaussian
-## 
-## Object is a valid object of class SSModel.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war0fit2$model)</code></pre></div>
-<pre><code>## [1] 370.9859</code></pre>
-<p>Same nonsense answer.</p>
+<p>Let’s try <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik(…, marginal=TRUE, ..)</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war0fit$model,<span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 394.7362</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2fit$model,<span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 394.2869</code></pre>
+<p>Conclusion: If we use the marginal likelihood rather than the diffuse likelihood, it says that EWMA2war0 gives a slightly better fit: 394.7362 vs. 394.2869. In other words, the difference was primarily due to the use of diffuse likelihood, which is different with the addition of another component to the state vector.</p>
 <p>Let’s try setting the war components of P1inf to 0 to see if that forces the model to match EWMA2:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2war0mdl2 &lt;-<span class="st"> </span>EWMA2war0mdl 
 war0P1inf &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))
 <span class="kw">dimnames</span>(war0P1inf) &lt;-<span class="st"> </span><span class="kw">list</span>(warStates, warStates)
 EWMA2war0mdl2$P1inf &lt;-<span class="st"> </span>war0P1inf
-EWMA2war0fit3 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2war0mdl2, <span class="dt">inits=</span>EWMA2init)
-<span class="kw">logLik</span>(EWMA2war0fit3$model)</code></pre></div>
+EWMA2war0fit2 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2war0mdl2, <span class="dt">inits=</span>EWMA2init)
+<span class="kw">logLik</span>(EWMA2war0fit2$model)</code></pre></div>
 <pre><code>## [1] 384.6971</code></pre>
-<p>This gives the same <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> as EWMA2. Let’s modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from diag(0, 2):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war0fit2$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 394.2869</code></pre>
+<p>This gives the same <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> as EWMA2, as we might expect. Let’s modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from diag(0, 2):</p>
 <center>
 <p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a></p>
 <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
@@ -1159,7 +1128,7 @@ EWMA2war0updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</spa
 ## 
 ## $message
 ## NULL</code></pre>
-<p>This is worse than EWMA2war0fit, EWMA2war0fit2 and EWMA2war0fit3. Let’s check with starting values designed to give the same answer as EWMA2:</p>
+<p>This is worse than EWMA2war0fit and EWMA2war0fit2. Let’s check with starting values designed to give the same answer as EWMA2:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2war0init2 &lt;-<span class="st"> </span><span class="kw">c</span>(EWMA2fit$optim.out$par, 
                 <span class="dt">lnP1.33=</span>-<span class="dv">999</span>, <span class="dt">lnP1.44=</span>-<span class="dv">999</span>, <span class="dt">lnP1.34=</span><span class="dv">0</span>)
 (EWMA2war0fit5 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2war0mdl2, <span class="dt">inits=</span>EWMA2war0init2, 
@@ -1415,7 +1384,15 @@ EWMA2war1updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</spa
 ## 
 ## $message
 ## NULL</code></pre>
-<p>JOUNI: What am I doing wrong? Thanks, sg ???</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war1fit0$model)</code></pre></div>
+<pre><code>## [1] 378.1806</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war0fit$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 394.7362</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2war1fit0$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 392.7136</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA2fit$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 394.2869</code></pre>
+<p>(say something about marginal vs. diffuse likelihood)</p>
 </div>
 <div id="ewma2pres3-plus-war" class="section level1">
 <h1>8. EWMA2pres3 plus war ???</h1>
@@ -1545,7 +1522,8 @@ EWMA2war1updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</spa
 <p><a name="bib-Graves02"></a><a href="#cite-Graves02">[5]</a> S. Graves, S. Bisgaard and M. Kulahci. <em>Designing Bayesian EWMA Monitors Using Gage R &amp; R and Reliability Data</em>. Tech. rep. Productive Systems Engineering, 2002.</p>
 <p><a name="bib-Harvey"></a><a href="#cite-Harvey">[6]</a> A. C. Harvey. <em>Forecasting, Structural Time Series Models and the Kalman Filter</em>. New York: Cambridge U. Pr., 1989.</p>
 <p><a name="bib-Horowitz2011"></a><a href="#cite-Horowitz2011">[7]</a> S. Horowitz. <em>Herbert Hoover: Father of the New Deal</em>. Tech. rep. Technical Report, no. 122. Cato Institute, 2011.</p>
-<p><a name="bib-PinBates"></a><a href="#cite-PinBates">[8]</a> J. C. Pinheiro and D. M. Bates. <em>Mixed-Effects Models in S and S-PLUS</em>. New York: Springer, 2000, pp. 83-89.</p>
+<p><a name="bib-McChesney2014"></a><a href="#cite-McChesney2014">[8]</a> R. W. McChesney. <em>Blowing the Roof off the Twenty-First Century</em>. originally appeared in Monthly Review 60/5 (Oct. 2008): 1-19. New York: Monthly Review Pr., 2014. Chap. 6. The U.S. Imperial Triangle and Military Spending.</p>
+<p><a name="bib-PinBates"></a><a href="#cite-PinBates">[9]</a> J. C. Pinheiro and D. M. Bates. <em>Mixed-Effects Models in S and S-PLUS</em>. New York: Springer, 2000, pp. 83-89.</p>
 </div>
 
 
