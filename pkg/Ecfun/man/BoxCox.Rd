@@ -5,119 +5,178 @@
   Box-Cox power transformation and its inverse 
 }
 \description{
-  Box and Cox (1964) considered the following family of 
-  transformations indexed by \code{lambda}:  
+  Box and Cox (1964) considered the following family
+  of transformations indexed by \code{lambda}:  
   
-  \code{w} = \code{(y^lambda-1)/lambda} if \code{lambda!=0}
-  or \code{log(y)} if \code{lambda==0}.  
+  \code{w} = \code{(y^lambda-1)/lambda}
   
-  They estimate \code{lambda} assuming \code{w} follows a 
-  normal distribution.  This raises a theoretical problem in 
-  that \code{y} must be positive, which means that \code{w} must 
-  follow a truncated normal distribution condidtioned on 
+  = \code{expm1(lambda*log(y))/lambda}, 
+  
+  with the \code{lambda=0} case defined as 
+  \code{log(y)} to make \code{w} continuous in 
+  \code{lambda} for constant \code{y}.  
+  
+  They estimate \code{lambda} assuming \code{w}
+  follows a normal distribution.  This raises a
+  theoretical problem in that \code{y} must be
+  positive, which means that \code{w} must follow 
+  a truncated normal distribution conditioned on 
   \code{lambda*w} > \code{(-1)}.  
   
-  Bickel and Doksum (1981) removed the restriction to positive 
-  \code{y}, i.e., to \code{w} > \code{(-1/lambda)} by modifying 
+  Bickel and Doksum (1981) removed the restriction 
+  to positive \code{y}, i.e., to 
+  \code{w} > \code{(-1/lambda)} by modifying 
   the transformaton as follows:  
 
-  \code{w} <- \code{(sign(y)*abs(y)^lambda-1)/lambda} 
-  if \code{lambda!=0} or sign(y)*log(abs(y)) if 
-  \code{lambda=0}.  
+  \code{w} = 
   
-  In practice, we assume that \code{y} > 0, so this distinction 
-  has little practical value.  However, the \code{BoxCox} function
-  computes the Bickel-Doksum version if \code{rescale} = 
-  \code{FALSE}.  
+  \code{(sgn(y)*abs(y)^lambda-1)/lambda} 
+  if \code{lambda != 0} and 
   
-  Box and Cox further noted that proper estimation of 
-  \code{lambda} should include the Jacobian of the transformation 
-  in the log(likelihood).  Doing this can be achieved by 
-  rescaling the transformation with the \code{n}th root of 
+  \code{sgn(y)*log(abs(y))} if \code{lambda = 0}, 
+  
+  where sgn(y) = 1 if y >= 0 and -1 otherwise.  
+  
+  NOTE:  \code{sgn(y)} is different from 
+  \code{link[base]{sign}}(y), which is 0 for y = 0.
+  A two-argument update to the sign function 
+  in the base package has been added to 
+  this Ecfun package, so \code{\link{sign}}(y, 1) 
+  = sgn(y).  
+
+  If (y<0), this transformation is discontinuous 
+  at \code{lambda = 0}.  To see this, we rewrite 
+  this as 
+  
+  \code{w} = 
+  \code{(sgn(y)*expm1(lambda*log(abs(y))) + 
+  (sgn(y)-1)) / lambda} 
+  
+  = \code{sgn(y)*(log(abs(y)) + O(lambda) + 
+  (sgn(y)-1)/lambda}, 
+  
+  where 
+  \href{https://en.wikipedia.org/wiki/Big_O_notation}{O(lambda)}
+  indicates a term that is dominated by a constant 
+  times lambda.  
+  
+  If y<0, this latter term (sgn(y)-1)/lambda = 
+  (-2)/lambda and becomes Inf as lambda -> 0.  
+  
+  In practice, we assume that \code{y} > 0, so this
+  distinction has little practical value.  However,
+  the \code{BoxCox} function computes the 
+  Bickel-Doksum version.  
+  
+  Box and Cox further noted that proper estimation 
+  of \code{lambda} should include the Jacobian of 
+  the transformation in the log(likelihood).  
+  Doing this can be achieved by rescaling the
+  transformation with the \code{n}th root of 
   the Jacobian, which can be written as follows:   
   
   \code{j(y, lambda)} = 
   \code{J(y, lambda)^(1/n)} = 
   \code{GeometricMean(y)^(lambda-1)}.  
   
-  With this the rescaled power transformation is as follows:    
+  With this the rescaled power transformation is 
+  as follows:    
   
   \code{z} = \code{(y^lambda-1)/(lambda*j(y, lambda)} if \code{lambda!=0}
   or \code{GeometricMean(y)*log(y)} if \code{lambda==0}.  
   
-  In addition to facilitating estimation of \code{lambda}, 
-  rescaling has the advantage that the units of \code{z}
-  are the same as the units of \code{y}.  
+  In addition to facilitating estimation of 
+  \code{lambda}, rescaling has the advantage that 
+  the units of \code{z} are the same as the units 
+  of \code{y}.    
     
-  The ouput has class 'BoxCox', which has attributes that 
-  allow the input to be recovered using \code{invBoxCox}.  
-  The default values of the arguments of \code{invBoxCox}
-  are provided by the corresponding 
-  \code{\link{attributes}} of \code{z}.  
+  The ouput has class 'BoxCox', which has 
+  attributes that allow the input to be recovered
+  using \code{invBoxCox}. The default values of 
+  the arguments of \code{invBoxCox} are provided 
+  by the corresponding \code{\link{attributes}} 
+  of \code{z}.  
 }
 \usage{
-BoxCox(y, lambda, rescale=TRUE, na.rm=rescale) 
-invBoxCox(z, lambda, sign.y, GeometricMean, rescale)
+  BoxCox(y, lambda, rescale=TRUE, na.rm=rescale) 
+  invBoxCox(z, lambda, sign.y, GeometricMean, rescale)
 }
 \arguments{
   \item{y}{
-    a numeric vector for which the power transform is 
-    desired  
+    a numeric vector for which the power transform 
+    is desired  
   }
   \item{lambda}{
-    A numeric vector of length 1 or 2.  The first component 
-    is the power.  If the second component is provided, 
-    \code{y} is replaced by \code{y+lambda[2]}.  
+    A numeric vector of length 1 or 2.  The first
+    component is the power.  If the second 
+    component is provided, \code{y} is replaced 
+    by \code{y+lambda[2]}.  
   }
   \item{rescale}{
     logical or numeric.  If logical:  
     
-    For \code{BoxCox}, this is \code{TRUE} to the power 
-    transform with rescale, \code{z}, above, and \code{FALSE}
-    to return the power transform without the \code{n}th root 
-    of the Jacobian, \code{w}, above.  This defaults to 
-    \code{TRUE}, because this will give \code{z} the same 
-    units as \code{y}.  
+    For \code{BoxCox}, this is \code{TRUE} to 
+    return the power transform with rescale, 
+    \code{z}, above, and \code{FALSE}
+    to return the power transform without the
+    \code{n}th root of the Jacobian, \code{w}, 
+    above.  This defaults to \code{TRUE}, because
+    this will give \code{z} the same units as
+    \code{y}.  
     
-    For \code{invBoxCox}, this is \code{TRUE} if the 
-    input argument \code{z} is assumed to have been rescaled 
-    by the \code{n}th root of the Jacobian of the 
-    transformation.  This defaults to a \code{rescale} 
-    attribute of \code{z} if present or to \code{TRUE} if 
+    For \code{invBoxCox}, this is \code{TRUE} 
+    if the input argument \code{z} is assumed to 
+    have been rescaled by the \code{n}th root of 
+    the Jacobian of the transformation.  This
+    defaults to a \code{rescale} attribute of
+    \code{z} if present or to \code{TRUE} if 
     absent.  
     
-    If numeric, it is assumed to be the geometric mean 
-    of another set of y values to use with new y's.  
+    If numeric, it is assumed to be the geometric
+    mean of another set of y values to use with 
+    new y's.  
   }
   \item{na.rm}{
-    logical:  \code{TRUE} to remove \code{NA}s from \code{y} before
-    computing the geometric mean.  \code{FALSE} to compute \code{NA}
+    logical:  
+    \code{TRUE} to remove \code{NA}s from \code{y}
+    before computing the geometric mean.  
+    
+    \code{FALSE} to compute \code{NA}
     for the geometric mean if \code{any(is.na(y))}.  
     
-    NOTE:  If \code{na.rm} = \code{FALSE}, the output will be all 
-    \code{NA} if \code{rescale} = \code{TRUE}.  This could produce
-    non useable answers in most cases.  To avoid that, the default 
-    for \code{na.rm} is \code{TRUE} whenever \code{rescale} = 
-    \code{TRUE}.  Conversely, applications using \code{na.rm} 
-    = \code{FALSE} will likely also want \code{rescale} = 
-    \code{FALSE} to avoid returning a non-answer in these 
-    cases.  This explains the default \code{na.rm} = \code{rescale}.  
+    NOTE:  If \code{na.rm} = \code{FALSE}, the 
+    output will be all \code{NA} if 
+    \code{rescale} = \code{TRUE}.  This could 
+    produce non useable answers in most cases.  
+    To avoid that, the default for \code{na.rm} 
+    is \code{TRUE} whenever \code{rescale} = 
+    \code{TRUE}.  Conversely, applications using
+    \code{na.rm} = \code{FALSE} will likely also 
+    want \code{rescale} = \code{FALSE} to avoid
+    returning a non-answer in these cases.  This
+    explains the default \code{na.rm} = 
+    \code{rescale}.  
   }
   \item{z}{
-    a numeric vector or an object of class \code{BoxCox} for which 
-    the inverse Box-Cox transform is desired.  
+    a numeric vector or an object of class 
+    \code{BoxCox} for which the inverse Box-Cox
+    transform is desired.  
   }
   \item{sign.y}{
-    an optional logical vector giving \code{sign(y-lambda[2])} of 
-    the data values that presumably generated \code{z}.  Defaults 
-    to an \code{sign.y} attribute of \code{z} or to 
-    \code{rep(1, length(z))} if no such attribute is present.  
+    an optional logical vector giving 
+    \code{sign(y-lambda[2])} of the data values 
+    that presumably generated \code{z}.  Defaults 
+    to an \code{sign.y} attribute of \code{z} or 
+    to \code{rep(1, length(z))} if no such 
+    attribute is present.  
   }
   \item{GeometricMean}{
-    an optional numeric scalar giving the geometric mean of the  
-    data values that presumably generated \code{z}.  Defaults to 
-    a \code{GeometricMean} attribute of \code{z} or to 1 if no 
-    such attribute is present.  
+    an optional numeric scalar giving the 
+    geometric mean of the  data values that 
+    presumably generated \code{z}.  Defaults to 
+    a \code{GeometricMean} attribute of 
+    \code{z} or to 1 if no such attribute is 
+    present.  
   }
 }
 \details{
@@ -135,24 +194,29 @@ invBoxCox(z, lambda, sign.y, GeometricMean, rescale)
   
   where \code{g} = the geometric mean of \code{y}.
 
-  They noted that proper estimation of \code{lambda}
-  should include the Jacobian of w(y, lambda) with the 
-  likelihood.  They further showed that a naive 
-  normal likelihood using \code{z(y, lambda)} as the 
-  response without a Jacobian is equivalent to the 
-  normal likelihood using \code{w(y, lambda)} adjusted 
-  appropriately using the Jacobian.  See Box and Cox (1964) or 
-  \href{https://en.wikipedia.org/wiki/Power_transform}{the 
-  Wikipedia article on "Power transform"}.  
+  They noted that proper estimation of 
+  \code{lambda} should include the Jacobian of 
+  w(y, lambda) with the likelihood.  They further
+  showed that a naive normal likelihood using 
+  \code{z(y, lambda)} as the response without a
+  Jacobian is equivalent to the normal likelihood
+  using \code{w(y, lambda)} adjusted appropriately
+  using the Jacobian.  See Box and Cox (1964) or 
+  \href{https://en.wikipedia.org/wiki/Power_transform}{the Wikipedia article on "Power transform"}.  
   
-  Bickel and Doksum (1981) suggested adding \code{sign(y)} to the 
-  transformation, as discussed above. 
+  Bickel and Doksum (1981) suggested adding 
+  \code{sign(y)} to the transformation, as 
+  discussed above. 
   
   NUMERICAL ANALYSIS:  
   
-  Consider the Bickel and Doksum version described above:  
+  Consider the Bickel and Doksum version described
+  above:  
   
-  \code{w} <- \code{(sign(y)*abs(y)^lambda-1)/lambda} 
+  \code{w} <- \code{(sign(y)*abs(y)^lambda-1)/lambda}
+  
+  if(any(y==0)), GeometricMean(y) = 0.  This 
+  creates a problem with the above math.    
 
   Let ly = log(abs(y)).  Then with la = lambda, 
   
@@ -161,12 +225,14 @@ invBoxCox(z, lambda, sign.y, GeometricMean, rescale)
   = \code{sign(y)*ly(1+(la*ly/2)*(1+(la*ly/3)*(1+(la*ly/4)*(1+O(la*ly)))))
   + (sign(y)-1)/la}
   
-  For y>0, the last term is zero.  \code{\link[MASS]{boxcox}} 
-  ignores cases with y<=0 and uses this formula (ignoring the 
-  final O(la*ly)) whenever abs(la) <= eps = 1/50.  That 
-  form is used here also.  
+  For y>0, the last term is zero.  
+  \code{\link[MASS]{boxcox}} ignores cases with 
+  y<=0 and uses this formula (ignoring the 
+  final O(la*ly)) whenever abs(la) <= eps = 1/50. 
+  That form is used here also.  
   
-  For \code{invBoxCox} a complementary analysis is as follows:  
+  For \code{invBoxCox} a complementary analysis is 
+  as follows:  
   
   abs(y+lambda[2]) = abs(1+la*w)^(1/la)
   
@@ -176,56 +242,79 @@ invBoxCox(z, lambda, sign.y, GeometricMean, rescale)
 
 }
 \value{
-  \code{BoxCox} returns an object of class \code{BoxCox}, being 
-  a numeric vector of the same length as \code{y} with the 
-  following optional attributes:  
+  \code{BoxCox} returns an object of class 
+  \code{BoxCox}, being a numeric vector of the 
+  same length as \code{y} with the following 
+  optional attributes:  
   
   \itemize{
-    \item{lambda}{the value of lambda used in the transformation}
+    \item{lambda}{the value of lambda used in 
+      the transformation}
     \item{sign.y}{
-      sign(y) (or sign(y-lambda[2]) lambda[2] is provided
-      and if any of these quantities are negative.  Otherwise, this 
-      is omitted and all are assumed to be positive.
+      sign(y) (or sign(y-lambda[2]) lambda[2] is
+      provided and if any of these quantities are
+      negative.  Otherwise, this is omitted and all
+      are assumed to be positive.
     }
     \item{rescale}{
-      logical:  \code{TRUE} if \code{z(y, lambda)} is returned 
-      rescaled by \code{g^(lambda-1)} with g = the geometric mean
-      of y and FALSE if \code{z(y, lambda)} is not so rescaled.  
+      logical:  
+      \code{TRUE} if \code{z(y, lambda)} 
+      is returned rescaled by \code{g^(lambda-1)}
+      with g = the geometric mean of y 
+      
+      and \code{FALSE} if \code{z(y, lambda)} is not
+      so rescaled.  
     }
     \item{GeometricMean}{
       If \code{rescale} is numeric, 
       \code{attr(., 'GeometricMean') <- rescale}.  
       
       Otherwise, \code{attr(., 'GeometricMean')} is 
-      the Geometric mean of abs(y) = exp(mean(log(abs(y)))) or of 
+      the Geometric mean of abs(y) = 
+      exp(mean(log(abs(y)))) or of 
       abs(y+lambda[2]) if(length(lambda)>1).  
     }
   } 
   
-  \code{invBoxCox} returns a numeric vector, reconstructing 
-  \code{y} from \code{BoxCox(y, ...)}.  
+  \code{invBoxCox} returns a numeric vector,
+  reconstructing \code{y} from 
+  \code{BoxCox(y, ...)}.  
 }
 \source{
-  Bickel, Peter J., and Doksum, Kjell A. (1981) "An analysis of 
-    transformation revisited", 
-    \emph{Journal of the American Statistical Association}, 
-    76 (374):  296-311  
+  Bickel, Peter J., and Doksum, Kjell A. (1981) "An
+  analysis of transformation revisited", 
+  \emph{Journal of the American Statistical Association}, 
+  76 (374):  296-311  
     
-  Box, George E. P.; Cox, D. R. (1964). "An analysis of 
-    transformations", \emph{Journal of the Royal Statistical Society}, 
+  Box, George E. P.; Cox, D. R. (1964). "An analysis
+  of transformations", 
+  \emph{Journal of the Royal Statistical Society}, 
     Series B 26 (2): 211-252. 
+
+  Box, George E. P.; Cox, D. R. (1982). "An analysis
+  of transformations revisited, rebutted", 
+  \emph{Journal of the American Statistical Association}, 
+  77(377): 209-210.    
 }
 \references{
-  \href{https://en.wikipedia.org/wiki/Power_transform}{Wikipedia, 
-  "Power transform"}
+  \href{https://en.wikipedia.org/wiki/Power_transform}{Wikipedia, "Power transform"}
 }
 \seealso{
-  \code{\link[MASS]{boxcox}}, \code{\link[MASS]{quine}}
-  \code{\link[EnvStats]{boxcox}}
-  \code{\link[EnvStats]{boxcoxCensored}}
-  \code{\link[EnvStats]{boxcox}}
-  \code{\link[drc]{boxcox.drc}}
-  \code{\link[car]{boxCox}}
+  \code{\link[MASS]{boxcox}} in the MASS package 
+  
+  \code{\link[MASS]{quine}} in the MASS package for data used in an example below.  
+  
+  \code{\link[EnvStats]{boxcox}} and 
+  \code{\link[EnvStats]{boxcoxCensored}} in the
+  EnvStats package.  
+  
+  \code{\link[drc]{boxcox.drc}} in the drc package.  
+  
+  \code{\link[car]{boxCox}} in the car package.  
+  
+  These other uses all wrap the Box-Cox 
+  transformation in something larger and do not 
+  give the transformation itself directly.  
 }
 \examples{
 ##
@@ -313,7 +402,7 @@ plot(y0, z2)
 z2. <- (sign(y0)*y0^2-1)/2
 
 attr(z2., 'lambda') <- 2
-attr(z2., 'sign.y') <- sign(y0)
+attr(z2., 'sign.y') <- sign(y0, 1)
 attr(z2., 'rescale') <- FALSE 
 attr(z2., 'GeometricMean') <- 0
 class(z2.) <- 'BoxCox'

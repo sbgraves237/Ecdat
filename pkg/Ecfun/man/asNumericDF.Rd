@@ -33,10 +33,10 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy=NA)
 }
 \arguments{
   \item{x}{
-    For \code{asNumericChar}, this is a character vector to be converted
-    to numeric after \code{gsub(',', '', x)}.  For \code{asNumericDF},
-    this is a \code{data.frame} with all character columns to be
-    converted to numerics.
+    For \code{asNumericChar}, this is a character vector to be
+    converted to numeric after \code{gsub(',', '', x)}.  For
+    \code{asNumericDF}, this is a \code{data.frame} with all
+    character columns to be converted to numerics.
   }
   \item{keep}{
     something to indicate which columns to keep
@@ -49,16 +49,14 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy=NA)
 \details{
   1.  Replace commas by nothing
 
-  2.  strsplit on ' ' and take only the first part, thereby eliminating
-  the footnote references.
+  2.  strsplit on ' ' and take only the first part, thereby
+  eliminating the footnote references.
 
   3.  Replace any blanks with NAs
 
   4.  as.numeric
 
-  5.  lapply(x, 1-4)
-
-  6. order the rows
+  5.  For asNumericDF:  lapply(x, 1-4), then order the rows
 }
 \value{
   all numeric data.frame

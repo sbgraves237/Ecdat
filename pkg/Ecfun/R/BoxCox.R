@@ -6,11 +6,11 @@ BoxCox <- function(y, lambda, rescale=TRUE, na.rm=rescale){
   la <- lambda[1]
   if(length(lambda)<2){
     y0 <- 0
-    sgn.y <- sign(y)
+    sgn.y <- sign(y, 1)
     lay <- log(abs(y))
   } else {
     y0 <- lambda[2]  
-    sgn.y <- sign(y+lambda[2])
+    sgn.y <- sign(y+lambda[2], 1)
     lay <- log(abs(y+lambda[2]))
   }
 ##
@@ -26,23 +26,23 @@ BoxCox <- function(y, lambda, rescale=TRUE, na.rm=rescale){
 ## 3.  BoxCox
 ##
   laly <- lambda[1]*lay 
-  bc <- (sgn.y*expm1(laly)+(sgn.y-1))/la
+#  bc <- (sgn.y*expm1(laly)+(sgn.y-1))/la
+  bc <- (sgn.y*expm1(laly))/la
+  bc[sgn.y<0] <- (bc[sgn.y<0]-(2/la))
   smy <- (abs(laly)<eps)
   if(any(smy)){
-#   finite Tayor approx to expm1(la*ly)/ly     
+#   finite Tayor approx to expm1(la*ly)/ly  
+# =     
 # = sgn.y*ly*(1+(laly/2)*(1+(laly/3)*(1+(laly/4)*(1+...))))
 #        + (sgn.y-1)/la}
-#    bs <- 1
     lasm <- laly[smy]
-#    for(j in 8:1){
-#      bs <- (1+(lasm/j)*bs)      
-#    }
-#    bs. <- (sgn.y[smy]*ly[smy]*bs + (sgn.y[smy]-1)/la) 
     bs <- lasm/8
     for(j in 7:2){
       bs <- (bs+1)*lasm/j
     }
-    bs. <- (sgn.y[smy]*lay[smy]*(bs+1) + (sgn.y[smy]-1)/la) 
+#    bs. <- (sgn.y[smy]*lay[smy]*(bs+1) + (sgn.y[smy]-1)/la) 
+    bs. <- sgn.y[smy]*lay[smy]*(bs+1) 
+    bs.[sgn.y[smy]<0] <- (bs.[sgn.y[smy]<0] - (2/la))
     bc[smy] <- bs.
   }
 ##
