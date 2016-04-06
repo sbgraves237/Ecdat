@@ -336,7 +336,7 @@ sqrt(mean(EWMA1.KFS$v^2))
 
 As noted above, because log(1+x) is approximately x when x is small, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.
 
-A more widely used measure of goodness of fit is the [log(likelihood)](https://en.wikipedia.org/wiki/Likelihood_function) or [logLik]https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html).  We can compute such as follows:
+A more widely used measure of goodness of fit is the [log(likelihood)](https://en.wikipedia.org/wiki/Likelihood_function) or [logLik](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html).  We can compute such as follows:
 
 ```{r}
 logLik(EWMA1fit$model)

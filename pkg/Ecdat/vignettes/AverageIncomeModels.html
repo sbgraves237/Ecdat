@@ -10,7 +10,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-03-27" />
+<meta name="date" content="2016-04-05" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-03-27</em></h4>
+<h4 class="date"><em>2016-04-05</em></h4>
 </div>
 
 
@@ -93,6 +93,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We start by plotting the <a href="http://measuringworth.com/">MeasuringWorth</a> estimates of average annual income in the US (adjusted for inflation) from 1790 to 2014:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Ecdat)</code></pre></div>
 <pre><code>## Loading required package: Ecfun</code></pre>
+<pre><code>## 
+## Attaching package: 'Ecfun'</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     sign</code></pre>
 <pre><code>## 
 ## Attaching package: 'Ecdat'</code></pre>
 <pre><code>## The following object is masked from 'package:datasets':
@@ -421,7 +426,7 @@ EWMA1fmla &lt;-<span class="st"> </span><span class="kw">log</span>(realGDPperCa
 <span class="kw">sqrt</span>(<span class="kw">mean</span>(EWMA1.KFS$v^<span class="dv">2</span>))</code></pre></div>
 <pre><code>## [1] 0.04568241</code></pre>
 <p>As noted above, because log(1+x) is approximately x when x is small, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.</p>
-<p>A more widely used measure of goodness of fit is the <a href="https://en.wikipedia.org/wiki/Likelihood_function">log(likelihood)</a> or [logLik]<a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html" class="uri">https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html</a>). We can compute such as follows:</p>
+<p>A more widely used measure of goodness of fit is the <a href="https://en.wikipedia.org/wiki/Likelihood_function">log(likelihood)</a> or <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html">logLik</a>. We can compute such as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA1fit$model)</code></pre></div>
 <pre><code>## [1] 372.9323</code></pre>
 <p>Unfortunately, with state-space modeling, multiple likelihoods have been defined with different uses for different purposes. <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik.SSModel</a> can return optionally two different numbers: the diffuse (REML) and marginal log(likelihoods). As explained in <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">help(logLik.SSModel)</a>, “As KFAS is based on diffuse initialization, the likelihood is also diffuse, which coincides with restricted likelihood (REML) in appropriate (mixed) models. However, in typical REML estimation constant term log|X’X| is omitted from the log-likelihood formula. Similar term is also missing in diffuse likelihood formulations, but unlike in simpler linear models this term is not necessarily constant.” For example, if the dimensionality of the state space is increased but the new state does not actually fit better, the default diffuse <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> could actually decrease, defying the logic that the maximum logLik for a larger model should be larger. This logical inconsistency is avoided by using the marginal likelihood, obtained via <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik(…, marginal=TRUE)</a>. We compute the latter as follows:</p>
