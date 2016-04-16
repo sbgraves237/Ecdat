@@ -9,15 +9,23 @@
   number of values in its range and all other variables
   constant.  
   
-  If \code{x} is numeric, the output 
-  with 
-  one numeric variable \code{x} adopting \code{n} values 
-  in the \code{\link{range}}(x) and all other numeric 
-  variables at their \code{\link{median}} and 
-  \code{\link{factor}}s at their most common values.  
-  
+  If \code{\link{canbeNumeric}}(x) is TRUE, the output 
+  with has \code{x} adopting \code{n} values in the 
+  \code{\link{range}}(x) and all other numeric 
+  variables at their \code{\link{median}} and other
+  variables at their most common values.  
+
+  If \code{\link{canbeNumeric}}(x) is FALSE, the output 
+  with has \code{x} adopting all possible values of 
+  \code{x} with all other variables at the same 
+  constant values as when \code{\link{canbeNumeric}}(x) 
+  is TRUE (and \code{n} is ignored).  If \code{x} has a 
+  \code{\link{levels}} attribute, the possible values 
+  are defined by that \code{\link{levels}} attribute.  
+  Otherwise, it is defined by \code{\link{unique}}(x).  
+
   This is designed to create a new \code{\link{data.frame}}
-  to be used as input to \code{\link{predict}}.  
+  to be used as \code{newdata} for \code{\link{predict}}.  
 }
 \usage{
 Newdata(data, x, n=31, na.rm=TRUE)
@@ -32,7 +40,8 @@ Newdata(data, x, n=31, na.rm=TRUE)
   \item{n}{
     a \code{\link{integer}} indicating the number 
     of equally spaced values of \code{x} to 
-    generate.  
+    generate if  \code{\link{canbeNumeric}}(x) is
+    TRUE;  ignored otherwise.  
   }
   \item{na.rm}{
     \code{\link{logical}} passed to 
@@ -40,22 +49,25 @@ Newdata(data, x, n=31, na.rm=TRUE)
   }
 }
 \details{
-  1.  x.rng <- range(data[, x], na.rm=na.rm)
+  1.  Check data, x.  
 
-  2.  newDat <- data[rep(1, n), ]
+  2.  If \code{\link{canbeNumeric}}(x) is TRUE, 
+  let \code{xNew} be \code{n} values spanning 
+  \code{\link{range}}(x).  Else, let 
+  \code{xNew} <- \code{\link{levels}}(x).  
   
-  3.  newDat[, x] <- seq(x.rng[1], x.rng[2], length=n)
+  3.  If \code{\link{is.null}}(xNew), set it to 
+  \code{\link{sort}}(\code{\link{unique}}(x)).  
   
-  4.  vars <- names(data)
-  
-  5.  otherVars <- vars[!(vars == x)]
-  
+  4.  let newDat <- data[rep(1, n), ], and 
+  replace \code{x} by xNew.  
+
+  5.  otherVars <- colnames(data) != x
+
   6.  for(x2 in otherVars){replace newDat[, x2]:  
-  if x2 is character or has a 'levels' attribute:  
-    first most common value 
-  else if as.numeric(x2) does not create new NAs, 
-    median(x2) else most common value.  
-    }
+  If \code{\link{canbeNumeric}}(x2) is TRUE, 
+  use \code{\link{median}}(x2).  Otherwise, 
+  use its (first) most common value.}  
 }
 \value{
   A \code{\link{data.frame}} with \code{n}
@@ -91,21 +103,40 @@ newD <- data.frame(x1=2.5,
 \dontshow{stopifnot(}
 all.equal(newDat, newD)
 \dontshow{)}
+
 ##
 ## 2.  Test with only one column 
 ##
 newDat1 <- Newdata(tstDF[, 2, drop=FALSE], 'xDate', n=5)
+
+# check 
 \dontshow{stopifnot(}
 all.equal(newDat1, newD[, 2, drop=FALSE])
 \dontshow{)}
+
 ##
-## 3.  Test with an integer column number 
+## 3.  Test with a factor 
+##
+newSex <- Newdata(tstDF, 'sex')
+
+# check 
+newS <- with(tstDF, data.frame(
+  x1=2.5, xDate=xDate[1]+1.5, 
+  xD2=as.POSIXct(xDate[1]+1.5), 
+  sex=ordered(c('M', 'F'))[2:1], 
+  huh=letters[3], stringsAsFactors=FALSE) )
+\dontshow{stopifnot(}
+all.equal(newSex, newS)
+\dontshow{)}
+
+##
+## 4.  Test with an integer column number 
 ##
 newDat2 <- Newdata(tstDF, 2, n=5)
+
+# check 
 \dontshow{stopifnot(}
 all.equal(newDat2, newD)
 \dontshow{)}
-
-
 }
-\keyword{aplot}
+\keyword{manip}
