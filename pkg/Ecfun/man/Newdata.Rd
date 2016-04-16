@@ -74,11 +74,11 @@ tstDF <- data.frame(x1=1:4, xDate=xDate,
   sex=ordered(c('M', 'F', 'M', 'F')), 
   huh=letters[c(1:3, 3)], stringsAsFactors=FALSE)
 
-newDat <- Newdata(tstDF, 'x1', n=5)
+newDat <- Newdata(tstDF, 'xDate', n=5)
 
 # check
-newD <- data.frame(x1=seq(1, 4, length=5), 
-  xDate=xDate[2]+0.5, 
+newD <- data.frame(x1=2.5, 
+  xDate=xDate[1]+seq(0, 3, length=5), 
   xD2=as.POSIXct(xDate[2]+0.5), 
   sex=ordered(c('M', 'F', 'M', 'F'))[2], 
   huh=letters[3], stringsAsFactors=FALSE)
@@ -88,10 +88,18 @@ all.equal(newDat, newD)
 ##
 ## 2.  Test with only one column 
 ##
-newDat1 <- Newdata(tstDF[, 1, drop=FALSE], 'x1', n=5)
+newDat1 <- Newdata(tstDF[, 2, drop=FALSE], 'xDate', n=5)
 \dontshow{stopifnot(}
-all.equal(newDat1, newD[, 1, drop=FALSE])
+all.equal(newDat1, newD[, 2, drop=FALSE])
 \dontshow{)}
+##
+## 3.  Test with an integer column number 
+##
+newDat2 <- Newdata(tstDF, 2, n=5)
+\dontshow{stopifnot(}
+all.equal(newDat2, newD)
+\dontshow{)}
+
 
 }
 \keyword{aplot}

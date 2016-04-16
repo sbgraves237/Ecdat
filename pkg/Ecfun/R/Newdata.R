@@ -1,24 +1,33 @@
 Newdata <- function(data, x, n=31, na.rm=TRUE){
 ##
-## 1.  x.rng
+## 1.  check data, x
+##
+  if(length(x) != 1)
+    stop('length(x) must be 1; is ', length(x))
+  if(is.numeric(x))x <- colnames(data)[x]
+  vars <- colnames(data)
+  if(!(x %in% vars))
+    stop('x = ', x, ' not in colnames(data) = ', 
+         paste(vars, collapse=', '))
+##
+## 2.  x.rng
 ##
   x.rng <- range(data[, x], na.rm=na.rm)
 ##  
-##  2.  newDat 
+## 3.  newDat 
 ##
   newDat <- data[rep(1, n), , drop=FALSE]
-  row.names(newDat) <- NULL
+  rownames(newDat) <- NULL
 ##  
-##  3.  newDat[, x] 
+## 4.  newDat[, x] 
 ##
   newDat[, x] <- seq(x.rng[1], x.rng[2], length=n)
 ##
-## 4, 5.  otherVars 
+## 5, 6.  otherVars 
 ##
-  vars <- names(data)
   otherVars <- vars[!(vars == x)]
 ##
-## 6.  Replace otherVars as desired
+## 7.  Replace otherVars as desired
 ##
   for(x2 in otherVars){
     if(is.character(data[, x2])){
@@ -39,5 +48,8 @@ Newdata <- function(data, x, n=31, na.rm=TRUE){
     attributes(x2m) <- attributes(data[, x2])
     newDat[, x2] <- x2m
   }
+##
+## 8.  done 
+##  
   newDat
 }
