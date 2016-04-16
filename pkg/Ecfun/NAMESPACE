@@ -3,7 +3,8 @@
 ## Quick and dirty: {just to confirm that it is sufficient}
 
 export(Arrows, as.Date1970, asNumericChar, asNumericDF, 
-       BoxCox, camelParse, checkNames, classIndex, 
+       BoxCox, 
+       canbeNumeric, camelParse, checkNames, classIndex, 
        compareLengths, countByYear, countsByYear, 
        createMessage, createX2matchY, 
        dateCols, Date3to1, Dates3to1, 

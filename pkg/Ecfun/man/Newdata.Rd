@@ -4,7 +4,13 @@
   Create a new data.frame varying one numeric variable 
 }
 \description{
-  Generate a new \code{\link{data.frame}} from another with 
+  Generate a new \code{\link{data.frame}} from another 
+  with one variable \code{x} adopting an appropriate 
+  number of values in its range and all other variables
+  constant.  
+  
+  If \code{x} is numeric, the output 
+  with 
   one numeric variable \code{x} adopting \code{n} values 
   in the \code{\link{range}}(x) and all other numeric 
   variables at their \code{\link{median}} and 
