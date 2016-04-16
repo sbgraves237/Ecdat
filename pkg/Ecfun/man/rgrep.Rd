@@ -7,7 +7,9 @@
   Find which pattern matches x.  
 }
 \usage{
-rgrep(pattern, x)
+rgrep(pattern, x, ignore.case = FALSE, perl = FALSE, 
+  value = FALSE, fixed = FALSE, useBytes = FALSE, 
+  invert = FALSE)
 }
 \arguments{
   \item{pattern}{
@@ -17,6 +19,9 @@ rgrep(pattern, x)
   \item{x}{
     a \code{\link{character}} string or vector for which a 
     matching regular expression is desired.  
+  }
+  \item{ignore.case, perl, value, fixed, useBytes, invert}{
+    as for \code{\link{grep}}   
   }
 }
 \details{
@@ -43,6 +48,9 @@ rgrep(pattern, x)
 }
 %\references{}
 \examples{
+##
+## 1.  return index 
+##
 dd <- data.frame(a = gl(3,4), b = gl(4,1,12)) # balanced 2-way
 mm <- model.matrix(~ a + b, dd)
 
@@ -51,5 +59,14 @@ b. <- rgrep(names(dd), colnames(mm)[5])
 \dontshow{stopifnot(}
 all.equal(b., 2)
 \dontshow{)}
+##
+## 2.  return value 
+##
+bv <- rgrep(names(dd), colnames(mm)[5], value=TRUE)
+# check 
+\dontshow{stopifnot(}
+all.equal(bv, 'b')
+\dontshow{)}
 }
+
 \keyword{aplot}

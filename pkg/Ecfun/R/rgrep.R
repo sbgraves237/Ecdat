@@ -1,4 +1,6 @@
-rgrep <- function(pattern, x){
+rgrep <- function(pattern, x, ignore.case = FALSE, 
+      perl = FALSE, value = FALSE, fixed = FALSE, 
+      useBytes = FALSE, invert = FALSE){
 ##
 ## 1, 2:  np & g.
 ##
@@ -8,11 +10,15 @@ rgrep <- function(pattern, x){
 ## 3.  for each pattern
 ##
   for(i in seq(length=np)){
-    g.[i] <- (length(grep(pattern[i], x))>0) 
+    gi <- grep(pattern[i], x, ignore.case = ignore.case, 
+        perl = perl, value = value, fixed = fixed, 
+               useBytes = useBytes, invert = invert)
+    g.[i] <- (length(gi)>0) 
   }
 ##
 ## 3.  done 
 ##
-  return(which(g.))
-  
+  if(value){
+    return(pattern[g.])
+  } else return(which(g.))
 }
