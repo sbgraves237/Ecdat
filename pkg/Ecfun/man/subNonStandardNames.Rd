@@ -109,6 +109,7 @@ subNonStandardNames(x,
   \code{\link{sub}}
   \code{\link[Ecdat]{nonEnglishNames}}
   \code{\link{subNonStandardCharacters}}
+  \code{\link[tis]{stripBlanks}}
 }
 %\references{}
 \examples{

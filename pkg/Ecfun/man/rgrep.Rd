@@ -44,7 +44,8 @@ rgrep(pattern, x, ignore.case = FALSE, perl = FALSE,
   Spencer Graves
 }
 \seealso{
-  \code{\link{grep}}
+  \code{\link{grep}}, 
+  \code{\link{pmatch}}
 }
 %\references{}
 \examples{

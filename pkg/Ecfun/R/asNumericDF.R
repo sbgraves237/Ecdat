@@ -5,8 +5,9 @@ asNumericChar <- function(x){
   X <- x
   if(is.factor(x))x <- as.character(X)
 ##
-## 1.  Delete leading $ 
+## 1.  Delete leading blanks and $ 
 ##
+  x <- tis::stripBlanks(x)
   dol <- grep('^\\$', x)
   x[dol] <- sub('^\\$', '', x[dol])
 ##

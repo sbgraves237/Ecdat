@@ -6,7 +6,8 @@
 }
 \description{
   Delete a leading dollar sign plus commas (thousand separators)
-  and drop information after a blank, then coerce to numeric.  
+  and drop information after a blank (other than leadng blanks), 
+  then coerce to numeric.  
   
   For a \code{\link{data.frame}}, apply to all columns, drop 
   non-numeric columns, and order the rows by the \code{orderBy}.  
@@ -68,6 +69,7 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy=NA)
   \code{\link{scan}}
   \code{\link{gsub}}
   \code{\link{Quotes}}
+  \code{\link[tis]{stripBlanks}}
 }
 %\references{}
 \examples{
@@ -75,7 +77,7 @@ asNumericDF(x, keep=function(x)any(!is.na(x)), orderBy=NA)
 ## 1.  simple example 
 ##
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
-                     q1=c('1,234', ''), duh=rep(NA, 2), 
+                     q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
                      dol=c('$1,234', ''), 
                      pct=c('1\%', '2\%'))
 nF1 <- asNumericDF(fakeF1)
