@@ -93,8 +93,8 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     if(length(xnNewNA)>0){
       msg0 <- paste0('NAs introduced by coercion ', 
          'in asNumericChar(c(' )
-      if(length(xnNewNA)>3){
-        msg1 <- paste0(msg0, paste(xnNewNA[1:3], collapse=', '), 
+      if(length(xnNewNA)>4){
+        msg1 <- paste0(msg0, paste(xnNewNA[1:4], collapse=', '), 
                        ', ...')
       } else {
         msg1 <- paste0(msg0, paste(xnNewNA, collapse=', '))
