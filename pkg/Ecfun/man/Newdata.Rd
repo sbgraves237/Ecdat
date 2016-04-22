@@ -1,14 +1,15 @@
 \name{Newdata}
 \alias{Newdata}
 \title{
-  Create a new data.frame varying one numeric variable 
+  Create a new data.frame for predict 
 }
 \description{
-  Generate a new \code{\link{data.frame}} from another 
-  with one variable \code{x} adopting an appropriate 
-  number of values in its range and all other variables
+  Generate a new \code{\link{data.frame}} or 
+  \code{\link{matrix}} from another with column(s) 
+  selected by \code{x} adopting \code{n} values in 
+  \code{range(data[,x])} and all other columns 
   constant.  
-  
+
   If \code{\link{canbeNumeric}}(x) is TRUE, the output 
   with has \code{x} adopting \code{n} values in the 
   \code{\link{range}}(x) and all other numeric 
@@ -28,20 +29,31 @@
   to be used as \code{newdata} for \code{\link{predict}}.  
 }
 \usage{
-Newdata(data, x, n=31, na.rm=TRUE)
+Newdata(data, x, n, na.rm=TRUE)
 }
 \arguments{
   \item{data}{
-    a \code{\link{data.frame}}
+    a \code{\link{data.frame}} or matrix.  
   }
   \item{x}{
-    name of a column of \code{data}
+    name of a column of \code{data}.  If \code{NA} or 
+    \code{NULL}, select all columns of \code{data}.  
   }
   \item{n}{
-    a \code{\link{integer}} indicating the number 
-    of equally spaced values of \code{x} to 
-    generate if  \code{\link{canbeNumeric}}(x) is
-    TRUE;  ignored otherwise.  
+    an \code{\link{integer}} vector indicating 
+    the number of levels of \code{data[, x]} if 
+    \code{canbeNumeric(datat[, x])}.  If 
+    \code{canbeNumeric(datat[, x])} is \code{FALSE}, 
+    take at most \code{n} of the most popular levels.    
+    
+    Default is 2 if \code{length(x)} > 1 or if 
+    \code{x} is either NA or NULL.  
+    
+    If n = 1, use the median for 
+    \code{canbeNumeric} and the most popular level
+    otherwise.  
+    
+    If n < 1, drop that variable.  
   }
   \item{na.rm}{
     \code{\link{logical}} passed to 
@@ -100,6 +112,7 @@ newD <- data.frame(x1=2.5,
   xD2=as.POSIXct(xDate[2]+0.5), 
   sex=ordered(c('M', 'F', 'M', 'F'))[2], 
   huh=letters[3], stringsAsFactors=FALSE)
+attr(newD, 'out.attrs') <- attr(newDat, 'out.attrs')
 \dontshow{stopifnot(}
 all.equal(newDat, newD)
 \dontshow{)}
@@ -110,8 +123,10 @@ all.equal(newDat, newD)
 newDat1 <- Newdata(tstDF[, 2, drop=FALSE], 'xDate', n=5)
 
 # check 
+newDat1. <- newD[, 2, drop=FALSE]
+attr(newDat1., 'out.attrs') <- attr(newDat1, 'out.attrs')
 \dontshow{stopifnot(}
-all.equal(newDat1, newD[, 2, drop=FALSE])
+all.equal(newDat1, newDat1.)
 \dontshow{)}
 
 ##
@@ -125,6 +140,7 @@ newS <- with(tstDF, data.frame(
   xD2=as.POSIXct(xDate[1]+1.5), 
   sex=ordered(c('M', 'F'))[2:1], 
   huh=letters[3], stringsAsFactors=FALSE) )
+attr(newS, 'out.attrs') <- attr(newSex, 'out.attrs')
 \dontshow{stopifnot(}
 all.equal(newSex, newS)
 \dontshow{)}
@@ -137,6 +153,23 @@ newDat2 <- Newdata(tstDF, 2, n=5)
 # check 
 \dontshow{stopifnot(}
 all.equal(newDat2, newD)
+\dontshow{)}
+
+##
+## 5.  Test with all
+##
+NewAll <- Newdata(tstDF)
+
+# check 
+tstLvls <- as.list(tstDF[c(1, 4), ])
+tstLvls$sex <- tstDF$sex[2:1]
+tstLvls$huh <- letters[c(3, 1)]
+tstLvls$stringsAsFactors <- FALSE
+
+NewA. <- do.call(expand.grid, tstLvls)
+attr(NewA., 'out.attrs') <- attr(NewAll, 'out.attrs')
+\dontshow{stopifnot(}
+all.equal(NewAll, NewA.)
 \dontshow{)}
 }
 \keyword{manip}
