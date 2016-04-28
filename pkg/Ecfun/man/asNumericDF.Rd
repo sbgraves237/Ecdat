@@ -8,10 +8,8 @@
   For \code{asNumericChar}, delete leading blanks and a 
   leading dollar sign plus commas (thousand separators) 
   and drop information after a blank (other than leadng 
-  blanks), then coerce to numeric.  
-  
-  or 
-  factors, Dates, or POSIXct as desired.  
+  blanks), then coerce to numeric or to factors, Dates, 
+  or POSIXct as desired.  
   
   For a \code{\link{data.frame}}, apply to all columns
   and drop non-numeric columns except those in 
@@ -86,6 +84,11 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     \code{\link{as.Date}} and / or 
     \code{\link{as.POSIXct}} for conversion 
     from \code{\link{character}}.  
+    
+    For \code{Dates}, \code{\link{as.Date}} is 
+    first tried with format = '\%Y-\%m-\%d', then 
+    with '\%Y/\%m/\%d', '\%m-\%d-\%Y', and 
+    '\%m/\%d/\%Y'.  
   }
 }
 \details{
@@ -141,12 +144,12 @@ for asNumericDF:
 xDate <- as.Date('1970-01-01')+c(0, 365)
 xPOSIX <- as.POSIXct(xDate)+c(1, 99)
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
-                     q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
-                     dol=c('$1,234', ''), 
-                     pct=c('1\%', '2\%'), 
-                     xDate=as.character(xDate), 
-                     xPOSIX=as.character(xPOSIX), 
-                     junk=c('this is','junk'))
+            q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
+            dol=c('$1,234', ''), 
+            pct=c('1\%', '2\%'), 
+            xDate=as.character(xDate, format='\%m-\%d-\%Y'), 
+            xPOSIX=as.character(xPOSIX), 
+            junk=c('this is','junk'))
 # This converts the last 3 columns to NAs and drops them:                       
 nF1 <- asNumericDF(fakeF1)
 nF2 <- asNumericDF(fakeF1, Dates='xDate', POSIX='xPOSIX', 

@@ -31,11 +31,11 @@ The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Gr
 
 `r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." `r Citet(bib2, "Pollin2009")` report four alternatives that would produce more jobs than military spending:  Tax cuts for household consumption, clean energy, health care and education would produce 27, 47, 69 and 151 percent more jobs, respectively, than military spending.  
 
-Beyond this, the work of [Milton Friedman](https://en.wikipedia.org/wiki/Milton_Friedman) suggests that modeling like this should also consider [inflation](https://en.wikipedia.org/wiki/Inflation) and [unemployment](https://en.wikipedia.org/wiki/Unemployment).  
+Beyond this, the work of [Milton Friedman](https://en.wikipedia.org/wiki/Milton_Friedman) and others suggests that modeling like this should also consider [inflation](https://en.wikipedia.org/wiki/Inflation) and [unemployment](https://en.wikipedia.org/wiki/Unemployment).  
 
 Whatever the specific cause, the growth of the U.S. economy under [FDR](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt) before the war was not matched by that of any other president (not counting the negative record of [Herbert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  
 
-The best of the models we fit include a "Presidency" effect.  Models with a "war" effect failed to fit the data any better than without any such effect.  However, these conclusions must be considered tentative, pending further research using other data.
+The best of the models we fit include a "Presidency" effect.  Models with a "war" effect failed to fit the data any better than without any such effect. However, these conclusions must be considered tentative, pending further research using other data and possibly other ways of modeling the macroeconomic impact of war.  
 
 # Initial Plots
 
@@ -325,37 +325,69 @@ The default behavior of [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fi
 EWMA1fit <- fitSSM(EWMA1mdl, inits=c(lnQ=0, lnH=0))
 ```
 
-There are several different measures for [goodness of fit](https://en.wikipedia.org/wiki/Goodness_of_fit) that can be used to compare alternative models -- or as initial values for weighting alternative models in [Bayesian Model Averaging](https://en.wikipedia.org/wiki/Ensemble_learning) or [Bayesian mixture modeling](https://en.wikipedia.org/wiki/Mixture_model.  
+Unfortunately, there are two standard likelihoods commonly used for time series programmed into KFAS:  diffuse and marginal.  By default, the [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) function maximizes the diffuse likelihood, because it's faster to compute and is optimized with the same parameter values in many cases.  However, if $Z_t$ or $T_t$ are functions of the unknown parameters, this may not be true;  see [logLik.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  In such cases, the marginal likelihood should be used.  
 
-Perhaps the simplest such measure to explain and compute is the [one-step ahead root mean square prediction error (rmse)](https://en.wikipedia.org/wiki/Root-mean-square_deviation).  These prediction errors are available as component "v" of the ouput from [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html):  
+In the examples considered here, neither $Z_t$ nor $T_t$ will vary with unknown parameters.  However, we will need the marginal likelihood, because it does not change with two different forumlations of the same model and the diffuse likelihood can change.  Thus, with nested models, the marginal likelihood should never be less for the larger model, but the diffuse likelihood might.  We will see that later.  
+
+For now, let's check this claim by maximizing the marginal likelihood:  
+
+```{r}
+EWMA1fitM <- fitSSM(EWMA1mdl, inits=EWMA1fit$optim.out$par, 
+                    marginal=TRUE)
+EWMA1fit$optim.out$par
+EWMA1fitM$optim.out$par
+logLik(EWMA1fit$model)
+logLik(EWMA1fitM$model, marginal=TRUE)
+```
+
+As expected.  
+
+`r Citet(bib2, "KFASarticle")` notes that the diffuse log-likelihood can be written as follows:  
+
+\begin{equation*}
+\begin{aligned}
+\log L_d  &= -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t},
+\end{aligned}
+\end{equation*}
+
+where
+
+\begin{equation*}
+w_{i,t} = \left\{ \begin{array}{ll}
+\log F_{\infty,i,t}, &\mbox{if $F_{\infty,i,t}>0$,} \\
+I(F_{i,t}>0)(\log2\pi + \log F_{i,t} + v^2_{i,t}F_{i,t}^{-1}), &\mbox{if $F_{\infty,i,t}=0$}, 
+\end{array} \right.
+\end{equation*}
+
+and $F_{\infty,i,t}>0$, $v^2_{i,t}$, and $F_{i,t}$ are components of the list output by [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html). Thus, we can manually compute the diffuse log likelihood as follows:
+
+```{r}
+EWMA1fit. <- KFS(EWMA1fit$model)
+nInf <- length(EWMA1fit.$Finf)
+N <- nrow(EWMA1fit.$model$y)
+i. <- (nInf+1):N
+-0.5*with(EWMA1fit., sum(log(Finf)) + (N-nInf)*log(2*pi) +
+            sum(log(F[i.]) + v[i.]^2/F[i.]) )
+```
+
+
+
+
+*** JOUNI:  I'd still like to manually compute the marginal log(likelihood), and I'm still struggling to figure this out.  
+
+
+
+
+We'd also like to compute the [one-step ahead root mean square prediction error (rmse)](https://en.wikipedia.org/wiki/Root-mean-square_deviation).  These prediction errors are available as component "v" of the ouput from [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html):  
 
 ```{r}
 EWMA1.KFS <- KFS(EWMA1fit$model)
 sqrt(mean(EWMA1.KFS$v^2))
 ```
 
-As noted above, because log(1+x) is approximately x when x is small, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.
+As noted above, log(1+x) is approximately x when x is small.  Therefore, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.
 
-A more widely used measure of goodness of fit is the [log(likelihood)](https://en.wikipedia.org/wiki/Likelihood_function) or [logLik](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html).  We can compute such as follows:
-
-```{r}
-logLik(EWMA1fit$model)
-```
-
-Unfortunately, with state-space modeling, multiple likelihoods have been defined with different uses for different purposes.   [logLik.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) can return optionally two different numbers:  the diffuse (REML) and marginal log(likelihoods).  As explained in [help(logLik.SSModel)](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html), "As KFAS is based on diffuse initialization, the likelihood is also diffuse, which coincides with restricted likelihood (REML) in appropriate (mixed) models. However, in typical REML estimation constant term log|X'X| is omitted from the log-likelihood formula. Similar term is also missing in diffuse likelihood formulations, but unlike in simpler linear models this term is not necessarily constant."  For example, if the dimensionality of the state space is increased but the new state does not actually fit better, the default diffuse [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) could actually decrease, defying the logic that the maximum logLik for a larger model should be larger.  This logical inconsistency is avoided by using the marginal likelihood, obtained via [logLik(..., marginal=TRUE)](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  We compute the latter as follows:  
-
-```{r}
-logLik(EWMA1fit$model, marginal=TRUE)
-```
-
-JOUNI:  HOW ARE THESE COMPUTED?  THE CODE IS IN FORTRAN, WHICH IS NOT EXPORTED WITH THE STANDARD install_github("helske/KFAS").  I tried to compute (7.4) from Durbin and Koopan (2012, p. 172), but didn't get the number reported for logLik(EWMA1fit$model):  
-
-```{r}
-with(EWMA1.KFS, -0.5*(N*log(2*pi) + sum(log(F[-1]))
-                      + sum((v[-1]^2)/F[-1]) ) )
-```
-
-Let's wrap these three goodness-of-fit measures in a fuction, so we can easily compute 3-number summary for subsequent model comparison:  
+Let's wrap these three goodness-of-fit measures in a fuction, so we can easily compute 3-number summary for subsequent model comparison:
 
 ```{r}
 logLik2 <- function(object, ...){
@@ -801,7 +833,7 @@ EWMA2pres2updt <- function(pars=EWMA2init, model=EWMA2pres1mdl,
 
 We now fit this model as follows:  
 
-```{r}
+#```{r}
 EWMA2pres2fit <- fitSSM(EWMA2pres2mdl, inits=EWMA2init, 
                         updatefn=EWMA2pres2updt) 
 logLiks[4, ] <- logLik2(EWMA2pres2fit)
@@ -812,7 +844,7 @@ This has a slightly better fit, as indicated by the increase in the log(likeliho
 
 We next compute and plot the smoothed estimate of the state vector, as before:  
 
-```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
+#```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
 EWMA2pres2.KFS <- KFS(EWMA2pres2fit$model)
 plotPresWars(EWMA2pres2.KFS$alphahat, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
@@ -821,7 +853,7 @@ plotPresWars(EWMA2pres2.KFS$alphahat,
 
 The slope here shows substantially more variability.  Let's look at it more closely:  
 
-```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
+#```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
 plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              ylab='slope')
@@ -830,7 +862,7 @@ abline(h=0)
 
 This strongly suggests that the Hoover administration was a statistical outlier, while FDR (with World War II) may or may not have been.  To investigate this further, let's look at the slope and it's variance for each president.  [help('KFS')](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) tells us that the "V" component is the covariance of "alphahat", given all the data (and the "P" and "Pinf" components are the non-diffuse and diffuse parts of the error covariance of the one-step ahead predicted states in "a").  Just to make sure we understand this correctly, let's plot "V":  
 
-```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
+#```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
 plotPresWars(GDP$Year, EWMA2pres2.KFS$V[2,2,], 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              type='l', ylab='smoothed slope variance')
@@ -838,7 +870,7 @@ plotPresWars(GDP$Year, EWMA2pres2.KFS$V[2,2,],
 
 This is plausibly constant within administration, which we would expect from specifying zero migration variance for the slope.  If this is correct, we would expect the "information" (i.e., reciprocal variance) to be proportional to the number of years in each presidency.  To confirm that, we compute the posterior variance and the number of years for each presidency:    
 
-```{r,fig.cap = "Slope, variance, and number of years for each presidency"}
+#```{r,fig.cap = "Slope, variance, and number of years for each presidency"}
 EWMA2pres2V <- tapply(EWMA2pres2.KFS$V[2,2,], 
                       GDP$executive, mean)
 EWMA2pres2n <- table(GDP$executive)
@@ -848,7 +880,7 @@ plot(as.numeric(EWMA2pres2n), 1/EWMA2pres2V,
 
 This looks like a straight line except for two points.  Who are those two?  
 
-```{r,fig.cap = "Posterior variance vs. number of years for each presidency, labeled"}
+#```{r,fig.cap = "Posterior variance vs. number of years for each presidency, labeled"}
 plot(as.numeric(EWMA2pres2n), 1/EWMA2pres2V, 
      xlab='Number of years', ylab='info = 1/(smoothed variance)')
 text(as.numeric(EWMA2pres2n), 1/EWMA2pres2V, 1:41)
@@ -858,7 +890,7 @@ Of course:  The two off the line are the first and last.
 
 Let's compute the slope and 95 percent confidence limits:  
 
-```{r,fig.cap = "Decoupled slope for each presidency"}
+#```{r,fig.cap = "Decoupled slope for each presidency"}
 EWMA2pres2pres <- tapply(EWMA2pres2.KFS$alphahat[, 'slope'], 
                          GDP$executive, mean)
 sz2 <- qnorm(.975)*sqrt(EWMA2pres2V)
@@ -1205,7 +1237,7 @@ EWMA2war1mdl$T <- war1T
 
 We also need a matching updatefn:  
 
-```{r}
+#```{r}
 EWMA2war1init <- c(EWMA2fit$optim.out$par, 
                 lnP1.33=0, lnP1.44=0, lnP1.34=0)
 EWMA2war1updt <- function(pars=EWMA2war1init, 
@@ -1231,7 +1263,8 @@ logLiks[1:7, ]
 This looks like more convergence problems.  
 
 Let's check to confirm we can get logLik(EWMA2fit\$model) as before:  
-```{r}
+
+#```{r}
 EWMA2war1init0 <- c(EWMA2fit$optim.out$par, 
                 lnP1.33=-999, lnP1.44=-999, lnP1.34=0)
 EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 

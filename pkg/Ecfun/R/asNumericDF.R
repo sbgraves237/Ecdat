@@ -68,13 +68,72 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     X[, f] <- factor(x[, f])
   }
   for(d in Dates){
-    X[, d] <- as.Date(x[, d], format)
+    dd <- try(as.Date(x[, d], format))
+    if(is(dd, 'try-error')){
+      dd1 <- try(as.Date(x[, d], '%m-%d-%Y'))
+      dd2 <- try(as.Date(x[, d], '%m/%d/%Y'))
+      if(is(dd1, 'try-error')){
+        if(is(dd2, 'try-error')){
+          msg <- paste0('Failed to convert date ', 
+            d, ' = ', x[1, d], ', ...')
+          stop(msg)
+        } else {
+          X[, d] <- dd2
+        } 
+      } else {
+        if(is(dd2, 'try-error')){
+          X[, d] <- dd1 
+        } else {
+          na1 <- sum(is.na(dd1))
+          na2 <- sum(is.na(dd2))
+          if(na1<na2){
+            X[, d] <- dd1
+          } else {
+            if(na1>na2){
+              X[, d] <- dd2   
+            } else {
+              d1. <- sum(abs(dd1 - as.Date1970(0)), na.rm=TRUE)
+              d2. <- sum(abs(dd2 - as.Date1970(0)), na.rm=TRUE)
+              if(d1.<d2.){
+                X[,d] <- dd1
+              } else X[, d] <- dd2
+            }
+          }
+        }
+      }
+    } else {
+      dd1 <- try(as.Date(x[, d], '%m-%d-%Y'))
+      dd2 <- try(as.Date(x[, d], '%m/%d/%Y'))
+      dl <- list(dd, dd1, dd2)
+      nad <- sapply(dl, function(x)sum(is.na(x)))
+      naMin <- which(nad==min(nad))
+      if(length(naMin)<2){
+        X[, d] <- dl[[naMin]]
+      } else {
+        dl. <- dl[naMin]
+        del <- sapply(dl., function(x){
+          sum(abs(x-as.Date1970(0)))
+        })
+        delMin <- which(del==min(del))
+        X[, d] <- dl.[[delMin[[1]]]]
+      }
+    }
   }
   for(p in POSIX){
     if(missing(format)){
-      X[, p] <- as.POSIXct(x[, p])
+      pp <- try(as.POSIXct(x[, p]))
+      if(is(pp, 'try-error')){
+        msgP <- paste0('Failed to convert POSIX ', 
+                      d, ' = ', x[1, d], ', ...')
+        stop(msgP)
+      } else X[, p] <- pp 
     } else {
-      X[, p] <- as.POSIXct(x[, p], format)
+      pp <- try(as.POSIXct(x[, p], format))
+      if(is(pp, 'try-error')){
+        msgP <- paste0('Failed to convert POSIX ', 
+                       d, ' = ', x[1, d], ', ...')
+        stop(msgP)
+      } else X[, p] <- pp 
     }
   }
 ##
