@@ -112,10 +112,12 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
       } else {
         dl. <- dl[naMin]
         del <- sapply(dl., function(x){
-          sum(abs(x-as.Date1970(0)))
+          sum(abs(x-as.Date1970(0)), na.rm=TRUE)
         })
         delMin <- which(del==min(del))
-        X[, d] <- dl.[[delMin[[1]]]]
+        if(length(delMin)<1){
+          X[, d] <- NA 
+        } else X[, d] <- dl.[[delMin[1]]]
       }
     }
   }

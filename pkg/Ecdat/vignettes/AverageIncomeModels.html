@@ -12,7 +12,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-04-26" />
+<meta name="date" content="2016-04-30" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-04-26</em></h4>
+<h4 class="date"><em>2016-04-30</em></h4>
 
 
 
@@ -426,8 +426,9 @@ EWMA1fmla &lt;-<span class="st"> </span><span class="kw">log</span>(realGDPperCa
 <p>The default behavior of <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> is to estimate the logarithms of these two variance. <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> requires us to provide starting values for log(Q) and log(H), in that order:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA1fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA1mdl, <span class="dt">inits=</span><span class="kw">c</span>(<span class="dt">lnQ=</span><span class="dv">0</span>, <span class="dt">lnH=</span><span class="dv">0</span>))</code></pre></div>
 <p>Unfortunately, there are two standard likelihoods commonly used for time series programmed into KFAS: diffuse and marginal. By default, the <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> function maximizes the diffuse likelihood, because it’s faster to compute and is optimized with the same parameter values in many cases. However, if <span class="math inline">\(Z_t\)</span> or <span class="math inline">\(T_t\)</span> are functions of the unknown parameters, this may not be true; see <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik.SSModel</a>. In such cases, the marginal likelihood should be used.</p>
-<p>To check this, let’s maximize the marginal likelihood:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA1fitM &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA1mdl, <span class="dt">inits=</span><span class="kw">c</span>(<span class="dt">lnQ=</span><span class="dv">0</span>, <span class="dt">lnH=</span><span class="dv">0</span>), 
+<p>In the examples considered here, neither <span class="math inline">\(Z_t\)</span> nor <span class="math inline">\(T_t\)</span> will vary with unknown parameters. However, we will need the marginal likelihood, because it does not change with two different forumlations of the same model and the diffuse likelihood can change. Thus, with nested models, the marginal likelihood should never be less for the larger model, but the diffuse likelihood might. We will see that later.</p>
+<p>For now, let’s check this claim by maximizing the marginal likelihood:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA1fitM &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA1mdl, <span class="dt">inits=</span>EWMA1fit$optim.out$par, 
                     <span class="dt">marginal=</span><span class="ot">TRUE</span>)
 EWMA1fit$optim.out$par</code></pre></div>
 <pre><code>##        lnQ        lnH 
@@ -439,24 +440,9 @@ EWMA1fit$optim.out$par</code></pre></div>
 <pre><code>## [1] 372.9323</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA1fitM$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## [1] 375.6403</code></pre>
-<p>There are several different measures for <a href="https://en.wikipedia.org/wiki/Goodness_of_fit">goodness of fit</a> that can be used to compare alternative models – or as initial values for weighting alternative models in <a href="https://en.wikipedia.org/wiki/Ensemble_learning">Bayesian Model Averaging</a> or [Bayesian mixture modeling](<a href="https://en.wikipedia.org/wiki/Mixture_model" class="uri">https://en.wikipedia.org/wiki/Mixture_model</a>.</p>
-<p>Perhaps the simplest such measure to explain and compute is the <a href="https://en.wikipedia.org/wiki/Root-mean-square_deviation">one-step ahead root mean square prediction error (rmse)</a>. These prediction errors are available as component “v” of the ouput from <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA1.KFS &lt;-<span class="st"> </span><span class="kw">KFS</span>(EWMA1fit$model)
-<span class="kw">sqrt</span>(<span class="kw">mean</span>(EWMA1.KFS$v^<span class="dv">2</span>))</code></pre></div>
-<pre><code>## [1] 0.04568241</code></pre>
-<p>As noted above, because log(1+x) is approximately x when x is small, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.</p>
-<p>A more widely used measure of goodness of fit is the <a href="https://en.wikipedia.org/wiki/Likelihood_function">log(likelihood)</a> or <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/logLik.html">logLik</a>. We can compute such as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA1fit$model)</code></pre></div>
-<pre><code>## [1] 372.9323</code></pre>
-<p>Unfortunately, with state-space modeling, multiple likelihoods have been defined with different uses for different purposes. <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik.SSModel</a> can return optionally two different numbers: the diffuse (REML) and marginal log(likelihoods). As explained in <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">help(logLik.SSModel)</a>, “As KFAS is based on diffuse initialization, the likelihood is also diffuse, which coincides with restricted likelihood (REML) in appropriate (mixed) models. However, in typical REML estimation constant term log|X’X| is omitted from the log-likelihood formula. Similar term is also missing in diffuse likelihood formulations, but unlike in simpler linear models this term is not necessarily constant.” For example, if the dimensionality of the state space is increased but the new state does not actually fit better, the default diffuse <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> could actually decrease, defying the logic that the maximum logLik for a larger model should be larger. This logical inconsistency is avoided by using the marginal likelihood, obtained via <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik(…, marginal=TRUE)</a>. We compute the latter as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(EWMA1fit$model, <span class="dt">marginal=</span><span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] 375.6403</code></pre>
+<p>As expected.</p>
 <p><a name="cite-KFASarticle"></a><a href="#bib-KFASarticle">Helske (2016b)</a> notes that the diffuse log-likelihood can be written as follows:</p>
-\begin{equation*}
-\begin{aligned}
-\log L_d  &amp;= -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t},
-\end{aligned}
-\end{equation*}
+<p><span class="math display">\[\log(L_d) = -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t} ,\]</span></p>
 <p>where</p>
 \begin{equation*}
 w_{i,t} = \left\{ \begin{array}{ll}
@@ -472,10 +458,12 @@ i. &lt;-<span class="st"> </span>(nInf<span class="dv">+1</span>):N
 -<span class="fl">0.5</span>*<span class="kw">with</span>(EWMA1fit., <span class="kw">sum</span>(<span class="kw">log</span>(Finf)) +<span class="st"> </span>(N-nInf)*<span class="kw">log</span>(<span class="dv">2</span>*pi) +
 <span class="st">            </span><span class="kw">sum</span>(<span class="kw">log</span>(F[i.]) +<span class="st"> </span>v[i.]^<span class="dv">2</span>/F[i.]) )</code></pre></div>
 <pre><code>## [1] 372.9323</code></pre>
-<p>JOUNI: HOW ARE THESE COMPUTED? THE CODE IS IN FORTRAN, WHICH IS NOT EXPORTED WITH THE STANDARD install_github(“helske/KFAS”). I tried to compute (7.4) from Durbin and Koopan (2012, p. 172), but didn’t get the number reported for logLik(EWMA1fit$model):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(EWMA1.KFS, -<span class="fl">0.5</span>*(N*<span class="kw">log</span>(<span class="dv">2</span>*pi) +<span class="st"> </span><span class="kw">sum</span>(<span class="kw">log</span>(F[-<span class="dv">1</span>]))
-                      +<span class="st"> </span><span class="kw">sum</span>((v[-<span class="dv">1</span>]^<span class="dv">2</span>)/F[-<span class="dv">1</span>]) ) )</code></pre></div>
-<pre><code>## [1] 372.0133</code></pre>
+<p>*** JOUNI: I’d still like to manually compute the marginal log(likelihood), and I’m still struggling to figure this out.</p>
+<p>We’d also like to compute the <a href="https://en.wikipedia.org/wiki/Root-mean-square_deviation">one-step ahead root mean square prediction error (rmse)</a>. These prediction errors are available as component “v” of the ouput from <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA1.KFS &lt;-<span class="st"> </span><span class="kw">KFS</span>(EWMA1fit$model)
+<span class="kw">sqrt</span>(<span class="kw">mean</span>(EWMA1.KFS$v^<span class="dv">2</span>))</code></pre></div>
+<pre><code>## [1] 0.04568241</code></pre>
+<p>As noted above, log(1+x) is approximately x when x is small. Therefore, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.</p>
 <p>Let’s wrap these three goodness-of-fit measures in a fuction, so we can easily compute 3-number summary for subsequent model comparison:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logLik2 &lt;-<span class="st"> </span>function(object, ...){
   ll2 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="dv">4</span>)

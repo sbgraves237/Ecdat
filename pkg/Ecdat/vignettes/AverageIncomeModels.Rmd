@@ -344,11 +344,7 @@ As expected.
 
 `r Citet(bib2, "KFASarticle")` notes that the diffuse log-likelihood can be written as follows:  
 
-\begin{equation*}
-\begin{aligned}
-\log L_d  &= -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t},
-\end{aligned}
-\end{equation*}
+$$\log(L_d) = -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t} ,$$
 
 where
 
