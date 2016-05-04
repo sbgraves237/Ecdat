@@ -23,13 +23,15 @@ asNumericChar <- function(x){
   x. <- sapply(x2, '[', 1)
 # set any blanks to NA so they don't convert to 0  
   xi <- which((!is.na(x1)) & x1=='')
-#  cat(length(xi), ' blanks found: ', 
-#      paste(xi, collapse=', ') )
+  cat(length(xi), ' blanks found: ', 
+      paste(xi, collapse=', ') )
   x.[xi] <- NA
   xo <- as.numeric(x.)
 ##
 ## 4.  rescale percents 
 ##
+  cat(length(pct), ' % found: ', 
+      paste(pct, collapse=', '))
   xo[pct] <- xo[pct]/100
   xo
 }
