@@ -9,7 +9,7 @@ Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr,
           knitr
 Imports:  fda, gdata, RCurl, XML, tis, jpeg, 
           MASS, TeachingDemos, stringi, methods
-Description: Functions to update datasets in Ecdat and to create,
+Description: Functions to update data sets in Ecdat and to create,
           manipulate, plot and analyze those and similar data sets.
 LazyData: true
 License: GPL (>=2)

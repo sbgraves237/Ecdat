@@ -150,7 +150,12 @@ fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
             xDate=as.character(xDate, format='\%m-\%d-\%Y'), 
             xPOSIX=as.character(xPOSIX), 
             junk=c('this is','junk'))
-# This converts the last 3 columns to NAs and drops them:                       
+# This converts the last 3 columns to NAs and drops them:   
+
+str(nF1.1 <- asNumericChar(fakeF1$yr))
+str(nF1.2 <- asNumericChar(fakeF1$q1))
+str(nF1.3 <- asNumericChar(fakeF1$duh))
+
 nF1 <- asNumericDF(fakeF1)
 nF2 <- asNumericDF(fakeF1, Dates='xDate', POSIX='xPOSIX', 
         ignore='junk')

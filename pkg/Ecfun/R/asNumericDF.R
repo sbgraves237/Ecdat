@@ -21,7 +21,7 @@ asNumericChar <- function(x){
   x1 <- gsub(',', '', x0)
   x2 <- strsplit(x1, ' ')
   x. <- sapply(x2, '[', 1)
-  x.[x1==''] <- NA
+  x.[which(x1=='')] <- NA
   xo <- as.numeric(x.)
 ##
 ## 4.  rescale percents 
@@ -148,6 +148,8 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
   numCols <- Names[!notNum]
   for(n in numCols){
     w0 <- options(warn=-1)
+#    cat(colnames(x)[n], ":")
+#    print(x[,n])
     xn <- asNumericChar(x[, n])
     options(warn=w0$warn)
     xnNewNA <- which(is.na(xn) & !is.na(x[, n]))
