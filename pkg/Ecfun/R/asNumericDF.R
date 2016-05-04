@@ -21,7 +21,11 @@ asNumericChar <- function(x){
   x1 <- gsub(',', '', x0)
   x2 <- strsplit(x1, ' ')
   x. <- sapply(x2, '[', 1)
-  x.[which(x1=='')] <- NA
+# set any blanks to NA so they don't convert to 0  
+  xi <- which((!is.na(x1)) & x1=='')
+#  cat(length(xi), ' blanks found: ', 
+#      paste(xi, collapse=', ') )
+  x.[xi] <- NA
   xo <- as.numeric(x.)
 ##
 ## 4.  rescale percents 
