@@ -2,13 +2,21 @@ asNumericChar <- function(x){
 ##
 ## 1.  Convert factors to character
 ## 
+#  print(x)
+  if(length(x)<1)return(x)
+  if(all(is.na(x)))return(x)
   X <- x
+#  print('local copy made')
   if(is.factor(x))x <- as.character(X)
+#  print('if(is.factor(x))...')
 ##
 ## 1.  Delete leading blanks and $ 
 ##
-  x <- tis::stripBlanks(x)
+  x[!is.na(x)] <- tis::stripBlanks(x[!is.na(x)])
+#  print(('tis::stripBlanks(x)'))
   dol <- grep('^\\$', x)
+#  cat(length(dol), ' $ found: ', 
+#      paste(dol, collapse=', '), '\n')
   x[dol] <- sub('^\\$', '', x[dol])
 ##
 ## 2.  find percent
@@ -23,15 +31,15 @@ asNumericChar <- function(x){
   x. <- sapply(x2, '[', 1)
 # set any blanks to NA so they don't convert to 0  
   xi <- which((!is.na(x1)) & x1=='')
-  cat(length(xi), ' blanks found: ', 
-      paste(xi, collapse=', ') )
+#  cat(length(xi), ' blanks found: ', 
+#      paste(xi, collapse=', '), '\n' )
   x.[xi] <- NA
   xo <- as.numeric(x.)
 ##
 ## 4.  rescale percents 
 ##
-  cat(length(pct), ' % found: ', 
-      paste(pct, collapse=', '))
+#  cat(length(pct), ' % found: ', 
+#      paste(pct, collapse=', '), '\n')
   xo[pct] <- xo[pct]/100
   xo
 }

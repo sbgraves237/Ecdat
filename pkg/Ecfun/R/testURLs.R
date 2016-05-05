@@ -15,7 +15,8 @@ testURLs <- function(urls=c(
       uNames <- sub('^http://', '', urls)
   N <- n*ku*maxFail
   elapsed.time <- Time <- urlOut <- rep(NA, N)
-  errorMsgs <- character(N)
+#  errorMsgs <- character(N)
+  errorMsgs <- rep('good', N)
   Read <- vector('list', ku)
   names(Read) <- uNames
 ##
