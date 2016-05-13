@@ -55,13 +55,13 @@ which(GDPna <- is.na(USGDPpresidents$realGDPperCapita))
 The only NAs are the first 33 observations.  Those contain data on other variables for years prior to 1790.  We won't use any of that data for this analysis.  Let's discard it:  
 
 ```{r}
-GDP <- USGDPpresidents[!GDPna,]
+GDP. <- USGDPpresidents[!GDPna,]
 ```
 
 Let's try that plot again, this time on a log scale with improved labeling:  
 
 ```{r,fig.cap = "real US GDP per capita (thousands of 2009 $)"}
-plot(realGDPperCapita/1000~Year, GDP, log='y', type='l',
+plot(realGDPperCapita/1000~Year, GDP., log='y', type='l',
      ylab='thousands of 2009 dollars', las=1, 
      main='Real US GDP per capita')     
 ```     
@@ -71,21 +71,21 @@ This plot suggests relatively steady growth from 1790 to 2014 with the exception
 The president is identified in an [ordered factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html), "executive", giving the names of the chief executive (president since 1790).  We need to drop the unused levels from the colonial period:  
 
 ```{r}
-GDP$executive <- ordered(GDP$executive)
-levels(GDP$executive)
+GDP.$executive <- ordered(GDP.$executive)
+levels(GDP.$executive)
 ```
 
 This [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) includes three variables for war.  The first is an [ordered factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html).  We need to drop the unused levels of "war", as we just did for "executive":  
 
 ```{r}
-GDP$war <- ordered(GDP$war)
-levels(GDP$war)
+GDP.$war <- ordered(GDP.$war)
+levels(GDP.$war)
 ```
 
 The next war variable is the number of "battleDeaths" for each war apportioned by the number of days in each year between the official start and end of each war.  However, it hardly makes sense to use this directly as a measure of the impact of the war on the economy, as the nation grew from 3.9 million souls in 1790 to 319 million in 2014.  Instead, we use battle deaths per million population:  
 
 ```{r,fig.cap = "Battle deaths per million population"}
-plot(battleDeathsPMP~Year, GDP, type='l',
+plot(battleDeathsPMP~Year, GDP., type='l',
      ylab='battle deaths per million pop', las=1, 
      main='Battle deaths during war')     
 ```     
@@ -99,9 +99,9 @@ This document first adds annotations to the above plot of realGDPperCapita then 
 We want a simple computation that will identify the exceptional period in the above plot.  First, let's compute the range:  
 
 ```{r}
-head(GDP, 1)
-tail(GDP, 1)
-range(GDP$realGDPperCapita)
+head(GDP., 1)
+tail(GDP., 1)
+range(GDP.$realGDPperCapita)
 ```
 
 It's common to work with log(dollars) rather than dollars directly.  This is obvious to many who work with finance but foreign to many others.  For the latter group, it's worth noting that a $500 drop in annual income would have been catastrophic in 1790, representing almost half the average income at the time.  However a similar $500 drop around 2014 would be hardly noticeable, being just under 1 percent of the 2014 average income.  Moreover, a small change in logarithms can be interpreted as percentage, since log(1+x) is approximately x when x is small (using [natural logarithms](https://en.wikipedia.org/wiki/Natural_logarithm)).  
@@ -109,7 +109,7 @@ It's common to work with log(dollars) rather than dollars directly.  This is obv
 We start looking for this exceptional period by computing the differences in log(real GDP per capita):  
 
 ```{r}
-difGDP <- diff(log(GDP$realGDPperCapita))
+difGDP <- diff(log(GDP.$realGDPperCapita))
 ```
 
 A run up or down *ends* where difGDP changes sign from one year to the next:  
@@ -128,11 +128,11 @@ GDPrun <- cumsum(chgSgn)
 We use [tapply](https://stat.ethz.ch/R-manual/R-devel/library/base/html/tapply.html) to identify the beginning and end of each run and to compute run length and total and average growth:  
 
 ```{r}
-yr0 <- head(GDP$Year, -1)
+yr0 <- head(GDP.$Year, -1)
 runStart <- tapply(yr0, GDPrun, min)
-yr1 <- tail(GDP$Year, -1)
+yr1 <- tail(GDP.$Year, -1)
 runEnd <- tapply(yr1, GDPrun, max)
-N <- nrow(GDP)
+N <- nrow(GDP.)
 runLength <- tapply(rep(1, N-1), GDPrun, sum)
 totGrowth <- tapply(difGDP, GDPrun, sum)
 avgGrowth <- tapply(difGDP, GDPrun, mean)
@@ -157,7 +157,7 @@ This gives us six runs, three of which occur in the period that jumps off the ab
 We label these points on the above plot:  
      
 ```{r,fig.cap = "Presidents & exceptional change in GDP"}
-plot(realGDPperCapita/1000~Year, GDP, type='l', log='y', 
+plot(realGDPperCapita/1000~Year, GDP., type='l', log='y', 
      main=paste0('US average annual income\n', 
                  '(GDP per capita)'), 
      ylab='thousands of 2009 dollars', las=1)     
@@ -169,10 +169,11 @@ text(1939.5, 30, 'FDR', srt=90, cex=1.1, col='blue')
 We also want to label the wars on the plot.  Since we'll want war labels on other plots, and since we used multiple lines of code to do it, we'll create a function to support this:  
 
 ```{r,fig.cap = "Function to plot presidents and wars"}
-plotPresWars <- function(x, ..., 
+plotPresWars <- function(x, Data, ..., 
      yHoover=0.8, yFDR=2, yWar=seq(1.7, by=-.1, len=9), 
      cex.war=0.67){
-  plot(x, ...)
+  X <- eval(substitute(x), Data)
+  plot(X, ...)
   abline(v=c(1929, 1933, 1945), lty='dashed')
   usr <- par('usr')
   Hy <- (usr[3]+yHoover*diff(usr[3:4]))
@@ -186,12 +187,12 @@ plotPresWars <- function(x, ...,
   y. <- seq(usr[3], usr[4], len=5)
   dy <- diff(y.[c(2,4)])
   y2.5 <- mean(y.[c(2,3)])
-  wars <- levels(GDP$war)
+  wars <- levels(Data$war)
   nWars <- length(wars)
   for(i in 2:nWars){
     w <- wars[i]
-    sel <- (GDP$war==w)
-    yrs <- range(GDP$Year[sel])
+    sel <- (Data$war==w)
+    yrs <- range(Data$Year[sel])
     abline(v=yrs, lty='dotted', col='grey')
     yr. <- mean(yrs)
     wy <- (y2.5 + yWar[i-1]*dy)
@@ -202,7 +203,7 @@ plotPresWars <- function(x, ...,
   invisible("done")
 }
 
-plotPresWars(GDP$realGDPperCapita/1000, log='y', 
+plotPresWars(realGDPperCapita/1000, GDP., log='y', 
              main=paste0('US average annual income\n', 
                          '(GDP per capita)'), 
              ylab='thousands of 2009 dollars', las=1) 
@@ -211,9 +212,10 @@ plotPresWars(GDP$realGDPperCapita/1000, log='y',
 This plot has problems.  Most importantly, the horizontal axis is labeled "Index" not "Year".  We can fix that by adding "Year" as the first argument to the call to [plot](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/plot.html).  A less obvious ways is to convert "realGDPperCapita" to an object of class [ts](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/ts.html):  
 
 ```{r,fig.cap = "Presidents, wars & change in GDP"}
+GDP <- GDP.
 GDP$realGDPperCapita <- ts(GDP$realGDPperCapita, 
                              GDP$Year[1])
-plotPresWars(GDP$realGDPperCapita/1000, log='y', 
+plotPresWars(realGDPperCapita/1000, GDP, log='y', 
              main=paste0('US average annual income\n', 
                          '(GDP per capita)'), 
              ylab='thousands of 2009 dollars', las=1) 
@@ -251,7 +253,7 @@ In the following, we shall consider seven different though related models:
 1 | EWMA1: Standard Bayesian EWMA | 1:level | | 2:lnQ, lnH
 2 | EWMA2: double EWMA | 2:level, slope | | 3:lnQ.lvl, lnQ.slope, lnH
 3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 3:lnQ.lvl, lnQ.slope, lnH 
-4 | EWMA2pres2: EWMA2 assuming no continuity in slope between presidents | 2:level, slope | Q, T | 3:lnQ.lvl, lnQ.slope, lnH 
+4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | 3:lnQ.lvl, lnQ.slope, lnH 
 5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH 
  | | | | |
 6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war0, war1 | T | 3:lnQ.lvl, lnQ.slope, lnH
@@ -344,7 +346,11 @@ As expected.
 
 `r Citet(bib2, "KFASarticle")` notes that the diffuse log-likelihood can be written as follows:  
 
-$$\log(L_d) = -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t} ,$$
+\begin{equation*}
+\begin{aligned}
+\log L_d  &= -\frac{1}{2}\sum^{n}_{t=1}\sum^{p_t}_{i=1}w_{i,t},
+\end{aligned}
+\end{equation*}
 
 where
 
@@ -358,32 +364,25 @@ I(F_{i,t}>0)(\log2\pi + \log F_{i,t} + v^2_{i,t}F_{i,t}^{-1}), &\mbox{if $F_{\in
 and $F_{\infty,i,t}>0$, $v^2_{i,t}$, and $F_{i,t}$ are components of the list output by [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html). Thus, we can manually compute the diffuse log likelihood as follows:
 
 ```{r}
-EWMA1fit. <- KFS(EWMA1fit$model)
-nInf <- length(EWMA1fit.$Finf)
-N <- nrow(EWMA1fit.$model$y)
+EWMA1.KFS <- KFS(EWMA1fit$model)
+nInf <- length(EWMA1.KFS$Finf)
+N <- nrow(EWMA1.KFS$model$y)
 i. <- (nInf+1):N
--0.5*with(EWMA1fit., sum(log(Finf)) + (N-nInf)*log(2*pi) +
+-0.5*with(EWMA1.KFS, sum(log(Finf)) + (N-nInf)*log(2*pi) +
             sum(log(F[i.]) + v[i.]^2/F[i.]) )
 ```
 
-
-
-
-*** JOUNI:  I'd still like to manually compute the marginal log(likelihood), and I'm still struggling to figure this out.  
-
-
-
+The marginal likelihood is harder to compute, and we'll skip it for now.  
 
 We'd also like to compute the [one-step ahead root mean square prediction error (rmse)](https://en.wikipedia.org/wiki/Root-mean-square_deviation).  These prediction errors are available as component "v" of the ouput from [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html):  
 
 ```{r}
-EWMA1.KFS <- KFS(EWMA1fit$model)
 sqrt(mean(EWMA1.KFS$v^2))
 ```
 
 As noted above, log(1+x) is approximately x when x is small.  Therefore, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.
 
-Let's wrap these three goodness-of-fit measures in a fuction, so we can easily compute 3-number summary for subsequent model comparison:
+Let's wrap these three goodness-of-fit measures in a fuction with the number of parameters estimated, so we can easily compute a 4-number summary for subsequent model comparison:
 
 ```{r}
 logLik2 <- function(object, ...){
@@ -399,17 +398,18 @@ logLik2 <- function(object, ...){
 }
 ```
 
-Let's create a matrix to store these numbers for the different models we'll fit:  
+Let's create a [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) to store these numbers for the different models we'll fit:  
 
 ```{r}
 mdls <- c('EWMA1', 'EWMA2', 'EWMA2pres1', 'EWMA2pres2', 
           'EWMA2pres3', 'EWMA2war0', 'EWMA2war1')
-logLiks <- matrix(NA, 7, 4, 
-  dimnames=list(mdls, 
-        c('pars', 'diffuse', 'marginal', 'rmse')) )
+n.mdls <- length(mdls)
+logLiks <- data.frame(npars=rep(NA, n.mdls), 
+      diffuse=rep(NA, n.mdls), marginal=rep(NA, n.mdls), 
+      rmse=rep(NA, n.mdls), row.names=mdls)
 ```
 
-Let's look at and store this "logLik2" summary for this first model:   
+Let's look at and store this "logLik2" summary for this first model:
 
 ```{r}
 logLiks[1, ] <- logLik2(EWMA1fit)
@@ -433,7 +433,7 @@ EWMA1pred <- predict(EWMA1fit$model, filtered = TRUE)
 Let's plot this vs. Presidents and wars:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, 
+plotPresWars(EWMA1.KFS$v, GDP, 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
@@ -442,7 +442,7 @@ abline(h=0)
 There are three negative spikes between 1900 and 1950.  Let's look closer at those:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, xlim=c(1900, 1950), 
+plotPresWars(EWMA1.KFS$v, GDP, xlim=c(1900, 1950), 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
@@ -451,7 +451,7 @@ abline(h=0)
 We understand the Hoover and post-WW II spikes.  Let's take a closer look at the 1908 spike:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, xlim=c(1900, 1910), 
+plotPresWars(EWMA1.KFS$v, GDP, xlim=c(1900, 1910), 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
@@ -472,7 +472,7 @@ depr1 <- with(GDP, (1927<=Year) & (Year <= 1948))
 GDP[depr1, c('Year', 'realGDPperCapita')]
 ```
 
-In spite of the [stock market crash that began on "black Thursday," Oct. 24, 1929](https://en.wikipedia.org/wiki/Wall_Street_Crash_of_1929), the average annual income in 1929 was almost 5 percent higher than in 1928.  Average annual income fell in 1930, so we'll start the exclusion period there.  We'll end the exclusion period in 1947, because the post-war recession ended then, as indicated by the fact that annual income in that year was less than in both 1946 and 1948:  
+In spite of the [stock market crash that began on "black Thursday," Oct. 24, 1929](https://en.wikipedia.org/wiki/Wall_Street_Crash_of_1929), the average annual income in 1929 was almost 5 percent higher than in 1928.  Average annual income fell in 1930, so we'll start the exclusion period there.  We'll end the exclusion period in 1947, because the post-war recession ended then, as indicated by the fact that annual income in that year was less than in both 1946 and 1948:
 
 ```{r}
 depr <- with(GDP, (1929<=Year)&(Year<=1947))
@@ -493,7 +493,7 @@ EWMA1.woDeprPred <- predict(EWMA1.woDeprFit$model,
 Now let's plot the predictions:  
 
 ```{r,fig.cap = "EWMA with 1929-1947 set to NA"}
-plotPresWars(GDP$realGDPperCapita/1000, log='y', 
+plotPresWars(realGDPperCapita/1000, GDP, log='y', 
              main=paste0("EWMA fit\n", 
                          'without the Great Depression'), 
              ylab='thousands of 2009 dollars', las=1, 
@@ -573,7 +573,7 @@ The RMSE at 0.043 is only slightly smaller than the root mean square prediction 
 Let's continue with twice the log(likelihood ratio):  
 
 ```{r}
-(EWMAlogLik2.1 <- 2*diff(logLiks[1:2,1]))
+(EWMAlogLik2.1 <- 2*diff(logLiks[1:2,2]))
 ```
 
 Unfortunately, as discussed above, the assumptions for Wilks's theorem do not apply here.  The standard recommendation would be to compute a p-value for this using Monte Carlo.  Before going to that trouble, we first try the modification suggested by `r Citet(bib2, "PinBates")`, mentioned above:  
@@ -601,8 +601,8 @@ EWMA2.KFS <- KFS(EWMA2fit$model)
 To help us understand this model, we plot the smoothed estimates of the state vector over time:  
 
 ```{r,fig.cap = "Estimated level and slope of GDP"}
-plotPresWars(EWMA2.KFS$alphahat, yHoover=0.38, yFDR=0.55, 
-             yWar=seq(.48, by=-.05, len=9), 
+plotPresWars(EWMA2.KFS$alphahat, GDP, yHoover=0.38, 
+             yFDR=0.55, yWar=seq(.48, by=-.05, len=9), 
              main=paste0('Double EWMA fit\n', 
                         'to USGDP per capita'), 
              cex.main=1.1)
@@ -619,24 +619,37 @@ The estimated slope is surprisingly constant, ranging only from 0.01704459 to 0.
 ```{r,fig.cap = "20-year running averages of the growth rate"}
 avgGrowth20 <- caTools::runmean(
         diff(log(GDP$realGDPperCapita)), 20)
-plotPresWars(GDP$Year[-1], avgGrowth20, type='l', 
-             yFDR=0.3, las=1, xlab='Year', 
+plotPresWars(Year[-1], avgGrowth20, Data=GDP, type='l', 
+             yFDR=0.2, las=1, xlab='Year', 
              ylab='20-year avg annual % growth', 
              main=paste0('Smoothed avg growth\n',
-                    'in annual income per capita') )
+                    'in annual income per capita'), 
+             yWar=seq(.8, by=-.1, len=9))
 abline(h=c(0, .02, .04))
 ```
 
-One might naively expect to see variability in alphahat[, 'slope'] closer to what we see in this plot.  Evidently, the maximum likelihood smoothing window is closer to 200 years than 20.  It would be helpful to examine profile likelihood plots over the smallest two estimated parameters, lnQ.slope and lnH, as discussed, e.g., with the help page for [plot.profile.nls](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/plot.profile.nls.html) and in the [lme4 vignette](https://cran.rstudio.com/web/packages/lme4/vignettes/lmer.pdf) `r AutoCite(bib2, "lme4vignette")` and see how the above plot of alphahat[, 'slope'] would change when increasing lnQ.slope to its upper 80 percent confidence limit.  We shall not pursue that here.  
+One might naively expect to see variability in alphahat[, 'slope'] closer to what we see in this plot.  Evidently, the maximum likelihood smoothing window is closer to 200 years than 20.  
+
+We see two possible explanations for this surprising stiffness:  
+
+  # The algorithm missed the global maximum of the likelihood function.  
+  # The data may be artificially smooth.  
+  
+To check the first, we could make contour plots of the log(likehood) surface in a sufficiently broad region.  To check the second, we could ask 
+
+Prof. Samual Williamson 
+
+It would be helpful to examine profile likelihood plots over the smallest two estimated parameters, lnQ.slope and lnH, as discussed, e.g., with the help page for [plot.profile.nls](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/plot.profile.nls.html) and in the [lme4 vignette](https://cran.rstudio.com/web/packages/lme4/vignettes/lmer.pdf) `r AutoCite(bib2, "lme4vignette")` and see how the above plot of alphahat[, 'slope'] would change when increasing lnQ.slope to its upper 80 percent confidence limit.  We shall not pursue that here.  
 
 As another evaluation of the fit during the FDR years, let's plot the one-step ahead prediction errors as before:  
 
 ```{r,fig.cap = "Double EWMA, Presidents and wars"}
-plotPresWars(EWMA2.KFS$v, type='l', 
+plotPresWars(EWMA2.KFS$v, GDP, type='l', 
      main='Double EWMA\nprediction errors', 
      ylab='log(2009 dollars)', 
      yHoover=.8, yFDR=0.1, 
-             yWar=seq(.7, by=-.12, len=9))     
+             yWar=seq(.7, by=-.12, len=9))   
+abline(h=0)
 ```
 
 Before proceeding with the next model, let's repeat the analysis with the Great Depression set to NA:  
@@ -647,7 +660,7 @@ EWMA2mdl.woDepr$y[depr] <- NA
 EWMA2.woDeprFit<-fitSSM(EWMA2mdl.woDepr, inits=EWMA2init)
 EWMA2.woDeprPred <- predict(EWMA2.woDeprFit$model, 
               interval='prediction', filtered=TRUE)
-plotPresWars(GDP$realGDPperCapita/1000, log='y', 
+plotPresWars(realGDPperCapita/1000, GDP, log='y', 
              main=paste0('Double EWMA fit\n', 
                          'without the Great Depression'), 
              ylab='thousands of 2009 dollars', las=1, 
@@ -740,7 +753,7 @@ EWMA2pres1updt <- function(pars=EWMA2init, model=EWMA2pres1mdl,
 } 
 ```
 
-We're now ready to call [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html):  
+We're now ready to call [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html): 
 
 ```{r}
 EWMA2pres1fit <- fitSSM(EWMA2pres1mdl, inits=EWMA2init, 
@@ -755,9 +768,9 @@ As before, we'll compute and plot the smoothed estimate of the state vector:
 
 ```{r,fig.cap = "Estimated level and slope of GDP for first President model"}
 EWMA2pres1.KFS <- KFS(EWMA2pres1fit$model)
-plotPresWars(EWMA2pres1.KFS$alphahat, yHoover=0.38, yFDR=0.59, 
-              yWar=seq(.48, by=-.05, len=9), 
-              main=paste0('Smoothed level and slope\n', 
+plotPresWars(EWMA2pres1.KFS$alphahat, GDP, yHoover=0.38, 
+             yFDR=0.59, yWar=seq(.48, by=-.05, len=9), 
+             main=paste0('Smoothed level and slope\n', 
                           'for first President model'), 
              cex.main=1.1)  
 ```
@@ -811,7 +824,12 @@ This says that only Q is time varying.  We just made T time varying and must cha
 attr(EWMA2pres2mdl, 'tv') <- c(Z=0L, H=0L, T=1L, R=0L, Q=1L)
 ```
 
-Formally at least, we have the same parameters to estimate as with EWMA2pres1.  However, we can set $P_{2,2,1}$ to match $Q_{2,2,t}$ for the last year of each presidency;  note that P1 = "num [1:2, 1:2, 1] 0 0 0 0" in "str(EWMA2mdl)" above.  
+Formally at least, we have the same parameters to estimate as with EWMA2pres1.  However, we can set $P_{2,2,1}$ to match $Q_{2,2,t}$ for the last year of each presidency;  note that P1 = "num [1:2, 1:2, 1] 0 0 0 0" in "str(EWMA2mdl)" above.  We also want to estimate the slope component of a1
+
+
+
+
+?????
 
 ```{r}
 EWMA2pres2updt <- function(pars=EWMA2init, model=EWMA2pres1mdl, 
@@ -842,7 +860,7 @@ We next compute and plot the smoothed estimate of the state vector, as before:
 
 #```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
 EWMA2pres2.KFS <- KFS(EWMA2pres2fit$model)
-plotPresWars(EWMA2pres2.KFS$alphahat, 
+plotPresWars(EWMA2pres2.KFS$alphahat, GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
              main='Decoupled presidents')
 ```
@@ -850,7 +868,7 @@ plotPresWars(EWMA2pres2.KFS$alphahat,
 The slope here shows substantially more variability.  Let's look at it more closely:  
 
 #```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
-plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], 
+plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              ylab='slope')
 abline(h=0)
@@ -859,7 +877,7 @@ abline(h=0)
 This strongly suggests that the Hoover administration was a statistical outlier, while FDR (with World War II) may or may not have been.  To investigate this further, let's look at the slope and it's variance for each president.  [help('KFS')](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) tells us that the "V" component is the covariance of "alphahat", given all the data (and the "P" and "Pinf" components are the non-diffuse and diffuse parts of the error covariance of the one-step ahead predicted states in "a").  Just to make sure we understand this correctly, let's plot "V":  
 
 #```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
-plotPresWars(GDP$Year, EWMA2pres2.KFS$V[2,2,], 
+plotPresWars(GDP$Year, EWMA2pres2.KFS$V[2,2,], GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              type='l', ylab='smoothed slope variance')
 ```

@@ -12,7 +12,7 @@
   standard GDP estimates from 1940 to 1945.  
   
   However, no comparable growth spurts for other wars catch 
-  the eye in a plot of log(GDP per capita) from 1790 to 2014, 
+  the eye in a plot of log(GDP per capita) from 1790 to 2015, 
   using the \href{http://measuringworth.com/}{Measuring 
   Worth} data.  The only other features of that plot that 
   seem visually comparable are the economic disaster of 
@@ -40,13 +40,13 @@
 \usage{data(USGDPpresidents)}
 \format{A \code{\link{data.frame}} containing :
   \describe{
-    \item{Year}{ the year, 1774:2014 } 
+    \item{Year}{ integer: the year, 1774:2015 } 
     \item{CPI}{
-      U. S. Consumer Price Index per Officer and Williamson 
-      (2015).  Average 1982-84 = 100.  
+      Numeric:  U. S. Consumer Price Index per Officer 
+      and Williamson (2015).  Average 1982-84 = 100.  
     }    
     \item{GDPdeflator}{
-      Numeric:  Implicit price deflators for 
+      numeric:  Implicit price deflators for 
       Gross Domestic Product with 2009 = 100 per 
       Johnston and Williamson.  
     }
@@ -174,7 +174,7 @@
     }
   }
 }
-%\details{}
+\details{rownames(USGDPpresidents) = Year}
 \source{
   \href{http://www.measuringworth.org/usgdp/}{Louis 
   Johnston and Samuel H. Williamson, "What Was the U.S. GDP 
