@@ -41,7 +41,7 @@
 asNumericChar(x)
 asNumericDF(x, keep=function(x)any(!is.na(x)), 
     orderBy=NA, ignore=NULL, factors=NULL, 
-    Dates=NULL, POSIX=NULL, format)
+    Dates=NULL, POSIX=NULL, format.)
 }
 \arguments{
   \item{x}{
@@ -78,7 +78,7 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     convert using \code{\link{as.POSIXct}}(, 
     \code{format}).  
   }
-  \item{format}{
+  \item{format.}{
     Character vector of length 1 to pass 
     as argument \code{format} to 
     \code{\link{as.Date}} and / or 
@@ -159,6 +159,8 @@ str(nF1.3 <- asNumericChar(fakeF1$duh))
 nF1 <- asNumericDF(fakeF1)
 nF2 <- asNumericDF(fakeF1, Dates='xDate', POSIX='xPOSIX', 
         ignore='junk')
+nF3 <- asNumericDF(fakeF1, Dates=6, POSIX=7, 
+        ignore=8)
 
 # check 
 nF1. <- data.frame(yr=asNumericChar(fakeF1$yr),

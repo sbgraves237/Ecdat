@@ -46,7 +46,7 @@ asNumericChar <- function(x){
 
 asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
         orderBy=NA, ignore=NULL, factors=NULL, Dates=NULL, 
-        POSIX=NULL, format){
+        POSIX=NULL, format.){
 ##
 ## 1.  Copy x
 ##  
@@ -82,10 +82,12 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     X[, f] <- factor(x[, f])
   }
   for(d in Dates){
-    dd <- try(as.Date(x[, d], format))
+    xd <- x[, d]
+    if(is.factor(xd))xd <- as.character(xd)
+    dd <- try(as.Date(xd, format.))
     if(is(dd, 'try-error')){
-      dd1 <- try(as.Date(x[, d], '%m-%d-%Y'))
-      dd2 <- try(as.Date(x[, d], '%m/%d/%Y'))
+      dd1 <- try(as.Date(xd, '%m-%d-%Y'))
+      dd2 <- try(as.Date(xd, '%m/%d/%Y'))
       if(is(dd1, 'try-error')){
         if(is(dd2, 'try-error')){
           msg <- paste0('Failed to convert date ', 
@@ -116,11 +118,11 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
         }
       }
     } else {
-      dd1 <- try(as.Date(x[, d], '%m-%d-%Y'))
-      dd2 <- try(as.Date(x[, d], '%m/%d/%Y'))
-      dl <- list(dd, dd1, dd2)
+      de1 <- try(as.Date(xd, '%m-%d-%Y'))
+      de2 <- try(as.Date(xd, '%m/%d/%Y'))
+      dl <- list(dd, de1, de2)
       nad <- sapply(dl, function(x)sum(is.na(x)))
-      naMin <- which(nad==min(nad))
+      naMin <- which.min(nad)
       if(length(naMin)<2){
         X[, d] <- dl[[naMin]]
       } else {
@@ -136,7 +138,7 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     }
   }
   for(p in POSIX){
-    if(missing(format)){
+    if(missing(format.)){
       pp <- try(as.POSIXct(x[, p]))
       if(is(pp, 'try-error')){
         msgP <- paste0('Failed to convert POSIX ', 
@@ -144,7 +146,7 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
         stop(msgP)
       } else X[, p] <- pp 
     } else {
-      pp <- try(as.POSIXct(x[, p], format))
+      pp <- try(as.POSIXct(x[, p], format.))
       if(is(pp, 'try-error')){
         msgP <- paste0('Failed to convert POSIX ', 
                        d, ' = ', x[1, d], ', ...')
@@ -158,6 +160,9 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
 ##
   dontConvert <- union(ignore, union(factors, 
                             union(Dates, POSIX)))
+  if(is.numeric(dontConvert)){
+    dontConvert <- names(x)[dontConvert]
+  }
   notNum <- (Names %in% dontConvert)
   numCols <- Names[!notNum]
   for(n in numCols){

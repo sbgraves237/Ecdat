@@ -248,16 +248,17 @@ The next generalization beyond an EWMA is [double exponential smoothing](https:/
 
 In the following, we shall consider seven different though related models:  
 
- || Model | state vector components | time varying components | parameters to estimate 
--|------|-------------------------|----------------------|-----
-1 | EWMA1: Standard Bayesian EWMA | 1:level | | 2:lnQ, lnH
-2 | EWMA2: double EWMA | 2:level, slope | | 3:lnQ.lvl, lnQ.slope, lnH
-3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 3:lnQ.lvl, lnQ.slope, lnH 
-4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | 3:lnQ.lvl, lnQ.slope, lnH 
-5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH 
- | | | | |
-6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war0, war1 | T | 3:lnQ.lvl, lnQ.slope, lnH
-7 | EWMA2war1: EWMA2 with random effect of war | 4:level, slope, war0, war1 | Q, T | 6:lnQ.lvl, lnQ.slope, lnQ.war00, lnQ.war11, lnQ.war01, lnH
+ || Model | state vector components | time varying components | P1 | P1inf | parameters to estimate 
+-|------|-------------------------|----------------------|---|---|-----
+1 | EWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:lnQ, lnH
+2 | EWMA2: double EWMA | 2:level, slope | | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH
+3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH 
+4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | diag(c(0, NA, 0)) | diag(c(1, 0, 0)) | 3:lnQ.lvl, lnQ.slope, lnH 
+5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | diag(c(0, 0, NA) | diag(c(1, 1, 0)) | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH 
+ | | | | | | | 
+6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war, war1 | T | 0 | diag(4) | 3:lnQ.lvl, lnQ.slope, lnH
+7 | EWMA2war1: EWMA2 with random effect of war | 4:level, slope, war, war1 | Q, T | diag(c(0, 0, Q.war))	| diag(c(1, 1, 0, 0)) | 6:lnQ.lvl, lnQ.slope, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH
+8 | EWMA2war2: EWMA2 with variance effect for war |	2:level, slope |	Q |	0 | diag(2) | 5:lnQ.lvl, lnQ.slope, lnQ_war, lnQ_deaths, lnH
 
 # 1.  The simplest Kalman Filter:  an Exponentially Weighted Moving Average (EWMA)
 
@@ -402,7 +403,7 @@ Let's create a [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/h
 
 ```{r}
 mdls <- c('EWMA1', 'EWMA2', 'EWMA2pres1', 'EWMA2pres2', 
-          'EWMA2pres3', 'EWMA2war0', 'EWMA2war1')
+          'EWMA2pres3', 'EWMA2war0', 'EWMA2war1', 'EWMA2war2')
 n.mdls <- length(mdls)
 logLiks <- data.frame(npars=rep(NA, n.mdls), 
       diffuse=rep(NA, n.mdls), marginal=rep(NA, n.mdls), 
@@ -540,12 +541,12 @@ Modeling is a straightforward generalization of the above following the same pro
 
 We start by supplying a formula using [SSMtrend(2, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html).  We select a starting value for $a_1$ with 0 slope, because that will make the EWMA1 discussed above a special case of this model (with zero migration variance for the slope).  That's important, because the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma) says that the most powerful test comparing two hypotheses is the likelihood ratio, and it helps to have one hypothesis nested within the other, e.g., when the "null hypothesis" is a special case of the "alternative".  Moreover, with most nested hypotheses [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) says that twice the log(likelihood ratio) of nested hypotheses is approximately distributed as chi-square with degrees of freedom equal to number of parameters in the larger model fixed to create the smaller model.  Unfortunately, Wilks's theorem does not apply when the null hypothesis is on a boundary, as with a variance parameter at 0.  In that case, the likelihood ratio is still most powerful, but twice the log(likelihood ratio) may not be approximately chi-square.  `r Citet(bib2, "PinBates")` recommend simulation to estimate p-values, but provide an example that suggests that 0.5 times the p-value for a chi-square(1) provides a reasonable approximation for the actual p-value when testing if a single variance parameter is zero;  we use this approximation below.  (They provide other examples that show that this simple rule does not generalize and adjusts in the wrong direction when eliminating fixed effects from a mixed model;  see their pp. 87-89.)
 
-As before, we start by specifying a formula for the double EWMA:  
+We construct the desired formula for the double EWMA as follows:  
 
 ```{r}
 (a1.2 <- c(level=log(GDP$realGDPperCapita[1]), slope=0))
 EWMA2fmla <- log(realGDPperCapita)~
-  SSMtrend(2,Q=list(lnQ.lvl=matrix(NA), lnQ.slope=matrix(NA)), 
+  SSMtrend(2,Q=list(Q.lvl=matrix(NA), Q.slope=matrix(NA)), 
            a1=a1.2)
 ```
 
@@ -632,14 +633,12 @@ One might naively expect to see variability in alphahat[, 'slope'] closer to wha
 
 We see two possible explanations for this surprising stiffness:  
 
-  # The algorithm missed the global maximum of the likelihood function.  
-  # The data may be artificially smooth.  
+  1. The algorithm missed the global maximum of the likelihood function.  
+  1. The data may be artificially smooth.  
   
-To check the first, we could make contour plots of the log(likehood) surface in a sufficiently broad region.  To check the second, we could ask 
+To check the first, we could make contour plots of the log(likehood) surface in a sufficiently broad region for the smallest two estimated parameters, lnQ.slope and lnH, as discussed, e.g., with the help page for [plot.profile.nls](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/plot.profile.nls.html) and in the [lme4 vignette](https://cran.rstudio.com/web/packages/lme4/vignettes/lmer.pdf) `r AutoCite(bib2, "lme4vignette")` and see how the above plot of alphahat[, 'slope'] would change when increasing lnQ.slope to its upper 80 percent confidence limit.  We shall not pursue that here.  
 
-Prof. Samual Williamson 
-
-It would be helpful to examine profile likelihood plots over the smallest two estimated parameters, lnQ.slope and lnH, as discussed, e.g., with the help page for [plot.profile.nls](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/plot.profile.nls.html) and in the [lme4 vignette](https://cran.rstudio.com/web/packages/lme4/vignettes/lmer.pdf) `r AutoCite(bib2, "lme4vignette")` and see how the above plot of alphahat[, 'slope'] would change when increasing lnQ.slope to its upper 80 percent confidence limit.  We shall not pursue that here.  
+The second explanation seems plausible, in part because many time series are often adjusted after they are initially published.  We could check the literature on that or ask an expert.  
 
 As another evaluation of the fit during the FDR years, let's plot the one-step ahead prediction errors as before:  
 
@@ -668,9 +667,6 @@ plotPresWars(realGDPperCapita/1000, GDP, log='y',
              ylim=c(5, 20), cex.main=1.1) 
 text(GDP$realGDPperCapita/1000, 'x', cex=0.5)
 matlines(GDP$Year, exp(EWMA2.woDeprPred)/1000, 
-         col=c('blue', 'darkgreen', 'darkgreen'), 
-         lty=c(1, 2, 2))
-matlines(exp(EWMA2.woDeprPred)/1000, 
          col=c('blue', 'darkgreen', 'darkgreen'), 
          lty=c(1, 2, 2))
 ```
@@ -714,7 +710,7 @@ The most important thing to note for present purposes is that the component Q is
 EWMA2mdl$Q
 ```
 
-This was specified above as "Q=list(lnQ.lvl=matrix(NA), lnQ.slope=matrix(NA))" in the call above to [SSMtrend](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) that created EWMA2fmla.  We will change that here by replacing "lnQ.slope=matrix(NA)" with an array of all zeros except for making the slope component NA for the last year of each administration:  
+This was specified above as "Q=list(Q.lvl=matrix(NA), Q.slope=matrix(NA))" in the call above to [SSMtrend](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) that created EWMA2fmla.  We will change that here by replacing "Q.slope=matrix(NA)" with a three-dimensional array of all zeros except for making the slope component NA for the last year of each administration:  
 
 ```{r}
 EWMA2pres1Q.slope <- array(0, c(1,1,N), 
@@ -762,7 +758,7 @@ logLiks[3, ] <- logLik2(EWMA2pres1fit)
 logLiks[1:3, ]
 ```
 
-Both log(likelihoods) and the rmse are virtually identical to those numbers for the double EWMA above.  
+Both log(likelihoods) and the rmse are identical to those numbers for the double EWMA above (at least to the number of digits displayed here).  
 
 As before, we'll compute and plot the smoothed estimate of the state vector:  
 
@@ -777,22 +773,40 @@ plotPresWars(EWMA2pres1.KFS$alphahat, GDP, yHoover=0.38,
 
 This is very similar to the double EWMA but with the slope held constant within administration -- precisely what we attempted to fit.  
 
-However, since the model seems not to improve upon the double EWMA, we will leave this here and try the second model mentioned above.  
+However, since the model seems not to improve upon the double EWMA, we will leave this here and try the second President model mentioned above.  
 
 # 4.  Assuming no continuity in slope between executives 
 
-Another approach to modeling a president effect is to restart the slope from 0 at the beginning of each presidency.  We will do this by modifying the EWMA2pres1 model above so the slope component of the state transition matrix is 0 for the last year of each presidency and 1 otherwise:  
+Another approach to modeling a president effect is to restart the slope from an overall average at the beginning of each presidency. We will do this by adding a third component to the state vector, giving it zero migration variance, and modifying the state transition matrix and migration variance accordingly.    
+
+We'll use a state transition matrix as follows:  
 
 $$T_t = \left[\begin{array}
 {rrr}
-1 & 1 \\
-0 & \gamma_t  
+1 & 1 & 0 \\
+0 & \gamma_t & (1-\gamma_t) \\
+0 & 0 & 1 
 \end{array}\right], 
 $$  
 
-where $\gamma_t$ = 0 for the last year of a presidency, and 1 otherwise.  This makes $\alpha_{2,t+1} = \eta_t$ for $t$ = the last year of each presidency (and $t+1$ = the first year of the next).  Then with $Q_{2,2,t}$ = 0 except for the last year of each presidency, that means that $\alpha_{2,t+1} = \alpha_{2,t}$ for continuing years.  
+where $\gamma_t$ = 0 for the last year of a presidency, and 1 otherwise.  And $Q_t$ is as follows:  
 
-We'll accomplish this by adding another step to the process used above, modifying the [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) before fitting it:  
+
+$$Q_t = \left[\begin{array}
+{rrr}
+q_{\mathrm{lvl}} & 0 & 0 \\
+0 & q_{\mathrm{pres2}} (1-\gamma_t) & 0 \\
+0 & 0 & 0 
+\end{array}\right], 
+$$  
+
+where $q_{\mathrm{lvl}}$ is the migration variance for the level, and $q_{\mathrm{pres2}}$ = $P_{1,2,2}$ is the variance of the presidential effect;  $P_{1,3,3}$ must be 0, matching $Q_{3,3,t}$ for all $t$.  And $P_{1,\infty}$ is a diagonal matrix with 1 in the first position and zeros elswhere to indicate a diffuse prior for the level but not the slope.  
+
+This makes $\alpha_{2,t+1} = \alpha_{3,t} + \eta_t$ for $t$ = the last year of each presidency (and $t+1$ = the first year of the next).  For continuing years of a presidency, $\alpha_{2,t+1} = \alpha_{2,t}$, because $Q_{2,2,t}$ = 0 for those years.  
+
+And making $Q_{3,3,t}$ = 0 for all $t$ means that $\alpha_{3,t}$ is normal with mean $a_{1,3}$ and the indicated presidential effect variance, $q_{\mathrm{pres2}}$.    
+
+We'll accomplish with the same process as for EWMA2pres1:  
 
 <center> 
 [(make the migration variance, Q, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
@@ -800,22 +814,103 @@ We'll accomplish this by adding another step to the process used above, modifyin
 [(make the state transition matrix, T, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(create updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
-In this particular case, we can use the same Q and [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) as in the previous section, and modify the previous model to make T time varying as desired:   
+Similar to the EWMA2 above, we start by supplying a formula using [SSMtrend(3, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -- specifying the degree of the "trend" as 3 to give us a 3-dimensional state vector.  We want to estimate $a_{1,\mathrm{pres2}}$ = $a_{1,2}$ = $a_{1,3}$.  KFAS protocol assigns NA to numbers to be estimated.  And we can use the same Q.slope as with EWMA2pres1:      
 
 ```{r}
-EWMA2pres2mdl <- EWMA2pres1mdl
-T.other <- EWMA2pres1mdl$T
-EWMA2pres2.T <- array(T.other, c(2,2,N), 
-      dimnames=dimnames(T.other))
+(a1.3 <- c(level=log(GDP$realGDPperCapita[1]), 
+           slope=NA, a1.slope=NA))
+EWMA2pres2.P1inf <- diag(c(1,0,0))
+dimnames(EWMA2pres2.P1inf) <- list(names(a1.3), names(a1.3))
+EWMA2pres2.P1 <- EWMA2pres2.P1inf
+EWMA2pres2.P1[1,1] <- 0
+EWMA2pres2.P1[2,2] <- NA
+EWMA2pres2fmla <- log(realGDPperCapita)~
+  SSMtrend(3,Q=list(Q.lvl=matrix(NA), Q.slope=EWMA2pres1Q.slope, 
+                    Q.a1.slope=matrix(0)), 
+           a1=a1.3, P1=EWMA2pres2.P1, P1inf = EWMA2pres2.P1inf)
+```
+
+We now use this to build an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html):
+
+```{r}
+EWMA2pres2mdl. <-SSModel(EWMA2pres2fmla, GDP, H=matrix(NA))
+```
+
+[SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) does not remember the names of the states we assigned to a1.3 above. If we want those names to appear later, we can fix them now;  we'll write a function to do that:  
+
+```{r}
+fixModelNames <- function(model, stateNames){
+  mdl <- model 
+  mdlTime <- time(mdl$y)
+# Z
+  ynames <- dimnames(mdl$Z)[[1]]
+  if(dim(mdl$Z)[3]>1){
+    dimnames(mdl$Z) <- list(ynames, stateNames, 
+                            mdlTime)
+  } else {
+    dimnames(mdl$Z) <- list(ynames, stateNames, NULL)
+  }
+# H
+  if(dim(mdl$H)[3]>1){
+    dimnames(mdl$H) <- list(ynames, ynames, 
+                            mdlTime)
+  } else {
+    dimnames(mdl$H) <- list(ynames, ynames, NULL)
+  }
+# T   
+  if(dim(mdl$T)[3]>1){
+    dimnames(mdl$T) <- list(stateNames, stateNames, 
+                            mdlTime)
+  } else {
+    dimnames(mdl$T) <- list(stateNames, stateNames, NULL)
+  }
+# R  
+  if(dim(mdl$R)[3]>1){
+    dimnames(mdl$R) <- list(stateNames, stateNames, 
+                            mdlTime)
+  } else {
+    dimnames(mdl$R) <- list(stateNames, stateNames, NULL)
+  }
+# Q  
+  if(dim(mdl$Q)[3]>1){
+    dimnames(mdl$Q) <- list(stateNames, stateNames, 
+                            mdlTime)
+  } else {
+    dimnames(mdl$Q) <- list(stateNames, stateNames, NULL)
+  }
+# a1, P1, P1inf 
+  dimnames(mdl$a1)[[1]] <- stateNames 
+  dimnames(mdl$P1) <- list(stateNames, stateNames)
+  dimnames(mdl$P1inf) <- list(stateNames, stateNames)
+#
+  mdl 
+}
+EWMA2pres2mdl <- fixModelNames(EWMA2pres2mdl., 
+                              names(a1.3) )
+```
+
+Next, we modify this model to make T time varying as desired:   
+
+```{r}
+T3.other <- EWMA2pres2mdl$T
+EWMA2pres2.T <- array(T3.other, c(3,3,N), 
+      dimnames=dimnames(T3.other))
 dimnames(EWMA2pres2.T)[[3]] <- GDP$Year
 EWMA2pres2.T[2,2,presLastYr] <- 0
+EWMA2pres2.T[2,3,] <- presLastYr
+EWMA2pres2.T[,,1:8]
+```
+
+President Washington's last year was 1796, and $T_{1796}$ is different from the other years, as we wanted.  
+
+```{r}
 EWMA2pres2mdl$T <- EWMA2pres2.T
 ```
 
 We're not quite done modifying this model:  As noted with [help('SSModel')](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), we must set attribute 'tv' to reflect that both T and Q are time varying.  From "str(EWMA2mdl)" above, we see that attr(EWMA2mdl1, "tv")= int [1:5] 0 0 0 0 0, indicating a model in which none of Z, H, T, R, and Q are time varying.  This is different for EWMA2pres1mdl:  
 
 ```{r}
-attr(EWMA2pres1mdl, 'tv')
+attr(EWMA2pres2mdl, 'tv')
 ```
 
 This says that only Q is time varying.  We just made T time varying and must change this 'tv' attribute to make it official.  In the process, we will add names to make the structure easier to read:  
@@ -824,22 +919,44 @@ This says that only Q is time varying.  We just made T time varying and must cha
 attr(EWMA2pres2mdl, 'tv') <- c(Z=0L, H=0L, T=1L, R=0L, Q=1L)
 ```
 
-Formally at least, we have the same parameters to estimate as with EWMA2pres1.  However, we can set $P_{2,2,1}$ to match $Q_{2,2,t}$ for the last year of each presidency;  note that P1 = "num [1:2, 1:2, 1] 0 0 0 0" in "str(EWMA2mdl)" above.  We also want to estimate the slope component of a1
-
-
-
-
-?????
+Now let's talk about unknown parameters to estimate:  This model requires us to estimate one parameter more than EWMApres1:  $a_{1,\mathrm{pres2}}$ = $a_{1,2}$ = $a_{1,3}$:  What initial values should we use for these parameters?  We can set a1.2 to the average slope from EWMA2pres1fit:  
 
 ```{r}
-EWMA2pres2updt <- function(pars=EWMA2init, model=EWMA2pres1mdl, 
-                           ...){
-  vars <- exp(pars)
+(EWMA2pres2.a1.2 <- mean(EWMA2pres1.KFS$alphahat[,2]))
+```
+
+The other three parameters are crudely similar to the three paramters estimates for EWMA2pres1:
+
+```{r}
+EWMA2pres1fit$optim.out$par
+exp(EWMA2pres1fit$optim.out$par/2)
+```
+
+Three variances were estimated on the log scale, so exponentiating half those numbers gives us the corresponding standard deviations.  The migration standard deviation for the level was just over 0.04.  The other two were much smaller.  Let's use the largest of the three as the starting value for all three:  
+
+```{r}
+EWMA2pres2init <- c(a1.2=EWMA2pres2.a1.2,
+        EWMA2pres1fit$optim.out$par)
+EWMA2pres2init[3:4] <- EWMA2pres2init[2]
+EWMA2pres2init
+```
+
+Let's modify the previous updatefn to do what we want for this model:  
+
+```{r}
+EWMA2pres2updt <- function(pars=EWMA2pres2init, 
+                      model=EWMA2pres2mdl, ...){
+#  a1 
+  model$a1[2:3] <- pars[1]
+#  Q  
+  vars <- exp(pars[-1])
   Q <- model$Q
   Q[1,1,] <- vars[1]
   Q[2,2,presLastYr] <- vars[2]
   model$Q <- Q
-  diag(model$P1) <- vars[1:2]
+# P1 
+  model$P1[2,2] <- vars[2]
+# H   
   model$H[] <- vars[3]
   model
 } 
@@ -847,18 +964,18 @@ EWMA2pres2updt <- function(pars=EWMA2init, model=EWMA2pres1mdl,
 
 We now fit this model as follows:  
 
-#```{r}
-EWMA2pres2fit <- fitSSM(EWMA2pres2mdl, inits=EWMA2init, 
-                        updatefn=EWMA2pres2updt) 
+```{r}
+EWMA2pres2fit <- fitSSM(EWMA2pres2mdl, 
+          inits=EWMA2pres2init, updatefn=EWMA2pres2updt) 
 logLiks[4, ] <- logLik2(EWMA2pres2fit)
 logLiks[1:4, ]
 ```
 
-This has a slightly better fit, as indicated by the increase in the log(likelihoods) and reduction in rmse.    
+This has a much better fit, as indicated by the increase in the log(likelihoods) and reduction in rmse.    
 
 We next compute and plot the smoothed estimate of the state vector, as before:  
 
-#```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
+```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
 EWMA2pres2.KFS <- KFS(EWMA2pres2fit$model)
 plotPresWars(EWMA2pres2.KFS$alphahat, GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
@@ -867,61 +984,131 @@ plotPresWars(EWMA2pres2.KFS$alphahat, GDP,
 
 The slope here shows substantially more variability.  Let's look at it more closely:  
 
-#```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
+```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
 plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              ylab='slope')
 abline(h=0)
 ```
 
-This strongly suggests that the Hoover administration was a statistical outlier, while FDR (with World War II) may or may not have been.  To investigate this further, let's look at the slope and it's variance for each president.  [help('KFS')](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) tells us that the "V" component is the covariance of "alphahat", given all the data (and the "P" and "Pinf" components are the non-diffuse and diffuse parts of the error covariance of the one-step ahead predicted states in "a").  Just to make sure we understand this correctly, let's plot "V":  
+This strongly suggests that the Hoover administration was a statistical outlier, while FDR (with World War II) may or may not have been.  To make it easier to compare administrations, let's write a function to extract the growth associated with each president and its variance:  
 
-#```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
-plotPresWars(GDP$Year, EWMA2pres2.KFS$V[2,2,], GDP, 
+```{r}
+stateByFactor <- function(object, state='slope', 
+                          factor.=GDP$executive, cor.=1, 
+                          conf=0.95, factorName='president'){
+# object has has components alphahat and V, 
+#    because it is assumed to be of class KFS   
+# mean state 
+  stateNames <- colnames(object$alphahat)
+  if(is.null(stateNames)){
+    stop('alphahat needs colnames; absent')
+  } 
+  ist <- which(colnames(object$alphahat) == state)
+  if(length(ist) != 1){
+    stop('state = ', state, ' not found in ', 
+         'colnames(alphahat) = ', 
+         paste(stateNames, collapse=', '))
+  }
+#
+  meanState <- mean(object$alphahat[, state])
+  facState <- tapply(object$alphahat[, state], 
+                      factor., mean)
+  nSt <- length(facState)
+# If the correlations are all 1, the standard deviation 
+# of an average is the average of the standard deviations.
+  meanVar. <- tapply(object$V[ist,ist,], factor., mean)
+  meanSD. <- tapply(sqrt(object$V[ist,ist,]), 
+                      factor., mean)
+  meanVar <- (1-cor.)*meanVar.+cor.*(meanSD.^2)
+  meanSD <- sqrt(meanVar)
+#
+  tabfac <- table(factor.)
+  t. <- (facState-meanState)/meanSD 
+  p. <- 2*pnorm(-abs(t.))
+# variance estimated using all the data, 
+# not just those within each presidency, 
+# so dft = (total obs) - nSt
+  dfe <- (nrow(object$alphahat) - nSt)
+  st2 <- qt(1-.5*(1-conf), dfe) * meanSD
+  st2. <- st2 %o% c(lower=-1, upper=1)
+  confInt <- as.numeric(facState) + st2.
+#
+  Exec <- ordered(names(facState), names(facState))
+  stateSum <- cbind(data.frame(Exec=Exec, 
+          n=as.numeric(tabfac), mean=as.numeric(facState), 
+          stdError=as.numeric(meanSD), t.=as.numeric(t.), 
+          p_value=as.numeric(p.)), confInt)
+  names(stateSum)[c(1, 3)] <- c(factorName, state)
+# 
+  chisq. <- sum(t.^2)
+  F.. <- (chisq./(nSt-1))
+  F. <- c(F=F.., df1=nSt-1, df2=dfe, 
+          p=pf(chisq., nSt, dfe, lower=FALSE))
+  print(F.)
+  attr(stateSum, 'F') <- F.
+#
+  stateSum
+}
+
+(EWMA2pres2sum <- stateByFactor(EWMA2pres2.KFS))
+```
+
+The smallest p_value here is 1.3e-6 = 1.3 chances in a million for FDR.  [Bonferroni's rule](https://en.wikipedia.org/wiki/Bonferroni_correction) tells us to multiple the smallest p_value by the number of tests conducted, 41.  When we do that, we get 5e-5 = 5 chances in a hundred thousand. That's clearly statistically signficant.  The second smallest p_value is 1.5e-04 = 0.00015 for Hoover.  His administration is also clearly different from the rest of US economic history.  No one else seems different by these measures.  
+
+As another check, we note that if the denominators for $k$ statistically independent student's $t$ statistics all have the same numbers of degrees of freedom, $n_1$, we can compute an F statistic by dividing their sum of squares by $k-1$:  We divide by $k-1$, because each $t$ is based on the difference of the economic growth during each administration and the overall average.  This means that the $k$ $t$ statistics are not statistically independent but rather have one linear dependency.  The denominator degrees of freedom is the number of degrees of freedom in estimate of variance used to compute the $t$'s.  That's the number of observations minus the number of presidents:  185 here.  The $F$ is modest, 1.46, but highly significant, because both numerator and denominator have relatively large numbers of degrees of freedom.   
+
+Before we embrace this analysis, let's check how much the standard errors vary:  They are given by the "V" component of the output of  [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) function:  
+
+```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
+plotPresWars(EWMA2pres2.KFS$V[2,2,]~Year, GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              type='l', ylab='smoothed slope variance')
 ```
 
-This is plausibly constant within administration, which we would expect from specifying zero migration variance for the slope.  If this is correct, we would expect the "information" (i.e., reciprocal variance) to be proportional to the number of years in each presidency.  To confirm that, we compute the posterior variance and the number of years for each presidency:    
+This is plausibly constant within administration, which we would expect from specifying zero migration variance for the slope.  If this is correct, we would expect the "information" (i.e., reciprocal variance) to be proportional to the number of years in each presidency.  To confirm that, let's plot that:  
 
-#```{r,fig.cap = "Slope, variance, and number of years for each presidency"}
-EWMA2pres2V <- tapply(EWMA2pres2.KFS$V[2,2,], 
-                      GDP$executive, mean)
-EWMA2pres2n <- table(GDP$executive)
-plot(as.numeric(EWMA2pres2n), 1/EWMA2pres2V, 
+```{r,fig.cap = "Slope, variance, and number of years for each presidency"}
+plot((1/stdError^2)~n, EWMA2pres2sum, 
      xlab='Number of years', ylab='info = 1/(smoothed variance)')
 ```
 
-This looks like a straight line except for two points.  Who are those two?  
+This looks like a straight line except for one point.  Who is that point?  
 
-#```{r,fig.cap = "Posterior variance vs. number of years for each presidency, labeled"}
-plot(as.numeric(EWMA2pres2n), 1/EWMA2pres2V, 
+```{r,fig.cap = "Posterior variance vs. number of years for each presidency, labeled"}
+plot((1/stdError^2)~n, EWMA2pres2sum, 
      xlab='Number of years', ylab='info = 1/(smoothed variance)')
-text(as.numeric(EWMA2pres2n), 1/EWMA2pres2V, 1:41)
+text((1/stdError^2)~n, EWMA2pres2sum, 1:41)
 ```
 
-Of course:  The two off the line are the first and last.  
+Of course:  The one off the line is 41, the last, whose estimate cannot be adjusted by reference to a successor.   
 
-Let's compute the slope and 95 percent confidence limits:  
+Let's plot the confidence intervals just computed using [ggplot](http://rpackages.ianhowson.com/cran/ggplot2/man/ggplot.html):    
 
-#```{r,fig.cap = "Decoupled slope for each presidency"}
-EWMA2pres2pres <- tapply(EWMA2pres2.KFS$alphahat[, 'slope'], 
-                         GDP$executive, mean)
-sz2 <- qnorm(.975)*sqrt(EWMA2pres2V)
-sz2. <- sz2 %o% c(lower=-1, upper=1)
-EWMA2pres2slim <- as.numeric(EWMA2pres2pres) + sz2.
-EWMA2pres2Slim <- cbind(data.frame(
-executive=ordered(names(sz2), names(sz2)), 
-slope=EWMA2pres2pres), EWMA2pres2slim)
+```{r,fig.cap = "Decoupled slope for each presidency"}
 library(ggplot2)
-ggplot(EWMA2pres2Slim, aes(x=executive, y=slope))+geom_point() +
+
+ggplot(EWMA2pres2sum[c('president', 'slope', 'lower', 'upper')], 
+       aes(x=president, y=slope)) + geom_point() +
     coord_cartesian(ylim = c(-0.08, 0.08)) + 
-    geom_errorbar(ymin=EWMA2pres2Slim$lower,
-        ymax=EWMA2pres2Slim$upper)+ 
+    geom_errorbar(ymin=EWMA2pres2sum$lower,
+                  ymax=EWMA2pres2sum$upper) + 
     geom_hline(aes(yintercept=mean(slope),color="red")) # mean slope
 ```  
 
 This clearly says that the Hoover and FDR administrations were different from all others, but it still doesn't say whether FDR himself was different or World War II created the difference.  Before considering that, let's continue with the other alternative presidency model.  
+
+One more question:  What were the parameter estimates?  
+
+```{r}
+EWMA2pres2fit$optim.out$par
+exp(EWMA2pres2fit$optim.out$par[1])
+exp(EWMA2pres2fit$optim.out$par[-1]/2)
+```
+
+This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038, respectively, and the standard deviation of the observation noise is tiny, 0.00004.  
+
+What do we get by modeling a president effect as an adjustment to the slope of an otherwise standard Bayesian double EWMA?
 
 # 5.  EWMA2 with an adjustment for each president 
 
@@ -935,7 +1122,19 @@ $$T_t = \left[\begin{array}
 \end{array}\right],
 $$ 
 
-where $\gamma_t$ = 0 for the last year of a presidency, and 1 otherwise, as with immediately preceding model, EWMA2pres2.  
+where $\gamma_t$ = 0 for the last year of a presidency, and 1 otherwise, as with the immediately preceding model, EWMA2pres2.  
+
+We combine this with migration variance $Q_t$ as follows:  
+
+$$Q_t = \left[\begin{array}
+{rrr}
+q_{\mathrm{lvl}} & 0 & 0 \\
+0 & q_{\mathrm{slope}} & 0 \\
+0 & 0 & q_{\mathrm{pres3}} (1-\gamma_t) \\
+\end{array}\right], 
+$$  
+
+where $q_{\mathrm{lvl}}$ is the migration variance for the level (as before), $q_{\mathrm{slope}}$ is the migration variance of the slope, $q_{\mathrm{pres3}}$ = $P_{1,3,3}$ is the variance of the presidential effect.  The rest of $P_1$ is 0, and $P_{1,\infty}$ is a diagonal matrix with elements (1, 1, 0) indicating a diffuse prior for level and slope but not the presidential effect, which we estimate.  
 
 We will create this by modifying a triple EWMA following a process similar to the above:  
 
@@ -945,32 +1144,38 @@ We will create this by modifying a triple EWMA following a process similar to th
 [(make the state transition matrix, T, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(create updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
-Let's start by modifying the formula, similar to what we did with EWMA2pres1fmla, above, but for the new 3-dimensional state    
+Let's start by modifying the formula, similar to what we did with EWMA2pres1fmla, above, but for this 3-dimensional state    
 
 ```{r}
-a1.3 <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
-           Pres=0)
+a1.3a <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
+           pres3=0)
+EWMA2pres3P1 <- diag(c(0, 0, NA))
+EWMA2pres3P1inf <- diag(c(1, 1, 0))
 EWMA2pres3fmla <- log(realGDPperCapita) ~ 
   SSMtrend(3, Q = list(level=matrix(NA), slope=matrix(NA),
-                       Pres=EWMA2pres1Q.slope),
-           a1=a1.3) 
+                   pres3=EWMA2pres1Q.slope), 
+      P1=EWMA2pres3P1, P1inf=EWMA2pres3P1inf, a1=a1.3a) 
 ```
 
 We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), as before:   
 
 ```{r}
-EWMA2pres3mdl <- SSModel(EWMA2pres3fmla, GDP, H=matrix(NA))
+EWMA2pres3mdl. <- SSModel(EWMA2pres3fmla, GDP, H=matrix(NA))
+EWMA2pres3mdl <- fixModelNames(EWMA2pres3mdl., 
+                              names(a1.3a) )
 ```
 
 Now we need to create the desired time-varying state transition matrix, T:  
 
 ```{r}
-pres3states <- names(a1.3)
+pres3states <- names(a1.3a)
 pres3T <- array(EWMA2pres3mdl$T, dim=c(3,3,N), 
         dimnames=list(pres3states, pres3states, GDP$Year) )
 pres3T[1,3,] <- 1
 pres3T[2,3,] <- 0 
 pres3T[3,3, presLastYr] <- 0
+pres3T[,,1:9]
+
 EWMA2pres3mdl$T <- pres3T 
 ```
 
@@ -980,13 +1185,17 @@ As for EWMA2pres2mdl, we need also to fix the 'tv' attribute:
 attr(EWMA2pres3mdl, 'tv') <- c(Z=0L, H=0L, T=1L, R=0L, Q=1L)
 ```
 
-We now have 4 parameters to estimate:  
+We now have 4 parameters to estimate:  lnQ.lvl, lnQ.slope, lnQ.pres3, and lnH.  As for EWMA2pres2, we select starting values for the parameters based on the previous fit:  
 
 ```{r}
-EWMA2pres3init <- c(lnQ.lvl=0, lnQ.slope=0, lnQ.Pres=0, lnH=0)
+EWMA2pres2fit$optim.out$par
+EWMA2pres3init <- rep(EWMA2pres2fit$optim.out$par[2], 4)
+names(EWMA2pres3init) <- c("lnQ.lvl", "lnQ.slope", 
+        "lnQ.pres3", "lnH")
+EWMA2pres3init
 ```
 
-And the state vector now has 3 dimensions, not 2 as before.  Both these changes require a different 'updatefn':   
+This different model requires a different 'updatefn':   
 
 ```{r}
 EWMA2pres3updt <- function(pars=EWMA2pres3init, 
@@ -997,18 +1206,60 @@ EWMA2pres3updt <- function(pars=EWMA2pres3init,
   Q[2,2,] <- vars[2]
   Q[3,3,presLastYr] <- vars[3]
   model$Q <- Q
+  model$P1[3,3] <- vars[3]
   model$H[] <- vars[4]
   model
-} 
+}
+
 EWMA2pres3fit <- fitSSM(EWMA2pres3mdl, inits=EWMA2pres3init, 
                         updatefn=EWMA2pres3updt) 
 logLiks[5, ] <- logLik2(EWMA2pres3fit)
 logLiks[1:5, ]
 ```
 
-This is the best [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and rmse so far.  However, the increase in logLik is slightly less than 2, which makes the [AIC](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/AIC.html) and the BIC worse.  
+The diffuse likelihood and the root mean square error are worse for EWMApres3 than for EWMApres2, but the marginal likelihood is better. The theory says we should trust the marginal likelihood.  However, the root mean square of the one-step ahead prediction errors is worse with the better marginal likelihood.  
 
-NOTE:  An equivalent model estimating the same parameters could have a 43-dimensional state vector with components level, slope, and Pres1, ..., Pres41.  The memory and compute time required to fit it would be greater, but the [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and parameter estimates would be the same.  This is unnecessary here but could be required with, e.g., an experiment with levels for a random effect that are not sequential in time.    
+Let's compute the smoothed state vectors as before:  
+
+```{r}
+EWMA2pres3.KFS <- KFS(EWMA2pres3fit$model)
+plotPresWars(EWMA2pres3.KFS$alphahat, GDP, 
+             yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
+             main='Decoupled presidents')
+```
+
+This is interesting:  Let's check the range of the three states and the parameter estimates:  
+
+```{r}
+EWMA2pres3fit$optim.out$par
+exp(EWMA2pres3fit$optim.out$par/2)
+apply(EWMA2pres3.KFS$alphahat, 2, range)
+```
+
+The slope is estimated as a constant, making this model virtually equivalent to EWMA2pres2.  
+
+What does the presidential summary look like? 
+
+```{r}
+(EWMA2pres3sum <- stateByFactor(EWMA2pres3.KFS, "pres3"))
+```
+
+This seems quite similar to the EWMA2pres2 model.  Let's plot this summary as before:  
+
+```{r}
+ggplot(EWMA2pres3sum[c('president', 'pres3', 'lower', 'upper')], 
+       aes(x=president, y=pres3)) + geom_point() +
+    coord_cartesian(ylim = c(-0.08, 0.08)) + 
+    geom_errorbar(ymin=EWMA2pres3sum$lower,
+                  ymax=EWMA2pres3sum$upper) + 
+    geom_hline(aes(yintercept=mean(pres3),color="red")) 
+```
+
+This is quite similar to the corresponding plot for EWMA2pres2.  These two models support the same basic conclusion:  There is a president effect, the Hoover administration performed distinctly worse than the others and the FDR administration performed distinctly better.  
+
+However, there are difference between the two that are not easy to understand or describe.  EWMA2pres3 has a better marginal likelihood but worse root mean square prediction error.  
+
+NOTE:  An equivalent model estimating the same parameters could have a 43-dimensional state vector with components level, slope, and Pres1, ..., Pres41.  The memory and compute time required to fit it would be greater, but the [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and parameter estimates should be the same.  This is unnecessary here but could be required with, e.g., an experiment with levels for a random effect that are not sequential in time.    
 
 # 6.  EWMA2 with a fixed effect for war 
 
@@ -1023,7 +1274,9 @@ $$T_t = \left[\begin{array}
 \end{array}\right],
 $$ 
 
-For this model, Q is constant.  Therefore, we do not need to create a time-varying Q nor an updatefn as we did for models 3-5.  This simplifies the modeling process to the following:  
+For this model, Q is constant, and we want a diffuse prior on all 4 components of the initial state vector.  Thus, $P_{1,\infty}$ is the 4-dimensional identity matrix, and $P_1$ is the 4-dimensional zero matrix.  
+
+Thus, for this model, we do not need to create a time-varying Q nor an updatefn as we did for models 3-5.  This simplifies the modeling process to the following:  
 
 <center> 
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
@@ -1037,12 +1290,18 @@ We'll use a similar formula to those above, requesting a fourth degree [SSMtrend
 
 ```{r}
 a1.4 <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
-           war0=0, war1=0)
+           war=0, deaths=0)
 EWMA2war0fmla <- log(realGDPperCapita) ~ 
     SSMtrend(4, Q = list(level=matrix(NA), slope=matrix(NA),
-                       war0=matrix(0), war1=matrix(0)),
-           a1=a1.4) 
-EWMA2war0mdl <- SSModel(EWMA2war0fmla, GDP, H=matrix(NA))
+                  war=matrix(0), deaths=matrix(0)), a1=a1.4) 
+EWMA2war0mdl. <- SSModel(EWMA2war0fmla, GDP, H=matrix(NA))
+```
+
+As before, let's fix the names of components of EWMAwar0mdl:  
+
+```{r}
+EWMA2war0mdl <- fixModelNames(EWMA2war0mdl., 
+                       names(a1.4) )
 ```
 
 Now we need to create the desired time-varying state transition matrix, $T_t$:  
@@ -1054,6 +1313,7 @@ war0T <- array(diag(4), dim=c(4,4,N),
 war0T[1, 2,] <- 1  
 war0T[1, 3,] <- (GDP$war!='')
 war0T[1, 4,] <- GDP$battleDeathsPMP
+war0T[,,1:9]
 ```
 
 Let's check this $T_t$ with years at war and peace.  
@@ -1075,12 +1335,6 @@ We also need to fix the 'tv' attribute, as we did for models 4 and 5 (EWMA2pres2
 attr(EWMA2war0mdl, 'tv') <- c(Z=0L, H=0L, T=1L, R=0L, Q=0L)
 ```
 
-Let's also change the names of EWMA2war0mdl$a1 from the default to warStates:  
-
-```{r}
-dimnames(EWMA2war0mdl$a1)[[1]] <- warStates
-```
-
 This model has the same 3 parameters to estimate as models 2, 3 and 4 above:  lnQ.lvl, lnQ.slope, and lnH.  We will use the same initial values:  EWMA2init.
 
 ```{r}
@@ -1091,11 +1345,11 @@ logLiks[1:6, ]
 
 Conclusion:  
 
-  1.  If we use the marginal likelihood rather than the diffuse likelihood, it says that EWMA2war0 gives a slightly better fit:  394.7362 vs. 394.2869.  In other words, the difference was primarily due to the use of diffuse likelihood, which is different with the addition of another component to the state vector.  
-    
+  1.  If we use the marginal likelihood rather than the diffuse likelihood, it says that EWMA2war0 gives a slightly better fit than EWMA2:  396.9705 vs. 396.5067.  
+
   1.  However, the improvement in the fit is so slight, it's clearly not statistically significant.  
 
-Let's try setting the war components of P1inf to 0 to see if that forces the model to match EWMA2:  
+As a check on this model, we should get the same answer as from EWMA2 if we set the war components of P1inf to 0:  
 
 ```{r}
 EWMA2war0mdl2 <- EWMA2war0mdl 
@@ -1106,7 +1360,7 @@ EWMA2war0fit2 <- fitSSM(EWMA2war0mdl2, inits=EWMA2init)
 logLik2(EWMA2war0fit2)
 ```
 
-This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and rmse as EWMA2, as we might expect.  Let's modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from [diag(0, 2)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/diag.html):  
+This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and rmse as EWMA2, as we expected.  Let's modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from [diag(0, 2)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/diag.html):  
 
 <center> 
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(make the state transition matrix, T, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) 
@@ -1118,12 +1372,17 @@ P1[3:4, 3:4] is a 2 x 2 positive definite matrix.  A standard representation for
 
 ```{r}
 (pd4 <- nlme::pdLogChol(1:6))
-(pd4c <- chol(pd4))
-log(diag(pd4c))
-pd4c[upper.tri(pd4c)]
+(pd4C <- chol(pd4))
+log(diag(pd4C))
+pd4C[upper.tri(pd4C)]
+
+(pd4c <- nlme::pdLogChol(-c(1,1,1, 4:6)))
+(pd4cC <- chol(pd4c))
+log(diag(pd4cC))
+pd4cC[upper.tri(pd4cC)]
 ```
 
-We use this is the updatefn:
+We want to use this in the updatefn.  This requires adding the three [nlme::pdLogChol](http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html) paramters to the parameters to be estimated.  The first 3 of these 6 parameters are the logarithms of the Cholesky square root of the covariance matrix it represents.  Thus, the first parameter is the log of the standard deviation of the first variable.  The second is the log of the residual standard deviation of the second variable after its regression on the first is removed.  The third is similarly the log of the residual standard deviation of the third variable after its regression on the first two is removed.  The fourth is the regression coefficient of the second variable on the first after normalizing the first to standard deviation of one.  The fifth and sixth are similarly the regression coefficients of the third variable on the first and the residuals of the second from predictions based on the first, after normalization as before.  
 
 ```{r}
 EWMA2war0init <- c(EWMA2fit$optim.out$par, 
@@ -1145,7 +1404,9 @@ EWMA2war0fit3 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init,
 logLik2(EWMA2war0fit3)
 ```
 
-This is worse than EWMA2war0fit and EWMA2war0fit2.  Let's check with starting values designed to give the same answer as EWMA2:  
+This is worse than EWMA2war0fit and EWMA2war0fit2.  
+
+However, time series models are known to occasionally have convergence problems and even multimodal likelihoods.  Therefore, let's check with starting values designed to give the same answer as EWMA2:  
 
 ```{r}
 EWMA2war0init2 <- c(EWMA2fit$optim.out$par, 
@@ -1155,7 +1416,7 @@ EWMA2war0fit4 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init2,
 logLik2(EWMA2war0fit4)
 ```
 
-This matches logLik(EWMA2war0fit2$model), as expected.  Let's try something between EWMA2war0init and EWMA2war0init2:  
+This matches logLik(EWMA2war0fit2$model).  Let's try something between EWMA2war0init and EWMA2war0init2:  
 
 ```{r}
 EWMA2war0init3 <- c(EWMA2fit$optim.out$par, 
@@ -1198,7 +1459,7 @@ where $\omega_t$ = 1 during wars and 0 otherwise.  And we need to make the migra
 [(make the state transition matrix, T, time varying)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(create updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
-Similar to EWMA2pres2 and EWMA2pres3, we will allow Q for the (war0, war1) components of the state vector to be nonzero the year before the start of each war:   
+Similar to EWMA2pres2 and EWMA2pres3, we will allow Q for the (war, deaths) components of the state vector to be nonzero the year before the start of each war:   
 
 ```{r}
 (beforeWar <- which(c(
@@ -1211,7 +1472,7 @@ Let's check:
 GDP[beforeWar[1]+0:1,]
 ```
 
-We want Q[1:2, 1:2, ] to be diag(NA, 2), Q[3:4, 3:4, beforeWar] to NA;  all other elements of Q should be 0:  
+We want Q[1:2, 1:2, ] to be diag(c(NA, NA)), Q[3:4, 3:4, beforeWar] to NA;  all other elements of Q should be 0:  
 
 ```{r}
 EWMA2warQ <- array(0, c(4,4,N), 
@@ -1235,6 +1496,12 @@ EWMA2war1mdl$Q <- EWMA2warQ
 attr(EWMA2war1mdl, 'tv')[5] <- 1L
 ```
 
+Since we are estimating P1[3:4, 3:4] = Q[3:4, 3:4, beforeWar], we need to set P1inf to diag(c(1,1,0,0)):  
+
+```{r}
+EWMA2war1mdl$P1inf <- diag(c(1,1,0,0))
+```
+
 We also want to set T[3:4, 3:4, GDP$war==''] to 0:    
 
 ```{r}
@@ -1249,22 +1516,26 @@ Looks good.  Let's put it in the model:
 EWMA2war1mdl$T <- war1T
 ```
 
-We also need a matching updatefn:  
+We also need a matching updatefn.  That requires specifying the parameters to be estimated, for which we will ultimately need starting values.  For this, we'll want to include 3 parameters for the [nlme::pdLogChol](http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html) representation of Q[3:4, 3:4].  We'll call these parameters lnQ.war, lnQ.deaths, and lnQ.warDeaths.  However, since the first two are more like standard deviations than variances, we'll adjust their starting values accordingly.  And the lnQ.warDeaths is more like a regression coefficient, and we'll start that at 0:  
 
-#```{r}
-EWMA2war1init <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=0, lnP1.44=0, lnP1.34=0)
+```{r}
+EWMA2war1init <- 
+    c(1, 1, .5, .5, 0, 1)*rep(EWMA2fit$optim.out$par[1], 6)
+names(EWMA2war1init) <- c('lnQ.lvl', 'lnQ.slope', 
+      'lnQ.war', 'lnQ.deaths', 'lnQ.warDeaths', 'lnH')
+EWMA2war1init
 EWMA2war1updt <- function(pars=EWMA2war1init, 
                       model=EWMA2war1mdl, ...){
-  vars <- exp(pars[1:3])
+  vars <- exp(pars[c(1:2, 6)])
   Q <- model$Q
   Q[1,1,] <- vars[1]
   Q[2,2,] <- vars[2]
 #  
-  P1w <- as.matrix(nlme::pdLogChol(pars[4:6]))
+  P1w <- as.matrix(nlme::pdLogChol(pars[3:5]))
   model$P1[3:4, 3:4] <- P1w
   Q[3:4, 3:4, beforeWar] <- P1w
   model$Q <- Q
+#  
   model$H[] <- vars[3]
   model
 } 
@@ -1274,34 +1545,109 @@ logLiks[7, ] <- logLik2(EWMA2war1fit)
 logLiks[1:7, ]
 ```
 
-This looks like more convergence problems.  
+This looks like more convergence problems with logLik numbers slightly less than those for EWMA2.  
 
-Let's check to confirm we can get logLik(EWMA2fit\$model) as before:  
+Let's check to confirm we can get logLik(EWMA2fit[['model']]) as before:  
 
-#```{r}
-EWMA2war1init0 <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=-999, lnP1.44=-999, lnP1.34=0)
+```{r}
+EWMA2war1init0 <- EWMA2war1init
+EWMA2war1init0[c(1, 2, 6)] <- EWMA2fit$optim.out$par
+EWMA2war1init0[3:5] <- c(-999, -999, 0)
 EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
                         updatefn=EWMA2war1updt)
 logLik2(EWMA2war1fit0)
 ```
 
-(say something about marginal vs. diffuse likelihood)
+These match EWMA2.  Let's refit with different starting values:  
+
+```{r}
+EWMA2war1init1 <- EWMA2war1init
+EWMA2war1init1[c(1, 2, 6)] <- EWMA2fit$optim.out$par
+EWMA2war1init1[3:4] <- EWMA2fit$optim.out$par[1]/2
+EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
+                        updatefn=EWMA2war1updt)
+logLik2(EWMA2war1fit0)
+```
+
+These also match EWMA2.  That suggests we may not be able to do better with this model.  
+
+# 8. EWMA2 with variance effect for war
+
+One more possibility is to allow for substantial, single-year changes in the level in EWMA2 by modeling log(Q[1,1]) ~ war + deaths.  For this, we start with EWMA2 and make Q time varying with an appropriate updatefn.  
+
+```{r}
+EWMA2war2mdl <- EWMA2mdl
+EWMA2war2Q <- array(EWMA2mdl$Q, dim=c(2,2,N), 
+    dimnames=list(names(a1.2), names(a1.2), GDP$Year))
+EWMA2war2Q[,, 1:2]
+```
+
+This looks OK.  
+
+```{r}
+EWMA2war2mdl$Q <- EWMA2war2Q
+attr(EWMA2war2mdl, 'tv') <- 
+        c(Z=0L, H=0L, T=0L, R=0L, Q=1L)
+
+EWMA2war2init <- c(1, 0, 0, 1, 1)* EWMA2fit$optim.out$par[1]
+names(EWMA2war2init) <- c('lnQ.lvl', 'lnQ.lvl.war',
+                'lnQ.lvl.deaths', 'lnQ.slope', 'lnH')
+EWMA2war2init
+```
+
+This looks like plausible starting values.  
+
+```{r}
+EWMA2war2updt <- function(pars=EWMA2war2init, 
+                      model=EWMA2war2mdl, ...){
+#
+  Q <- model$Q
+  lnQ11 <- (pars[1] + pars[2]*(GDP$war!='') +
+                   pars[3]*GDP$battleDeathsPMP)
+  Q11 <- exp(lnQ11)
+  oops <- which(!is.finite(Q11))
+  Q11[oops] <- .Machine$double.xmax
+#  
+#  noops <- length(oops)
+#  if(noops>0){
+#    cat('Q[1,1] NA or Inf with pars =\n')
+#    print(pars)
+#    stop('Problem occurs ', noops, ' times, ', 
+#         'starting with number ', noops[1], 
+#         ' for which Q[1,1] = ', Q11[oops[1]])
+#  }
+  Q[1,1,] <- Q11
+#
+  Q22 <- exp(pars[4])
+  if(!is.finite(Q22)){
+    print(pars)
+    stop('Q22 = ', Q22)
+  }
+  
+  Q[2,2,] <- exp(pars[4])
+  model$Q <- Q
+#  
+  model$H[] <- exp(pars[5])
+  model
+} 
+EWMA2war2updt()
+
+EWMA2war2fit <- fitSSM(EWMA2war2mdl, inits=EWMA2war2init, 
+                        updatefn=EWMA2war2updt)
+logLiks[8, ] <- logLik2(EWMA2war1fit)
+logLiks[1:8, ]
+```
+
+This matches EWMA2war1.  
 
 # Discussion 
 
-The following table summarizes the log(likelihood) and the root mean square error or deviation (rmse) from the one-step ahead prediction for each of the nine models described above with a brief comment on each fit:  
+The conclusions from the different models tested match the naive analysis that inspired this work:  
 
- || Model | state vector components | time varying components | parameters to estimate | logLik | rmse | comments 
--|------|-------------------------|----------------------|-----|---|---|---
-1 | EWMA1: Standard Bayesian EWMA | 1:level | | 2:lnQ, lnH | 372.9323 | 0.046 | obviously need slope 
-2 | EWMA2: double EWMA | 2:level, slope | | 3:lnQ.lvl, lnQ.slope, lnH | 384.6971 | 0.0427 | slope too stiff 
-3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 3:lnQ.lvl, lnQ.slope, lnH | 384.6971 | 0.0427 | same as EWMA2 
-4 | EWMA2pres2: EWMA2 assuming no continuity in slope between presidents | 2:level, slope | Q, T | 3:lnQ.lvl, lnQ.slope, lnH | 389.576 | 0.0421 | slightly better than previous models 
-5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH |  391.4337 | 0.0411
- | | | | | | | | |
-6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war0, war1 | T | 3:lnQ.lvl, lnQ.slope, lnH | 384.6971 | 0.0428 | convergence problems 
-7 | EWMA2war1: EWMA2 with random effect of war | 4:level, slope, war0, war1 | Q, T | 6:lnQ.lvl, lnQ.slope, lnQ.war00, lnQ.war11, lnQ.war01, lnH | ??? | ??? | more convergence problems 
+  1.  There has been a substantive difference in the performance of the economy between administrations, with no indication of any changes in the rate of improvement in average annual income apart from this administration effect.  
+  1.  There is no evidence that any of the three formulations of a war effect can explain any part of the variability in average annual income (GDP per capita, adjusted for inflation) in U.S. economic history.  
+  1.  The near-zero estimate for the observation error variance, H, and the migration variance for the slope in many models suggests that the numbers we have were already smoothed to reduce (artificially) the between-year variability.  
+  1.  Some time series models are known to have multiple local maxima of the likelihood function for some data sets.  To check for this, it could help to make contour plots of the log(likehood) surface in a sufficiently broad region of the apparent optimum to identify other and perhaps better local optima;  such alternative optima would presumably be visible in plots of a moderately but not excessively broad region of the optimum identified by the standard algorithm.  Such plots could also display a joint confidence region for any interesting pair of parameters.  (We may also wish to use simuluation to calibrate the confidence regions for cases like many considered here where the assumptions of [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) do not hold.) It could be interesting to reestimate some of these models with the migration variance for the slope fixed at, e.g., its upper 90th percentile.  This might reduce the variations between administration, but we'd be surprised if it changed the overall conclusions.  This is left for future work.  
 
 # References
 ```{r results = "asis", echo = FALSE}

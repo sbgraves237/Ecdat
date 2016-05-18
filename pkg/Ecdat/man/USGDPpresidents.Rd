@@ -38,9 +38,12 @@
   million population.  
 }
 \usage{data(USGDPpresidents)}
-\format{A \code{\link{data.frame}} containing :
+\format{A \code{\link{data.frame}} containing 259 
+      observations on the following variables:
   \describe{
-    \item{Year}{ integer: the year, 1774:2015 } 
+    \item{Year}{ 
+      integer: the year, c(seq(1610, 1770, 10), 1774:2015)
+    } 
     \item{CPI}{
       Numeric:  U. S. Consumer Price Index per Officer 
       and Williamson (2015).  Average 1982-84 = 100.  
