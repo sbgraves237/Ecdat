@@ -253,7 +253,7 @@ In the following, we shall consider seven different though related models:
 1 | EWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:lnQ, lnH
 2 | EWMA2: double EWMA | 2:level, slope | | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH
 3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH 
-4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | diag(c(0, NA, 0)) | diag(c(1, 0, 0)) | 3:lnQ.lvl, lnQ.slope, lnH 
+4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | diag(c(0, NA, 0)) | diag(c(1, 0, 0)) | 4:a1.slope, lnQ.lvl, lnQ.slope, lnH
 5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | diag(c(0, 0, NA) | diag(c(1, 1, 0)) | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH 
  | | | | | | | 
 6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war, war1 | T | 0 | diag(4) | 3:lnQ.lvl, lnQ.slope, lnH
