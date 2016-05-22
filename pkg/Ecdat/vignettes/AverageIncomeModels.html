@@ -12,7 +12,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-05-17" />
+<meta name="date" content="2016-05-22" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -70,13 +70,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-05-17</em></h4>
+<h4 class="date"><em>2016-05-22</em></h4>
 
 
 
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>This vignette illustrates the use of the <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> package for R to evaluate the claim that <a href="https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery">World War II (WW II)</a>, not <a href="https://en.wikipedia.org/wiki/Franklin_D._Roosevelt">Franklin Roosevelt (FDR)</a>, ended the <a href="https://en.wikipedia.org/wiki/Great_Depression">Great Depression</a>. This is the dominant view of the evolution of the US economy between 1933 and 1945. It is, however, superficially contradicted by our naive review of a plot of average annual income in the US (<a href="https://en.wikipedia.org/wiki/Real_gross_domestic_product">real US Gross Domestic Product (GDP) per capita</a>, 1790-2014, from <a href="http://measuringworth.com/">MeasuringWorth</a>) in two ways: First, other wars have not been accompanied by such obvious growth spurts. Second, FDR’s economic performance even without World War II seems unmatched by any other U.S. president. This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration (“president”). This includes a detailed discussion and comparison of alternative models of economic growth and how <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> was used to fit them. We have three conclusions: The models we fit failed to find a signficant macroeconomic impact of war but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, these conclusions must be considered tentative, because none of these models considered other variables such as inflation and unemployment. Third, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.</p>
+<p>This vignette illustrates the use of the <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> package for R to evaluate the claim that <a href="https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery">World War II (WW II)</a>, not <a href="https://en.wikipedia.org/wiki/Franklin_D._Roosevelt">Franklin Roosevelt (FDR)</a>, ended the <a href="https://en.wikipedia.org/wiki/Great_Depression">Great Depression</a>. This is the dominant view of the evolution of the US economy between 1933 and 1945. It is, however, superficially contradicted by our naive review of a plot of average annual income in the US (<a href="https://en.wikipedia.org/wiki/Real_gross_domestic_product">real US Gross Domestic Product (GDP) per capita</a>, 1790-2014, from <a href="http://measuringworth.com/">MeasuringWorth</a>): First, other wars have not been accompanied by such obvious growth spurts. Second, FDR’s economic performance even without World War II seems unmatched by any other U.S. president. This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration (“president”). This includes a detailed discussion and comparison of alternative models of economic growth and how <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> was used to fit them. We have three conclusions: The models we fit failed to find a signficant macroeconomic impact of war but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, these conclusions must be considered tentative, because none of these models considered other variables such as inflation and unemployment. Third, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>

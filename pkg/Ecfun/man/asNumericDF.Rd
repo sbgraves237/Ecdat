@@ -17,7 +17,7 @@
   \code{POSIXct}.  Then order the rows by the 
   \code{orderBy} column.  Some Excel imports include 
   commas as thousand separators;  this replaces any 
-  commas with char(0), '' before trying to convert 
+  commas with char(0), '', before trying to convert 
   to numeric.  
   
   Similarly, if "\%" is found as the last character in 
