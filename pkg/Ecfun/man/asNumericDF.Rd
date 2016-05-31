@@ -45,10 +45,11 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
 }
 \arguments{
   \item{x}{
-    For \code{asNumericChar}, this is a character vector to be
-    converted to numeric after \code{gsub(',', '', x)}.  For
-    \code{asNumericDF}, this is a \code{data.frame} with all
-    character columns to be converted to numerics.
+    For \code{asNumericChar}, this is a character 
+    vector to be converted to numeric after 
+    \code{gsub(',', '', x)}.  For \code{asNumericDF}, 
+    this is a \code{data.frame} with all character 
+    columns to be converted to numerics.
   }
   \item{keep}{
     something to indicate which columns to keep, in 
@@ -88,7 +89,10 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     For \code{Dates}, \code{\link{as.Date}} is 
     first tried with format = '\%Y-\%m-\%d', then 
     with '\%Y/\%m/\%d', '\%m-\%d-\%Y', and 
-    '\%m/\%d/\%Y'.  
+    '\%m/\%d/\%Y'.  The conversion with the fewest 
+    NAs is kept.  If two match for numbers of NAs, 
+    the one with the minimum absolute deviations 
+    from as.Date1970(0) is used.  
   }
 }
 \details{

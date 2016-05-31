@@ -122,7 +122,7 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
       de2 <- try(as.Date(xd, '%m/%d/%Y'))
       dl <- list(dd, de1, de2)
       nad <- sapply(dl, function(x)sum(is.na(x)))
-      naMin <- which.min(nad)
+      naMin <- which(nad==min(nad))
       if(length(naMin)<2){
         X[, d] <- dl[[naMin]]
       } else {

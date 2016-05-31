@@ -42,7 +42,7 @@ The best of the models we fit include a "Presidency" effect.  Models with a "war
 We start by plotting the [MeasuringWorth](http://measuringworth.com/) estimates of average annual income in the US (adjusted for inflation) from 1790 to 2014:
 
 ```{r,fig.cap = "real US GDP per capita (thousands of 2009 $)"}
-library(Ecdat)
+suppressMessages(library(Ecdat))
 plot(realGDPperCapita/1000~Year, USGDPpresidents)     
 ```     
 
@@ -246,7 +246,7 @@ In the more general [Kalman filtering](https://en.wikipedia.org/wiki/Kalman_filt
 
 The next generalization beyond an EWMA is [double exponential smoothing](https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing):  It has a two-dimensional state vector with the first dimension being the level and the second being the rate of growth.  The plots above suggests that double exponential smoothing might work relatively well for log(realGDPperCapita) except for 1929-1947.  To model that period, we consider various ways of modeling presidents and wars.  
 
-In the following, we shall consider seven different though related models:  
+In the following, we shall consider seven different though related models (Q, T, H, and P1 are defined below but mentioned here for future reference):  
 
  || Model | state vector components | time varying components | P1 | P1inf | parameters to estimate 
 -|------|-------------------------|----------------------|---|---|-----
@@ -305,7 +305,7 @@ where $\epsilon_t \tilde\ N(0, H_t)$, $\eta_t \tilde\ N(0, Q_t)$ and $\alpha_1 \
 Let's write a suitable formula for our Bayesian EWMA:
 
 ```{r}
-library(KFAS)
+suppressMessages(library(KFAS))
 EWMA1fmla <- log(realGDPperCapita)~
   SSMtrend(1,Q=list(matrix(NA)), a1=log(realGDPperCapita[1]) )
 ```
@@ -1086,7 +1086,7 @@ Of course:  The one off the line is 41, the last, whose estimate cannot be adjus
 Let's plot the confidence intervals just computed using [ggplot](http://rpackages.ianhowson.com/cran/ggplot2/man/ggplot.html):    
 
 ```{r,fig.cap = "Decoupled slope for each presidency"}
-library(ggplot2)
+suppressMessages(library(ggplot2))
 
 ggplot(EWMA2pres2sum[c('president', 'slope', 'lower', 'upper')], 
        aes(x=president, y=slope)) + geom_point() +
