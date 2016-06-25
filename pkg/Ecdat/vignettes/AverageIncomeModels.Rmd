@@ -246,19 +246,19 @@ In the more general [Kalman filtering](https://en.wikipedia.org/wiki/Kalman_filt
 
 The next generalization beyond an EWMA is [double exponential smoothing](https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing):  It has a two-dimensional state vector with the first dimension being the level and the second being the rate of growth.  The plots above suggests that double exponential smoothing might work relatively well for log(realGDPperCapita) except for 1929-1947.  To model that period, we consider various ways of modeling presidents and wars.  
 
-In the following, we shall consider seven different though related models (Q, T, H, and P1 are defined below but mentioned here for future reference):  
+In the following, we shall consider eight different though related models:  
 
- || Model | state vector components | time varying components | P1 | P1inf | parameters to estimate 
--|------|-------------------------|----------------------|---|---|-----
-1 | EWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:lnQ, lnH
-2 | EWMA2: double EWMA | 2:level, slope | | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH
-3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH 
-4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 2:level, slope | Q, T | diag(c(0, NA, 0)) | diag(c(1, 0, 0)) | 4:a1.slope, lnQ.lvl, lnQ.slope, lnH
-5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, Pres | Q, T | diag(c(0, 0, NA) | diag(c(1, 1, 0)) | 4:lnQ.lvl, lnQ.slope, lnQ.Pres, lnH 
- | | | | | | | 
-6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war, war1 | T | 0 | diag(4) | 3:lnQ.lvl, lnQ.slope, lnH
-7 | EWMA2war1: EWMA2 with random effect of war | 4:level, slope, war, war1 | Q, T | diag(c(0, 0, Q.war))	| diag(c(1, 1, 0, 0)) | 6:lnQ.lvl, lnQ.slope, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH
-8 | EWMA2war2: EWMA2 with variance effect for war |	2:level, slope |	Q |	0 | diag(2) | 5:lnQ.lvl, lnQ.slope, lnQ_war, lnQ_deaths, lnH
+ || Model 
+-:|:-----------------------------------------------
+1 | EWMA1: Standard Bayesian EWMA
+2 | EWMA2: double EWMA 
+3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents  
+4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between 
+5 | EWMA2pres3: EWMA2 with an adjustment for each president 
+ | 
+6 | EWMA2war0: EWMA2 with fixed effect of war 
+7 | EWMA2war1: EWMA2 with random effect of war 
+8 | EWMA2war2: EWMA2 with variance effect for war
 
 # 1.  The simplest Kalman Filter:  an Exponentially Weighted Moving Average (EWMA)
 
@@ -296,6 +296,22 @@ $$\alpha_{t+1} = T_t \alpha_t + R_t \eta_t.$$
 
 where $\epsilon_t \tilde\ N(0, H_t)$, $\eta_t \tilde\ N(0, Q_t)$ and $\alpha_1 \tilde\ N(a_1, P_1)$, independent of each other.  In this, $y_t$ is a $p$-vector (where $p$ may actually vary with $t$), $\alpha_t$ is $m$-dimensional, and $\eta_t$ has dimension $k$.  (See `r Citet(bib2, "DurbinKoopman")` for more detail on this model.)   
 
+In all the models considered here, $y_t$ is log(realGDPperCapita). The dimensionality of $\alpha_t$ will vary, but the first component will always be the level.  Thus, $Z_t$ will be a row vector with 1 in the first position and 0 elsewhere. This will force $Q_t$, $T_t$, and $P_1$ to change between models.  In addition, some models have diffuse initialization for the state vector.  These are specified by a model component $P_{1,\infty}$;  see `r Citet(bib2, "KFASarticle")` or [SSmodel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  And the different models require estimating different parameters.  These pieces are summarized in the following table:  
+
+ || Model | state vector components | time varying components | P1 | P1inf | parameters to estimate 
+-:|:--------------------|:---------|:------:|:---:|:---:|:--------------
+1 | EWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:lnQ, lnH
+2 | EWMA2: double EWMA | 2:level, slope | | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH
+3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents | 2:level, slope | Q | 0 | diag(2) | 3:lnQ.lvl, lnQ.slope, lnH 
+4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents | 3:level, slope, a1.slope | Q, T | diag(c(0, NA, 0)) | diag(c(1, 0, 0)) | 4:a1.slope, lnQ.lvl, lnQ.slope, lnH
+5 | EWMA2pres3: EWMA2 with an adjustment for each president | 3:level, slope, pres3 | Q, T | diag(c(0, 0, NA) | diag(c(1, 1, 0)) | 4:lnQ.lvl, lnQ.slope, lnQ.pres3, lnH 
+ | | | | | | | 
+6 | EWMA2war0: EWMA2 with fixed effect of war | 4:level, slope, war, deaths | T | 0 | diag(4) | 3:lnQ.lvl, lnQ.slope, lnH
+7 | EWMA2war1: EWMA2 with random effect of war | 4:level, slope, war, deaths | Q, T | diag(c(0, 0, Q.war))	| diag(c(1, 1, 0, 0)) | 6:lnQ.lvl, lnQ.slope, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH
+8 | EWMA2war2: EWMA2 with variance effect for war |	2:level, slope |	Q |	0 | diag(2) | 5:lnQ.lvl, lnQ.slope, lnQ_war, lnQ_deaths, lnH
+
+# 1a.  Estimate the Bayesian EWMA 
+
 [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) modeling begins with a [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) that is converted to an "SSModel" object using the [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) function.  This is passed to [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) to estimate unknown parameters to maximize [logLik.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  Confidence and prediction intervals can be obtained using [predict.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/predict.SSModel.html).  Function [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) will produce filtered and smoothed estimates of the state vector in components "a" and "alphahat", respectively, of an object of class "KFS":
 
 <center> 
@@ -328,9 +344,33 @@ The default behavior of [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fi
 EWMA1fit <- fitSSM(EWMA1mdl, inits=c(lnQ=0, lnH=0))
 ```
 
-Unfortunately, there are two standard likelihoods commonly used for time series programmed into KFAS:  diffuse and marginal.  By default, the [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) function maximizes the diffuse likelihood, because it's faster to compute and is optimized with the same parameter values in many cases.  However, if $Z_t$ or $T_t$ are functions of the unknown parameters, this may not be true;  see [logLik.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  In such cases, the marginal likelihood should be used.  
+Let's compute one-step ahead predictions with prediction intervals using [predict.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/predict.SSModel.html):
 
-In the examples considered here, neither $Z_t$ nor $T_t$ will vary with unknown parameters.  However, we will need the marginal likelihood, because it does not change with two different forumlations of the same model and the diffuse likelihood can change.  Thus, with nested models, the marginal likelihood should never be less for the larger model, but the diffuse likelihood might.  We will see that later.  
+```{r}
+EWMA1pred <- predict(EWMA1fit$model, 
+              interval='prediction', filtered=TRUE)
+```
+
+Let's plot these predictions:  
+
+```{r,fig.cap = "EWMA1"}
+plotPresWars(realGDPperCapita/1000, GDP, log='y', 
+             main="EWMA fit", 
+             ylab='thousands of 2009 dollars', las=1, 
+             type='n', xlab='Year')
+text(GDP$realGDPperCapita/1000, 'x', cex=0.5)
+matlines(GDP$Year, exp(EWMA1pred)/1000, 
+         col=c('blue', 'darkgreen', 'darkgreen'), 
+         lty=c(1, 2, 2))
+```
+
+The one-step ahead prediction error and limits are so small it's hard to see what's going on in the range of this plot.  To study model deficiencies, etc., we need to look elsewhere.  For the moment, however, it's comforting to see such close agreement between the data and the 95 percent one-step ahead prediction limits.   
+
+Next, let's consider log(likelihood) as a measure of goodness of fit. Unfortunately, there are two standard likelihoods commonly used for time series programmed into KFAS:  diffuse and marginal.  By default, the [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) function maximizes the diffuse likelihood, because it's faster to compute and is optimized with the same parameter values in many cases.  
+
+In particular, if $Z_t$ or $T_t$ are functions of the unknown parameters, the diffuse and marginal likelihoods may not be optimized with the same parameter values;  see [logLik.SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  In such cases, the marginal likelihood should be used.  
+
+In the examples considered here, neither $Z_t$ nor $T_t$ vary with unknown parameters.  However, we still need the marginal likelihood, because it will often not change between two different formulations of the same model, and the diffuse likelihood is more likely to change.  Thus, with nested models, the marginal likelihood should never be less for the larger model, but the diffuse likelihood might be.  We will see that later.  
 
 For now, let's check this claim by maximizing the marginal likelihood:  
 
@@ -343,7 +383,7 @@ logLik(EWMA1fit$model)
 logLik(EWMA1fitM$model, marginal=TRUE)
 ```
 
-As expected.  
+As expected:  The log(likelihoods) are different, but they are maximized with the same parameter values.  
 
 `r Citet(bib2, "KFASarticle")` notes that the diffuse log-likelihood can be written as follows:  
 
@@ -425,34 +465,56 @@ exp(EWMA1fit$optim.out$par/2)
 
 These estimates put the observation error at essentially zero.  It would be interesting to construct a confidence region for these two parameters, but we shall not attempt that here.  
 
-To help us understand this model, we compute the one-step ahead predictions with error bounds as follows:  
+It's good modeling practice to look at residuals.  For many purposes, standardized residuals are better than the raw residuals, because the standard deviation is officially known to be 1.  
+
+Standardized residuals for the fit returned by [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) can be obtained using [rstandard.KFS](http://rpackages.ianhowson.com/cran/KFAS/man/rstandard.KFS.html):  
 
 ```{r}
-EWMA1pred <- predict(EWMA1fit$model, filtered = TRUE)
+EWMA1.rstd <- rstandard(EWMA1.KFS)
+str(EWMA1.rstd)
 ```
 
-Let's plot this vs. Presidents and wars:  
+With time series, it's good to look at the autocorrelation function of residuals:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+(acf(EWMA1.rstd, na.action=na.pass))
+(acf(EWMA1.rstd, na.action=na.pass, demean=FALSE))
+```
+
+If the model fit well, then the residuals should have zero mean.  The difference between the acfs with demean = TRUE (the default) and FALSE is a result of the error in that assumption.  We would expect this difference to disappear with a double EWMA considered in the next section.  
+
+As another check, let's make a normal probability plot of these residuals to look for outliers:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+qqnorm(EWMA1.rstd, datax=TRUE, 
+       ylab='standardized residuals', 
+       xlab='standard normal quantiles')
+```
+
+This looks like three line segments with different slopes.  This suggests a mixture of normals with the lowest and highest coming from component(s) with higher standard deviation.  It will be interesting to compare these plots with those of standardized residuals from other models.  
+
+Before moving to that, however, let's plot these residuals vs. Presidents and wars:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, GDP, 
+plotPresWars(EWMA1.rstd, GDP, 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
 ```
 
-There are three negative spikes between 1900 and 1950.  Let's look closer at those:  
+The biggest spikes all occur between 1900 and 1950.  Let's look closer at those:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, GDP, xlim=c(1900, 1950), 
+plotPresWars(EWMA1.rstd, GDP, xlim=c(1900, 1950), 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
 ```
 
-We understand the Hoover and post-WW II spikes.  Let's take a closer look at the 1908 spike:  
+We think we understand the spikes between 1929 and 1950.  Let's take a closer look at the 1908 spike:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
-plotPresWars(EWMA1.KFS$v, GDP, xlim=c(1900, 1910), 
+plotPresWars(EWMA1.rstd, GDP, xlim=c(1900, 1910), 
     yHoover=0.8, yFDR=.3, yWar=seq(.6, by=-.1, len=9), 
     ylab='one-step ahead prediction errors')
 abline(h=0)
@@ -506,23 +568,11 @@ matlines(GDP$Year, exp(EWMA1.woDeprPred)/1000,
          lty=c(1, 2, 2))
 ```
 
-The prediction is flat during the entire period set to NA, as we should expect from the model.  Moreover, 1948 is outside the error bounds.  This illustrates the need for something more, like a double EWMA.  This is a similar model that estimates both level and slope.  
+The prediction is flat during the entire period set to NA, as we should expect from the model.  Moreover, 1948 is above the upper prediction limit.  This illustrates the need for something more, like a double EWMA.  This is a similar model that estimates both level and slope.  
 
 # 2.  Double exponential smoothing:  More realistic but still not great for the Great Depression 
 
-[Double exponential smoothing](https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing) runs an EWMA on the slope of a line and uses that in adjusting the level.  The standard Bayesian modification of that adjusts the weight on the last observation in proportion to the information content of the last observation relative to information accumulated in the previous estimate of the state, as suggested above.  This can be written using the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) notation above as follows:  
-
-$$y_t = Z_t \alpha_t + \epsilon_t$$
-
-$$\alpha_{t+1} = T_t \alpha_t + R_t \eta_t.$$
-
-where $y_t$ is the observation at time $t$ on log(readGDPperCapita), as before, 
-
-  $\alpha_t$ has two components corresponding to the level and slope,
-  
-  $Z_t$ is a row vector of (1, 0), so $y_t$ is the estimated level plus noise, 
-  
-  $T_t$ is a 2 x 2 matrix with 0 in the lower left and 1's elsewhere, so the new level is the previous level plus the slope while the new slope is the previous slope, plus migration noise:  
+[Double exponential smoothing](https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing) runs an EWMA on the slope of a line and uses that in adjusting the level.  The standard Bayesian modification of that adjusts the weight on the last observation in proportion to the information content of the last observation relative to information accumulated in the previous estimate of the state, as suggested above.  As indicated in the table of models above, $\alpha_t$ has two components corresponding to the level and slope, and $Z_t$ is a row vector (1, 0).  This makes $y_t$ the estimated level plus noise.  $T_t$ is a 2 x 2 matrix with 0 in the lower left and 1's elsewhere, so the new level is the previous level plus the slope while the new slope is the previous slope, plus migration noise:  
   
 $$T_t = \left[\begin{array}
 {rrr}
@@ -531,7 +581,7 @@ $$T_t = \left[\begin{array}
 \end{array}\right]
 $$  
 
-Similar to the simple EWMA considered above, $H_t$ is the observation variance.  However, the state vector $\alpha_t$ is 2-dimensional.  To manage this, we assume that $R_t$ is the 2-dimensional identity matrix, and $Q_t$ is a 2-dimensional diagonal matrix.  This gives us 3 parameters to estimate:  The two diagonal elements of the migration variance matrix $Q_t$ and the observation error variance $H_t$.  As before, by default, the algorithm estimates the logarithms of these parameters, which we will call lnQ.lvl, lnQ.slope, and lnH.  
+Similar to the simple EWMA considered above, $H_t$ is the observation variance.  By contrast, the state vector $\alpha_t$ is now 2-dimensional.  To manage this, we assume that $R_t$ is the 2-dimensional identity matrix, and $Q_t$ is a 2-dimensional diagonal matrix.  This gives us 3 parameters to estimate:  The two diagonal elements of the migration variance matrix $Q_t$ and the observation error variance $H_t$.  As before, by default, the algorithm estimates the logarithms of these parameters, which we will call lnQ.lvl, lnQ.slope, and lnH, as noted in the table above.
 
 Modeling is a straightforward generalization of the above following the same process:
 
@@ -539,7 +589,9 @@ Modeling is a straightforward generalization of the above following the same pro
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
-We start by supplying a formula using [SSMtrend(2, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html).  We select a starting value for $a_1$ with 0 slope, because that will make the EWMA1 discussed above a special case of this model (with zero migration variance for the slope).  That's important, because the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma) says that the most powerful test comparing two hypotheses is the likelihood ratio, and it helps to have one hypothesis nested within the other, e.g., when the "null hypothesis" is a special case of the "alternative".  Moreover, with most nested hypotheses [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) says that twice the log(likelihood ratio) of nested hypotheses is approximately distributed as chi-square with degrees of freedom equal to number of parameters in the larger model fixed to create the smaller model.  Unfortunately, Wilks's theorem does not apply when the null hypothesis is on a boundary, as with a variance parameter at 0.  In that case, the likelihood ratio is still most powerful, but twice the log(likelihood ratio) may not be approximately chi-square.  `r Citet(bib2, "PinBates")` recommend simulation to estimate p-values, but provide an example that suggests that 0.5 times the p-value for a chi-square(1) provides a reasonable approximation for the actual p-value when testing if a single variance parameter is zero;  we use this approximation below.  (They provide other examples that show that this simple rule does not generalize and adjusts in the wrong direction when eliminating fixed effects from a mixed model;  see their pp. 87-89.)
+We start by supplying a formula using [SSMtrend(2, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html).  We select a starting value for $a_1$ with 0 slope, because that will make the EWMA1 discussed above a special case of this model (with zero migration variance for the slope).  That's important, because the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma) says that the most powerful test comparing two hypotheses is the likelihood ratio, and it helps to have one hypothesis nested within the other, e.g., when the "null hypothesis" is a special case of the "alternative".  Moreover, with most nested hypotheses [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) says that twice the log(likelihood ratio) of nested hypotheses is approximately distributed as chi-square with degrees of freedom equal to number of parameters in the larger model fixed to create the smaller model.  
+
+Unfortunately, Wilks's theorem does not apply when the null hypothesis is on a boundary, as with a variance parameter at 0.  In that case, the likelihood ratio is still most powerful, but twice the log(likelihood ratio) may not be approximately chi-square.  `r Citet(bib2, "PinBates")` recommend simulation to estimate p-values, but provide an example that suggests that 0.5 times the p-value for a chi-square(1) provides a reasonable approximation for the actual p-value when testing if a single variance parameter is zero;  we use this approximation below.  (They provide other examples that show that this simple rule does not generalize and adjusts in the wrong direction when eliminating fixed effects from a mixed model;  see their pp. 87-89.)
 
 We construct the desired formula for the double EWMA as follows:  
 
@@ -639,6 +691,32 @@ We see two possible explanations for this surprising stiffness:
 To check the first, we could make contour plots of the log(likehood) surface in a sufficiently broad region for the smallest two estimated parameters, lnQ.slope and lnH, as discussed, e.g., with the help page for [plot.profile.nls](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/plot.profile.nls.html) and in the [lme4 vignette](https://cran.rstudio.com/web/packages/lme4/vignettes/lmer.pdf) `r AutoCite(bib2, "lme4vignette")` and see how the above plot of alphahat[, 'slope'] would change when increasing lnQ.slope to its upper 80 percent confidence limit.  We shall not pursue that here.  
 
 The second explanation seems plausible, in part because many time series are often adjusted after they are initially published.  We could check the literature on that or ask an expert.  
+
+Let's look at the standardized residuals as before:  
+
+```{r}
+EWMA2.rstd <- rstandard(EWMA2.KFS)
+str(EWMA2.rstd)
+```
+
+As before, let's look at the autocorrelation function of the residuals:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+(acf(EWMA2.rstd, na.action=na.pass))
+(acf(EWMA2.rstd, na.action=na.pass, demean=FALSE))
+```
+
+The difference between the acfs with demean = TRUE and FALSE has disappeared, as expected.  However, htere is still a lag one autocorrelation of 0.3.  We can hope to see that reduced in better fitting models.  
+
+As another check, let's make a normal probability plot of these residuals to look for outliers:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+qqnorm(EWMA2.rstd, datax=TRUE, 
+       ylab='standardized residuals', 
+       xlab='standard normal quantiles')
+```
+
+This looks quite similar to the comparable plot for EWMA1.  
 
 As another evaluation of the fit during the FDR years, let's plot the one-step ahead prediction errors as before:  
 
@@ -984,7 +1062,7 @@ plotPresWars(EWMA2pres2.KFS$alphahat, GDP,
 
 The slope here shows substantially more variability.  Let's look at it more closely:  
 
-```{r,fig.cap = "Estimated level slope of GDP, decoupling the presidents"}
+```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
 plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              ylab='slope')
@@ -1108,6 +1186,31 @@ exp(EWMA2pres2fit$optim.out$par[-1]/2)
 
 This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038, respectively, and the standard deviation of the observation noise is tiny, 0.00004.  
 
+Before looking at the next model, let's review the standardized residuals as before:  
+
+```{r}
+EWMA2pres2.rstd <- rstandard(EWMA2pres2.KFS)
+str(EWMA2pres2.rstd)
+```
+
+With time series, it's good to look at the autocorrelation function of residuals:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+(acf(EWMA2pres2.rstd, na.action=na.pass, demean=TRUE))
+```
+
+The lag 1 autocorrelation is now only 0.17, slightly more than approximate upper 95 percent confidence limit.  That suggests progress.  
+
+Let's again look at a normal probability plot of these residuals:  
+
+```{r,fig.cap = "Normal probability plot of Standardized Residuals"} 
+qqnorm(EWMA2pres2.rstd, datax=TRUE, 
+       ylab='standardized residuals', 
+       xlab='standard normal quantiles')
+```
+
+This looks quite similar to the previous normal plots of residuals.
+
 What do we get by modeling a president effect as an adjustment to the slope of an otherwise standard Bayesian double EWMA?
 
 # 5.  EWMA2 with an adjustment for each president 
@@ -1221,14 +1324,14 @@ The diffuse likelihood and the root mean square error are worse for EWMApres3 th
 
 Let's compute the smoothed state vectors as before:  
 
-```{r}
+```{r,fig.cap = "Estimated level and slope of GDP plus an adjustment for each president"}
 EWMA2pres3.KFS <- KFS(EWMA2pres3fit$model)
 plotPresWars(EWMA2pres3.KFS$alphahat, GDP, 
              yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
              main='Decoupled presidents')
 ```
 
-This is interesting:  Let's check the range of the three states and the parameter estimates:  
+This is interesting:  Let's check the parameter estimates and the ranges of of the three components of the state vector:  
 
 ```{r}
 EWMA2pres3fit$optim.out$par
@@ -1246,7 +1349,7 @@ What does the presidential summary look like?
 
 This seems quite similar to the EWMA2pres2 model.  Let's plot this summary as before:  
 
-```{r}
+```{r,fig.cap = "EWMA2pres3 slope for each presidency"}
 ggplot(EWMA2pres3sum[c('president', 'pres3', 'lower', 'upper')], 
        aes(x=president, y=pres3)) + geom_point() +
     coord_cartesian(ylim = c(-0.08, 0.08)) + 
@@ -1259,7 +1362,27 @@ This is quite similar to the corresponding plot for EWMA2pres2.  These two model
 
 However, there are difference between the two that are not easy to understand or describe.  EWMA2pres3 has a better marginal likelihood but worse root mean square prediction error.  
 
-NOTE:  An equivalent model estimating the same parameters could have a 43-dimensional state vector with components level, slope, and Pres1, ..., Pres41.  The memory and compute time required to fit it would be greater, but the [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and parameter estimates should be the same.  This is unnecessary here but could be required with, e.g., an experiment with levels for a random effect that are not sequential in time.    
+Let's look at the standardized residuals as before:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals from EWMA2pres3"} 
+EWMA2pres3.rstd <- rstandard(EWMA2pres3.KFS)
+str(EWMA2pres3.rstd)
+(acf(EWMA2pres3.rstd, na.action=na.pass, demean=TRUE))
+```
+
+This is essentially the same as EWMA2pres2.  
+
+Let's again look at a normal probability plot of these residuals:  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+qqnorm(EWMA2pres3.rstd, datax=TRUE, 
+       ylab='standardized residuals', 
+       xlab='standard normal quantiles')
+```
+
+As before.  The continued presence of the image of a mixture of normals suggests an opportunity to improve the fit through improving the noise term, e.g., with [Autoregressive conditional heteroskedasticity](https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity).  We will not pursue that here.  
+
+NOTE:  An equivalent model estimating the same parameters could have a 43-dimensional state vector with components level, slope, and Pres1, ..., Pres41.  The memory and compute time required to fit it would be greater, but the [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and parameter estimates should be the same.  This is unnecessary here but could be required with, e.g., an experiment with levels for a random effect that are not sequential in time.  
 
 # 6.  EWMA2 with a fixed effect for war 
 
