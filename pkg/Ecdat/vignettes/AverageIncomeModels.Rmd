@@ -481,11 +481,11 @@ With time series, it's good to look at the autocorrelation function of residuals
 (acf(EWMA1.rstd, na.action=na.pass, demean=FALSE))
 ```
 
-If the model fit well, then the residuals should have zero mean.  The difference between the acfs with demean = TRUE (the default) and FALSE is a result of the error in that assumption.  We would expect this difference to disappear with a double EWMA considered in the next section.  
+If the model fit well, then the residuals should have zero mean.  The difference between the acfs with demean = TRUE (the default) and FALSE is a result of the obvious drift that creates an error in that assumption.  We expect this difference to disappear with a double EWMA considered in the next section.  
 
 As another check, let's make a normal probability plot of these residuals to look for outliers:  
 
-```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+```{r,fig.cap = "Normal probability plot of Standardized Residuals"} 
 qqnorm(EWMA1.rstd, datax=TRUE, 
        ylab='standardized residuals', 
        xlab='standard normal quantiles')
@@ -493,7 +493,7 @@ qqnorm(EWMA1.rstd, datax=TRUE,
 
 This looks like three line segments with different slopes.  This suggests a mixture of normals with the lowest and highest coming from component(s) with higher standard deviation.  It will be interesting to compare these plots with those of standardized residuals from other models.  
 
-Before moving to that, however, let's plot these residuals vs. Presidents and wars:  
+Before considering other models, however, let's plot these residuals vs. Presidents and wars:  
 
 ```{r,fig.cap = "EWMA residuals, Presidents and wars"}
 plotPresWars(EWMA1.rstd, GDP, 
