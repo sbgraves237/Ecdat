@@ -2,12 +2,13 @@
 \alias{confint.var}
 \alias{confint.sd}
 \title{
-  Confidence iterval for sample variance or 
+  Confidence interval for sample variance or 
   standard deviation 
 }
 \description{
-  Computes the standard normal confidence interval 
-  for a sample variance or standard deviation.    
+  Computes the standard normal (i.e., chi-square)
+  confidence intervals for a sample variance or 
+  standard deviation.    
 }
 \usage{
 \method{confint}{var}(object, parm, level=0.95, ...) 
