@@ -4,6 +4,7 @@
 
 export(Arrows, as.Date1970, asNumericChar, asNumericDF, 
        BoxCox, 
+       confint.var, confint.sd, 
        canbeNumeric, camelParse, checkNames, classIndex, 
        compareLengths, countByYear, countsByYear, 
        createMessage, createX2matchY, 
@@ -64,4 +65,7 @@ S3method(parseCommas, default)
 S3method(plot, qqnorm2)
 S3method(plot, qqnorm2s)
 S3method(points, qqnorm2)
+S3method(confint, var)
+S3method(confint, sd)
+
 
