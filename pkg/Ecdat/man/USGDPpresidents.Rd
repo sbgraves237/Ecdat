@@ -2,17 +2,20 @@
 \docType{data}
 \alias{USGDPpresidents}
 \title{
-  US GDP per capita with presidents and wars 
+  US GDP per capita with presidents and wars
 }
 \description{
   It is commonly claimed that Franklin Roosevelt (FDR) did 
-  not end the Great Depression:  World War II did.  This 
-  is supported by the 10.6 percent growth per year in 
+  not end the Great Depression:  World War II (WW2) did.  
+  This is supported by the 10.6 percent growth per year in 
   Gross Domestic Product (GDP) per capita seen in the 
-  standard GDP estimates from 1940 to 1945.  
+  standard GDP estimates from 1940 to 1945.  It is also 
+  supported by the rapid decline in unemployment during 
+  the war.  
   
-  However, no comparable growth spurts for other wars catch 
-  the eye in a plot of log(GDP per capita) from 1790 to 2015, 
+  However, no comparable growth spurts in GDP per capita 
+  catch the eye in a plot of log(GDP per capita) from 
+  1790 to 2015, whether associated with a war or not, 
   using the \href{http://measuringworth.com/}{Measuring 
   Worth} data.  The only other features of that plot that 
   seem visually comparable are the economic disaster of 
@@ -29,6 +32,12 @@
   \href{https://en.wikipedia.org/wiki/John_Maynard_Keynes}{
   "The Keynesian Ascendancy 1939-1979"}.  
   
+  Unemployment dropped during the First World War as it did
+  during WW2.  Comparable data are not available for the 
+  U.S. during other major wars, most notably the 
+  \href{https://en.wikipedia.org/wiki/American_Civil_War}{American Civil War} and the 
+  \href{https://en.wikipedia.org/wiki/Mexican-American_War}{Mexican-American War}.  
+  
   This data set provides a platform for testing the effects 
   of presidency, war, and Keynes.  It does this by 
   combining the numbers for US population and real GDP per 
@@ -36,8 +45,12 @@
   Measuring Worth}  with the presidency and a list of major 
   wars and an estimate of the battle deaths by year per 
   million population.  
+  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{US unemployment is 
+  also considered.}
 }
-\usage{data(USGDPpresidents)}
+\usage{
+data(USGDPpresidents)
+}
 \format{A \code{\link{data.frame}} containing 259 
       observations on the following variables:
   \describe{
@@ -175,6 +188,20 @@
       \href{https://en.wikipedia.org/wiki/John_Maynard_Keynes}{
       John Maynard Keynes}. 
     }
+    \item{unemployment}{
+      Estimated US unemployment rate 
+    }
+    \item{unempSource}{
+      Source for US unemployment:  
+      \describe{
+        \item{1800-1889}{Lebergott}
+        \item{1890-1929}{Romer}
+        \item{1930-1939}{Coen}
+        \item{1940-present}{BLS}
+      }
+      
+      Clearly, the more recent numbers should be more accurate.  
+    }
   }
 }
 \details{rownames(USGDPpresidents) = Year}
@@ -195,6 +222,25 @@
   
   Wikipedia, \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
   accessed 2015-09-13.  
+  
+  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{Wikipedia, 
+  "Unemployment in the United States"}.  See also \url{https://en.wikipedia.org/wiki/User_talk:Peace01234#Unemployment_Data}.  
+  Accessed 2016-07-08.  
+  
+  Stanley Lebergott (1964). Manpower in Economic Growth: 
+  The American Record since 1800. Pages 164-190. New York: 
+  McGraw-Hill.  Cited from 
+  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{Wikipedia, 
+  "Unemployment in the United States"}, accessed 2016-07-08.  
+  
+  Christina Romer (1986). "Spurious Volatility in 
+  Historical Unemployment Data", The Journal of 
+  Political Economy, 94(1): 1-37.
+  
+  Robert M. Coen (1973) Labor Force and Unemployment in 
+  the 1920's and 1930's: A Re-Examination Based on 
+  Postwar Experience", The Review of Economics and 
+  Statistics, 55(1): 46-55. 
 }
 %\references{}
 \author{Spencer Graves}
@@ -236,6 +282,11 @@ for(i in 2:nWars){
 ## 
 plot(GDPdeflator~CPI, USGDPpresidents, type='l', 
      log='xy')
+     
+##
+## Unemployment 
+##
+plot(Unemployment~Year, USGDPpresidents, type='l')
 
 }
 \keyword{datasets}
