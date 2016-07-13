@@ -192,7 +192,8 @@ data(USGDPpresidents)
       Estimated US unemployment rate 
     }
     \item{unempSource}{
-      Source for US unemployment:  
+      \code{\link{ordered}} giving the source for US 
+      unemployment:  
       \describe{
         \item{1800-1889}{Lebergott}
         \item{1890-1929}{Romer}
