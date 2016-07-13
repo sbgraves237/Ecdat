@@ -286,7 +286,7 @@ plot(GDPdeflator~CPI, USGDPpresidents, type='l',
 ##
 ## Unemployment 
 ##
-plot(Unemployment~Year, USGDPpresidents, type='l')
+plot(unemployment~Year, USGDPpresidents, type='l')
 
 }
 \keyword{datasets}

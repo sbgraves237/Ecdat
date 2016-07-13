@@ -12,7 +12,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-07-11" />
+<meta name="date" content="2016-07-12" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -70,13 +70,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-07-11</em></h4>
+<h4 class="date"><em>2016-07-12</em></h4>
 
 
 
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
-<p>This vignette illustrates the use of the <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> package for R to evaluate the claim that <a href="https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery">World War II (WW II)</a>, not <a href="https://en.wikipedia.org/wiki/Franklin_D._Roosevelt">Franklin Roosevelt (FDR)</a>, ended the <a href="https://en.wikipedia.org/wiki/Great_Depression">Great Depression</a>. This is the dominant view of the evolution of the US economy between 1933 and 1945. It is, however, superficially contradicted by our naive review of a plot of average annual income in the US (<a href="https://en.wikipedia.org/wiki/Real_gross_domestic_product">real US Gross Domestic Product (GDP) per capita</a>, 1790-2014, from <a href="http://measuringworth.com/">MeasuringWorth</a>): First, other wars have not been accompanied by such obvious growth spurts. Second, FDR’s economic performance even without World War II seems unmatched by any other U.S. president. This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration (“president”). This includes a detailed discussion and comparison of alternative models of economic growth and how <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> was used to fit them. We have three conclusions: The models we fit failed to find a signficant macroeconomic impact of war but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, these conclusions must be considered tentative, because none of these models considered other variables such as inflation and unemployment. Third, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.</p>
+<p>This vignette illustrates the use of the <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> package for R to evaluate the claim that <a href="https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery">World War II (WW II)</a>, not <a href="https://en.wikipedia.org/wiki/Franklin_D._Roosevelt">Franklin Roosevelt (FDR)</a>, ended the <a href="https://en.wikipedia.org/wiki/Great_Depression">Great Depression</a>. This is the dominant view of the evolution of the US economy between 1933 and 1945. It is, however, superficially contradicted by our naive review of a plot of average annual income in the US (<a href="https://en.wikipedia.org/wiki/Real_gross_domestic_product">real US Gross Domestic Product (GDP) per capita</a>, 1790-2014, from <a href="http://measuringworth.com/">MeasuringWorth</a>): First, other wars have not been accompanied by such obvious growth spurts. Second, FDR’s economic performance even without World War II seems unmatched by any other U.S. president.<br />
+This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration (“president”). This includes a detailed discussion and comparison of alternative models of economic growth and how <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> was used to fit them. We have three conclusions: The models we fit failed to find a signficant macroeconomic impact of war but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, these conclusions must be considered tentative, because none of these models considered other variables such as inflation and unemployment. Third, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -149,13 +150,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(GDP., <span class="dv">1</span>)</code></pre></div>
 <pre><code>##      Year  CPI GDPdeflator population.K realGDPperCapita  executive
 ## 1790 1790 8.86        4.34         3929          1107.32 Washington
-##                       war battleDeaths battleDeathsPMP Keynes
-## 1790 Northwest Indian War       115.85           29.49      0</code></pre>
+##                       war battleDeaths battleDeathsPMP Keynes Unemployment
+## 1790 Northwest Indian War       115.85           29.49      0           NA
+##      unempSource
+## 1790        &lt;NA&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(GDP., <span class="dv">1</span>)</code></pre></div>
 <pre><code>##      Year    CPI GDPdeflator population.K realGDPperCapita executive war
 ## 2015 2015 237.02      109.78       321704            50820     Obama    
-##      battleDeaths battleDeathsPMP Keynes
-## 2015            0               0      0</code></pre>
+##      battleDeaths battleDeathsPMP Keynes Unemployment unempSource
+## 2015            0               0      0        0.053         BLS</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">range</span>(GDP.$realGDPperCapita)</code></pre></div>
 <pre><code>## [1]  1107.32 50820.00</code></pre>
 <p>It’s common to work with log(dollars) rather than dollars directly. This is obvious to many who work with finance but foreign to many others. For the latter group, it’s worth noting that a $500 drop in annual income would have been catastrophic in 1790, representing almost half the average income at the time. However a similar $500 drop around 2014 would be hardly noticeable, being just under 1 percent of the 2014 average income. Moreover, a small change in logarithms can be interpreted as percentage, since log(1+x) is approximately x when x is small (using <a href="https://en.wikipedia.org/wiki/Natural_logarithm">natural logarithms</a>).</p>
@@ -2086,9 +2089,12 @@ EWMA2war0fit6 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2
 <pre><code>##      Year   CPI GDPdeflator population.K realGDPperCapita executive
 ## 1811 1811 12.73        6.39         7436          1614.19   Madison
 ## 1812 1812 12.89        6.30         7651          1631.42   Madison
-##              war battleDeaths battleDeathsPMP Keynes
-## 1811                     0.00            0.00      0
-## 1812 War of 1812       444.06           58.04      0</code></pre>
+##              war battleDeaths battleDeathsPMP Keynes Unemployment
+## 1811                     0.00            0.00      0         0.02
+## 1812 War of 1812       444.06           58.04      0         0.02
+##      unempSource
+## 1811   Lebergott
+## 1812   Lebergott</code></pre>
 <p>We want Q[1:2, 1:2, ] to be diag(c(NA, NA)), Q[3:4, 3:4, beforeWar] to NA; all other elements of Q should be 0:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2warQ &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,N), 
     <span class="dt">dimnames=</span><span class="kw">list</span>(warStates, warStates, GDP$Year))
