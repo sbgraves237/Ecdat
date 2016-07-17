@@ -23,22 +23,19 @@ BibOptions(check.entries = FALSE, style = "markdown", cite.style = "authoryear",
 
 # Abstract 
 
-This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R to evaluate the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is the dominant view of the evolution of the US economy between 1933 and 1945.  It is, however, superficially contradicted by our naive review of a plot of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2014, from [MeasuringWorth](http://measuringworth.com/)):  First, other wars have not been accompanied by such obvious growth spurts.  Second, FDR's economic performance even without World War II seems unmatched by any other U.S. president.  
-
-
-This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  We have three conclusions:  The models we fit failed to find a signficant macroeconomic impact of war but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency.  Second, these conclusions must be considered tentative, because none of these models considered other variables such as inflation and unemployment.  Third, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.   
+This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R to evaluate the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is the dominant view of the evolution of the US economy between 1933 and 1945.  It is supported by our review of the available unemployment data but superficially contradicted by our naive analyses of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2014, from [MeasuringWorth](http://measuringworth.com/)): First, other wars have not been accompanied by such obvious growth spurts.  Second, FDR's economic performance even without World War II seems unmatched by any other U.S. president.  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  We have four conclusions:  The models we fit failed to find a signficant effect of war on real GDP per capita but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency.  Second, our models provide another perspective on [Okun's law](https://en.wikipedia.org/wiki/Okun%27s_law) relating the changes in unemployment and the rate of economic growth.  Third, these conclusions must be considered tentative, because these models do not consider other variables that might impact economic growth and unemployment. Fourth, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing data from multiple sources such as joint models of GDP per capita with unemployment and mixing annual and quarterly data.   
 
 # Introduction  
 
-The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implications for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horowitz2011")` recently claimed that Hoover had more aggressive deficit spending and public works programs than [Franklin Roosevelt](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable."  
+The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implications for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horowitz2011")` recently claimed that Hoover had more aggressive deficit spending and public works programs than [Franklin Roosevelt](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable." However, Horowitz's report discusses no model fits, includes no tables and plots only "real federal spending" from 1929 to 1934.    
 
-`r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." `r Citet(bib2, "Pollin2009")` report four alternatives that would produce more jobs than military spending:  Tax cuts for household consumption, clean energy, health care and education would produce 27, 47, 69 and 151 percent more jobs, respectively, than military spending.  
+`r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." Other research identified alternatives that would reportedly produce more jobs than military spending:  Tax cuts for household consumption and increased spending on clean energy, health care and education would produce 27, 47, 69 and 151 percent more jobs, respectively, than military spending, according to `r Citet(bib2, "Pollin2009")`.  
 
-Beyond this, the work of [Milton Friedman](https://en.wikipedia.org/wiki/Milton_Friedman) and others suggests that modeling like this should also consider [inflation](https://en.wikipedia.org/wiki/Inflation) and [unemployment](https://en.wikipedia.org/wiki/Unemployment).  
+Beyond this, the work of [Milton Friedman](https://en.wikipedia.org/wiki/Milton_Friedman) and others suggests that modeling like this should also consider [inflation](https://en.wikipedia.org/wiki/Inflation) and [unemployment](https://en.wikipedia.org/wiki/Unemployment);  we consider unemployment but not inflation.    
 
 Whatever the specific cause, the growth of the U.S. economy under [FDR](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt) before the war was not matched by that of any other president (not counting the negative record of [Herbert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  
 
-The best of the models we fit include a "Presidency" effect.  Models with a "war" effect failed to fit the data any better than without any such effect. However, these conclusions must be considered tentative, pending further research using other data and possibly other ways of modeling the macroeconomic impact of war.  
+The best of the models we fit include a "Presidency" effect.  We found a "war" effect for unemployment but not directly for real GDP per capita.  However, these conclusions must be considered tentative, pending further research using other data and possibly other ways of modeling the macroeconomic impact of war.  
 
 # Initial Plots
 
@@ -226,6 +223,18 @@ plotPresWars(realGDPperCapita/1000, GDP, log='y',
 
 The rest of this vignette describes various models of economic growth that include especially the impact of changes of administration and wars.  First we outline our basic approach to modeling these kinds of data.  
 
+Let's try the same thing for unemployment:  
+
+```{r,fig.cap = "Presidents, wars & unemployment"}
+GDP$unemployment <- ts(GDP$unemployment, 
+                             GDP$Year[1])
+plotPresWars(unemployment, GDP, 
+             main=paste0('US average annual income\n', 
+                         '(GDP per capita)'), 
+             ylab='thousands of 2009 dollars', las=1) 
+```
+
+
 # Bayesian sequential updating:  overview  
 
 The models used here are all state space models, which we discuss in general here, giving specific examples later.  State space modeling is also known as Kalman (Kalman filtering, Kalman smoothing), and dynamic (linear) modeling.  For present purposes, we use the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package, though many other R packages provide some support for this class of models.  
@@ -249,19 +258,24 @@ In the more general [Kalman filtering](https://en.wikipedia.org/wiki/Kalman_filt
 
 The next generalization beyond an EWMA is [double exponential smoothing](https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing):  It has a two-dimensional state vector with the first dimension being the level and the second being the rate of growth.  The plots above suggests that double exponential smoothing might work relatively well for log(realGDPperCapita) except for 1929-1947.  To model that period, we consider various ways of modeling presidents and wars.  
 
-In the following, we shall consider eight different though related models:  
+In the following, we shall consider several different though related models:  
 
- || Model 
--:|:-----------------------------------------------
-1 | EWMA1: Standard Bayesian EWMA
-2 | EWMA2: double EWMA 
-3 | EWMA2pres1: EWMA2 allowing slope to change only between presidents  
-4 | EWMA2pres2: EWMA2 estimating mean slope and no continuity between 
-5 | EWMA2pres3: EWMA2 with an adjustment for each president 
+ || Response | Model 
+-:|:--------:|:---------------------------------------
+1 | GDP/cap | EWMA1: Standard Bayesian EWMA
+2 | GDP/cap | EWMA2: double EWMA 
+3 | GDP/cap | EWMA2pres1: EWMA2 allowing slope to change only between presidents  
+4 | GDP/cap | EWMA2pres2: EWMA2 estimating mean slope and no continuity between 
+5 | GDP/cap | EWMA2pres3: EWMA2 with an adjustment for each president 
  | 
-6 | EWMA2war0: EWMA2 with fixed effect of war 
-7 | EWMA2war1: EWMA2 with random effect of war 
-8 | EWMA2war2: EWMA2 with variance effect for war
+6 | GDP/cap | EWMA2war0: EWMA2 with fixed effect of war 
+7 | GDP/cap | EWMA2war1: EWMA2 with random effect of war 
+8 | GDP/cap | EWMA2war2: EWMA2 with variance effect for war
+9 | unemp | uEWMA2: double EWMA 
+10 | GDP/cap & unemp | oEWMA2: double EWMA 
+11 | GDP/cap & unemp | oEWMA2pres: double EWMA with a president effect
+12 | GDP/cap & unemp | oEWMA2war: double EWMA with a war effect 
+13 | GDP/cap & unemp | oEWMA2pw: double EWMA modeling both president and war 
 
 # 1.  The simplest Kalman Filter:  an Exponentially Weighted Moving Average (EWMA)
 
