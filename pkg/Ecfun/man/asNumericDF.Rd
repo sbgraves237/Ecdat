@@ -11,10 +11,12 @@
   blanks), then coerce to numeric or to factors, Dates, 
   or POSIXct as desired.  
   
-  For a \code{\link{data.frame}}, apply to all columns
-  and drop non-numeric columns except those in 
-  \code{ignore}, \code{factors}, \code{Dates}, and 
-  \code{POSIXct}.  Then order the rows by the 
+  For a \code{\link{data.frame}}, apply 
+  \code{asNumericChar} to all columns and drop 
+  columns except those in \code{keep}, \code{ignore}, 
+  \code{factors}, \code{Dates}, and \code{POSIXct}.  
+
+  Then order the rows by the 
   \code{orderBy} column.  Some Excel imports include 
   commas as thousand separators;  this replaces any 
   commas with char(0), '', before trying to convert 
@@ -28,14 +30,14 @@
   Also, some character data includes footnote 
   references following the year.  
   
-  Table F-1 from the US Census Bureau needs all three 
-  of these numeric conversion features:  It needs 
-  \code{orderBy}, because the most recent year appears 
-  first, just the opposite of most other data sets 
-  where the most recent year appears last.  It has 
-  footnote references following a character string 
-  indicating the year.  And it includes commas as 
-  thousand separators.
+  For example Table F-1 from the US Census Bureau 
+  needs all three of these numeric conversion features:  
+  It needs \code{orderBy}, because the most recent 
+  year appears first, just the opposite of most other 
+  data sets where the most recent year appears last.  
+  It has footnote references following a character 
+  string indicating the year.  And it includes commas 
+  as thousand separators.
 }
 \usage{
 asNumericChar(x)
@@ -113,7 +115,9 @@ for asNumericDF:
  
   2.  Confirm that \code{ignore}, \code{factors}, 
   \code{Dates}, and \code{POSIX} all refer to columns 
-  of \code{x} and do not overlap.  
+  of \code{x} and do not overlap.  [*** NOTE:  as of 
+  2016-07-21, these checks have only been implemented
+  for \code{ignore}.]
   
   3.  Convert \code{factors}, \code{Dates}, and 
   \code{POSIX}.  
@@ -148,12 +152,12 @@ for asNumericDF:
 xDate <- as.Date('1970-01-01')+c(0, 365)
 xPOSIX <- as.POSIXct(xDate)+c(1, 99)
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
-            q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
-            dol=c('$1,234', ''), 
-            pct=c('1\%', '2\%'), 
-            xDate=as.character(xDate, format='\%m-\%d-\%Y'), 
-            xPOSIX=as.character(xPOSIX), 
-            junk=c('this is','junk'))
+      q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
+      dol=c('$1,234', ''), pct=c('1\%', '2\%'), 
+      xDate=as.character(xDate, format='\%m-\%d-\%Y'), 
+      xPOSIX=as.character(xPOSIX, format='\%m-\%d-\%Y \%H:\%M:\%S'), 
+      junk=c('this is','junk'))
+            
 # This converts the last 3 columns to NAs and drops them:   
 
 str(nF1.1 <- asNumericChar(fakeF1$yr))
@@ -161,11 +165,11 @@ str(nF1.2 <- asNumericChar(fakeF1$q1))
 str(nF1.3 <- asNumericChar(fakeF1$duh))
 
 nF1 <- asNumericDF(fakeF1)
-nF2 <- asNumericDF(fakeF1, Dates='xDate', POSIX='xPOSIX', 
-        ignore='junk')
-nF3 <- asNumericDF(fakeF1, Dates=6, POSIX=7, 
-        ignore=8)
-
+nF2 <- asNumericDF(fakeF1, Dates=6, 
+        ignore=c('junk', 'xPOSIX'), format.='\%m-\%d-\%Y')
+nF3 <- asNumericDF(nF2, POSIX='xPOSIX', 
+            ignore=c(5,7), format.='\%m-\%d-\%Y \%H:\%M:\%S')
+            
 # check 
 nF1. <- data.frame(yr=asNumericChar(fakeF1$yr),
                    q1=asNumericChar(fakeF1$q1), 
@@ -182,12 +186,12 @@ all.equal(nF1, nF1.)
 all.equal(nF1., nF1c)
 \dontshow{)}
 
-nF2c <- data.frame(yr=1948:1947, q1=c(1234, NA), 
+nF3c <- data.frame(yr=1948:1947, q1=c(1234, NA), 
             dol=c(1234, NA), pct=c(.01, .02), 
             xDate=xDate, xPOSIX=xPOSIX, 
             junk=fakeF1$junk)
 \dontshow{stopifnot(}
-all.equal(nF2, nF2c)
+all.equal(nF3, nF3c)
 \dontshow{)}
 
 ##
