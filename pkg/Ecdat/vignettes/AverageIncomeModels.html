@@ -12,7 +12,7 @@
 
 <meta name="author" content="Spencer Graves and Jouni Helske" />
 
-<meta name="date" content="2016-07-19" />
+<meta name="date" content="2016-07-23" />
 
 <title>Economic impact of presidents and war</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Economic impact of presidents and war</h1>
 <h4 class="author"><em>Spencer Graves and Jouni Helske</em></h4>
-<h4 class="date"><em>2016-07-19</em></h4>
+<h4 class="date"><em>2016-07-23</em></h4>
 
 
 
@@ -350,7 +350,7 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <p>In the present discussion, the system under study is the US economy at various times, which we will summarize in a vector of one or more numbers that represent the state or condition of the economy at a particular point in time. (The term “state” in “state space” refers to this type of representation.) The data will be annual observations on real US GDP per capita (realGDPperCapita).</p>
 <p>The first model of this type discussed here considers univariate observations <span class="math inline">\(y_t\)</span> = log(real GDP per capita) on a hidden univariate state <span class="math inline">\(\alpha_t\)</span>, which represents the portion of the annual number that persists. In other words, the differences between the observations and predictions based on the hidden state are assumed to be uncorrelated across time; any serial correlation in <span class="math inline">\(y_t\)</span> is assumed to be due to the hidden state, <span class="math inline">\(\alpha_t\)</span>.</p>
 <p>The general upward trend in the above plots of real GDP per capita indicate that a model with a univariate state will not fit very well. We use it to fix ideas and to serve as a basis for evaluating the importance of estimating the growth rate at time <span class="math inline">\(t\)</span> separate from the level – and for evaluating the general utility of this approach to modeling time series.</p>
-<p>With univariate observations on a univariate state, the result is almost a traditional <a href="https://en.wikipedia.org/wiki/Exponential_smoothing">exponentially weighted moving average (EWMA)</a>, except that the weight on the last observation is adjusted with each observation consistent with the Bayesian sequential updating cycle outlined above. In this case, this weight converges to an asymptote determined by the ratio of the migration and noise variances <a name="cite-Graves02"></a>(<a href="#bib-Graves02">Graves, Bisgaard, and Kulahci, 2002</a>). In the more general <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman filtering</a> terminology, the weight on the last observation (or the weight on the deviation of that observation from prediction) is called the Kalman gain. Bayesian sequential updating produces a varying Kalman gain, though in many applications the Kalman gain converges to a constant. Before fitting any model, we first describe the general <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> model and show how the Bayesian EWMA described above is a special case. This formulation allows the system to vary over time even to the extent of supporting asynchronous observations on different variables at irregular points in time.</p>
+<p>With univariate observations on a univariate state, the result is almost a traditional <a href="https://en.wikipedia.org/wiki/Exponential_smoothing">exponentially weighted moving average (EWMA)</a>, except that the weight on the last observation is adjusted with each observation consistent with the Bayesian sequential updating cycle outlined above. In this case, this weight converges to an asymptote determined by the ratio of the migration and observation error variances <a name="cite-Graves02"></a>(<a href="#bib-Graves02">Graves, Bisgaard, and Kulahci, 2002</a>). In the more general <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman filtering</a> terminology, the weight on the last observation (or the weight on the deviation of that observation from prediction) is called the Kalman gain. Bayesian sequential updating produces a varying Kalman gain, though in many applications the Kalman gain converges to a constant. Before fitting any model, we first describe the general <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> model and show how the Bayesian EWMA described above is a special case. This formulation allows the system to vary over time even to the extent of supporting asynchronous observations on different variables at irregular points in time.</p>
 <p>The next generalization beyond an EWMA is <a href="https://en.wikipedia.org/wiki/Exponential_smoothing#Double_exponential_smoothing">double exponential smoothing</a>: It has a two-dimensional state vector with the first dimension being the level and the second being the rate of growth. The plots above suggests that double exponential smoothing might work relatively well for log(realGDPperCapita) except for 1929-1947. To model that period, we consider various ways of modeling presidents and wars.</p>
 <p>In the following, we shall consider several different though related models:</p>
 <table style="width:92%;">
@@ -421,12 +421,12 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="even">
 <td align="right">10</td>
 <td align="center">unemp</td>
-<td align="left">uEWMA1a: Bayesian EWMA with higher noise variance for older data</td>
+<td align="left">uEWMA1a: Bayesian EWMA with higher error variance for older data</td>
 </tr>
 <tr class="odd">
 <td align="right">11</td>
 <td align="center">unemp</td>
-<td align="left">uEWMA1b: Bayesian EWMA with higher noise variance prior to 1890</td>
+<td align="left">uEWMA1b: Bayesian EWMA with higher error variance prior to 1890</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
@@ -441,28 +441,33 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="even">
 <td align="right">14</td>
 <td align="center">unemp</td>
-<td align="left">uEWMA1p3w0: EWMA with slope adjustments for presidents and war</td>
+<td align="left">uEWMA1war1: EWMA with random slope adjustments for war</td>
 </tr>
 <tr class="odd">
-<td align="right"></td>
+<td align="right">15</td>
+<td align="center">unemp</td>
+<td align="left">uEWMA1p3w0: EWMA with slope adjustments for presidents and war</td>
 </tr>
 <tr class="even">
-<td align="right">15</td>
-<td align="center">GDP/cap &amp; unemp</td>
-<td align="left">Okun: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a></td>
+<td align="right"></td>
 </tr>
 <tr class="odd">
 <td align="right">16</td>
 <td align="center">GDP/cap &amp; unemp</td>
-<td align="left">OkunPres3: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a president effect</td>
+<td align="left">Okun: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a></td>
 </tr>
 <tr class="even">
 <td align="right">17</td>
 <td align="center">GDP/cap &amp; unemp</td>
-<td align="left">OkunWar0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a war effect</td>
+<td align="left">OkunPres3: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a president effect</td>
 </tr>
 <tr class="odd">
 <td align="right">18</td>
+<td align="center">GDP/cap &amp; unemp</td>
+<td align="left">OkunWar0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a war effect</td>
+</tr>
+<tr class="even">
+<td align="right">19</td>
 <td align="center">GDP/cap &amp; unemp</td>
 <td align="left">OkunP3w0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> modeling both president and war</td>
 </tr>
@@ -493,11 +498,11 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <p><span class="math display">\[\alpha_{t+1} = T_t \alpha_t + R_t \eta_t.\]</span></p>
 <p>where <span class="math inline">\(\epsilon_t \tilde\ N(0, H_t)\)</span>, <span class="math inline">\(\eta_t \tilde\ N(0, Q_t)\)</span> and <span class="math inline">\(\alpha_1 \tilde\ N(a_1, P_1)\)</span>, independent of each other. In this, <span class="math inline">\(y_t\)</span> is a <span class="math inline">\(p\)</span>-vector (where <span class="math inline">\(p\)</span> may actually vary with <span class="math inline">\(t\)</span>), <span class="math inline">\(\alpha_t\)</span> is <span class="math inline">\(m\)</span>-dimensional, and <span class="math inline">\(\eta_t\)</span> has dimension <span class="math inline">\(k\)</span>. (See <a name="cite-DurbinKoopman"></a><a href="#bib-DurbinKoopman">Durbin and Koopman (2012a)</a> for more detail on this model.)</p>
 <p>In all the models considered here, <span class="math inline">\(y_t\)</span> is log(realGDPperCapita). The dimensionality of <span class="math inline">\(\alpha_t\)</span> will vary, but the first component will always be the level. Thus, <span class="math inline">\(Z_t\)</span> will be a row vector with 1 in the first position and 0 elsewhere. This will force <span class="math inline">\(Q_t\)</span>, <span class="math inline">\(T_t\)</span>, and <span class="math inline">\(P_1\)</span> to change between models. In addition, some models have diffuse initialization for the state vector. These are specified by a model component <span class="math inline">\(P_{1,\infty}\)</span>; see <a name="cite-KFASarticle"></a><a href="#bib-KFASarticle">Helske (2016b)</a> or <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">SSmodel</a>. And the different models require estimating different parameters. These pieces are summarized in the following table:</p>
-<table style="width:97%;">
+<table style="width:99%;">
 <colgroup>
 <col width="4%"></col>
 <col width="9%"></col>
-<col width="25%"></col>
+<col width="26%"></col>
 <col width="9%"></col>
 <col width="9%"></col>
 <col width="8%"></col>
@@ -552,7 +557,7 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <td align="left">GDP/cap</td>
 <td align="left">EWMA2pres2: EWMA2 estimating mean slope and no continuity between presidents</td>
 <td align="left">3:level, slope, a1.slope</td>
-<td align="center">Q, T</td>
+<td align="center">T, Q</td>
 <td align="center">diag(c(0, NA, 0))</td>
 <td align="center">diag(c(1, 0, 0))</td>
 <td align="left">4:a1.slope, lnQ.lvl, lnQ.slope, lnH</td>
@@ -562,7 +567,7 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <td align="left">GDP/cap</td>
 <td align="left">EWMA2pres3: EWMA2 with an adjustment for each president</td>
 <td align="left">3:level, slope, pres3</td>
-<td align="center">Q, T</td>
+<td align="center">T, Q</td>
 <td align="center">diag(c(0, 0, NA)</td>
 <td align="center">diag(c(1, 1, 0))</td>
 <td align="left">4:lnQ.lvl, lnQ.slope, lnQ.pres3, lnH</td>
@@ -591,7 +596,7 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <td align="left">GDP/cap</td>
 <td align="left">EWMA2war1: EWMA2 with random effect of war</td>
 <td align="left">4:level, slope, war, deaths</td>
-<td align="center">Q, T</td>
+<td align="center">T, Q</td>
 <td align="center">diag(c(0, 0, Q.war))</td>
 <td align="center">diag(c(1, 1, 0, 0))</td>
 <td align="left">6:lnQ.lvl, lnQ.slope, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH</td>
@@ -628,9 +633,9 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="even">
 <td align="right">10</td>
 <td align="left">unemp</td>
-<td align="left">uEWMA1a: EWMA with higher noise variance for older data</td>
+<td align="left">uEWMA1a: EWMA with higher error variance for older data</td>
 <td align="left">1:level</td>
-<td align="center"></td>
+<td align="center">H</td>
 <td align="center">0</td>
 <td align="center">1</td>
 <td align="left">5:lnQ, lnH1..4</td>
@@ -638,9 +643,9 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="odd">
 <td align="right">11</td>
 <td align="left">unemp</td>
-<td align="left">uEWMA1b: Bayesian EWMA with higher noise variance prior to 1890</td>
+<td align="left">uEWMA1b: Bayesian EWMA with higher error variance prior to 1890</td>
 <td align="left">1:level</td>
-<td align="center"></td>
+<td align="center">H</td>
 <td align="center">0</td>
 <td align="center">1</td>
 <td align="left">3:lnQ, lnH1..2</td>
@@ -650,7 +655,7 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <td align="left">unemp</td>
 <td align="left">uEWMA1pres3: EWMA with a slope adjustment for each president</td>
 <td align="left">2:level, pres3</td>
-<td align="center">Q, T</td>
+<td align="center">T, Q, H</td>
 <td align="center">diag(c(0, NA))</td>
 <td align="center">diag(c(1, 0))</td>
 <td align="left">4:lnQ.lvl, lnQ.pres3, lnH1..2</td>
@@ -658,9 +663,9 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="odd">
 <td align="right">13</td>
 <td align="left">unemp</td>
-<td align="left">uEWMA1war0: EWMA with slope adjustments for war</td>
+<td align="left">uEWMA1war0: EWMA with fixed slope adjustments for war</td>
 <td align="left">3:level, war, deaths</td>
-<td align="center">T</td>
+<td align="center">T, H</td>
 <td align="center">0</td>
 <td align="center">diag(3)</td>
 <td align="left">5:lnQ.lvl, lnQ.war, lnQ.deaths, lnH1..2</td>
@@ -668,13 +673,21 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <tr class="even">
 <td align="right">14</td>
 <td align="left">unemp</td>
-<td align="left">uEWMA1p3w0: EWMA with slope adjustments for presidents and war</td>
-<td align="left">4:level, pres3, war, deaths</td>
-<td align="center">Q, T</td>
-<td align="center">diag(c(0, 1, 0, 0))</td>
+<td align="left">uEWMA1war1: EWMA with radom slope adjustments for war</td>
+<td align="left">3:level, war, deaths</td>
+<td align="center">T, Q, H</td>
+<td align="center">diag(c(0, Q.war))</td>
+<td align="center">diag(3)</td>
+<td align="left">6:lnQ.lvl, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH1..2</td>
 </tr>
 <tr class="odd">
-<td align="right">diag(c(1, 0, 1, 1)</td>
+<td align="right">15</td>
+<td align="left">unemp</td>
+<td align="left">uEWMA1p3w0: EWMA with slope adjustments for presidents and war</td>
+<td align="left">4:level, pres3, war, deaths</td>
+<td align="center">T, Q, H</td>
+<td align="center">diag(c(0, 1, 0, 0))</td>
+<td align="center">diag(c(1, 0, 1, 1)</td>
 <td align="left">6:lnQ.lvl, lnQ.pres3, lnQ.war, lnQ.deaths, lnH1..2</td>
 </tr>
 <tr class="even">
@@ -685,24 +698,25 @@ unempScale &lt;-<span class="st"> </span><span class="kw">c</span>(.<span class=
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="right">15</td>
+<td align="right">16</td>
 <td align="left">GDP/cap &amp; unemp</td>
 <td align="left">Okun: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a></td>
 </tr>
 <tr class="even">
-<td align="right">16</td>
+<td align="right">17</td>
 <td align="left">GDP/cap &amp; unemp</td>
 <td align="left">OkunPres3: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a president effect</td>
 </tr>
 <tr class="odd">
-<td align="right">17</td>
+<td align="right">18</td>
 <td align="left">GDP/cap &amp; unemp</td>
 <td align="left">OkunWar0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a war effect</td>
 </tr>
 <tr class="even">
-<td align="right">18</td>
+<td align="right">19</td>
 <td align="left">GDP/cap &amp; unemp</td>
 <td align="left">OkunP3w0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> modeling both president and war</td>
 </tr>
@@ -804,8 +818,8 @@ i. &lt;-<span class="st"> </span>(nInf<span class="dv">+1</span>):N
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mdls &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'EWMA1'</span>, <span class="st">'EWMA2'</span>, <span class="st">'EWMA2pres1'</span>, <span class="st">'EWMA2pres2'</span>, 
           <span class="st">'EWMA2pres3'</span>, <span class="st">'EWMA2war0'</span>, <span class="st">'EWMA2war1'</span>, <span class="st">'EWMA2war2'</span>, 
           <span class="st">'uEWMA1'</span>, <span class="st">'uEWMA1a'</span>, <span class="st">'uEWMA1b'</span>, <span class="st">'uEWMA1pres3'</span>, 
-          <span class="st">'uEWMA1war0'</span>, <span class="st">'uEWMA1p3w0'</span>, <span class="st">'Okun'</span>, <span class="st">'OkunPres3'</span>, 
-          <span class="st">'OkunWar0'</span>, <span class="st">'OkunP3w0'</span>)
+          <span class="st">'uEWMA1war0'</span>, <span class="st">'uEWMA1war1'</span>, <span class="st">'uEWMA1p3w0'</span>, 
+          <span class="st">'Okun'</span>, <span class="st">'OkunPres3'</span>, <span class="st">'OkunWar0'</span>, <span class="st">'OkunP3w0'</span>)
 n.mdls &lt;-<span class="st"> </span><span class="kw">length</span>(mdls)
 logLiks &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">npars=</span><span class="kw">rep</span>(<span class="ot">NA</span>, n.mdls), 
       <span class="dt">diffuse=</span><span class="kw">rep</span>(<span class="ot">NA</span>, n.mdls), <span class="dt">marginal=</span><span class="kw">rep</span>(<span class="ot">NA</span>, n.mdls), 
@@ -1001,7 +1015,7 @@ logLiks[<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">1</
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exp</span>(EWMA2fit$optim.out$par/<span class="dv">2</span>)</code></pre></div>
 <pre><code>##      lnQ.lvl    lnQ.slope          lnH 
 ## 4.249829e-02 1.557727e-06 8.112688e-24</code></pre>
-<p>The migration standard deviation for the level is only slightly smaller that for the EWMA1 above. The migration standard deviation for the slope and measurement noise seem much smaller than we might have expected. It would be interesting to compute a 95 percent confidence interval on the standard deviation of the slope migration; we will not attempt that here. (The preferred approach, as previously indicated, would be Monte Carlo.)</p>
+<p>The migration standard deviation for the level is only slightly smaller that for the EWMA1 above. The migration standard deviation for the slope and measurement error seem much smaller than we might have expected. It would be interesting to compute a 95 percent confidence interval on the standard deviation of the slope migration; we will not attempt that here. (The preferred approach, as previously indicated, would be Monte Carlo.)</p>
 <p>Next, we call <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2.KFS &lt;-<span class="st"> </span><span class="kw">KFS</span>(EWMA2fit$model)</code></pre></div>
 <p>To help us understand this model, we plot the smoothed estimates of the state vector over time:</p>
@@ -1152,8 +1166,8 @@ EWMA2.woDeprPred &lt;-<span class="st"> </span><span class="kw">predict</span>(E
 <p>A simple presidential effect model is to assume that the slope is constant within each presidency but can change between administrations. This uses the same state transition equation as the double EWMA just discussed, but the migration variance is zero except for the last year of each presidency: That allows the slope to jump for the first year of the next presidency.</p>
 <p>This model can be estimated using <a href="https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf">KFAS</a> but requires using a state transition variance, Q, that is not constant. To fit this, we must write a special “updatefn” for <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a>, because the default “updatefn” will not handle a time varying Q:</p>
 <center>
-<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the migration variance, Q, time varying)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
--&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
+-&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>The state transition variance, Q, is typically specified as a list in <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSMtrend</a>. Before changing this, let’s first look at the structure of EWMA2mdl:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(EWMA2mdl)</code></pre></div>
@@ -1296,8 +1310,8 @@ q_{\mathrm{lvl}} &amp; 0 &amp; 0 \\
 <p>And making <span class="math inline">\(Q_{3,3,t}\)</span> = 0 for all <span class="math inline">\(t\)</span> means that <span class="math inline">\(\alpha_{3,t}\)</span> is normal with mean <span class="math inline">\(a_{1,3}\)</span> and the indicated presidential effect variance, <span class="math inline">\(q_{\mathrm{pres2}}\)</span>.</p>
 <p>We’ll accomplish with the same process as for EWMA2pres1:</p>
 <center>
-<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the migration variance, Q, time varying)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>Similar to the EWMA2 above, we start by supplying a formula using <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSMtrend(3, …)</a> – specifying the degree of the “trend” as 3 to give us a 3-dimensional state vector. We want to estimate <span class="math inline">\(a_{1,\mathrm{pres2}}\)</span> = <span class="math inline">\(a_{1,2}\)</span> = <span class="math inline">\(a_{1,3}\)</span>. KFAS protocol assigns NA to numbers to be estimated. And we can use the same Q.slope as with EWMA2pres1:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(a1<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">level=</span><span class="kw">log</span>(GDP$realGDPperCapita[<span class="dv">1</span>]), 
@@ -1692,7 +1706,7 @@ logLiks[<span class="dv">1</span>:<span class="dv">4</span>,<span class="dv">1</
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exp</span>(EWMA2pres2fit$optim.out$par[-<span class="dv">1</span>]/<span class="dv">2</span>)</code></pre></div>
 <pre><code>##      lnQ.lvl    lnQ.slope          lnH 
 ## 3.778125e-02 1.869187e-02 3.550461e-05</code></pre>
-<p>This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038, respectively, and the standard deviation of the observation noise is tiny, 0.00004.</p>
+<p>This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038, respectively, and the standard deviation of the observation error is tiny, 0.00004.</p>
 <p>Before looking at the next model, let’s review the standardized residuals as before:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2pres2.rstd &lt;-<span class="st"> </span><span class="kw">rstandard</span>(EWMA2pres2.KFS)
 <span class="kw">str</span>(EWMA2pres2.rstd)</code></pre></div>
@@ -1746,8 +1760,8 @@ q_{\mathrm{lvl}} &amp; 0 &amp; 0 \\
 <p>where <span class="math inline">\(q_{\mathrm{lvl}}\)</span> is the migration variance for the level (as before), <span class="math inline">\(q_{\mathrm{slope}}\)</span> is the migration variance of the slope, <span class="math inline">\(q_{\mathrm{pres3}}\)</span> = <span class="math inline">\(P_{1,3,3}\)</span> is the variance of the presidential effect. The rest of <span class="math inline">\(P_1\)</span> is 0, and <span class="math inline">\(P_{1,\infty}\)</span> is a diagonal matrix with elements (1, 1, 0) indicating a diffuse prior for level and slope but not the presidential effect, which we estimate.</p>
 <p>We will create this by modifying a triple EWMA following a process similar to the above:</p>
 <center>
-<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the migration variance, Q, time varying)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>Let’s start by modifying the formula, similar to what we did with EWMA2pres1fmla, above, but for this 3-dimensional state</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1.3a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">level=</span><span class="kw">log</span>(GDP$realGDPperCapita[<span class="dv">1</span>]), <span class="dt">slope=</span><span class="dv">0</span>, 
@@ -2019,7 +2033,7 @@ logLiks[<span class="dv">1</span>:<span class="dv">5</span>,<span class="dv">1</
 <img src="data:image/png;base64,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3oqcqY5Nk4DkySk1DR06VCWitddeu9RNV2x7Rx55pENSgsDlkEMOca1bt3aLFi1yd955p0MCmTZtmvv222/drFmzEo2jGHXS8Gabbeb23ntv95///Md999137uGHH3Yff/yxEyblBg8e7F555ZVE/UtSaOzYse78889PUjSdZaqDj1b2KLIlIHlSfN++fTM6nUQC+vTTTz11JaV//OMfXqZ/9RaXl8fzZc+mr776yv/973/PPpyxT71vvPGGf+eddzz1ZFM+X/+77rorlC7atGlTp0/0kePgxt/kyZOzm6uzX+g6oxLQQQcdlNGeMEXftm3bsH9gAiXBAOmQ8vVJiaNGjQrrrUYJyGUgaTtFQSAXAxL9gX/yySfD9upjQLzc8lX1W221VfggIupfcsklXr7A4fVs7Lfffl70ETqVEf2DX2GFFfxKK63k5QvqRa+i5zi/cOFC37t3bz3HCy16J//MM8/oi7/bbrvpdfRvm2228S+99FJGG6+99prv1KlT2BeuFz2IP+aYY/w///nPsGySly8oHK1v9uzZweGMX6Y2AQPaZZddMs7l2il0nQ0xINpnmhT0b9KkSdqlhjCYOXOmFynKr7766nrdz372M9+9e3dl6sF4DjzwwPAeUfcqq6zi11tvveB0VfwaAyrBbYwyoL322suLQlYfOr7qP/zwg/YgFwPiheahDB7s7F8YTpSCss2aNfMwkKD8fffd5++5555wf/3119c+rLvuuuGxtdZaS3UYXCeKzvD4RhttFEo4MLydd945PLfBBhuEY6Gto48+OuxOQy9fWOinjXXWWUfrpF8NUdDf5s2bN1RMzxW6zoYY0Pfff+9/9atfhbg8++yz2of6MHjggQeUaQf3J/oLk5k7d65ev++++4Z1BmXWWGON2LGnqUAy04SM3qgwCHTs2NH1799fKxNJxF1xxRX1Vnz66aeHehF5uZ1IH+6JJ55wu+++u14jjMWJQrvO9TJ9cvJCqK4ES4wwvYwywmTce++95z755BM3cOBAPffll1+6f/3rX6pz4fjhhx+uxz/88EP39ttv67ZIbO7rr792IlU5kVRU58F1WPagOXPm6G8+/7744gsnDFovweLVEAXnZSrqZHpZb9Fi1BltDAvdiBEj3JlnnulOPvlk165dO/f0009rEWF8TqZj0eIZ2x988IETycb9+9//di1atFCL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f+aZZ9yuu+7qVl99dbfJJpu4Y4891n3xxRfayuDBg91jjz3mnnzySffLX/7Sffzxx3qc6Uznzp1d06ZN3Xrrref22Wcf99prr4U9O++889zw4cPd7bff7tq1a+fWXHNNLfPee++FZdi477773F577eXWXntt17t3b7dkyZKM8//617/cWWed5bbffnu36qqrui222MINGTLEfffdd2E5+jFjxgzHF3+zzTZzM2fO1HNxdZ9//vmuT58+WpY6GV+uv6VLl2qZb775xp100kmuVatWbp111nH777+/W7x4cdgPNhjf8ccfr5gwvZs1a1bG+Vw79fV/4cKFbs8991SMW7du7YYNG+Z++OGHsIqvvvrKwWTAn/uw2267ub/85S/h+ej4OBjXt8cff1zHnz393Xnnnd3dd98d1vvOO++4Aw88UHHgmWGc3Of6qKHnq75rKvq4NyoYAvJSeXn5/b777uvlIfNXX321l2mJ33vvvbWNRx55xLdv394LA/ATJ070lKecPCBeXkYvjMiPGjXKy0vgt95667Bfffv21Xo23nhjf+655/rLLrvMCxPy8oKHZf7617/6n/3sZ15eIn/vvff6gQMH+pVXXlnrFr2TljvkkEN8s2bN/JgxY/yUKVN8v3799PzIkSPDepo0aeI32GAD36VLF9+zZ0//wgsv+CR1Uxdjg4RZ+XHjxunfNddc46+44gpPvTvttJOXl96LFOjlRfTNmzf3tM24aY++yQurdQiz9PIyKlZgRH3CqLS/1157rZbJ9S9X/1999VW/yiqrKF4333yzv/7667Wuww47LKziqKOO8uBL3bS3++67K34BdtHxJenbtGnTtK/ykQnbYGP55ZfXsbD9j3/8Q++jME1/yy23+PHjx/tf//rXep0wTIr4aD1xz5dekLJ/LmX9rejuzp8/Xx+e559/PuwnL9fpp5+uLx0H5UuvDCoocOqpp/pevXoFu/p7wQUXaD1ffvml7sOARMHpFy1aFJa79NJLtYxIV3qsW7du+hKHBWTjgAMO0DK8RN9++60X6cmLAjdaRI917949PMYLDCP5z3/+Ex6Lq5uC0Rc0vPCnDRgfzOaDDz7QI3fccYf264EHHgiLihTmRSrzIqHpMfq50korhddwMLgujgFl918kDP0wfP/992F7kydP1j4899xzegzmE7TNgb/97W8e3F955RU9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" alt="Autocorrelation Function of Standardized Residuals" />
 <p class="caption">Autocorrelation Function of Standardized Residuals</p>
 </div>
-<p>As before. The continued presence of the image of a mixture of normals suggests an opportunity to improve the fit through improving the noise term, e.g., with <a href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity">Autoregressive conditional heteroskedasticity</a>. We will not pursue that here.</p>
+<p>As before. The continued presence of the image of a mixture of normals suggests an opportunity to improve the fit through improving the observation noise model, e.g., with <a href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity">Autoregressive conditional heteroskedasticity</a>. We will not pursue that here.</p>
 <p>NOTE: An equivalent model estimating the same parameters could have a 43-dimensional state vector with components level, slope, and Pres1, …, Pres41. The memory and compute time required to fit it would be greater, but the <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> and parameter estimates should be the same. This is unnecessary here but could be required with, e.g., an experiment with levels for a random effect that are not sequential in time.</p>
 </div>
 <div id="ewma2-with-a-fixed-effect-for-war" class="section level1">
@@ -2037,7 +2051,7 @@ logLiks[<span class="dv">1</span>:<span class="dv">5</span>,<span class="dv">1</
 <p>Thus, for this model, we do not need to create a time-varying Q nor an updatefn as we did for models 3-5. This simplifies the modeling process to the following:</p>
 <center>
 <p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>We can model war as a fixed effect multiple ways. One is to use <span class="math inline">\(R_t\)</span> = the 4-dimensional identity matrix as before, with <span class="math inline">\(Q_t\)</span> being a diagonal matrix with only the first two elements nonzero. Another is to let <span class="math inline">\(R_t\)</span> be the first two columns of a 4-dimensional identity matrix and estimate the diagonal of the resulting 2 x 2 <span class="math inline">\(Q_t\)</span> matrix. We’ll use the former here, because the next model with war as a random effect requires <span class="math inline">\(R_t\)</span> = the 4-dimensional identity matrix.</p>
 <p>We’ll use a similar formula to those above, requesting a fourth degree <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSMtrend</a> and modifying <span class="math inline">\(T_t\)</span> as before:</p>
@@ -2226,8 +2240,8 @@ EWMA2war0fit2 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2
 ##   3.00000000 386.90809538 396.50670226   0.04265709</code></pre>
 <p>This gives the same <a href="http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html">logLik</a> and rmse as EWMA2, as we expected. Let’s modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/diag.html">diag(0, 2)</a>:</p>
 <center>
-<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a></p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a></p>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>P1[3:4, 3:4] is a 2 x 2 positive definite matrix. A standard representation for such a matrix is provided by <a href="http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html">nlme::pdLogChol</a>. The pdLogChol representation of a symmetric positive definite matrix is a vector starting with the logarithms of the diagonal of the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/chol.html">Choleski factorization</a> of that matrix followed by its <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/lower.tri.html">upper triangular portion</a>. To see this, consider the following simple example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(pd4 &lt;-<span class="st"> </span>nlme::<span class="kw">pdLogChol</span>(<span class="dv">1</span>:<span class="dv">6</span>))</code></pre></div>
@@ -2320,8 +2334,8 @@ EWMA2war0fit6 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2
 \]</span></p>
 <p>where <span class="math inline">\(\omega_t\)</span> = 1 during wars and 0 otherwise. And we need to make the migration variance time varying to match:</p>
 <center>
-<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the migration variance, Q, time varying)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>Similar to EWMA2pres2 and EWMA2pres3, we will allow Q for the (war, deaths) components of the state vector to be nonzero the year before the start of each war:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(beforeWar &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">c</span>(
@@ -2440,17 +2454,16 @@ EWMA2war1init</code></pre></div>
 ##     -6.316583</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">EWMA2war1updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>EWMA2war1init, 
                       <span class="dt">model=</span>EWMA2war1mdl, ...){
-  vars &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dv">6</span>)])
   Q &lt;-<span class="st"> </span>model$Q
-  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">1</span>]
-  Q[<span class="dv">2</span>,<span class="dv">2</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">2</span>]
+  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">1</span>])
+  Q[<span class="dv">2</span>,<span class="dv">2</span>,] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">2</span>])
 <span class="co">#  </span>
   P1w &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(nlme::<span class="kw">pdLogChol</span>(pars[<span class="dv">3</span>:<span class="dv">5</span>]))
   model$P1[<span class="dv">3</span>:<span class="dv">4</span>, <span class="dv">3</span>:<span class="dv">4</span>] &lt;-<span class="st"> </span>P1w
   Q[<span class="dv">3</span>:<span class="dv">4</span>, <span class="dv">3</span>:<span class="dv">4</span>, beforeWar] &lt;-<span class="st"> </span>P1w
   model$Q &lt;-<span class="st"> </span>Q
 <span class="co">#  </span>
-  model$H[] &lt;-<span class="st"> </span>vars[<span class="dv">3</span>]
+  model$H[] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">6</span>])
   model
 } 
 EWMA2war1fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(EWMA2war1mdl, <span class="dt">inits=</span>EWMA2war1init, 
@@ -2542,7 +2555,7 @@ EWMA2war2init</code></pre></div>
     <span class="kw">stop</span>(<span class="st">'Q22 = '</span>, Q22)
   }
   
-  Q[<span class="dv">2</span>,<span class="dv">2</span>,] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">4</span>])
+  Q[<span class="dv">2</span>,<span class="dv">2</span>,] &lt;-<span class="st"> </span>Q22
   model$Q &lt;-<span class="st"> </span>Q
 <span class="co">#  </span>
   model$H[] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">5</span>])
@@ -2678,14 +2691,14 @@ uEWMA1.rstd &lt;-<span class="st"> </span><span class="kw">rstandard</span>(uEWM
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAEDWlDQ1BJQ0MgUHJvZmlsZQAAOI2NVV1oHFUUPrtzZyMkzlNsNIV0qD8NJQ2TVjShtLp/3d02bpZJNtoi6GT27s6Yyc44M7v9oU9FUHwx6psUxL+3gCAo9Q/bPrQvlQol2tQgKD60+INQ6Ium65k7M5lpurHeZe58853vnnvuuWfvBei5qliWkRQBFpquLRcy4nOHj4g9K5CEh6AXBqFXUR0rXalMAjZPC3e1W99Dwntf2dXd/p+tt0YdFSBxH2Kz5qgLiI8B8KdVy3YBevqRHz/qWh72Yui3MUDEL3q44WPXw3M+fo1pZuQs4tOIBVVTaoiXEI/MxfhGDPsxsNZfoE1q66ro5aJim3XdoLFw72H+n23BaIXzbcOnz5mfPoTvYVz7KzUl5+FRxEuqkp9G/Ajia219thzg25abkRE/BpDc3pqvphHvRFys2weqvp+krbWKIX7nhDbzLOItiM8358pTwdirqpPFnMF2xLc1WvLyOwTAibpbmvHHcvttU57y5+XqNZrLe3lE/Pq8eUj2fXKfOe3pfOjzhJYtB/yll5SDFcSDiH+hRkH25+L+sdxKEAMZahrlSX8ukqMOWy/jXW2m6M9LDBc31B9LFuv6gVKg/0Szi3KAr1kGq1GMjU/aLbnq6/lRxc4XfJ98hTargX++DbMJBSiYMIe9Ck1YAxFkKEAG3xbYaKmDDgYyFK0UGYpfoWYXG+fAPPI6tJnNwb7ClP7IyF+D+bjOtCpkhz6CFrIa/I6sFtNl8auFXGMTP34sNwI/JhkgEtmDz14ySfaRcTIBInmKPE32kxyyE2Tv+thKbEVePDfW/byMM1Kmm0XdObS7oGD/MypMXFPXrCwOtoYjyyn7BV29/MZfsVzpLDdRtuIZnbpXzvlf+ev8MvYr/Gqk4H/kV/G3csdazLuyTMPsbFhzd1UabQbjFvDRmcWJxR3zcfHkVw9GfpbJmeev9F08WW8uDkaslwX6avlWGU6NRKz0g/SHtCy9J30o/ca9zX3Kfc19zn3BXQKRO8ud477hLnAfc1/G9mrzGlrfexZ5GLdn6ZZrrEohI2wVHhZywjbhUWEy8icMCGNCUdiBlq3r+xafL549HQ5jH+an+1y+LlYBifuxAvRN/lVVVOlwlCkdVm9NOL5BE4wkQ2SMlDZU97hX86EilU/lUmkQUztTE6mx1EEPh7OmdqBtAvv8HdWpbrJS6tJj3n0CWdM6busNzRV3S9KTYhqvNiqWmuroiKgYhshMjmhTh9ptWhsF7970j/SbMrsPE1suR5z7DMC+P/Hs+y7ijrQAlhyAgccjbhjPygfeBTjzhNqy28EdkUh8C+DU9+z2v/oyeH791OncxHOs5y2AtTc7nb/f73TWPkD/qwBnjX8BoJ98VVBg/m8AAEAASURBVHgB7Z0HnBRV8sefnp5n9gRzwjOih2ICThAxohhQRD0FRUDEhJjub84Zw6EigmBCOc+ACnqK4kkwYA6nmFDAnDCDeofe+9e3vNf2zPZuz+7O7EzPVn0+u93T/fqFX3dX16uqV7WQF3JGhoAhYAiUAYGFy9CmNWkIGAKGgCJgDMgeBEPAECgbAsaAyga9NWwIGALGgOwZMAQMgbIhYAyobNBbw4aAIWAMyJ4BQ8AQKBsCxoDKBr01bAgYAsaA7BkwBAyBsiFgDKhs0FvDhoAhYAzIngFDwBAoGwLGgMoGvTVsCBgCxoDsGTAEDIGyIWAMqGzQW8OGgCFgDMieAUPAECgbAsaAyga9NWwIGALGgOwZMAQMgbIhYAyobNBbw4aAIWAMyJ4BQ8AQKBsCxoDKBr01bAgYAsaA7BkwBAyBsiFgDKhs0FvDhoAhYAzIngFDwBAoGwLGgMoGvTVsCBgCxoDsGTAEDIGyIWAMqGzQW8OGgCFgDMieAUPAECgbAsaAyga9NWwIGALGgOwZMAQMgbIhYAyobNBbw4aAIWAMyJ4BQ8AQKBsCxoDKBr01bAgYAsaA7BkwBAyBsiGwSNlabkYNf/vtt26vvfbSEa+55pruxhtvdAsttFAOAscff7x76aWX3Nprr+2uv/76nHNZ/DFkyBA3ceJE7fojjzziFl64sG/duHHj3Pjx492rr77qZs+e7Vq1auX++Mc/uj333NPtu+++DYKiGHV+8cUXNdrnHv72t791Sy65pNtggw3cX/7yF7fccstFfWwoBlEFsR2wWH755d2yyy4bO1oFu96o5AjMnTvXy6MS/Y0ePbpGm126dNHz8rLVOJfFA4ccckg03p9++il1CJ9++qnfe++9o2vieIV9YeKecoVSMev88MMP6+wbfVxttdX8P//5z6h79cUgujC2M2/ePH/aaaf53/3ud37mzJmxM9WxaxKQPDlNTSeddJJKRC1atGjqpiu2vV69ejkkJQhc9ttvP7feeuu5t99+291+++0OCeTee+918+fPdw8//HBB4yhFnTS8zjrruF122cX9/PPP7vvvv3eTJk1yH3/8sRMm5QYNGuRmzJhRUP8KKXTZZZe5Cy64oJCi2SxTHXy0skeRLwHJk+L79++f0+lCJKDPPvvMU1eh9PXXX3uZ/tVaXF4ez5c9n7755hv/+eef5x/O+U29b775pp81a5annnyqz9f/jjvuiKSLNm3a1OgTfeQ4uPF311135TdX43ex64xLQD179sxpT5ii33TTTaP+gQlUCAZIh5SvTUo8++yzo3qrUQJyOUjaj5IgkMSARH/gH3/88ai92hgQL7d8Vf2GG24YPYiI+pdffrmXL3B0PTu77767F32ETmVE/+B/85vf+EUXXdTLF9SLXkXPcf6VV17x3bt313O80KJ38s8884y++Nttt51eR/822mgj/69//Sunjddff9137Ngx6gvXix7E9+nTx//www9R2UJevlA4Xt+jjz4aDudsmdoEBrTNNtvknEv6Uew662JAtM80KfTvlltu0S7VhcGDDz7oRYrySy+9tF632GKL+R133FGZehhPjx49ontE3YsvvrhfeeWVw+mq2BoDaoLbGGdAXbt29aKQ1YeOr/qCBQu0B0kMiBeahzI82PlbGE6cQtkVVljBw0BC+fvvv9/ffffd0e9VVllF+7DSSitFx37/+9+rDoPrRNEZHV999dUjCQeG165du+jcqquuGo2Ftg4++OCoO3W9fFGh/+20bNlS66RfdVHo74orrlhXMT1X7DrrYkA//vij/9Of/hTh8uyzz2ofasPggQceUKYd7k98C5OZNm2aXt+tW7eozlBmmWWWSR17lgoUZpqQ0RsVB4EOHTq4ww47TCsTScRdeeWVtVZ8wgknRHoRebmdSB/usccec9tvv71eI4zFiUK7xvUyfXLyQqiuBEuMML2cMsJk3Jw5c9wnn3zijjjiCD331VdfuX//+9+qc+H4AQccoMc/+OAD98477+i+SGzuu+++cyJVOZFUVOfBdVj2oMmTJ+u2Pv++/PJLJwxaL8HiVReF8zIVdTK9rLVoKeqMN4aF7vTTT3cnn3yyO+qoo9xmm23mpk+frkWE8TmZjsWL5+y///77TiQb95///MetscYa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G6j28ZULW5uCFRn5Z555xm277bZu6aWXdmuvvbY75JBD3JdffqmtDBo0yE2ZMsU9/vjjbsstt3Qff/yxHmc606lTJ7f88su7lVde2e26667u9ddfj3p23nnnudNOO82NHTvWbbbZZm655ZbTMnPmzInKsHP//fe7rl27uhYtWrju3bu7Tz/9NOf8v//9b3fKKae4TTbZxC255JJu/fXXd4MHD3bff/99VI5+TJgwwfHFX2edddyDDz6o59LqvuCCC1zv3r21LHUyvqS/b7/9VsvMmzfPHXnkka5Vq1auZcuWbq+99nLvvvtu1A92GF+/fv0UE6Z3Dz/8cM75pB+19f+VV15xO++8s2K83nrruVNPPdUtWLAgquKbb75xMBnw5z5st9127qmnnorOx8fHwbS+TZ06VcefP/1t166du/POO6N6Z82a5Xr06KE48MwwTu5zbVTX81XbNRV93BsVDQF5qby8/L5bt25eHjI/bNgwL9MSv8suu2gbjzzyiN988829MAA/ZswYT3nKyQPi5WX0woj82Wef7eUl8K1bt4761b9/f61nrbXW8uecc47/61//6oUJeXnBozIvvviiX2yxxby8RP6+++7zRxxxhP/tb3+rdYveScvtt99+foUVVvBDhgzx48aN8wMGDNDzZ555ZlTPEkss4VdddVXfuXNnv8cee/iXXnrJF1I3dTE2SJiVv+aaa/Rv+PDh/sorr/TUu9VWW3l56b1IgV5eRL/iiit62mbctEff5IXVOoRZenkZFSswoj5hVNrfa6+9Vssk/Uvq/2uvveYXX3xxxevGG2/0I0eO1Lr+/Oc/R1UcdNBBHnypm/a23357xS9gFx9fIX279957ta/ykYnaYGfhhRfWsbD/9ddf630UpulvuukmP2rUKL/11lvrdcIwKeLj9aQ9X3pBxv65jPW3orv79NNP68PzwgsvRP3k5TrhhBP0peOgfOmVQYUCxx13nN9zzz3DT91eeOGFWs9XX32lv2FAouD0b7/9dlTuiiuu0DIiXemxHXbYQV/iqIDs7L333lqGl2j+/PlepCcvCtx4ET224447Rsd4gWEkP//8c3QsrW4Kxl/Q6ML/7cD4YDbvv/++Hrntttu0Xw888EBUVKQwL1KZFwlNj9HPRRddNLqGg+G6NAaU33+RMPTD8OOPP0bt3XXXXdqH559/Xo/BfELb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" alt="Normal probability plot of Standardized Residuals" />
 <p class="caption">Normal probability plot of Standardized Residuals</p>
 </div>
-<p>This doesn’t look great. What happens if we force the noise variance to increase for older data?</p>
+<p>This doesn’t look great. What happens if we force the observation error variance to increase for older data?</p>
 </div>
 <div id="modeling-unemployment-with-higher-observation-variance-for-older-data" class="section level1">
 <h1>10. Modeling unemployment with higher observation variance for older data</h1>
-<p>For this, we can use the same <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> as for uEWMA1, but we’ll need to make the observation noise variane, H, time varying, and we’ll also need a special update function:</p>
+<p>For this, we can use the same <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> as for uEWMA1, but we’ll need to make the observation error variane, H, time varying, and we’ll also need a special update function to support esimating parameters for the time varying H:</p>
 <center>
-<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the observation noise variance, H, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
--&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying observation error variance, H)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
+-&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1H &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="ot">NA</span>, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, N), 
   <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="st">'logitUnemp'</span>, <span class="st">'logitUnemp'</span>, GDP$Year))
@@ -2848,25 +2861,25 @@ q_{\mathrm{lvl}} &amp; 0 \\
 <p>where <span class="math inline">\(q_{\mathrm{lvl}}\)</span> is the migration variance for the level, and <span class="math inline">\(q_{\mathrm{pres3}}\)</span> = <span class="math inline">\(P_{1,2,2}\)</span> is the variance of the presidential effect. The rest of <span class="math inline">\(P_1\)</span> is 0, and <span class="math inline">\(P_{1,\infty}\)</span> is a diagonal matrix with elements (1, 0) indicating a diffuse prior for level but not the presidential effect, which we estimate.</p>
 <p>We will create this by modifying a double EWMA following a process similar to the above:</p>
 <center>
-<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the migration variance, Q, time varying)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(create updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying observation error variance, H)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
+–&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
-<p>Let’s start by modifying the formula, similar to what we did with EWMA2pres1fmla, above, but for this 2-dimensional state</p>
+<p>We can reuse EWMA2pres1Q.slope for Q. We will modify the formula, similar to what we did with EWMA2pres1fmla, above, but for this 2-dimensional state</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1.2u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">level=</span><span class="kw">qlogis</span>(unemp1), <span class="dt">pres3=</span><span class="dv">0</span>)
+uPres3states &lt;-<span class="st"> </span><span class="kw">names</span>(a1.2u)
 
 uEWMA1pres3P1 &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">NA</span>))
 uEWMA1pres3P1inf &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))
 uEWMA1pres3fmla &lt;-<span class="st"> </span><span class="kw">qlogis</span>(unemployment) ~<span class="st"> </span>
 <span class="st">  </span><span class="kw">SSMtrend</span>(<span class="dv">2</span>, <span class="dt">Q =</span> <span class="kw">list</span>(<span class="dt">level=</span><span class="kw">matrix</span>(<span class="ot">NA</span>), <span class="dt">pres3=</span>EWMA2pres1Q.slope), 
       <span class="dt">P1=</span>uEWMA1pres3P1, <span class="dt">P1inf=</span>uEWMA1pres3P1inf, <span class="dt">a1=</span>a1.2u) </code></pre></div>
-<p>We next create an <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a>, as before:</p>
+<p>For the time varying observation variance we can reuse uEWMA1H. We next create an <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a>, as before:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1pres3mdl. &lt;-<span class="st"> </span><span class="kw">SSModel</span>(uEWMA1pres3fmla, GDP, 
                            <span class="dt">H=</span>uEWMA1H)
 uEWMA1pres3mdl &lt;-<span class="st"> </span><span class="kw">fixModelNames</span>(uEWMA1pres3mdl., 
-                              <span class="kw">names</span>(a1.2u) )</code></pre></div>
+                              uPres3states)</code></pre></div>
 <p>Now we need to create the desired time-varying state transition matrix, T:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uPres3states &lt;-<span class="st"> </span><span class="kw">names</span>(a1.2u)
-uPres3T &lt;-<span class="st"> </span><span class="kw">array</span>(uEWMA1pres3mdl$T, <span class="dt">dim=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,N), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uPres3T &lt;-<span class="st"> </span><span class="kw">array</span>(uEWMA1pres3mdl$T, <span class="dt">dim=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,N), 
         <span class="dt">dimnames=</span><span class="kw">list</span>(uPres3states, uPres3states, GDP$Year) )
 uPres3T[<span class="dv">2</span>,<span class="dv">2</span>, presLastYr] &lt;-<span class="st"> </span><span class="dv">0</span>
 uPres3T[,,<span class="dv">1</span>:<span class="dv">9</span>]</code></pre></div>
@@ -2971,35 +2984,35 @@ logLiks[<span class="dv">1</span>:<span class="dv">12</span>,]</code></pre></div
 <p>The increase in the log(likelihood) is just under 0.4, so the likelihood ratio chi-square is under 0.8. Clearly that can’t be statistically signficant.</p>
 <p>What about a war effect?</p>
 </div>
-<div id="modeling-unemployment-with-a-slope-adjustment-for-war" class="section level1">
-<h1>13. Modeling unemployment with a slope adjustment for war</h1>
+<div id="modeling-unemployment-with-a-fixed-slope-adjustment-for-war" class="section level1">
+<h1>13. Modeling unemployment with a fixed slope adjustment for war</h1>
 <p>The plots above suggest that war reduce unemployment. Let’s look for a fixed effect with a 3-dimensional state vector and a transition matrix as when we looked for a president effect of war:</p>
 <p><span class="math display">\[T_t = \left[\begin{array}
 {rrrr}
 1 &amp; w_0 &amp; w_1 \\
-0 &amp; 0 &amp; 0 \\
 0 &amp; 1 &amp; 0 \\
 0 &amp; 0 &amp; 1 
 \end{array}\right],
 \]</span></p>
 <p>For this model, Q is constant, and we want a diffuse prior on all 3 components of the initial state vector. Thus, <span class="math inline">\(P_{1,\infty}\)</span> is the 3-dimensional identity matrix, and <span class="math inline">\(P_1\)</span> is the 3-dimensional zero matrix.</p>
-<p>For this model, we do not need to create a time-varying Q nor an updatefn. This simplifies the modeling process to the following:</p>
+<p>For this model, we need an update function to make H vary with time like we want.</p>
 <center>
-<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> -&gt;</p>
-<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(make the state transition matrix, T, time varying)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying observation error variance, H)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> –&gt;</p>
+<a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
 </center>
 <p>As before, we’ll let <span class="math inline">\(R_t\)</span> = the 3-dimensional identity matrix with <span class="math inline">\(Q_t\)</span> being a diagonal matrix with only the first element nonzero.</p>
 <p>We’ll use a similar formula to those above, requesting a third degree <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSMtrend</a> and modifying <span class="math inline">\(T_t\)</span> as before:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1.3u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">level=</span><span class="kw">qlogis</span>(unemp1), <span class="dt">war=</span><span class="dv">0</span>, <span class="dt">deaths=</span><span class="dv">0</span>)
+uWarStates &lt;-<span class="st"> </span><span class="kw">names</span>(a1.3u)
 
 uEWMA1war0fmla &lt;-<span class="st"> </span><span class="kw">qlogis</span>(unemployment) ~<span class="st"> </span>
 <span class="st">    </span><span class="kw">SSMtrend</span>(<span class="dv">3</span>, <span class="dt">Q =</span> <span class="kw">list</span>(<span class="dt">level=</span><span class="kw">matrix</span>(<span class="ot">NA</span>), 
                 <span class="dt">war=</span><span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">deaths=</span><span class="kw">matrix</span>(<span class="dv">0</span>)), <span class="dt">a1=</span>a1.3u) 
-uEWMA1war0mdl. &lt;-<span class="st"> </span><span class="kw">SSModel</span>(uEWMA1war0fmla, GDP, <span class="dt">H=</span><span class="kw">matrix</span>(<span class="ot">NA</span>))
-uEWMA1war0mdl &lt;-<span class="st"> </span><span class="kw">fixModelNames</span>(uEWMA1war0mdl., <span class="kw">names</span>(a1.3u) )</code></pre></div>
+
+uEWMA1war0mdl. &lt;-<span class="st"> </span><span class="kw">SSModel</span>(uEWMA1war0fmla, GDP, <span class="dt">H=</span>uEWMA1H)
+uEWMA1war0mdl &lt;-<span class="st"> </span><span class="kw">fixModelNames</span>(uEWMA1war0mdl., uWarStates )</code></pre></div>
 <p>Now we need to create the desired time-varying state transition matrix, <span class="math inline">\(T_t\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uWarStates &lt;-<span class="st"> </span><span class="kw">names</span>(a1.3u)
-uWar0T &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="kw">diag</span>(<span class="dv">3</span>), <span class="dt">dim=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,N), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uWar0T &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="kw">diag</span>(<span class="dv">3</span>), <span class="dt">dim=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,N), 
     <span class="dt">dimnames=</span><span class="kw">list</span>(uWarStates, uWarStates, GDP$Year))
 uWar0T[<span class="dv">1</span>, <span class="dv">2</span>,] &lt;-<span class="st"> </span>(GDP$war!=<span class="st">''</span>)
 uWar0T[<span class="dv">1</span>, <span class="dv">3</span>,] &lt;-<span class="st"> </span>GDP$battleDeathsPMP
@@ -3096,9 +3109,33 @@ uWar0T[,,<span class="dv">1</span>:<span class="dv">9</span>]</code></pre></div>
 <p>They match. Let’s save this T as part of uEWMA1war0mdl:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0mdl$T &lt;-<span class="st"> </span>uWar0T </code></pre></div>
 <p>We also need to fix the ‘tv’ attribute, as we did for models 4 and 5 (EWMA2pres2 and EWMA2pres3):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attr</span>(uEWMA1war0mdl, <span class="st">'tv'</span>) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Z=</span>0L, <span class="dt">H=</span>0L, <span class="dt">T=</span>1L, <span class="dt">R=</span>0L, <span class="dt">Q=</span>0L)</code></pre></div>
-<p>This model has same 3 parameters to estimate as uEWMA1b: lnQ.lvl, lnH1, and lnH2. We’ll use the same starting values: uEWMA1bInit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(uEWMA1war0mdl, <span class="dt">inits=</span>uEWMA1bInit)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attr</span>(uEWMA1war0mdl, <span class="st">'tv'</span>) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Z=</span>0L, <span class="dt">H=</span>1L, <span class="dt">T=</span>1L, <span class="dt">R=</span>0L, <span class="dt">Q=</span>0L)</code></pre></div>
+<p>For starting values, let’s look at the the parameter estimates for uEWMA1b:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1bFit$optim.out$par</code></pre></div>
+<pre><code>##        lnQ       lnH1       lnH2 
+##  -2.664628  -4.020398 -18.301393</code></pre>
+<p>We’ll use the first two but the third looks too small for a starting value for the logarithm of a variance. Let’s replace the it by the second:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0init &lt;-<span class="st"> </span><span class="kw">rep</span>(uEWMA1bFit$optim.out$par[<span class="dv">1</span>:<span class="dv">2</span>], <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">names</span>(uEWMA1war0init) &lt;-<span class="st"> </span><span class="kw">names</span>(uEWMA1bFit$optim.out$par)
+uEWMA1war0init</code></pre></div>
+<pre><code>##       lnQ      lnH1      lnH2 
+## -2.664628 -4.020398 -4.020398</code></pre>
+<p>We need an update function to modify Q and H like we want:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>uEWMA1war0init, 
+                      <span class="dt">model=</span>uEWMA1war0mdl, ...){
+  vars &lt;-<span class="st"> </span><span class="kw">exp</span>(pars)
+  Q &lt;-<span class="st"> </span>model$Q
+  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">1</span>]
+  model$Q &lt;-<span class="st"> </span>Q
+<span class="co">#</span>
+  Yrs &lt;-<span class="st"> </span><span class="kw">time</span>(uEWMA1mdl$y)
+  H &lt;-<span class="st"> </span>(vars[<span class="dv">3</span>]+(Yrs&lt;<span class="dv">1890</span>)*vars[<span class="dv">2</span>])
+  model$H[] &lt;-<span class="st"> </span>H
+  model
+}
+
+uEWMA1war0fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(uEWMA1war0mdl, <span class="dt">inits=</span>uEWMA1bInit, 
+                        uEWMA1war0updt)
 logLiks[<span class="dv">13</span>, <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">3</span>, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="kw">logLik2</span>(uEWMA1war0fit)
 logLiks[<span class="dv">1</span>:<span class="dv">13</span>,]</code></pre></div>
 <pre><code>##             npars   diffuse  marginal rmse.logDollars rmse.logitUnemp
@@ -3114,35 +3151,441 @@ logLiks[<span class="dv">1</span>:<span class="dv">13</span>,]</code></pre></div
 ## uEWMA1a         5 -35.89516 -33.18489              NA       0.2828544
 ## uEWMA1b         3 -35.89516 -33.18489              NA       0.2828531
 ## uEWMA1pres3     4 -35.50186 -32.79159              NA       0.2821104
-## uEWMA1war0      3 -50.19069 -31.52320              NA       0.2918653</code></pre>
+## uEWMA1war0      3 -45.71436 -27.04687              NA       0.2836063</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(uEWMA1war0Chisq &lt;-<span class="st"> </span><span class="dv">2</span>*<span class="kw">apply</span>(logLiks[<span class="kw">c</span>(<span class="dv">11</span>, <span class="dv">13</span>), <span class="dv">2</span>:<span class="dv">3</span>], <span class="dv">2</span>, diff))</code></pre></div>
-<pre><code>##    diffuse   marginal 
-## -28.591057   3.323392</code></pre>
-<p>The marginal likelihood increased by 1.66. If we count the two values of a1 estimated, double this should be a chi-square 2:</p>
+<pre><code>##   diffuse  marginal 
+## -19.63841  12.27604</code></pre>
+<p>If we count the two values of a1 estimated, double this should be a chi-square 2:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pchisq</span>(uEWMA1war0Chisq[<span class="dv">2</span>], <span class="dv">2</span>, <span class="dt">lower=</span><span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>##  marginal 
-## 0.1898168</code></pre>
-<p>Not significant.</p>
-<p>Let’s give up for the moment.</p>
+<pre><code>##    marginal 
+## 0.002159195</code></pre>
+<p>Quite significant. Let’s try a random slope similar to EWMA2war1:</p>
+</div>
+<div id="modeling-unemployment-with-a-random-slope-adjustment-for-war" class="section level1">
+<h1>14. Modeling unemployment with a random slope adjustment for war</h1>
+<p>This model combines EWMA2pres3 with EWMA2war0. We will use a time-varying state transition matrix as follows:</p>
+<p><span class="math display">\[T_t = \left[\begin{array}
+{rrrr}
+1 &amp; w_0 &amp; w_1 \\
+0 &amp; \omega_t &amp; 0 \\
+0 &amp; 0 &amp; \omega_t  
+\end{array}\right],
+\]</span></p>
+<p>where <span class="math inline">\(\omega_t\)</span> = 1 during wars and 0 otherwise as before. And we need to make the migration variance time varying to match:</p>
+<center>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying observation error variance, H)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
+-&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+</center>
+<p>Similar to EWMA2war1 , we will allow Q for the (war, deaths) components to be nonzero the year before the start of each war: Specifically, we want Q[1, 1, ] to be NA, Q[2:3, 2:3, beforeWar] to NA; all other elements of Q should be 0:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1warQ &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,N), 
+    <span class="dt">dimnames=</span><span class="kw">list</span>(uWarStates, uWarStates, GDP$Year))
+uEWMA1warQ[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="ot">NA</span>
+uEWMA1warQ[<span class="dv">2</span>:<span class="dv">3</span>,<span class="dv">2</span>:<span class="dv">3</span>,beforeWar] &lt;-<span class="st"> </span><span class="ot">NA</span> 
+
+uEWMA1warQ[,,beforeWar[<span class="dv">1</span>]+(-<span class="dv">1</span>):<span class="dv">1</span>]</code></pre></div>
+<pre><code>## , , 1810
+## 
+##        level war deaths
+## level     NA   0      0
+## war        0   0      0
+## deaths     0   0      0
+## 
+## , , 1811
+## 
+##        level war deaths
+## level     NA   0      0
+## war        0  NA     NA
+## deaths     0  NA     NA
+## 
+## , , 1812
+## 
+##        level war deaths
+## level     NA   0      0
+## war        0   0      0
+## deaths     0   0      0</code></pre>
+<p>That looks correct.</p>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSMtrend(3, …)</a> requires Q to be a list of length 3, so we can’t use that. Instead, we’ll copy the previous <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a> and modify Q directly, as we did for EWMA2war1:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war1mdl &lt;-<span class="st"> </span>uEWMA1war0mdl
+uEWMA1war1mdl$Q &lt;-<span class="st"> </span>uEWMA1warQ
+<span class="kw">attr</span>(uEWMA1war1mdl, <span class="st">'tv'</span>)[<span class="dv">5</span>] &lt;-<span class="st"> </span>1L</code></pre></div>
+<p>Since we are estimating P1[2:3, 2:3] = Q[2:3, 2:3, beforeWar], we need to set P1inf to diag(c(1,0,0)):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war1mdl$P1inf &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</code></pre></div>
+<p>We also want to set T[3:4, 3:4, GDP$war==’’] to 0:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uWar1T &lt;-<span class="st"> </span>uWar0T
+uWar1T[<span class="dv">2</span>:<span class="dv">3</span>, <span class="dv">2</span>:<span class="dv">3</span>, GDP$war==<span class="st">''</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+uWar1T[,,<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">22</span>:<span class="dv">24</span>)]</code></pre></div>
+<pre><code>## , , 1790
+## 
+##        level war deaths
+## level      1   1  29.49
+## war        0   1   0.00
+## deaths     0   0   1.00
+## 
+## , , 1791
+## 
+##        level war deaths
+## level      1   1  28.62
+## war        0   1   0.00
+## deaths     0   0   1.00
+## 
+## , , 1797
+## 
+##        level war deaths
+## level      1   0      0
+## war        0   0      0
+## deaths     0   0      0
+## 
+## , , 1811
+## 
+##        level war deaths
+## level      1   0      0
+## war        0   0      0
+## deaths     0   0      0
+## 
+## , , 1812
+## 
+##        level war deaths
+## level      1   1  58.04
+## war        0   1   0.00
+## deaths     0   0   1.00
+## 
+## , , 1813
+## 
+##        level war deaths
+## level      1   1 104.58
+## war        0   1   0.00
+## deaths     0   0   1.00</code></pre>
+<p>Looks good. Let’s put it in the model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war1mdl$T &lt;-<span class="st"> </span>uWar1T</code></pre></div>
+<p>We also need a matching updatefn. That requires specifying the parameters to be estimated, for which we will ultimately need starting values. What were the paramter estimates for the three models most like the current one?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1bFit$optim.out$par</code></pre></div>
+<pre><code>##        lnQ       lnH1       lnH2 
+##  -2.664628  -4.020398 -18.301393</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1pres3fit$optim.out$par</code></pre></div>
+<pre><code>##    lnQ.lvl  lnQ.pres3       lnH1       lnH2 
+##  -2.713121  -5.989676  -3.973905 -18.080432</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0fit$optim.out$par</code></pre></div>
+<pre><code>##        lnQ       lnH1       lnH2 
+##  -2.668651  -4.006871 -19.334902</code></pre>
+<p>For a random effect of war, we’ll want to include 3 parameters for the <a href="http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html">nlme::pdLogChol</a> representation of Q[3:4, 3:4]. We’ll call these parameters lnQ.war, lnQ.deaths, and lnQ.warDeaths. However, since the first two of these parameters are more like standard deviations than variances, we’ll adjust their starting values accordingly. And the lnQ.warDeaths is more like a regression coefficient, and we’ll start that at 0:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war1init &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">lnQ=</span>-<span class="fl">2.66</span>, <span class="dt">lnQ.war=</span>-<span class="dv">1</span>, <span class="dt">lnQ.deaths=</span>-<span class="dv">1</span>, 
+    <span class="dt">lnQ.warDeaths=</span><span class="dv">0</span>, <span class="dt">lnH1=</span>-<span class="dv">4</span>, <span class="dt">lnH2=</span>-<span class="dv">4</span>)
+uEWMA1war1init</code></pre></div>
+<pre><code>##           lnQ       lnQ.war    lnQ.deaths lnQ.warDeaths          lnH1 
+##         -2.66         -1.00         -1.00          0.00         -4.00 
+##          lnH2 
+##         -4.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war1updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>uEWMA1war1init, 
+                      <span class="dt">model=</span>uEWMA1war1mdl, ...){
+  Q &lt;-<span class="st"> </span>model$Q
+  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="kw">exp</span>(pars[<span class="dv">1</span>])
+<span class="co">#  </span>
+  P1w &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(nlme::<span class="kw">pdLogChol</span>(pars[<span class="dv">2</span>:<span class="dv">4</span>]))
+  model$P1[<span class="dv">2</span>:<span class="dv">3</span>, <span class="dv">2</span>:<span class="dv">3</span>] &lt;-<span class="st"> </span>P1w
+  Q[<span class="dv">2</span>:<span class="dv">3</span>, <span class="dv">2</span>:<span class="dv">3</span>, beforeWar] &lt;-<span class="st"> </span>P1w
+  model$Q &lt;-<span class="st"> </span>Q
+<span class="co"># </span>
+  Yrs &lt;-<span class="st"> </span><span class="kw">time</span>(uEWMA1mdl$y)
+  H &lt;-<span class="st"> </span>(<span class="kw">exp</span>(pars[<span class="dv">5</span>])+(Yrs&lt;<span class="dv">1890</span>)*<span class="kw">exp</span>(pars[<span class="dv">6</span>]))
+  model$H[] &lt;-<span class="st"> </span>H 
+  model
+} 
+
+uEWMA1war1fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(uEWMA1war1mdl, <span class="dt">inits=</span>uEWMA1war1init, 
+                        <span class="dt">updatefn=</span>uEWMA1war1updt)
+logLiks[<span class="dv">14</span>, <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">3</span>, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="kw">logLik2</span>(uEWMA1war1fit)
+logLiks[<span class="dv">1</span>:<span class="dv">14</span>,]</code></pre></div>
+<pre><code>##             npars   diffuse  marginal rmse.logDollars rmse.logitUnemp
+## EWMA1           2 375.07773 377.78800      0.04558539              NA
+## EWMA2           3 386.90810 396.50670      0.04265709              NA
+## EWMA2pres1      3 386.90809 396.50670      0.04265709              NA
+## EWMA2pres2      4 400.86352 403.57379      0.04068275              NA
+## EWMA2pres3      4 396.25058 405.84919      0.04098727              NA
+## EWMA2war0       3 373.20451 396.97049      0.04634585              NA
+## EWMA2war1       6 386.90224 396.50084      0.04265866              NA
+## EWMA2war2       6 386.90224 396.50084      0.04265866              NA
+## uEWMA1          2 -40.28480 -37.57454              NA       0.2911559
+## uEWMA1a         5 -35.89516 -33.18489              NA       0.2828544
+## uEWMA1b         3 -35.89516 -33.18489              NA       0.2828531
+## uEWMA1pres3     4 -35.50186 -32.79159              NA       0.2821104
+## uEWMA1war0      3 -45.71436 -27.04687              NA       0.2836063
+## uEWMA1war1      6 -36.97159 -34.26132              NA       0.2870532</code></pre>
+<p>This is worse than for uEWMA1war0 or even uEWMA1b.</p>
+<p>We could try a model with a variance effect for war. However, when we tried that with average annual income (EWMA2war2), we got nothing useful. Moreover uEWMA2war0 seemed like a pretty good model.</p>
+<p>We did not find a president effect on unemployment when we looked for it by itself. However, since uEWMA1war0 fit so well, we might find a president effect if combined with war.</p>
 </div>
 <div id="modeling-unemployment-with-slope-adjustments-for-presidents-and-war" class="section level1">
-<h1>14. Modeling unemployment with slope adjustments for presidents and war</h1>
-<p>14 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war | 4:level, pres3, war, deaths | Q, T | diag(c(0, 1, 0, 0)) | diag(c(1, 0, 1, 1) | 6:lnQ.lvl, lnQ.pres3, lnQ.war, lnQ.deaths, lnH1..2</p>
+<h1>15. Modeling unemployment with slope adjustments for presidents and war</h1>
+<p>To add a president effect to uEWMA1war0, we will combine the models for EWMA2pres3 and uEWMAwar0. We’ll use a state transition matrix as follows:</p>
+<p><span class="math display">\[T_t = \left[\begin{array}
+{rrrr}
+1 &amp; 1 &amp; w_0 &amp; w_1 \\
+0 &amp; \gamma_t &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 
+\end{array}\right],
+\]</span></p>
+<p>where <span class="math inline">\(\gamma_t\)</span> = 0 for the last year of a presidency, and 1 otherwise, as with EWMA2pres2 and EWMA2pres3.</p>
+<p>We combine this with migration variance <span class="math inline">\(Q_t\)</span> as follows:</p>
+<p><span class="math display">\[Q_t = \left[\begin{array}
+{rrrr}
+q_{\mathrm{lvl}} &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; q_{\mathrm{pres3}} (1-\gamma_t) &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 
+\end{array}\right],
+\]</span></p>
+<p>where <span class="math inline">\(q_{\mathrm{lvl}}\)</span> is the migration variance for the level, <span class="math inline">\(q_{\mathrm{pres3}}\)</span> = <span class="math inline">\(P_{1,2,2}\)</span> is the variance of the presidential effect, and <span class="math inline">\(Q_{\mathrm{war}}\)</span> is the 2 x 2 covariance matrix of the war effect.</p>
+<p>To build this, we’ll need all the steps we’ve used before to add “pres3” to the state vector, construct time varying matrices for state transition, T, transition variance, Q, and observation variance, H:</p>
+<center>
+<p><a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying migration variance, Q)</a> -&gt; <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html">formula</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying observation error variance, H)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html">SSModel</a></p>
+-&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html">(time varying state transition matrix, T)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">(updatefn)</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html">fitSSM</a> -&gt; <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>
+</center>
+<p>As before, we’ll let <span class="math inline">\(R_t\)</span> = the 4-dimensional identity matrix. We create Q as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uP3w0states &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'level'</span>, <span class="st">'pres3'</span>, <span class="st">'war'</span>, <span class="st">'deaths'</span>)
+uP3w0Q &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,N), 
+    <span class="dt">dimnames=</span><span class="kw">list</span>(uP3w0states, uP3w0states, GDP$Year))
+uP3w0Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="ot">NA</span>
+uP3w0Q[<span class="dv">2</span>, <span class="dv">2</span>, presLastYr] &lt;-<span class="st"> </span><span class="ot">NA</span>
+
+uP3w0Q[,,beforeWar[<span class="dv">1</span>]+(-<span class="dv">3</span>):<span class="dv">3</span>]</code></pre></div>
+<pre><code>## , , 1808
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0    NA   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1809
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1810
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1811
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1812
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1813
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0
+## 
+## , , 1814
+## 
+##        level pres3 war deaths
+## level     NA     0   0      0
+## pres3      0     0   0      0
+## war        0     0   0      0
+## deaths     0     0   0      0</code></pre>
+<p>That looks correct. Rather than use SSMtrend(4, …), we’ll just modify EWMA2war1mdl:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1.4u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">level=</span><span class="kw">qlogis</span>(unemp1), <span class="dt">pres3=</span><span class="dv">0</span>, <span class="dt">war=</span><span class="dv">0</span>, <span class="dt">deaths=</span><span class="dv">0</span>)
+uP3w0States &lt;-<span class="st"> </span><span class="kw">names</span>(a1.4u)
+
+uEWMA1p3w0mdl &lt;-<span class="st"> </span><span class="kw">fixModelNames</span>(EWMA2war1mdl, uP3w0States)
+uEWMA1p3w0mdl$y &lt;-<span class="st"> </span>uEWMA1mdl$y
+uEWMA1p3w0mdl$H &lt;-<span class="st"> </span>uEWMA1H
+uEWMA1p3w0mdl$Q &lt;-<span class="st"> </span>uP3w0Q</code></pre></div>
+<p>Next, we create the desired time-varying state transition matrix, <span class="math inline">\(T_t\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uP3w0T &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="kw">diag</span>(<span class="dv">4</span>), <span class="dt">dim=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,N), 
+    <span class="dt">dimnames=</span><span class="kw">list</span>(uP3w0States, uP3w0States, GDP$Year))
+uP3w0T[<span class="dv">1</span>, <span class="dv">2</span>,] &lt;-<span class="st"> </span><span class="dv">1</span>
+uP3w0T[<span class="dv">2</span>,<span class="dv">2</span>, presLastYr] &lt;-<span class="st"> </span><span class="dv">0</span> 
+uP3w0T[<span class="dv">1</span>, <span class="dv">3</span>,] &lt;-<span class="st"> </span>(GDP$war!=<span class="st">''</span>)
+uP3w0T[<span class="dv">1</span>, <span class="dv">4</span>,] &lt;-<span class="st"> </span>GDP$battleDeathsPMP
+uP3w0T[,,<span class="dv">1</span>:<span class="dv">9</span>]</code></pre></div>
+<pre><code>## , , 1790
+## 
+##        level pres3 war deaths
+## level      1     1   1  29.49
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1791
+## 
+##        level pres3 war deaths
+## level      1     1   1  28.62
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1792
+## 
+##        level pres3 war deaths
+## level      1     1   1  27.84
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1793
+## 
+##        level pres3 war deaths
+## level      1     1   1  26.95
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1794
+## 
+##        level pres3 war deaths
+## level      1     1   1  26.16
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1795
+## 
+##        level pres3 war deaths
+## level      1     1   1  14.95
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1796
+## 
+##        level pres3 war deaths
+## level      1     1   0      0
+## pres3      0     0   0      0
+## war        0     0   1      0
+## deaths     0     0   0      1
+## 
+## , , 1797
+## 
+##        level pres3 war deaths
+## level      1     1   0      0
+## pres3      0     1   0      0
+## war        0     0   1      0
+## deaths     0     0   0      1
+## 
+## , , 1798
+## 
+##        level pres3 war deaths
+## level      1     1   0      0
+## pres3      0     1   0      0
+## war        0     0   1      0
+## deaths     0     0   0      1</code></pre>
+<p>Let’s check this <span class="math inline">\(T_t\)</span> with years at war and peace.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">GDP[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">7</span>), <span class="kw">c</span>(<span class="st">'Year'</span>, <span class="st">'war'</span>, <span class="st">'battleDeathsPMP'</span>)]</code></pre></div>
+<pre><code>##      Year                  war battleDeathsPMP
+## 1790 1790 Northwest Indian War           29.49
+## 1791 1791 Northwest Indian War           28.62
+## 1796 1796                                 0.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uP3w0T[,,<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">7</span>)]</code></pre></div>
+<pre><code>## , , 1790
+## 
+##        level pres3 war deaths
+## level      1     1   1  29.49
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1791
+## 
+##        level pres3 war deaths
+## level      1     1   1  28.62
+## pres3      0     1   0   0.00
+## war        0     0   1   0.00
+## deaths     0     0   0   1.00
+## 
+## , , 1796
+## 
+##        level pres3 war deaths
+## level      1     1   0      0
+## pres3      0     0   0      0
+## war        0     0   1      0
+## deaths     0     0   0      1</code></pre>
+<p>They match. Let’s save this T as part of uEWMA1p3w0mdl:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1p3w0mdl$T &lt;-<span class="st"> </span>uP3w0T </code></pre></div>
+<p>We also need to fix the ‘tv’ attribute:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attr</span>(uEWMA1p3w0mdl, <span class="st">'tv'</span>) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Z=</span>0L, <span class="dt">H=</span>1L, <span class="dt">T=</span>1L, <span class="dt">R=</span>0L, <span class="dt">Q=</span>1L)</code></pre></div>
+<p>For starting values, let’s look at the the parameter estimates for uEWMA1war0fit:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1war0fit$optim.out$par</code></pre></div>
+<pre><code>##        lnQ       lnH1       lnH2 
+##  -2.668651  -4.006871 -19.334902</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uEWMA1p3w0init &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">lnQ.lvl=</span>-<span class="fl">2.66</span>, <span class="dt">lnQ.pres3=</span>-<span class="dv">2</span>, 
+    <span class="dt">lnH1=</span>-<span class="dv">4</span>, <span class="dt">lnH2=</span>-<span class="dv">8</span>)
+
+uEWMA1p3w0updt &lt;-<span class="st"> </span>function(<span class="dt">pars=</span>uEWMA1p3w0init, 
+                      <span class="dt">model=</span>uEWMA1p3w0mdl, ...){
+  vars &lt;-<span class="st"> </span><span class="kw">exp</span>(pars)
+  Q &lt;-<span class="st"> </span>model$Q
+  Q[<span class="dv">1</span>,<span class="dv">1</span>,] &lt;-<span class="st"> </span>vars[<span class="dv">1</span>]
+  Q[<span class="dv">2</span>,<span class="dv">2</span>, presLastYr] &lt;-<span class="st"> </span>vars[<span class="dv">2</span>]
+  model$Q &lt;-<span class="st"> </span>Q
+<span class="co"># </span>
+  Yrs &lt;-<span class="st"> </span><span class="kw">time</span>(model$y)
+  H &lt;-<span class="st"> </span>(vars[<span class="st">'lnH1'</span>]+(Yrs&lt;<span class="dv">1890</span>)*vars[<span class="st">'lnH2'</span>])
+  model$H[] &lt;-<span class="st"> </span>H 
+  model
+}
+
+uEWMA1p3w0fit &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(uEWMA1p3w0mdl, <span class="dt">inits=</span>uEWMA1p3w0init, 
+                        uEWMA1p3w0updt)
+logLiks[<span class="dv">15</span>, <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">3</span>, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="kw">logLik2</span>(uEWMA1p3w0fit)</code></pre></div>
+<pre><code>## Warning in KFS(object$model): Model is degenerate, diffuse phase did not
+## end.</code></pre>
+<pre><code>## Warning in KFS(object$model): Possible error in diffuse filtering: Number of nonzero elements in Finf is not equal to the number of diffuse states. 
+## Either model is degenerate or numerical errors occured. Check the model or try changing the tolerance parameter tol or P1/P1inf of the model.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logLiks[<span class="dv">13</span>:<span class="dv">15</span>, ] </code></pre></div>
+<pre><code>##            npars   diffuse  marginal rmse.logDollars rmse.logitUnemp
+## uEWMA1war0     3 -45.71436 -27.04687              NA       0.2836063
+## uEWMA1war1     6 -36.97159 -34.26132              NA       0.2870532
+## uEWMA1p3w0     4 -37.45786 -32.28932              NA       0.7935907</code></pre>
+<p>This model has major problems: Most importantly, we get, “Warning … Either model is degenerate or numerical errors occured.” This warning was generated by the call from logLik2 to <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(uEWMA1p3w0KFS &lt;-<span class="st"> </span><span class="kw">KFS</span>(uEWMA1p3w0fit$model))$d</code></pre></div>
+<pre><code>## Warning in KFS(uEWMA1p3w0fit$model): Model is degenerate, diffuse phase did
+## not end.</code></pre>
+<pre><code>## Warning in KFS(uEWMA1p3w0fit$model): Possible error in diffuse filtering: Number of nonzero elements in Finf is not equal to the number of diffuse states. 
+## Either model is degenerate or numerical errors occured. Check the model or try changing the tolerance parameter tol or P1/P1inf of the model.</code></pre>
+<pre><code>## [1] 226</code></pre>
+<p>Per the <a href="http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html">KFS</a> documentation, “d” is the length of the diffuse phase. Here, “d” = 226, the length of the series.</p>
+<p>Quite likely, the “pres3” and “war0” effects are <a href="https://en.wikipedia.org/wiki/Confounding">confounded</a> and not independently estimable. We won’t take the time to check that here.</p>
+<p>Instead, we will proceed with to model log(realGDPperCapita) and qlogis(unemployment) with separate “level” parameters for both, looking for a correlation between the changes in the levels, suggested by <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a>. In so doing, we will consider using “pres3” with “GDP.lvl” and “war0” with “unemp.lvl”, but not “pres3” with “unemp.lvl” nor “war0” with “GDP.lvl”.</p>
 </div>
 <div id="modeling-gdp-and-unemployment-with-okuns-law" class="section level1">
-<h1>15. Modeling GDP and unemployment with Okun’s law</h1>
-<p>](<a href="https://en.wikipedia.org/wiki/Okun's_law" class="uri">https://en.wikipedia.org/wiki/Okun's_law</a>)</p>
+<h1>16. Modeling GDP and unemployment with Okun’s law</h1>
+<p><a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> suggests that changes in unemployment and GDP are negatively correlated. <a href="#bib-Horowitz2011">Horowitz (2011)</a> reported different regression coefficients between the two in different countries. The <a href="http://people.duke.edu/~rnau/mathreg.htm">regression coefficient is the correlation coefficient times the ratio of the standard deviations</a>. Thus, the differences between countries in the regression coefficient could be due to differences in either this correlation or either of the standard deviation of changes in GDP or unemployment.</p>
+<p>We will extend this to modeling both GDP and unemployment in terms of a state vector with the following components:</p>
+<p>GDP.lvl = level of log(realGDPperCapita) GDP.slope = slope of log(realGDPperCapita) unemp.lvl = level of qlogis(unemployment).</p>
+<p>We will look for correlations between all three of these components. The correlation in the state transition matrix, Q, between GDP.lvl and unemp.lvl seems most closely related to Okun’s law, although the correlation between GDP.slope and unemp.lvl also seems relevant to the study of the relationship between unemployment end economic growth, the subject of Okun’s Law. In this modeling, we will assume zero correlation between changed in GDP.lvl and GDP.slope.</p>
 </div>
 <div id="okuns-law-with-a-president-effect" class="section level1">
-<h1>16. Okun’s law with a president effect</h1>
+<h1>17. Okun’s law with a president effect</h1>
 <p>GDP/cap &amp; unemp | OkunPres3: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a president effect</p>
 </div>
 <div id="okuns-law-with-a-war-effect" class="section level1">
-<h1>17. Okun’s law with a war effect</h1>
+<h1>18. Okun’s law with a war effect</h1>
 <p>GDP/cap &amp; unemp | OkunWar0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> with a war effect</p>
 </div>
 <div id="okuns-law-considering-both-presidents-and-wars" class="section level1">
-<h1>18. Okun’s law considering both presidents and wars</h1>
+<h1>19. Okun’s law considering both presidents and wars</h1>
 <p>GDP/cap &amp; unemp | OkunP3w0: <a href="https://en.wikipedia.org/wiki/Okun's_law">Okun’s law</a> modeling both president and war</p>
 </div>
 <div id="discussion" class="section level1">
