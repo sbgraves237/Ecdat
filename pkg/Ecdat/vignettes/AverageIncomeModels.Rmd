@@ -323,7 +323,7 @@ In the following, we shall consider several different though related models:
 14 | unemp | uEWMA1war1: EWMA with random slope adjustments for war 
 15 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war 
  | 
-16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law)
+16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) | 3:GDP.lvl, GDP.slope, unemp.lvl | H | 0 | diag(3) | 8:lnQ.pl, lnQ.ul, lnQ.ps, lnQ.pl.ul, lnQ.ul.ps, lnHp, lnHu1, lnHu2 
 17 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect
 18 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect 
 19 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war 
@@ -387,7 +387,7 @@ In all the models considered here, $y_t$ is log(realGDPperCapita). The dimension
 14 | unemp | uEWMA1war1: EWMA with radom slope adjustments for war            | 3:level, war, deaths        | T, Q, H | diag(c(0, Q.war))      | diag(3)             | 6:lnQ.lvl, lnQ.war, lnQ.deaths, lnQ.warDeaths, lnH1..2 
 15 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war | 4:level, pres3, war, deaths | T, Q, H | diag(c(0, 1, 0, 0)) | diag(c(1, 0, 1, 1) | 6:lnQ.lvl, lnQ.pres3, lnQ.war, lnQ.deaths, lnH1..2 
  | | | | | | | | | 
-16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law)
+16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 8:lnQ.pl, lnQ.ul, lnQ.ps, lnQ.pl.ul, lnQ.ul.ps, lnHp, lnHu1, lnHu2 
 17 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect
 18 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect 
 19 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war 
@@ -405,7 +405,8 @@ Let's write a suitable formula for our Bayesian EWMA:
 ```{r}
 suppressMessages(library(KFAS))
 EWMA1fmla <- log(realGDPperCapita)~
-  SSMtrend(1,Q=list(matrix(NA)), a1=log(realGDPperCapita[1]) )
+  SSMtrend(1,Q=list(matrix(NA)), a1=log(realGDPperCapita[1]),
+           ynames='lnGDPperCap')
 ```
 
 We use this to create an SSModel as follows:  
@@ -509,13 +510,21 @@ Let's wrap these three goodness-of-fit measures in a fuction with the number of 
 
 ```{r}
 logLik2 <- function(object, ...){
-  ll2 <- rep(NA, 4)
-  names(ll2) <- c('pars', 'diffuse', 'marginal', 'rmse')
+  ll2 <- rep(NA, 5)
+  names(ll2) <- c('pars', 'diffuse', 'marginal', 
+        'rmse.logDollars', 'rmse.logitUnemp')
   ll2[1] <- length(object$optim.out$par)
   ll2[2] <- logLik(object$model)
   ll2[3] <- logLik(object$model, marginal=TRUE)
   K. <- KFS(object$model)
-  ll2[4] <- sqrt(mean(K.$v^2, na.rm=TRUE))
+  Ks <- apply(K.$v^2, 2, function(x)
+        sqrt(mean(x, na.rm=TRUE)))
+  if(length(Ks)<2){
+    Ynames <- colnames(object$model$y)
+    if((!is.null(Ynames)) && (Ynames=='logitUnemp')){
+      ll2[5] <- Ks
+    } else ll2[4] <- Ks
+  } else ll2[4:5] <- Ks
 #
   ll2
 }
@@ -525,10 +534,11 @@ Let's create a [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/h
 
 ```{r}
 mdls <- c('EWMA1', 'EWMA2', 'EWMA2pres1', 'EWMA2pres2', 
-          'EWMA2pres3', 'EWMA2war0', 'EWMA2war1', 'EWMA2war2', 
-          'uEWMA1', 'uEWMA1a', 'uEWMA1b', 'uEWMA1pres3', 
-          'uEWMA1war0', 'uEWMA1war1', 'uEWMA1p3w0', 
-          'Okun', 'OkunPres3', 'OkunWar0', 'OkunP3w0')
+          'EWMA2pres3', 'EWMA2war0', 'EWMA2war1', 
+          'EWMA2war2', 'uEWMA1', 'uEWMA1a', 'uEWMA1b',
+          'uEWMA1pres3', 'uEWMA1war0', 'uEWMA1war1',
+          'uEWMA1p3w0', 'Okun', 'OkunPres3', 'OkunWar0',
+          'OkunP3w0')
 n.mdls <- length(mdls)
 logLiks <- data.frame(npars=rep(NA, n.mdls), 
       diffuse=rep(NA, n.mdls), marginal=rep(NA, n.mdls), 
@@ -539,7 +549,7 @@ logLiks <- data.frame(npars=rep(NA, n.mdls),
 Let's look at and store this "logLik2" summary for this first model:
 
 ```{r}
-logLiks[1, 1:4] <- logLik2(EWMA1fit)
+logLiks[1, ] <- logLik2(EWMA1fit)
 logLiks[1, 1:4]
 ```
 
@@ -685,7 +695,7 @@ We construct the desired formula for the double EWMA as follows:
 (a1.2 <- c(level=log(GDP$realGDPperCapita[1]), slope=0))
 EWMA2fmla <- log(realGDPperCapita)~
   SSMtrend(2,Q=list(Q.lvl=matrix(NA), Q.slope=matrix(NA)), 
-           a1=a1.2)
+           a1=a1.2, ynames='lnGDPperCap')
 ```
 
 As above, we convert this to an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html):  
@@ -703,7 +713,7 @@ EWMA2fit<-fitSSM(EWMA2mdl, inits=EWMA2init)
 We pause here compute the 3 goodless of fit statistics discussed above:  
 
 ```{r}
-logLiks[2,  1:4] <- logLik2(EWMA2fit)
+logLiks[2,  ] <- logLik2(EWMA2fit)
 logLiks[1:2,1:4]
 ```
 
@@ -889,7 +899,8 @@ We now create a formula for this model:
 ```{r}
 EWMA2pres1fmla <- log(realGDPperCapita) ~ 
   SSMtrend(2, Q = list(lnQ.lvl=matrix(NA), 
-                       lnQ.slope=EWMA2pres1Q.slope), a1=a1.2) 
+              lnQ.slope=EWMA2pres1Q.slope), a1=a1.2,
+           ynames='lnGDPperCap') 
 ```
 
 As before, we use this to build an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html): 
@@ -901,8 +912,8 @@ EWMA2pres1mdl <-SSModel(EWMA2pres1fmla, GDP, H=matrix(NA))
 The next step is to create the desired updatefn assuming we estimate three log(variance) parameters for lnQ.lvl, lnQ.slope, and lnH, as for the double EWMA above:    
 
 ```{r}
-EWMA2pres1updt <- function(pars=EWMA2init, model=EWMA2pres1mdl, 
-                           ...){
+EWMA2pres1updt <- function(pars=EWMA2init,
+              model=EWMA2pres1mdl, ...){
   vars <- exp(pars)
   Q <- model$Q
   Q[1,1,] <- vars[1]
@@ -918,7 +929,7 @@ We're now ready to call [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fi
 ```{r}
 EWMA2pres1fit <- fitSSM(EWMA2pres1mdl, inits=EWMA2init, 
                         updatefn=EWMA2pres1updt)
-logLiks[3,  1:4] <- logLik2(EWMA2pres1fit)
+logLiks[3, ] <- logLik2(EWMA2pres1fit)
 logLiks[1:3,1:4]
 ```
 
@@ -955,7 +966,6 @@ $$
 
 where $\gamma_t$ = 0 for the last year of a presidency, and 1 otherwise.  And $Q_t$ is as follows:  
 
-
 $$Q_t = \left[\begin{array}
 {rrr}
 q_{\mathrm{lvl}} & 0 & 0 \\
@@ -989,9 +999,12 @@ EWMA2pres2.P1 <- EWMA2pres2.P1inf
 EWMA2pres2.P1[1,1] <- 0
 EWMA2pres2.P1[2,2] <- NA
 EWMA2pres2fmla <- log(realGDPperCapita)~
-  SSMtrend(3,Q=list(Q.lvl=matrix(NA), Q.slope=EWMA2pres1Q.slope, 
+  SSMtrend(3,Q=list(Q.lvl=matrix(NA),
+                    Q.slope=EWMA2pres1Q.slope, 
                     Q.a1.slope=matrix(0)), 
-           a1=a1.3, P1=EWMA2pres2.P1, P1inf = EWMA2pres2.P1inf)
+           a1=a1.3, P1=EWMA2pres2.P1, 
+           P1inf=EWMA2pres2.P1inf, 
+           ynames='lnGDPperCap')
 ```
 
 We now use this to build an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html):
@@ -1003,23 +1016,30 @@ EWMA2pres2mdl. <-SSModel(EWMA2pres2fmla, GDP, H=matrix(NA))
 [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) does not remember the names of the states we assigned to a1.3 above. If we want those names to appear later, we can fix them now;  we'll write a function to do that:  
 
 ```{r}
-fixModelNames <- function(model, stateNames){
+fixModelNames <- function(model, stateNames, 
+                          yNames){
   mdl <- model 
+  if(missing(yNames)){
+    yNames <- colnames(mdl$y)
+    if(is.null(yNames)) {
+      yNames <- dimnames(mdl$Z)[[1]]
+    }
+  }
+  colnames(mdl$y) <- yNames
   mdlTime <- time(mdl$y)
 # Z
-  ynames <- dimnames(mdl$Z)[[1]]
   if(dim(mdl$Z)[3]>1){
-    dimnames(mdl$Z) <- list(ynames, stateNames, 
+    dimnames(mdl$Z) <- list(yNames, stateNames, 
                             mdlTime)
   } else {
-    dimnames(mdl$Z) <- list(ynames, stateNames, NULL)
+    dimnames(mdl$Z) <- list(yNames, stateNames, NULL)
   }
 # H
   if(dim(mdl$H)[3]>1){
-    dimnames(mdl$H) <- list(ynames, ynames, 
+    dimnames(mdl$H) <- list(yNames, yNames, 
                             mdlTime)
   } else {
-    dimnames(mdl$H) <- list(ynames, ynames, NULL)
+    dimnames(mdl$H) <- list(yNames, yNames, NULL)
   }
 # T   
   if(dim(mdl$T)[3]>1){
@@ -1050,7 +1070,7 @@ fixModelNames <- function(model, stateNames){
   mdl 
 }
 EWMA2pres2mdl <- fixModelNames(EWMA2pres2mdl., 
-                              names(a1.3) )
+            names(a1.3), 'logGDPperCapita' )
 ```
 
 Next, we modify this model to make T time varying as desired:   
@@ -1131,7 +1151,7 @@ We now fit this model as follows:
 ```{r}
 EWMA2pres2fit <- fitSSM(EWMA2pres2mdl, 
           inits=EWMA2pres2init, updatefn=EWMA2pres2updt) 
-logLiks[4,  1:4] <- logLik2(EWMA2pres2fit)
+logLiks[4, ] <- logLik2(EWMA2pres2fit)
 logLiks[1:4,1:4]
 ```
 
@@ -1142,7 +1162,7 @@ We next compute and plot the smoothed estimate of the state vector, as before:
 ```{r,fig.cap = "Estimated level and slope of GDP, decoupling the presidents"}
 EWMA2pres2.KFS <- KFS(EWMA2pres2fit$model)
 plotPresWars(EWMA2pres2.KFS$alphahat, GDP, 
-             yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
+      yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
              main='Decoupled presidents')
 ```
 
@@ -1150,7 +1170,7 @@ The slope here shows substantially more variability.  Let's look at it more clos
 
 ```{r,fig.cap = "Estimated slope of GDP, decoupling the presidents"}
 plotPresWars(EWMA2pres2.KFS$alphahat[, 'slope'], GDP, 
-             yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
+    yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              ylab='slope')
 abline(h=0)
 ```
@@ -1226,7 +1246,7 @@ Before we embrace this analysis, let's check how much the standard errors vary: 
 
 ```{r,fig.cap = "Variance of the estimated slope, decoupling the presidents"}
 plotPresWars(EWMA2pres2.KFS$V[2,2,]~Year, GDP, 
-             yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
+    yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9), 
              type='l', ylab='smoothed slope variance')
 ```
 
@@ -1234,14 +1254,16 @@ This is plausibly constant within administration, which we would expect from spe
 
 ```{r,fig.cap = "Slope, variance, and number of years for each presidency"}
 plot((1/stdError^2)~n, EWMA2pres2sum, 
-     xlab='Number of years', ylab='info = 1/(smoothed variance)')
+    xlab='Number of years', 
+    ylab='info = 1/(smoothed variance)')
 ```
 
 This looks like a straight line except for one point.  Who is that point?  
 
 ```{r,fig.cap = "Posterior variance vs. number of years for each presidency, labeled"}
 plot((1/stdError^2)~n, EWMA2pres2sum, 
-     xlab='Number of years', ylab='info = 1/(smoothed variance)')
+     xlab='Number of years', 
+     ylab='info = 1/(smoothed variance)')
 text((1/stdError^2)~n, EWMA2pres2sum, 1:41)
 ```
 
@@ -1252,7 +1274,8 @@ Let's plot the confidence intervals just computed using [ggplot](http://rpackage
 ```{r,fig.cap = "Decoupled slope for each presidency"}
 suppressMessages(library(ggplot2))
 
-ggplot(EWMA2pres2sum[c('president', 'slope', 'lower', 'upper')], 
+ggplot(EWMA2pres2sum[
+            c('president', 'slope', 'lower', 'upper')], 
        aes(x=president, y=slope)) + geom_point() +
     coord_cartesian(ylim = c(-0.08, 0.08)) + 
     geom_errorbar(ymin=EWMA2pres2sum$lower,
@@ -1342,8 +1365,9 @@ EWMA2pres3P1 <- diag(c(0, 0, NA))
 EWMA2pres3P1inf <- diag(c(1, 1, 0))
 EWMA2pres3fmla <- log(realGDPperCapita) ~ 
   SSMtrend(3, Q = list(level=matrix(NA), slope=matrix(NA),
-                   pres3=EWMA2pres1Q.slope), 
-      P1=EWMA2pres3P1, P1inf=EWMA2pres3P1inf, a1=a1.3a) 
+          pres3=EWMA2pres1Q.slope), 
+      P1=EWMA2pres3P1, P1inf=EWMA2pres3P1inf, a1=a1.3a, 
+      ynames='logGDPperCap') 
 ```
 
 We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), as before:   
@@ -1351,7 +1375,7 @@ We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel
 ```{r}
 EWMA2pres3mdl. <- SSModel(EWMA2pres3fmla, GDP, H=matrix(NA))
 EWMA2pres3mdl <- fixModelNames(EWMA2pres3mdl., 
-                              names(a1.3a) )
+                    names(a1.3a), 'logGDPperCap' )
 ```
 
 Now we need to create the desired time-varying state transition matrix, T:  
@@ -1402,7 +1426,7 @@ EWMA2pres3updt <- function(pars=EWMA2pres3init,
 
 EWMA2pres3fit <- fitSSM(EWMA2pres3mdl, inits=EWMA2pres3init, 
                         updatefn=EWMA2pres3updt) 
-logLiks[5,  1:4] <- logLik2(EWMA2pres3fit)
+logLiks[5, ] <- logLik2(EWMA2pres3fit)
 logLiks[1:5,1:4]
 ```
 
@@ -1413,7 +1437,7 @@ Let's compute the smoothed state vectors as before:
 ```{r,fig.cap = "Estimated level and slope of GDP plus an adjustment for each president"}
 EWMA2pres3.KFS <- KFS(EWMA2pres3fit$model)
 plotPresWars(EWMA2pres3.KFS$alphahat, GDP, 
-             yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
+      yHoover=0.72, yFDR=.3, yWar=seq(.6, by=-.08, len=9),
              main='Decoupled presidents')
 ```
 
@@ -1436,7 +1460,8 @@ What does the presidential summary look like?
 This seems quite similar to the EWMA2pres2 model.  Let's plot this summary as before:  
 
 ```{r,fig.cap = "EWMA2pres3 slope for each presidency"}
-ggplot(EWMA2pres3sum[c('president', 'pres3', 'lower', 'upper')], 
+ggplot(EWMA2pres3sum[
+          c('president', 'pres3', 'lower', 'upper')], 
        aes(x=president, y=pres3)) + geom_point() +
     coord_cartesian(ylim = c(-0.08, 0.08)) + 
     geom_errorbar(ymin=EWMA2pres3sum$lower,
@@ -1502,7 +1527,8 @@ a1.4 <- c(level=log(GDP$realGDPperCapita[1]), slope=0,
            war=0, deaths=0)
 EWMA2war0fmla <- log(realGDPperCapita) ~ 
     SSMtrend(4, Q = list(level=matrix(NA), slope=matrix(NA),
-                  war=matrix(0), deaths=matrix(0)), a1=a1.4) 
+                  war=matrix(0), deaths=matrix(0)), a1=a1.4,
+           ynames='lnGDPperCap') 
 EWMA2war0mdl. <- SSModel(EWMA2war0fmla, GDP, H=matrix(NA))
 ```
 
@@ -1510,7 +1536,7 @@ As before, let's fix the names of components of EWMAwar0mdl:
 
 ```{r}
 EWMA2war0mdl <- fixModelNames(EWMA2war0mdl., 
-                       names(a1.4) )
+                  names(a1.4), 'logGDPperCap' )
 ```
 
 Now we need to create the desired time-varying state transition matrix, $T_t$:  
@@ -1548,7 +1574,7 @@ This model has the same 3 parameters to estimate as models 2, 3 and 4 above:  ln
 
 ```{r}
 (EWMA2war0fit <- fitSSM(EWMA2war0mdl, inits=EWMA2init)) 
-logLiks[6,  1:4] <- logLik2(EWMA2war0fit)
+logLiks[6, ] <- logLik2(EWMA2war0fit)
 logLiks[1:6,1:4]
 ```
 
@@ -1610,7 +1636,7 @@ EWMA2war0updt <- function(pars=EWMA2war0init,
 } 
 EWMA2war0fit3 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init, 
                         updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit3)
+logLik2(EWMA2war0fit3)[1:4]
 ```
 
 This is worse than EWMA2war0fit and EWMA2war0fit2.  
@@ -1622,7 +1648,7 @@ EWMA2war0init2 <- c(EWMA2fit$optim.out$par,
                 lnP1.33=-999, lnP1.44=-999, lnP1.34=0)
 EWMA2war0fit4 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init2, 
                         updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit4)
+logLik2(EWMA2war0fit4)[1:4]
 ```
 
 This matches logLik(EWMA2war0fit2$model).  Let's try something between EWMA2war0init and EWMA2war0init2:  
@@ -1632,7 +1658,7 @@ EWMA2war0init3 <- c(EWMA2fit$optim.out$par,
                 lnP1.33=-9, lnP1.44=-9, lnP1.34=0)
 EWMA2war0fit5 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init3,
                         updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit5)
+logLik2(EWMA2war0fit5)[1:4]
 ```
 
 At logLik = 383.8239, this is not as good as EWMA2war0fit5.  We might get something better with different starting values.
@@ -1642,7 +1668,7 @@ EWMA2war0init4 <- c(EWMA2fit$optim.out$par,
                 lnP1.33=-2, lnP1.44=-9, lnP1.34=0)
 EWMA2war0fit6 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init4, 
                         updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit6)
+logLik2(EWMA2war0fit6)[1:4]
 ```
 
 Let's give up for the moment.  
@@ -1749,7 +1775,7 @@ EWMA2war1updt <- function(pars=EWMA2war1init,
 } 
 EWMA2war1fit <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init, 
                         updatefn=EWMA2war1updt)
-logLiks[7,  1:4] <- logLik2(EWMA2war1fit)
+logLiks[7, ] <- logLik2(EWMA2war1fit)
 logLiks[1:7,1:4]
 ```
 
@@ -1763,7 +1789,7 @@ EWMA2war1init0[c(1, 2, 6)] <- EWMA2fit$optim.out$par
 EWMA2war1init0[3:5] <- c(-999, -999, 0)
 EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
                         updatefn=EWMA2war1updt)
-logLik2(EWMA2war1fit0)
+logLik2(EWMA2war1fit0)[1:4]
 ```
 
 These match EWMA2.  Let's refit with different starting values:  
@@ -1774,7 +1800,7 @@ EWMA2war1init1[c(1, 2, 6)] <- EWMA2fit$optim.out$par
 EWMA2war1init1[3:4] <- EWMA2fit$optim.out$par[1]/2
 EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
                         updatefn=EWMA2war1updt)
-logLik2(EWMA2war1fit0)
+logLik2(EWMA2war1fit0)[1:4]
 ```
 
 These also match EWMA2.  That suggests we may not be able to do better with this model.  
@@ -1842,7 +1868,7 @@ EWMA2war2updt()
 
 EWMA2war2fit <- fitSSM(EWMA2war2mdl, inits=EWMA2war2init, 
                         updatefn=EWMA2war2updt)
-logLiks[8,  1:4] <- logLik2(EWMA2war1fit)
+logLiks[8, ] <- logLik2(EWMA2war1fit)
 logLiks[1:8,1:4]
 ```
 
@@ -1859,13 +1885,16 @@ unemp1 <- with(GDP,
                unemployment[!is.na(unemployment)][1])
 uEWMA1fmla <- qlogis(unemployment) ~
         SSMtrend(1,Q=list(matrix(NA)),
-                 a1 = qlogis(unemp1) ) 
+                 a1 = qlogis(unemp1),
+                 ynames='logitUnemp' ) 
 ```
 
 We use this to create an SSModel as before:   
 
 ```{r}
-uEWMA1mdl <-SSModel(uEWMA1fmla, GDP, H=matrix(NA) )
+uEWMA1mdl. <-SSModel(uEWMA1fmla, GDP, H=matrix(NA) )
+uEWMA1mdl <- fixModelNames(uEWMA1mdl., 
+                      'unempLvl', 'logitUnemp')
 
 uEWMA1fit <- fitSSM(uEWMA1mdl, inits=c(lnQ=0, lnH=0))
 ```
@@ -1898,7 +1927,7 @@ axis(2, qlogis(unempScale), unempScale)
 This looks plausible.  What about the log(likelihood)?  
 
 ```{r}
-logLiks[9, c(1:3, 5)] <- logLik2(uEWMA1fit)
+logLiks[9, ] <- logLik2(uEWMA1fit)
 logLiks[1:9,]
 ```
 
@@ -1969,7 +1998,8 @@ uEWMA1H <- array(NA, c(1, 1, N),
   dimnames=list('logitUnemp', 'logitUnemp', GDP$Year))
 
 uEWMA1aMdl. <-SSModel(uEWMA1fmla, GDP, H=uEWMA1H)
-uEWMA1aMdl <- fixModelNames(uEWMA1aMdl., 'level')
+uEWMA1aMdl <- fixModelNames(uEWMA1aMdl., 'level', 
+                    'logitUnemp')
 
 uEWMA1aInit <- rep(0, 5)
 names(uEWMA1aInit) <- c('lnQ', paste0('lnH', 1:4))
@@ -1990,7 +2020,7 @@ uEWMA1aUpdt <- function(pars=uEWMA1aInit, model=uEWMA1aMdl,
 uEWMA1aFit <- fitSSM(uEWMA1aMdl, inits=uEWMA1aInit, 
                      updatefn=uEWMA1aUpdt)
 
-logLiks[10,c(1:3, 5)] <- logLik2(uEWMA1aFit)
+logLiks[10, ] <- logLik2(uEWMA1aFit)
 logLiks[1:10, ]
 ```
 
@@ -2073,7 +2103,7 @@ uEWMA1bUpdt <- function(pars=uEWMA1bInit, model=uEWMA1aMdl,
 uEWMA1bFit <- fitSSM(uEWMA1aMdl, inits=uEWMA1bInit, 
                      updatefn=uEWMA1bUpdt)
 
-logLiks[11,c(1:3, 5)] <- logLik2(uEWMA1bFit)
+logLiks[11, ] <- logLik2(uEWMA1bFit)
 logLiks[1:11, ]
 ```
 
@@ -2124,8 +2154,10 @@ uPres3states <- names(a1.2u)
 uEWMA1pres3P1 <- diag(c(0, NA))
 uEWMA1pres3P1inf <- diag(c(1, 0))
 uEWMA1pres3fmla <- qlogis(unemployment) ~ 
-  SSMtrend(2, Q = list(level=matrix(NA), pres3=EWMA2pres1Q.slope), 
-      P1=uEWMA1pres3P1, P1inf=uEWMA1pres3P1inf, a1=a1.2u) 
+  SSMtrend(2, Q = list(level=matrix(NA),
+                       pres3=EWMA2pres1Q.slope), 
+      P1=uEWMA1pres3P1, P1inf=uEWMA1pres3P1inf, a1=a1.2u,
+           ynames='logitUnemp') 
 ```
 
 For the time varying observation variance we can reuse uEWMA1H.  We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), as before:   
@@ -2134,7 +2166,7 @@ For the time varying observation variance we can reuse uEWMA1H.  We next create 
 uEWMA1pres3mdl. <- SSModel(uEWMA1pres3fmla, GDP, 
                            H=uEWMA1H)
 uEWMA1pres3mdl <- fixModelNames(uEWMA1pres3mdl., 
-                              uPres3states)
+                      uPres3states, 'logitUnemp')
 ```
 
 Now we need to create the desired time-varying state transition matrix, T:  
@@ -2181,9 +2213,9 @@ uEWMA1pres3updt <- function(pars=uEWMA1pres3init,
   model
 }
 
-uEWMA1pres3fit <- fitSSM(uEWMA1pres3mdl, inits=uEWMA1pres3init, 
-                        updatefn=uEWMA1pres3updt) 
-logLiks[12, c(1:3, 5)] <- logLik2(uEWMA1pres3fit)
+uEWMA1pres3fit <- fitSSM(uEWMA1pres3mdl,
+    inits=uEWMA1pres3init, updatefn=uEWMA1pres3updt) 
+logLiks[12, ] <- logLik2(uEWMA1pres3fit)
 logLiks[1:12,]
 ```
 
@@ -2223,10 +2255,12 @@ uWarStates <- names(a1.3u)
 
 uEWMA1war0fmla <- qlogis(unemployment) ~ 
     SSMtrend(3, Q = list(level=matrix(NA), 
-                war=matrix(0), deaths=matrix(0)), a1=a1.3u) 
+                war=matrix(0), deaths=matrix(0)), a1=a1.3u,
+           ynames='logitUnemp') 
 
 uEWMA1war0mdl. <- SSModel(uEWMA1war0fmla, GDP, H=uEWMA1H)
-uEWMA1war0mdl <- fixModelNames(uEWMA1war0mdl., uWarStates )
+uEWMA1war0mdl <- fixModelNames(uEWMA1war0mdl., uWarStates, 
+                               'logitUnemp')
 ```
 
 Now we need to create the desired time-varying state transition matrix, $T_t$:  
@@ -2290,7 +2324,7 @@ uEWMA1war0updt <- function(pars=uEWMA1war0init,
 
 uEWMA1war0fit <- fitSSM(uEWMA1war0mdl, inits=uEWMA1bInit, 
                         uEWMA1war0updt)
-logLiks[13, c(1:3, 5)] <- logLik2(uEWMA1war0fit)
+logLiks[13, ] <- logLik2(uEWMA1war0fit)
 logLiks[1:13,]
 
 (uEWMA1war0Chisq <- 2*apply(logLiks[c(11, 13), 2:3], 2, diff))
@@ -2302,7 +2336,9 @@ If we count the two values of a1 estimated, double this should be a chi-square 2
 pchisq(uEWMA1war0Chisq[2], 2, lower=FALSE)
 ```
 
-Quite significant.  Let's try a random slope similar to EWMA2war1:    
+Quite significant.  This seems to be a better model, even if rmse.logitUnemp is larger.  
+
+Let's try a random slope similar to EWMA2war1:    
 
 # 14. Modeling unemployment with a random slope adjustment for war
 
@@ -2399,7 +2435,7 @@ uEWMA1war1updt <- function(pars=uEWMA1war1init,
 
 uEWMA1war1fit <- fitSSM(uEWMA1war1mdl, inits=uEWMA1war1init, 
                         updatefn=uEWMA1war1updt)
-logLiks[14, c(1:3, 5)] <- logLik2(uEWMA1war1fit)
+logLiks[14, ] <- logLik2(uEWMA1war1fit)
 logLiks[1:14,]
 ```
 
@@ -2464,7 +2500,8 @@ That looks correct.  Rather than use SSMtrend(4, ...), we'll just modify EWMA2wa
 a1.4u <- c(level=qlogis(unemp1), pres3=0, war=0, deaths=0)
 uP3w0States <- names(a1.4u)
 
-uEWMA1p3w0mdl <- fixModelNames(EWMA2war1mdl, uP3w0States)
+uEWMA1p3w0mdl <- fixModelNames(EWMA2war1mdl, uP3w0States, 
+                               'logitUnemp')
 uEWMA1p3w0mdl$y <- uEWMA1mdl$y
 uEWMA1p3w0mdl$H <- uEWMA1H
 uEWMA1p3w0mdl$Q <- uP3w0Q
@@ -2525,7 +2562,7 @@ uEWMA1p3w0updt <- function(pars=uEWMA1p3w0init,
 
 uEWMA1p3w0fit <- fitSSM(uEWMA1p3w0mdl, inits=uEWMA1p3w0init, 
                         uEWMA1p3w0updt)
-logLiks[15, c(1:3, 5)] <- logLik2(uEWMA1p3w0fit)
+logLiks[15, ] <- logLik2(uEWMA1p3w0fit)
 logLiks[13:15, ] 
 ```
 
@@ -2537,31 +2574,146 @@ This model has major problems:  Most importantly, we get, "Warning ... Either mo
 
 Per the [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html) documentation, "d" is the length of the diffuse phase.  Here, "d" = 226, the length of the series.  
 
-Quite likely, the "pres3" and "war0" effects are [confounded](https://en.wikipedia.org/wiki/Confounding) and not independently estimable.  We won't take the time to check that here.  
+Quite likely, the "pres3" and "war0" effects are [confounded](https://en.wikipedia.org/wiki/Confounding) and therefore not independently estimable.  We won't take the time to check that here.  
 
-Instead, we will proceed with to model log(realGDPperCapita) and qlogis(unemployment) with separate "level" parameters for both, looking for a correlation between the changes in the levels, suggested by [Okun's law](https://en.wikipedia.org/wiki/Okun's_law).  In so doing, we will consider using "pres3" with "GDP.lvl" and "war0" with "unemp.lvl", but not "pres3" with "unemp.lvl" nor "war0" with "GDP.lvl".   
+Instead, we will proceed with modeling log(realGDPperCapita) and qlogis(unemployment) with separate "level" parameters for both, looking for a correlation between the changes in the levels, suggested by [Okun's law](https://en.wikipedia.org/wiki/Okun's_law).  In so doing, we will consider using "pres3" with "GDP.lvl" and "war0" with "unemp.lvl", but not "pres3" with "unemp.lvl" nor "war0" with "GDP.lvl", consistent with the previous work modeling univariate responses.  
 
 # 16.  Modeling GDP and unemployment with Okun's law
 
-[Okun's law](https://en.wikipedia.org/wiki/Okun's_law) suggests that changes in unemployment and GDP are negatively correlated.  `r Citet(bib2, "Horowitz2011")` reported different regression coefficients between the two in different countries.  The [regression coefficient is the correlation coefficient times the ratio of the standard deviations](http://people.duke.edu/~rnau/mathreg.htm).  Thus, the differences between countries in the regression coefficient could be due to differences in either this correlation or either of the standard deviation of changes in GDP or unemployment.  
+[Okun's law](https://en.wikipedia.org/wiki/Okun's_law) suggests that changes in unemployment and GDP are negatively correlated.  `r Citet(bib2, "BallOkun")` reported different regression coefficients between the two in different countries.  In the present work we decompose the regression coefficient into three terms:  [the standard deviations of changes in log(realGDPperCapita) and qlogit(unemployment) and their correlation](http://people.duke.edu/~rnau/mathreg.htm). Thus, the differences between countries in the regression coefficient could be due to differences in either this correlation or in how narrowly different countries manage GDP growth or unemployment.  
 
 We will extend this to modeling both GDP and unemployment in terms of a state vector with the following components:  
 
+Component | Description 
+:----|:----------------
+GDP.lvl | level of log(realGDPperCapita)
+unemp.lvl | level of qlogis(unemployment).  
+GDP.slope | slope of log(realGDPperCapita)
 
+This work deviates from the traditional literature on Okun's law in a couple of ways.  First, we use transformations of GDP and unemployment:  GDP can theoretically never be negative, but log(realGDPperCapita) can in theory range from minus infinity to plus infinity.  Similarly, unemployment is a number between 0 and 1, but qlogis(unemployment) again can in theory cover the entire real line.  It's difficult to use linear models in the untransformed space because of these constraints of positivity and (0, 1), respectively.  Second, we also consider the rate of growth in log(realGDPperCapita) and how its changes correlate with those in logit(unemployment).  
 
+We will look for two correlations between changes in these components:  The single correlation that seems most closely related to Okun's law is that beteen changes in GDP.lvl and unemp.lvl.  However, the correlation between changes in GDP.slope and unemp.lvl also seems relevant to the study of the relationship between unemployment and economic growth.  We will assume zero correlation between changes in GDP.lvl and GDP.slope, as is commonly done in similar situations.  
 
-GDP.lvl = level of log(realGDPperCapita)
-GDP.slope = slope of log(realGDPperCapita)
-unemp.lvl = level of qlogis(unemployment).  
+Estimating the transition variance, Q, for this state vector provides an interesting technical challenge:  Q must be non-negative definite with one of its off-diagonal elements zero.  Fortunately, the [nlme::pdLogChol](http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html) function, used above for Q.war, can do this for us provided we arrange for the zero off-diagonal element to be in the [3, 3] position.  To see this, note that if C is upper triangular with nonzero elements only on the [superdiagonal](https://en.wikipedia.org/wiki/Diagonal), then [crossprod(C)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/crossprod.html) is [tridiagonal](https://en.wikipedia.org/wiki/Tridiagonal_matrix).  
 
+Thus, by placing unemp.lvl between GDP.lvl and GDP.slope in the state vector, we can use pdLogChol to estimate a covariance matric with a zero for the corelation between the changes in GDP.lvl and GDP.slope.  We will call the five parameters we estimate for this lnQ.pl, lnQ.ul, lnQ.ps, lnQ.pl.ul, and lnQ.ul.ps.    
 
+We could estimate this model with KFAS with an entirely univariate response updating alternately between log(realGDPperCapita) and qlogis(unemployment) -- or even mixing annual GDP figures with quarterly unemployment numbers or mixing annual and quarterly data in other ways. 
 
-We will look for correlations between all three of these components.  The correlation in the state transition matrix, Q, between GDP.lvl and unemp.lvl seems most closely related to Okun's law, although the correlation between GDP.slope and unemp.lvl also seems relevant to the study of the relationship between unemployment end economic growth, the subject of Okun's Law.  In this modeling, we will assume zero correlation between changed in GDP.lvl and GDP.slope.  
+In fact, [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) converts a multivariate response to univariate.  We will not do that manually here, because it seems more convenient to use the multivariate response directly.   
 
+In coding this we will follow the example on pp. 15ff of `r Citet(bib2, "KFASarticle")`, which has a 4-dimensional response:  
 
+<center> 
+Respose matrix -> Z, T, Q, a1, P1, P1inf -> [SSMcustom](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) in 
+[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) 
 
+-> H -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+</center>
 
+```{r}
+OkunDat <- cbind(lnGDPperCap=log(GDP$realGDPperCapita), 
+           logitUnemp=qlogis(GDP$unemployment))
+(OkunVars <- colnames(OkunDat))
 
+(OkunStates <- c('GDP.lvl', 'unemp.lvl', 'GDP.slope'))
+(OkunZ <- array(c(1, 0, 0, 1, 0, 0), dim=c(2, 3, 1), 
+    dimnames=list(OkunVars, OkunStates, NULL) ) )
+              
+(OkunT <- array(c(1, 0, 0, 0, 1, 0, 1, 0, 1), dim=c(3, 3, 1), 
+    dimnames=list(OkunStates, OkunStates, NULL) ) )
+
+(OkunQ <- array(c(NA, NA, 0, NA, NA, NA, 0, NA, NA), 
+    dim=c(3, 3, 1), 
+    dimnames=list(OkunStates, OkunStates, NULL)))
+
+Okun.a1 <- c(apply(OkunDat, 2, function(x)x[!is.na(x)][1]), 
+             0) 
+names(Okun.a1) <- OkunStates
+
+OkunP1 <- diag(0, 3)
+dimnames(OkunP1) <- list(OkunStates, OkunStates)
+OkunP1
+OkunP1inf <- OkunP1
+diag(OkunP1inf) <- 1
+OkunP1inf
+
+OkunFmla <- formula(OkunDat ~ -1 + SSMcustom(
+  Z=OkunZ, T=OkunT, Q=OkunQ, a1=Okun.a1, 
+  P1=OkunP1, P1inf=OkunP1inf, index=1:2, n=N,
+  state_names=OkunStates) )
+
+OkunH <- array(diag(NA, 2), dim=c(2, 2, N), 
+    dimnames=list(OkunVars, OkunVars, GDP$Year) )
+
+OkunMdl. <- SSModel(OkunFmla, H=OkunH)
+OkunMdl <- fixModelNames(OkunMdl., OkunStates, 
+                  OkunVars)
+```
+
+The Z, T, Q, a1, P1, and P1inf arrays created here all look plausible.  
+
+For starting values, let's look at EWMA2pres3 and uEWMA1war0: 
+
+```{r}
+EWMA2pres3fit$optim.out$par
+uEWMA1war0fit$optim.out$par
+
+OkunInit <- c(lnQ.pl=-6, lnQ.ul=-2, lnQ.ps=-8, 
+  lnQ.pl.ul=0, lnQ.ul.ps=0, lnHp=-8, lnHu1=-4, lnHu2=-8)
+
+pdLogChol3.5 <- function(value, ...){
+  v6 <- c(value[1:4], 0, value[5])
+  nlme::pdLogChol(v6)
+}
+(pdLCtst <- pdLogChol3.5(1:5))
+as.numeric(pdLCtst)
+
+OkunUpdt <- function(pars=OkunInit, model=OkunMdl, ...){
+#  
+  Q <- pdLogChol3.5(pars) 
+  model$Q[,,] <- as.matrix(Q)
+# 
+  Yrs <- time(model$y)
+  H <- model$H
+  H[1,1,] <- exp(pars[6])
+  Hu <- (exp(pars[7])+(Yrs<1890)*exp(pars[8]))
+  H[2,2,] <- Hu
+  model$H[] <- H 
+  model
+}
+str(tst <- OkunUpdt())
+
+OkunFit <- fitSSM(OkunMdl, OkunInit, OkunUpdt)
+logLiks[16, ] <- logLik2(OkunFit)  
+logLiks[1:16, ]
+```  
+  
+Unfortunately, "Computation of marginal likelihood failed", and the diffuse likelihood for this case cannot be compared with any of the previous models.  The rmse.logDollars was better than EWMA1 but slightly worse than EWMA2:  0.0429 vs. 0.0456 and 0.0427.  However, the rmse.logitUnemp was substantially lower than the best previous model:  0.224 vs. 0.283 for uEWMA1b and 0.284 for uEWMA1war0.  
+
+What about the parameter estimates?  
+
+```{r}
+OkunFit$optim.out$par
+(OkunQ1.3 <- pdLogChol3.5(OkunFit$optim.out$par))
+cov2cor(as.matrix(OkunQ1.3))
+```
+
+The primary Okun correlation is -0.78.  This is negative as expected and quite strong.    
+
+The secondary correlation between change in unemp.lvl and GDP.slope is positive and still moderately strong at 0.62.  This suggests that a stronger than normal reduction in unemployment will tend to co-occur with a short term increase in GDP combined with a reduction in the longer term rate of economic growth.  
+
+It would be useful to do a Monte Carlo to obtain confidence intervals on these 5 parameters in 5 incarnations:  
+
+  1.  a 5-dimensional vector in the pdLogChol representation. 
+  1.  the logarithms of the 3 variance parameters and the logits of the 2 correlations.  
+  1.  the 3 variance parameters and 2 correlations.  
+  1.  the variances of the untransformed GDP per capita and unemployment rate spaces along with the corresponding correlations.  
+  1.  back transforming these results into the space of GDP per capita, its rate of change, and the unemployment rate used in the mainstream literature on Okun's Law, e.g., `r Citet(bib2, "BallOkun")`.  
+  
+We will attempt none of this here at this time.  
+
+Rather, we will consider modifications of this model to include "pres3" and / or "war0".  
 
 # 17.  Okun's law with a president effect 
 
