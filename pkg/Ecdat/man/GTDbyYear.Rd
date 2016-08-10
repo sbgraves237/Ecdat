@@ -168,7 +168,7 @@
 \source{
   The \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} 
   maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} 
-  (START, 2015), downloaded 2015-11-28.  
+  (START, 2015), \href{http://www.start.umd.edu/gtd}{downloaded 2015-11-28}.  
 }
 \references{
   Robert Pape, Keven Ruby, Vincent Bauer and 
