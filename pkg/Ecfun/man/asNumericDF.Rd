@@ -14,7 +14,8 @@
   For a \code{\link{data.frame}}, apply 
   \code{asNumericChar} to all columns and drop 
   columns except those in \code{keep}, \code{ignore}, 
-  \code{factors}, \code{Dates}, and \code{POSIXct}.  
+  \code{factors}, \code{Dates}, \code{POSIX} and 
+  \code{MSdates}.
 
   Then order the rows by the 
   \code{orderBy} column.  Some Excel imports include 
