@@ -40,10 +40,13 @@
   as thousand separators.
 }
 \usage{
-asNumericChar(x)
+asNumericChar(x, leadingChar='^\\\\$', 
+            suppressChar=',', pctChar='\%$')
 asNumericDF(x, keep=function(x)any(!is.na(x)), 
     orderBy=NA, ignore=NULL, factors=NULL, 
-    Dates=NULL, POSIX=NULL, format.)
+    Dates=NULL, POSIX=NULL, MSdates=NULL, 
+    format., leadingChar='^\\\\$', 
+    suppressChar=',', pctChar='\%$')
 }
 \arguments{
   \item{x}{
@@ -96,6 +99,42 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     the one with the minimum absolute deviations 
     from as.Date1970(0) is used.  
   }
+  \item{MSdates}{
+    The names or numbers identifying columns of x 
+    identifying dates as integer numbers of days 
+    since 1899-12-31.  \href{https://support.office.com/en-us/article/Add-sum-or-subtract-dates-9818b3f7-aa67-4008-8dff-3c3b503886af?ui=en-US&rs=en-US&ad=US}{In 
+    Microsoft Excel, dates are stored in that 
+    format}.  Tests on 2016-08-10 revealed that 
+    \code{\link[gdata]{read.xls}} did not read
+    those dates properly (using gdata version 
+    2.17.0), while \code{\link[openxlsx]{read.xlsx}}
+    read them as integers using openxlsx 3.0.0. 
+    This capability will convert those integers to 
+    Dates.  
+  }
+  \item{leadingChar}{
+    A regular expression passed to 
+    \code{\link{grep}} and \code{\link{sub}}
+    to replace something like an initial dollar 
+    sign with \code{character(0)}.  
+  }
+  \item{suppressChar}{
+    a regular expression passed to 
+    \code{\link{gsub}} to replace all 
+    occurrances of something like "," (a 
+    thousands separator in the U.S.) with 
+    \code{character(0)}.  
+  }
+  \item{pctChar}{
+    A regular expression passed to 
+    \code{\link{grep}} to identify percent 
+    columns.  \code{pctChar} is then 
+    passed to \code{\link{sub}} to replace 
+    \code{pctChar} with \code{character(0)}, 
+    and the converted numbers are then 
+    divided by 100 to convert them to 
+    proportions.  
+  } 
 }
 \details{
 For asNumericChar:  
@@ -143,20 +182,25 @@ for asNumericDF:
   \code{\link[tis]{stripBlanks}}
   \code{\link{as.numeric}}, \code{\link{factor}}, 
   \code{\link{as.Date}}, \code{\link{as.POSIXct}}
+  \code{\link[openxlsx]{read.xlsx}}
 }
-%\references{}
+\references{
+  \href{https://support.office.com/en-us/article/Add-sum-or-subtract-dates-9818b3f7-aa67-4008-8dff-3c3b503886af?ui=en-US&rs=en-US&ad=US}{"Add (sum) or subtract dates;  Applies To: Excel 2013"}.  Microsoft.  (accessed 2016-08-11)
+}
 \examples{
 ##
 ## 1.  an example 
 ##
 xDate <- as.Date('1970-01-01')+c(0, 365)
 xPOSIX <- as.POSIXct(xDate)+c(1, 99)
+xMSdate <- as.Date(1, as.Date('1899-12-31'))+1:2
 fakeF1 <- data.frame(yr=c('1948', '1947 (1)'),
       q1=c(' 1,234 ', ''), duh=rep(NA, 2), 
       dol=c('$1,234', ''), pct=c('1\%', '2\%'), 
       xDate=as.character(xDate, format='\%m-\%d-\%Y'), 
-      xPOSIX=as.character(xPOSIX, format='\%m-\%d-\%Y \%H:\%M:\%S'), 
-      junk=c('this is','junk'))
+      xPOSIX=as.character(xPOSIX, 
+              format='\%m-\%d-\%Y \%H:\%M:\%S'), 
+      xMSdate=2:3, junk=c('this is','junk'))
             
 # This converts the last 3 columns to NAs and drops them:   
 
@@ -165,19 +209,21 @@ str(nF1.2 <- asNumericChar(fakeF1$q1))
 str(nF1.3 <- asNumericChar(fakeF1$duh))
 
 nF1 <- asNumericDF(fakeF1)
-nF2 <- asNumericDF(fakeF1, Dates=6, 
+nF2 <- asNumericDF(fakeF1, Dates=6, MSdate='xMSdate', 
         ignore=c('junk', 'xPOSIX'), format.='\%m-\%d-\%Y')
 nF3 <- asNumericDF(nF2, POSIX='xPOSIX', 
-            ignore=c(5,7), format.='\%m-\%d-\%Y \%H:\%M:\%S')
+            ignore=c(5,7:8), format.='\%m-\%d-\%Y \%H:\%M:\%S')
             
 # check 
 nF1. <- data.frame(yr=asNumericChar(fakeF1$yr),
                    q1=asNumericChar(fakeF1$q1), 
                    dol=asNumericChar(fakeF1$dol), 
-                   pct=c(.01, .02))
+                   pct=c(.01, .02), 
+                   xMSdate=2:3)
 
 nF1c <- data.frame(yr=1948:1947, q1=c(1234, NA), 
-                   dol=c(1234, NA), pct=c(.01, .02))
+                   dol=c(1234, NA), pct=c(.01, .02), 
+                   xMSdate=2:3)
 
 \dontshow{stopifnot(}
 all.equal(nF1, nF1.)
@@ -189,7 +235,7 @@ all.equal(nF1., nF1c)
 nF3c <- data.frame(yr=1948:1947, q1=c(1234, NA), 
             dol=c(1234, NA), pct=c(.01, .02), 
             xDate=xDate, xPOSIX=xPOSIX, 
-            junk=fakeF1$junk)
+            xMSdate=xMSdate, junk=fakeF1$junk)
 \dontshow{stopifnot(}
 all.equal(nF3, nF3c)
 \dontshow{)}

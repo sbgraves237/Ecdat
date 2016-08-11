@@ -1,4 +1,5 @@
-asNumericChar <- function(x){
+asNumericChar <- function(x, leadingChar='^\\$', 
+            suppressChar=',', pctChar='%$'){
 ##
 ## 1.  Convert factors to character
 ## 
@@ -14,19 +15,19 @@ asNumericChar <- function(x){
 ##
   x[!is.na(x)] <- tis::stripBlanks(x[!is.na(x)])
 #  print(('tis::stripBlanks(x)'))
-  dol <- grep('^\\$', x)
+  dol <- grep(leadingChar, x)
 #  cat(length(dol), ' $ found: ', 
 #      paste(dol, collapse=', '), '\n')
-  x[dol] <- sub('^\\$', '', x[dol])
+  x[dol] <- sub(leadingChar, '', x[dol])
 ##
 ## 2.  find percent
 ##  
-  pct <- grep('%$', x)
-  x0 <- sub('%$', '', x)
+  pct <- grep(pctChar, x)
+  x0 <- sub(pctChar, '', x)
 ##
 ## 3.  Delete commas (thousand separators) and footnote references
 ##
-  x1 <- gsub(',', '', x0)
+  x1 <- gsub(suppressChar, '', x0)
   x2 <- strsplit(x1, ' ')
   x. <- sapply(x2, '[', 1)
 # set any blanks to NA so they don't convert to 0  
@@ -44,9 +45,11 @@ asNumericChar <- function(x){
   xo
 }
 
-asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
-        orderBy=NA, ignore=NULL, factors=NULL, Dates=NULL, 
-        POSIX=NULL, format.){
+asNumericDF <- function(x, keep=function(x)any(!is.na(x)), 
+              orderBy=NA, ignore=NULL, factors=NULL, 
+              Dates=NULL, POSIX=NULL, MSdates=NULL, 
+              format., leadingChar='^\\$', 
+              suppressChar=',', pctChar='%$'){
 ##
 ## 1.  Copy x
 ##
@@ -100,10 +103,11 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
   Factors <- cols2names(factors)
   DATES <- cols2names(Dates)
   Posix <- cols2names(POSIX)
+  MS.dates <- cols2names(MSdates)
 ##
 ## test for intersection 
 ##  
-  if(length(IFoops <- intersect(Ignore, Factors)>0)){
+  if(length(IFoops <- intersect(Ignore, Factors))>0){
     stop(IFoops[1], ' is in both ignore and factors')
   }
   IgFa <- c(Ignore, Factors)
@@ -116,9 +120,14 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     stop(IFDPoops[1], ' is in POSIX and one of ignore', 
          ', factors, and Dates')
   }
-  dontConvert <- c(IgFaDa, Posix)
+  IgFaDP <- c(IgFaDa, Posix)
+  if(length(IFDoops <- intersect(MS.dates, IgFaDP))){
+    stop(IFDoops[1], ' is no MSdates and one of ignore', 
+         ', factors, Dates, and POSIX')
+  }
+  dontConvert <- c(IgFaDP, MS.dates)
 ##  
-## 3.  Convert factors, Dates, and POSIX 
+## 3.  Convert factors, Dates, POSIX, MSdates
 ##
   if(Trace)cat('factors\n')
   for(f in Factors){
@@ -202,6 +211,13 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
       } else X[, p] <- pp 
     }
   }
+  if(Trace)cat('MSdates\n')
+  for(m in MS.dates){
+    xm <- x[, m]
+    Xm <- as.numeric(xm)
+    XM <- as.Date(Xm, origin=as.Date('1899-12-31') )
+    X[, m] <- XM
+  }
 ##
 ## 4.  Apply asNumericChar to all columns 
 ##     not in ignore, factors, Dates, or POSIX.  
@@ -213,20 +229,26 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
     w0 <- options(warn=-1)
 #    cat(colnames(x)[n], ":")
 #    print(x[,n])
-    xn <- asNumericChar(x[, n])
+    xn <- asNumericChar(x[, n], leadingChar=leadingChar, 
+            suppressChar=suppressChar, pctChar=pctChar)
     options(warn=w0$warn)
     xnNewNA <- which(is.na(xn) & !is.na(x[, n]))
     if(length(xnNewNA)>0){
       msg0 <- paste0('NAs introduced by coercion ', 
-         'in asNumericChar(c(' )
-      if(length(xnNewNA)>4){
-        msg1 <- paste0(msg0, paste(xnNewNA[1:4], collapse=', '), 
-                       ', ...')
+         'in asNumericChar(', n, '[' )
+      if(length(xnNewNA)<2){
+        msg1 <- paste0(msg0, xnNewNA, '])')
       } else {
-        msg1 <- paste0(msg0, paste(xnNewNA, collapse=', '))
+        if(length(xnNewNA)>4){
+          msg1 <- paste0(msg0,  'c(', 
+              paste(xnNewNA[1:4], collapse=', '), 
+                       ', ...)])')
+        } else {
+          msg1 <- paste0(msg0, 'c(', 
+              paste(xnNewNA, collapse=', '), ')])')
+        }
       }
-      msg <- paste0(msg1, '), ', n, ')')
-      warning(msg)
+      warning(msg1)
     }
     X[, n] <- xn
   }
