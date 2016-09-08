@@ -23,23 +23,25 @@ BibOptions(check.entries = FALSE, style = "markdown", cite.style = "authoryear",
 
 # Abstract 
 
-This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R to evaluate the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is the dominant view of the evolution of the US economy between 1933 and 1945.  It is supported by our review of the available unemployment data but superficially contradicted by our naive analyses of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2014, from [MeasuringWorth](http://measuringworth.com/)): First, other wars have not been accompanied by such obvious growth spurts. Second, FDR's economic performance even without World War II seems unmatched by any other U.S. president.  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  We have five conclusions:  First,the models we fit failed to find a signficant effect of war on real GDP per capita but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, we reach the opposite conclusion from modeling unemployment:  We find a war but not an administration effect. Third, our models support and extend the literature we've seen on [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) (which relates the changes in unemployment and the rate of economic growth). Forth, these conclusions must be considered tentative, because these models do not consider other variables that might impact economic growth and unemployment. Fifth, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing annual and quarterly data or adding other variables such as inflation to our models of GDP per capita with unemployment.
+This vignette illustrates the use of the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package for R to evaluate the claim that [World War II (WW II)](https://en.wikipedia.org/wiki/Great_Depression#World_War_II_and_recovery), not [Franklin Roosevelt (FDR)](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), ended the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression).  This is the dominant view of the evolution of the US economy between 1933 and 1945.  It is supported by our review of the available unemployment data but superficially contradicted by our naive analyses of average annual income in the US ([real US Gross Domestic Product (GDP) per capita](https://en.wikipedia.org/wiki/Real_gross_domestic_product), 1790-2015, from [MeasuringWorth](http://measuringworth.com/)): First, other wars have not been accompanied by such obvious growth spurts. Second, FDR's economic performance even without World War II seems unmatched by any other U.S. president.  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  We have five conclusions:  First,the models we fit failed to find a signficant effect of war on real GDP per capita but did find that the performance of the U.S. economy under the Hoover and FDR administrations was dramatically different from that for any other presidency. Second, we reach the opposite conclusion from modeling unemployment:  We find a war but not an administration effect. Third, our models support and extend the literature we've seen on [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) (which relates the changes in unemployment and the rate of economic growth). Forth, these conclusions must be considered tentative, because these models do not consider other variables that might impact economic growth and unemployment. Fifth, more generally, KFAS provides a powerful set of tools for modeling extensions to the present analysis, e.g., mixing annual and quarterly data or adding other variables such as inflation to our models of GDP per capita with unemployment.
 
 # Introduction  
 
-The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implications for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horowitz2011")` recently claimed that Hoover had more aggressive deficit spending and public works programs than [Franklin Roosevelt](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable." However, Horowitz's report discusses no model fits, includes no tables and plots only "real federal spending" from 1929 to 1934.    
+The Legacy of the [New Deal](https://en.wikipedia.org/wiki/New_Deal) and the [Great Depression](https://en.wikipedia.org/wiki/Great_Depression) still carry profound implications for the current economic policies of the world's most economically advanced countries.  `r Citet(bib2, "Horowitz2011")` recently claimed that Hoover had more aggressive deficit spending and public works programs than [Franklin Roosevelt](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt), and far from contributing to the recovery, these programs actually made the economy worse.  He concluded that "The persistence of the Hoover myth continues to justify the counterproductive policies of the Obama administration and thereby prevents markets from generating the economic recovery of which they are fully capable." However, Horowitz's report discusses no model fits, includes no tables, and plots only "real federal spending" from 1929 to 1934.
 
-`r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." Other research identified alternatives that would reportedly produce more jobs than military spending:  Tax cuts for household consumption and increased spending on clean energy, health care and education would produce 27, 47, 69 and 151 percent more jobs, respectively, than military spending, according to `r Citet(bib2, "Pollin2009")`.  
+`r Citet(bib2, "McChesney2014")` said, "In earlier eras it had been assumed that there was an economic 'guns and butter' tradeoff, and that military spending had to occur at the expense of other sectors of the economy.  However, one of the lessons of the economic expansion in Nazi Germany, followed by the experience of the United States itself in arming for the Second World War, was that big increases in military spending could act as huge stimulants to the economy." 
+
+Other research identified alternatives that would reportedly produce more jobs than military spending:  Tax cuts for household consumption and increased spending on clean energy, health care and education would produce 27, 47, 69 and 151 percent more jobs, respectively, than military spending, according to `r Citet(bib2, "Pollin2009")`.  
 
 Beyond this, the work of [Milton Friedman](https://en.wikipedia.org/wiki/Milton_Friedman) and others suggests that modeling like this should also consider [inflation](https://en.wikipedia.org/wiki/Inflation) and [unemployment](https://en.wikipedia.org/wiki/Unemployment);  we consider unemployment but not inflation.    
 
-Whatever the specific cause, the growth of the U.S. economy under [FDR](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt) before the war was not matched by that of any other president (not counting the negative record of [Herbert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  
+Whatever the specific cause, the growth of the U.S. economy under [FDR](https://en.wikipedia.org/wiki/Franklin_D._Roosevelt) before the war signficantly exceeds that of any other president (not counting the negative record of [Herbert Hoover](https://en.wikipedia.org/wiki/Herbert_Hoover)).  This document describes alternative attempts to quantify the economic impact of wars separate from that of the administration ("president").  This includes a detailed discussion and comparison of alternative models of economic growth and how [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) was used to fit them.  
 
-The best of the models we fit include a "Presidency" effect.  We found a "war" effect for unemployment but not directly for real GDP per capita.  However, these conclusions must be considered tentative, pending further research using other data and possibly other ways of modeling the macroeconomic impact of war.  
+The best of the models we fit include a "Presidency" but not a war effect for real GDP per capita.  We found the opposite when considering unemployment:  a war but not an administration effect. However, these conclusions must be considered tentative, pending further research using other data and possibly other ways of modeling the macroeconomic impact of war.  
 
 # Initial Plots
 
-We start by plotting the [MeasuringWorth](http://measuringworth.com/) estimates of average annual income in the US (adjusted for inflation) from 1790 to 2014:
+We start by plotting the [MeasuringWorth](http://measuringworth.com/) estimates of average annual income in the US (adjusted for inflation) from 1790 to 2015:
 
 ```{r,fig.cap = "real US GDP per capita (thousands of 2009 $)"}
 suppressMessages(library(Ecdat))
@@ -66,7 +68,7 @@ plot(realGDPperCapita/1000~Year, GDP., log='y', type='l',
      main='Real US GDP per capita')     
 ```     
 
-This plot suggests relatively steady growth from 1790 to 2014 with the exception of a dramatic rise roughly two thirds of the way through the series preceded and followed by declines.  
+This plot suggests relatively steady growth from 1790 to 2015 with the exception of a dramatic rise roughly two thirds of the way through the series preceded and followed by declines.  
 
 The president is identified in an [ordered factor](https://stat.ethz.ch/R-manual/R-devel/library/base/html/factor.html), "executive", giving the names of the chief executive (president since 1790).  We need to drop the unused levels from the colonial period:  
 
@@ -82,7 +84,7 @@ GDP.$war <- ordered(GDP.$war)
 levels(GDP.$war)
 ```
 
-The next war variable is the number of "battleDeaths" for each war apportioned by the number of days in each year between the official start and end of each war.  However, it hardly makes sense to use this directly as a measure of the impact of the war on the economy, as the nation grew from 3.9 million souls in 1790 to 319 million in 2014.  Instead, we use battle deaths per million population:  
+The next war variable is the number of "battleDeaths" for each war apportioned by the number of days in each year between the official start and end of each war.  However, it hardly makes sense to use this directly as a measure of the impact of the war on the economy, as the nation grew from 3.9 million souls in 1790 to 322 million in 2015.  Instead, we use battle deaths per million population:  
 
 ```{r,fig.cap = "Battle deaths per million population"}
 plot(battleDeathsPMP~Year, GDP., type='l',
@@ -104,7 +106,7 @@ tail(GDP., 1)
 range(GDP.$realGDPperCapita)
 ```
 
-It's common to work with log(dollars) rather than dollars directly.  This is obvious to many who work with finance but foreign to many others.  For the latter group, it's worth noting that a $500 drop in annual income would have been catastrophic in 1790, representing almost half the average income at the time.  However a similar $500 drop around 2014 would be hardly noticeable, being just under 1 percent of the 2014 average income.  Moreover, a small change in logarithms can be interpreted as percentage, since log(1+x) is approximately x when x is small (using [natural logarithms](https://en.wikipedia.org/wiki/Natural_logarithm)).  
+It's common to work with log(dollars) rather than dollars directly.  This is obvious to many who work with finance but foreign to many others.  For the latter group, it's worth noting that a $500 drop in annual income would have been catastrophic in 1790, representing almost half the average income at the time.  However a similar $500 drop around 2015 would be hardly noticeable, being just under 1 percent of the 2015 average income.  Moreover, a small change in logarithms can be interpreted as percentage, since log(1+x) is approximately x when x is small (using [natural logarithms](https://en.wikipedia.org/wiki/Natural_logarithm)).  
 
 We start looking for this exceptional period by computing the differences in log(real GDP per capita):  
 
@@ -116,10 +118,11 @@ A run up or down *ends* where difGDP changes sign from one year to the next:
 
 ```{r}
 chgSgn <- c(TRUE, (head(difGDP, -1)*tail(difGDP, -1))<0)
+GDP.$Year[chgSgn][1:3]
+GDP.[1:9, c('Year', 'realGDPperCapita')]
 ```
 
 We convert this logical vector to an index numbering the runs using [cumsum](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cumsum.html):  
-
 
 ```{r}
 GDPrun <- cumsum(chgSgn)
@@ -221,8 +224,6 @@ plotPresWars(realGDPperCapita/1000, GDP, log='y',
              ylab='thousands of 2009 dollars', las=1) 
 ```
 
-The rest of this vignette describes various models of economic growth that include especially the impact of changes of administration and wars.  First we outline our basic approach to modeling these kinds of data.  
-
 Let's try the same thing for unemployment:  
 
 ```{r,fig.cap = "Presidents, wars & unemployment"}
@@ -233,6 +234,11 @@ plotPresWars(unemployment, GDP,
              ylab='unemployment rate', las=1, 
              yHoover=0.07, yFDR=0.25, 
              yWar=seq(.5, by=-.05, len=9)) 
+```
+
+Let's look closer at World War II:  
+
+```{r,fig.cap = "Unemployment and World War II"}
 plotPresWars(unemployment, GDP, 
              main=paste0('US unemployment'), 
              ylab='unemployment rate', las=1, 
@@ -241,9 +247,24 @@ plotPresWars(unemployment, GDP,
              xlim=c(1939, 1949)) 
 ```
 
-The series obviously does not move as much priot to 1890, because data were not collected then, and the numbers we have were rough estimates for longer periods.  
+The series obviously does not move as much prior to 1890, because data were not collected then, and the numbers we have were rough estimates for longer periods.  
 
 The period since 1890 with more credible data suggests a war effect with unemployment falling during the Spanish-American-Philippine war, during World Wars I and II, and during Korea, though not Vietnam.  Battle deaths per million population was lower during Vietnam than during Korea and World Wars I and II but not during the Spanish-American-Philippine war.  
+
+For other purposes, let's digress to review the record of unemployment since World War II:  
+
+```{r,fig.cap = "Unemployment since World War II"}
+plotPresWars(unemployment, GDP, 
+             main=paste0('US unemployment'), 
+             ylab='unemployment rate', las=1, 
+             yHoover=0.07, yFDR=0.25, 
+             yWar=seq(.5, by=-.05, len=9),
+             xlim=c(1945, 2015), ylim=c(0.01, .1)) 
+abline(v=seq(1945, 2015, by=4))
+```
+
+The most consistent declines during this period occurred between 1961 and 1969 and between 1993 and 2001, the presidencies of Kennedy, Johnson, and Clinton.  This is closely followed by 
+
 
 Let's check normality of unemployment:  
 
@@ -343,6 +364,8 @@ abline(h=0)
 
 We see infation associated with every war in US history [with "war" involving at least 10 battle deaths per million population per year, as discussed in help("USGDPpresidents")], except for the Spanish-American-Philippine war, and that was hardly a war as measured by battle deaths per million population per year. We also note that the inflation associated with World War II was less than the inflation associated with previous wars even though the battle deaths were greater than other wars except for the Civil War.  It should not be difficult to extend the present analysis to model inflation and the [Phillips curve, even allowing the relationship between unemployment and inflation to evolve over time, as indicated by the research on that](https://en.wikipedia.org/wiki/Phillips_curve). However, we will not pursue that further here.  A sequal of the present work for an economics journal should probably include inflation.  
 
+The rest of this vignette describes various models of economic growth that include especially the impact of changes of administration and wars.  First we outline our basic approach to modeling these kinds of data.  
+
 # Bayesian sequential updating:  overview  
 
 The models used here are all state space models, which we discuss in general here, giving specific examples later.  State space modeling is also known as Kalman (Kalman filtering, Kalman smoothing), and dynamic (linear) modeling.  For present purposes, we use the [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) package, though many other R packages provide some support for this class of models.  
@@ -382,18 +405,17 @@ In the following, we shall consider several different though related models:
  | 
 9 | unemp | uEWMA1: Bayesian EWMA 
 10 | unemp | uEWMA1a: Bayesian EWMA with higher error variance for older data 
-11 | unemp | uEWMA1b: Bayesian EWMA with higher error variance prior to 1890  
-12 | unemp | uEWMA1pres3: EWMA with a slope adjustment for each president 
-13 | unemp | uEWMA1war0: EWMA with slope adjustments for war 
-14 | unemp | uEWMA1war1: EWMA with random slope adjustments for war 
-15 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war 
+11 | unemp | uEWMA1pres3: EWMA with a slope adjustment for each president 
+12 | unemp | uEWMA1war0: EWMA with slope adjustments for war 
+13 | unemp | uEWMA1war1: EWMA with random slope adjustments for war
+14 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war 
  | 
-16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) 
-17 | GDP/cap & unemp | Okun1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) assuming perfect correlation between increments in GDP.lvl and GDP.slope 
-18 | GDP/cap & unemp | Okun1.1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) as a univariate problem
-19 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect
-20 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect 
-21 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war 
+15 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) 
+16 | GDP/cap & unemp | Okun1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) assuming perfect correlation between increments in GDP.lvl and GDP.slope 
+17 | GDP/cap & unemp | Okun1.1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) as a univariate problem
+18 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect
+19 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect 
+20 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war 
 
 # 1.  The simplest Kalman Filter:  an Exponentially Weighted Moving Average (EWMA)
 
@@ -434,7 +456,7 @@ where $\epsilon_t \tilde\ N(0, H_t)$, $\eta_t \tilde\ N(0, Q_t)$ and $\alpha_1 \
 In all the models considered here, $y_t$ is log(realGDPperCapita). The dimensionality of $\alpha_t$ will vary, but the first component will always be the level.  Thus, $Z_t$ will be a row vector with 1 in the first position and 0 elsewhere. This will force $Q_t$, $T_t$, and $P_1$ to change between models.  In addition, some models have diffuse initialization for the state vector.  These are specified by a model component $P_{1,\infty}$;  see `r Citet(bib2, "KFASarticle")` or [SSmodel](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html).  And the different models require estimating different parameters.  These pieces are summarized in the following table:  
 
 
-  || Response | Model | state vector compo- nents | time varying compo-nents | P1 | P1inf | parameters to estimate 
+  || Response | Model | state vector compo- nents | time-varying compo-nents | P1 | P1inf | parameters to estimate 
 -:|:-----|------------------|:-----|:----:|:---:|:---:|:--------------
 1 | GDP/cap | EWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:Q, H
 2 | GDP/cap | EWMA2: double EWMA | 2:level, slope | | 0 | diag(2) | 3:Q.lvl, Q.slope, H
@@ -448,18 +470,17 @@ In all the models considered here, $y_t$ is log(realGDPperCapita). The dimension
  | | | | | | | |  
 9 | unemp | uEWMA1: Standard Bayesian EWMA | 1:level | | 0 | 1 | 2:Q, H
 10 | unemp | uEWMA1a: EWMA with higher error variance for older data | 1:level | H | 0 | 1 | 5:Q, H1..4 
-11 | unemp | uEWMA1b: Bayesian EWMA with higher error variance prior to 1890 | 1:level | H | 0 | 1 | 3:Q, H1..2  
-12 | unemp | uEWMA1pres3: EWMA with a slope adjustment for each president | 2:level, pres3 | T, Q, H | diag(c(0, NA)) | diag(c(1, 0)) | 4:Q.lvl, Q.pres3, H1..2
-13 | unemp | uEWMA1war0: EWMA with fixed slope adjustments for war | 3:level, war, deaths | T, H | 0                 | diag(3)          | 3:Q.lvl, H1..2 
-14 | unemp | uEWMA1war1: EWMA with radom slope adjustments for war            | 3:level, war, deaths        | T, Q, H | diag(c(0, Q.war))      | diag(3)             | 6:Q.lvl, Q.war, Q.deaths, Q.warDeaths, H1..2 
-15 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war | 4:level, pres3, war, deaths | T, Q, H | diag(c(0, 1, 0, 0)) | diag(c(1, 0, 1, 1) | 4:Q.lvl, Q.pres3, H1..2 
+11 | unemp | uEWMA1pres3: EWMA with a slope adjustment for each president | 2:level, pres3 | T, Q, H | diag(c(0, NA)) | diag(c(1, 0)) | 6:Q.lvl, Q.pres3, H1..4
+12 | unemp | uEWMA1war0: EWMA with fixed slope adjustments for war | 3:level, war, deaths | T, H | 0                 | diag(3)          | 5:Q.lvl, H1..4 
+13 | unemp | uEWMA1war1: EWMA with radom slope adjustments for war            | 3:level, war, deaths        | T, Q, H | diag(c(0, Q.war))      | diag(3)             | 8:Q.lvl, Q.war, Q.deaths, Q.warDeaths, H1..4 
+14 | unemp | uEWMA1p3w0: EWMA with slope adjustments for presidents and war | 4:level, pres3, war, deaths | T, Q, H | diag(c(0, 1, 0, 0)) | diag(c(1, 0, 1, 1) | 6:Q.lvl, Q.pres3, H1..4 
  | | | | | | | | | 
-16 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 8:Q.pl, Q.ul, Q.ps, Q.pl.ul, Q.ul.ps, Hp, Hu1, Hu2 
-17 | GDP/cap & unemp | Okun1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) assuming perfect correlation between increments in GDP.lvl and GDP.slope | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 6:Q.pl, Q.ul, Q.ps, Hp, Hu1, Hu2 
-18 | GDP/cap & unemp | Okun1.1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) as a univariate problem | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 6:Q.pl, Q.ul, Q.ps, Hp, Hu1, Hu2 
-19 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect | 4:GDP.lvl, unemp.lvl, GDP.slope, GDP.pres3 | T, Q, H | diag(c(0, 0, 0, NA)) | diag(c(1, 1, 1, 0)) | 7:Q.pl, Q.ul, Q.ps, Q.pres3, Hp, Hu1, Hu2 
-20 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect | 5:GDP.lvl, unemp.lvl, GDP.slope, unemp.war, unemp.deaths | T, H | 0 | diag(5) | 6:Q.pl, Q.ul, Q.ps, Hp, Hu1, Hu2 
-21 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war | 6:GDP.lvl, unemp.lvl, GDP.slope, GDP.pres3, unemp.war, unemp.deaths | T, Q, H | diag(c(0, 0, 0, NA, 0, 0)) | diag(c(1, 1, 1, 0, 1, 1)) | 8:Q.pl, Q.ul, Q.ps, Q.pres3, Hp, Hu1, Hu2
+15 | GDP/cap & unemp | Okun: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 10:Q.pl, Q.ul, Q.ps, Q.pl.ul, Q.ul.ps, Hp, Hu1..4 
+16 | GDP/cap & unemp | Okun1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) assuming perfect correlation between increments in GDP.lvl and GDP.slope | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 8:Q.pl, Q.ul, Q.ps, Hp, Hu1..4
+17 | GDP/cap & unemp | Okun1.1: [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) as a univariate problem | 3:GDP.lvl, unemp.lvl, GDP.slope | H | 0 | diag(3) | 8:Q.pl, Q.ul, Q.ps, Hp, Hu1..4
+18 | GDP/cap & unemp | OkunPres3:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a president effect | 4:GDP.lvl, unemp.lvl, GDP.slope, GDP.pres3 | T, Q, H | diag(c(0, 0, 0, NA)) | diag(c(1, 1, 1, 0)) | 9:Q.pl, Q.ul, Q.ps, Q.pres3, Hp, Hu1..4
+19 | GDP/cap & unemp | OkunWar0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) with a war effect | 5:GDP.lvl, unemp.lvl, GDP.slope, unemp.war, unemp.deaths | T, H | 0 | diag(5) | 8:Q.pl, Q.ul, Q.ps, Hp, Hu1..4 
+20 | GDP/cap & unemp | OkunP3w0:  [Okun's law](https://en.wikipedia.org/wiki/Okun's_law) modeling both president and war | 6:GDP.lvl, unemp.lvl, GDP.slope, GDP.pres3, unemp.war, unemp.deaths | T, Q, H | diag(c(0, 0, 0, NA, 0, 0)) | diag(c(1, 1, 1, 0, 1, 1)) | 10:Q.pl, Q.ul, Q.ps, Q.pres3, Hp, Hu1..4
 
 # 1a.  Estimate the Bayesian EWMA 
 
@@ -575,16 +596,14 @@ sqrt(mean(EWMA1.KFS$v^2))
 
 As noted above, log(1+x) is approximately x when x is small.  Therefore, we can interpret this as saying that sqrt(mean(EWMA1.v^2)) = 0.046 indicates a root mean square prediction error of approximately 4.6 percent.
 
-Let's wrap these three goodness-of-fit measures in a fuction with the number of parameters estimated, so we can easily compute a 4-number summary for subsequent model comparison:
+Let's wrap these three goodness-of-fit measures in a fuction with the number of parameters estimated, so we can easily compute a 4-number summary for subsequent model comparison.  For present purposes, the number of parameters estimated (ndf = number of degrees of freedom) is the sum of two terms:  the number of components of the state vector with diffuse priors and the number of parameters estimated using a nonlinear optimizer:  
 
 ```{r}
 logLik2 <- function(object, ...){
-  ll2 <- rep(NA, 5)
-  names(ll2) <- c('pars', 'diffuse', 'marginal', 
-        'rmse.lnUSD', 'rmse.lgtUnemp')
-  ll2 <- data.frame(pars=NA, diffuse=NA, 
-      marginal=NA, rmse.lnUSD=NA, rmse.lgtUnemp=NA)
-  ll2[1] <- length(object$optim.out$par)
+  ll2 <- data.frame(ndf=NA, diffuse=NA, 
+      marginal=NA, rmse.lnUSD=NA, rmse.pbtUnemp=NA)
+  ll2[1] <- (length(object$optim.out$par)
+             + sum(object$model$P1inf) )
   ll2[2] <- logLik(object$model)
   ll2[3] <- logLik(object$model, marginal=TRUE)
   K. <- KFS(object$model)
@@ -592,7 +611,7 @@ logLik2 <- function(object, ...){
         sqrt(mean(x, na.rm=TRUE)))
   if(length(Ks)<2){
     Ynames <- colnames(object$model$y)
-    if((!is.null(Ynames)) && (Ynames=='logitUnemp')){
+    if((!is.null(Ynames)) && (Ynames=='probitUnemp')){
       ll2[5] <- Ks
     } else ll2[4] <- Ks
   } else ll2[4:5] <- Ks
@@ -606,15 +625,15 @@ Let's create a [data.frame](https://stat.ethz.ch/R-manual/R-devel/library/base/h
 ```{r}
 mdls <- c('EWMA1', 'EWMA2', 'EWMA2pres1', 'EWMA2pres2', 
           'EWMA2pres3', 'EWMA2war0', 'EWMA2war1', 
-          'EWMA2war2', 'uEWMA1', 'uEWMA1a', 'uEWMA1b',
+          'EWMA2war2', 'uEWMA1', 'uEWMA1a', 
           'uEWMA1pres3', 'uEWMA1war0', 'uEWMA1war1',
           'uEWMA1p3w0', 'Okun', 'Okun1', 'Okun1.1', 
           'OkunPres3', 'OkunWar0', 'OkunP3w0')
 n.mdls <- length(mdls)
-logLiks <- data.frame(model=mdls, npars=rep(NA, n.mdls), 
+logLiks <- data.frame(model=mdls, ndf=rep(NA, n.mdls), 
       diffuse=rep(NA, n.mdls), marginal=rep(NA, n.mdls), 
       rmse.lnUSD=rep(NA, n.mdls), 
-      rmse.lgtUnemp=rep(NA, n.mdls), row.names=1:n.mdls, 
+      rmse.pbtUnemp=rep(NA, n.mdls), row.names=1:n.mdls, 
       stringsAsFactors=FALSE)
 ```
 
@@ -646,6 +665,11 @@ With time series, it's good to look at the [autocorrelation function](https://st
 
 ```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
 (acf(EWMA1.rstd, na.action=na.pass))
+```
+
+This understates the autocorrelation, because by default, the [acf](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/acf.html) function subtracts off the mean of the series, and the mean should theoretically be zero for residuals.  We get a different picture with "dmean=FALSE":  
+
+```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
 (acf(EWMA1.rstd, na.action=na.pass, demean=FALSE))
 ```
 
@@ -751,7 +775,7 @@ $$
 
 Similar to the simple EWMA considered above, $H_t$ is the observation variance.  By contrast, the state vector $\alpha_t$ is now 2-dimensional.  To manage this, we assume that $R_t$ is the 2-dimensional identity matrix, and $Q_t$ is a 2-dimensional diagonal matrix.  This gives us 3 parameters to estimate:  The two diagonal elements of the migration variance matrix $Q_t$ and the observation error variance $H_t$.  As before, by default, the algorithm estimates the logarithms of these parameters, which we will call lnQ.lvl, lnQ.slope, and lnH, as noted in the table above.
 
-Modeling is a straightforward generalization of the above following the same process:
+Modeling is a straightforward generalization of the above model following the same process:
 
 <center> 
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
@@ -878,7 +902,7 @@ The difference between the acfs with demean = TRUE and FALSE has disappeared, as
 
 As another check, let's make a normal probability plot of these residuals to look for outliers:  
 
-```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
+```{r,fig.cap = "Normal probability plot of Standardized Residuals"} 
 qqnorm(EWMA2.rstd, datax=TRUE, 
        ylab='standardized residuals', 
        xlab='standard normal quantiles')
@@ -936,10 +960,10 @@ Let's see if we can do better adding a random effect for presidents.  We conside
 
 A simple presidential effect model is to assume that the slope is constant within each presidency but can change between administrations.  This uses the same state transition equation as the double EWMA just discussed, but the migration variance is zero except for the last year of each presidency:  That allows the slope to jump for the first year of the next presidency.  
 
-This model can be estimated using [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) but requires using a state transition variance, Q, that is not constant.  To fit this, we must write a special "updatefn" for [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html), because the default "updatefn" will not handle a time varying Q:  
+This model can be estimated using [KFAS](https://rweb.crmda.ku.edu/cran/web/packages/KFAS/KFAS.pdf) but requires using a state transition variance, Q, that is not constant.  To fit this, we must write a special "updatefn" for [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html), because the default "updatefn" will not handle a time-varying Q:  
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
 
 -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
@@ -983,7 +1007,7 @@ EWMA2pres1mdl <-SSModel(EWMA2pres1fmla, GDP, H=matrix(NA))
 
 The next step is to create the desired updatefn assuming we estimate three log(variance) parameters for lnQ.lvl, lnQ.slope, and lnH, as for the double EWMA above:    
 
-```{r}
+```{r EWMA2p1Updt}
 EWMA2pres1updt <- function(pars=EWMA2init,
               model=EWMA2pres1mdl, ...){
   vars <- exp(pars)
@@ -996,16 +1020,111 @@ EWMA2pres1updt <- function(pars=EWMA2init,
 } 
 ```
 
-We're now ready to call [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html): 
+We're now ready to call [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html):
 
-```{r}
-EWMA2pres1fit <- fitSSM(EWMA2pres1mdl, inits=EWMA2init, 
-                        updatefn=EWMA2pres1updt)
+```{r EWMA2p1fit}
+system.time(EWMA2pres1fit <- fitSSM(EWMA2pres1mdl, 
+      inits=EWMA2init, updatefn=EWMA2pres1updt))
 logLiks[3, -1] <- logLik2(EWMA2pres1fit)
 logLiks[1:3,1:5]
 ```
 
 Both log(likelihoods) and the rmse are identical to those numbers for the double EWMA above (at least to the number of digits displayed here).  
+
+Before proceding with this, let's revise the updatefn to use constrained optimization.  `r Citet(bib2, "lme4vignette")` note that "the nlme package ... goes to some lengths to use an unconstrained variance-covariance parameterization (the log-Cholesky parameterization ...) [which] often give[s] rise to convergence warnings as the algorithm tries to find a maximum on an asymptotically flat surface."  The newer lme4 package prefers constrained optimization using a [Cholesky (upper triangular standard deviation matrix)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/chol.html) parameterization.  This has multiple advantages:  A standard quadratic approximation to the log(likelihood) will tend to be more accurate.  This in turn will tend to reduce convergence problems and increase the utility of likelihood ratio confidence itervals.  In addition, standard deviations are in the units of the response (log dollars in this case, not log-log dollars).  
+
+```{r EWMA2p1Updt2}
+EWMA2init2 <- exp(EWMA2init)
+names(EWMA2init2) <- c('Q.lvl', 'Q.slope', 'H')
+EWMA2pres1updt2 <- function(pars=EWMA2init2,
+              model=EWMA2pres1mdl, ...){
+  Q <- model$Q
+  Q[1,1,] <- pars[1]
+  Q[2,2,presLastYr] <- pars[2]
+  model$Q <- Q
+  model$H[] <- pars[3]
+  model
+} 
+system.time(EWMA2pres1fit2 <- fitSSM(EWMA2pres1mdl,
+    inits=EWMA2init2, updatefn=EWMA2pres1updt2,  
+    method = "L-BFGS-B", lower=rep(0, 3), 
+    upper=rep(Inf, 3)))
+EWMA2pres1fit2$optim.out
+EWMA2pres1fit$optim.out
+```
+
+This stopped with a value out of bounds and a negative log(likelihood) slightly above the unconstrained fit:  
+
+  *  Q.slope is negative, even though lower = 0.  
+  
+  * value = (-386.6286) vs. (-386.9081) for the unconstrained optimization.  
+
+Let's try again, starting with the previous optim:  
+
+```{r}
+EWMA2p1init <- exp(EWMA2pres1fit$optim.out$par)
+names(EWMA2p1init) <- c('Q.lvl', 'Q.slope', 'H')
+EWMA2p1init
+EWMA2pres1fit2a <- fitSSM(EWMA2pres1mdl,
+    inits=EWMA2p1init, updatefn=EWMA2pres1updt2,  
+    method = "L-BFGS-B", lower=rep(0, 3), 
+    upper=rep(Inf, 3))
+EWMA2pres1fit2a$optim.out
+```
+
+This stopped where it started with an ABNORMAL_TERMINATION_IN_LNSRCH -- but without violating the lower bound as before.  
+
+`r Citet(bib2, "lme4vignette")` recommend bounded optimization by quadratic approximation ([BOBYQA](http://rpackages.ianhowson.com/cran/minqa/man/bobyqa.html)) in the [minqa](https://rweb.crmda.ku.edu/cran/web/packages/nloptr/minqa.pdf) package or Nelder-Mead, BOBYQA, or COBYLA in the [nloptr](https://rweb.crmda.ku.edu/cran/web/packages/nloptr/nloptr.pdf) package.  
+
+To use this, we must write our own objective function (modeled after the content of fitSSM):  
+
+```{r likfn}
+likfn <- function(pars=EWMA2init2, model=EWMA2pres1mdl, 
+                  updatefn=EWMA2pres1updt2) {
+    Model <- do.call(updatefn, args = list(pars, model))
+    (-logLik(object = Model, check.model = FALSE))
+}
+likfn()
+likfn(EWMA2p1init)
+
+library(minqa)
+(EWMA2pres1fit2a <- bobyqa(EWMA2init2, likfn, 
+        lower=rep(0, 3), model=EWMA2pres1mdl, 
+        updatefn=EWMA2pres1updt2))
+```
+
+This stopped with Objective = (-272.68), substantially larger than the previous min of (-386.91).  Let's try starting with the previous best:  
+
+```{r EWMA2p1}
+(EWMA2pres1fit2b <- bobyqa(EWMA2p1init, likfn, 
+        lower=rep(0, 3), model=EWMA2pres1mdl, 
+        updatefn=EWMA2pres1updt2))
+```
+
+This put Q.slope = H = 0, their lower bounds, with only a very minor change in Q.lvl and essentially no change in the objective function.  
+
+Just for completeness, let's try nloptr:  
+
+```{r nloptr}
+library(nloptr)
+(try(nloptr(EWMA2init2, likfn,
+        model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2)))
+(EWMA2pres1fit2c <- nloptr(EWMA2init2, likfn, lb=rep(0, 3), 
+        opts=list(algorithm='NLOPT_LN_BOBYQA'), 
+        model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
+(EWMA2pres1fit2d <- nloptr(EWMA2p1init, likfn, lb=rep(0, 3), 
+        opts=list(algorithm='NLOPT_LN_BOBYQA'), 
+        model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
+
+(EWMA2pres1fit2e <- nloptr(EWMA2init2, likfn, lb=rep(0, 3), 
+        opts=list(algorithm='NLOPT_LN_NELDERMEAD'), 
+        model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
+(EWMA2pres1fit2f <- nloptr(EWMA2p1init, likfn, lb=rep(0, 3), 
+        opts=list(algorithm='NLOPT_LN_NELDERMEAD'), 
+        model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
+```
+
+Conclusion:  We could experiment with more algorithms and starting values, but the best solutions so far match the original solution. 
 
 As before, we'll compute and plot the smoothed estimate of the state vector:  
 
@@ -1055,9 +1174,9 @@ And making $Q_{3,3,t}$ = 0 for all $t$ means that $\alpha_{3,t}$ is normal with 
 We'll accomplish with the same process as for EWMA2pres1:  
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
 
-[(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+[(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 Similar to the EWMA2 above, we start by supplying a formula using [SSMtrend(3, ...)](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -- specifying the degree of the "trend" as 3 to give us a 3-dimensional state vector.  We want to estimate $a_{1,\mathrm{pres2}}$ = $a_{1,2}$ = $a_{1,3}$.  KFAS protocol assigns NA to numbers to be estimated.  And we can use the same Q.slope as with EWMA2pres1:      
@@ -1158,7 +1277,7 @@ EWMA2pres2mdl <- fixModelNames(EWMA2pres2mdl.,
             names(a1.3), 'logGDPperCapita' )
 ```
 
-Next, we modify this model to make T time varying as desired:   
+Next, we modify this model to make T time-varying as desired:   
 
 ```{r}
 T3.other <- EWMA2pres2mdl$T
@@ -1176,13 +1295,13 @@ President Washington's last year was 1796, and $T_{1796}$ is different from the 
 EWMA2pres2mdl$T <- EWMA2pres2.T
 ```
 
-We're not quite done modifying this model:  As noted with [help('SSModel')](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), we must set attribute 'tv' to reflect that both T and Q are time varying.  From "str(EWMA2mdl)" above, we see that attr(EWMA2mdl1, "tv")= int [1:5] 0 0 0 0 0, indicating a model in which none of Z, H, T, R, and Q are time varying.  This is different for EWMA2pres1mdl:  
+We're not quite done modifying this model:  As noted with [help('SSModel')](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), we must set attribute 'tv' to reflect that both T and Q are time-varying.  From "str(EWMA2mdl)" above, we see that attr(EWMA2mdl1, "tv")= int [1:5] 0 0 0 0 0, indicating a model in which none of Z, H, T, R, and Q are time-varying.  This is different for EWMA2pres1mdl:  
 
 ```{r}
 attr(EWMA2pres2mdl, 'tv')
 ```
 
-This says that only Q is time varying.  We just made T time varying and must change this 'tv' attribute to make it official.  In the process, we will add names to make the structure easier to read:  
+This says that only Q is time-varying.  We just made T time-varying and must change this 'tv' attribute to make it official.  In the process, we will add names to make the structure easier to read:  
 
 ```{r}
 attr(EWMA2pres2mdl, 'tv') <- c(Z=0L, H=0L, T=1L, R=0L, Q=1L)
@@ -1378,7 +1497,7 @@ exp(EWMA2pres2fit$optim.out$par[1])
 exp(EWMA2pres2fit$optim.out$par[-1]/2)
 ```
 
-This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038, respectively, and the standard deviation of the observation error is tiny, 0.00004.  
+This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038 and 0.019, respectively, and the standard deviation of the observation error is tiny, 0.00004.  
 
 Before looking at the next model, let's review the standardized residuals as before:  
 
@@ -1436,9 +1555,9 @@ where $q_{\mathrm{lvl}}$ is the migration variance for the level (as before), $q
 We will create this by modifying a triple EWMA following a process similar to the above:  
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
 
-[(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+[(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 Let's start by modifying the formula, similar to what we did with EWMA2pres1fmla, above, but for this 3-dimensional state    
@@ -1600,12 +1719,12 @@ Thus, for this model, we do not need to create a time-varying Q nor an updatefn 
 <center> 
 [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
 
-[(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+[(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 We can model war as a fixed effect multiple ways.  One is to use $R_t$ = the 4-dimensional identity matrix as before, with $Q_t$ being a diagonal matrix with only the first two elements nonzero.  Another is to let $R_t$ be the first two columns of a 4-dimensional identity matrix and estimate the diagonal of the resulting 2 x 2 $Q_t$ matrix.  We'll use the former here, because the next model with war as a random effect requires $R_t$ = the 4-dimensional identity matrix.  
 
-We'll use a similar formula to those above, requesting a fourth degree [SSMtrend](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) and modifying $T_t$ as before:  
+We'll use a similar formula to those above, requesting a fourth degree [SSMtrend](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) and modifying $T_t$ as before: 
 
 ```{r}
 a1.4 <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
@@ -1668,95 +1787,31 @@ Conclusion:
   1.  If we use the marginal likelihood rather than the diffuse likelihood, it says that EWMA2war0 gives a slightly better fit than EWMA2:  396.9705 vs. 396.5067.  
 
   1.  However, the improvement in the fit is so slight, it's clearly not statistically significant.  
-
-As a check on this model, we should get the same answer as from EWMA2 if we set the war components of P1inf to 0:  
+  
+Let's try starting with the final parameter estimates of EWMA2:
 
 ```{r}
-EWMA2war0mdl2 <- EWMA2war0mdl 
-war0P1inf <- diag(c(1, 1, 0, 0))
-dimnames(war0P1inf) <- list(warStates, warStates)
-EWMA2war0mdl2$P1inf <- war0P1inf
-EWMA2war0fit2 <- fitSSM(EWMA2war0mdl2, inits=EWMA2init)
+EWMA2war0fit2 <- fitSSM(EWMA2war0mdl, 
+                       inits=EWMA2fit$optim.out$par)
 logLik2(EWMA2war0fit2)
 ```
 
-This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and rmse as EWMA2, as we expected.  Let's modify the modeling process to include an updatefn to allow us to estimate P1[3:4, 3:4] different from [diag(0, 2)](https://stat.ethz.ch/R-manual/R-devel/library/base/html/diag.html):  
+The same as before.  
 
-<center> 
-[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) 
-
-[(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
-</center>
-
-P1[3:4, 3:4] is a 2 x 2 positive definite matrix.  A standard representation for such a matrix is provided by [nlme::pdLogChol](http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html).  The pdLogChol representation of a symmetric positive definite matrix is a vector starting with the logarithms of the diagonal of the [Choleski factorization](https://stat.ethz.ch/R-manual/R-devel/library/base/html/chol.html) of that matrix followed by its [upper triangular portion](https://stat.ethz.ch/R-manual/R-devel/library/base/html/lower.tri.html).  To see this, consider the following simple example:  
+As a further check on the code we used, we should get the same answer as from EWMA2 if we set the war components of P1inf to 0:  
 
 ```{r}
-(pd4 <- nlme::pdLogChol(1:6))
-(pd4C <- chol(pd4))
-log(diag(pd4C))
-pd4C[upper.tri(pd4C)]
-
-(pd4c <- nlme::pdLogChol(-c(1,1,1, 4:6)))
-(pd4cC <- chol(pd4c))
-log(diag(pd4cC))
-pd4cC[upper.tri(pd4cC)]
+EWMA2war0mdl3 <- EWMA2war0mdl 
+war0P1inf <- diag(c(1, 1, 0, 0))
+dimnames(war0P1inf) <- list(warStates, warStates)
+EWMA2war0mdl3$P1inf <- war0P1inf
+EWMA2war0fit3 <- fitSSM(EWMA2war0mdl3, inits=EWMA2init)
+logLik2(EWMA2war0fit3)
 ```
 
-We want to use this in the updatefn.  This requires adding the three [nlme::pdLogChol](http://rpackages.ianhowson.com/cran/nlme/man/pdLogChol.html) paramters to the parameters to be estimated.  The first 3 of these 6 parameters are the logarithms of the Cholesky square root of the covariance matrix it represents.  Thus, the first parameter is the log of the standard deviation of the first variable.  The second is the log of the residual standard deviation of the second variable after its regression on the first is removed.  The third is similarly the log of the residual standard deviation of the third variable after its regression on the first two is removed.  The fourth is the regression coefficient of the second variable on the first after normalizing the first to standard deviation of one.  The fifth and sixth are similarly the regression coefficients of the third variable on the first and the residuals of the second from predictions based on the first, after normalization as before.  
+This gives the same [logLik](http://rpackages.ianhowson.com/cran/KFAS/man/logLik.SSModel.html) and rmse as EWMA2, as we expected.  
 
-```{r}
-EWMA2war0init <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=0, lnP1.44=0, lnP1.34=0)
-EWMA2war0updt <- function(pars=EWMA2war0init, 
-                      model=EWMA2war0mdl2, ...){
-  vars <- exp(pars[1:3])
-  Q <- model$Q
-  Q[1,1,] <- vars[1]
-  Q[2,2,] <- vars[2]
-  model$Q <- Q
-  model$H[] <- vars[3]
-  P1 <- nlme::pdLogChol(pars[4:6])
-  model$P1[3:4, 3:4] <- as.matrix(P1)
-  model
-} 
-EWMA2war0fit3 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init, 
-                        updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit3)[1:4]
-```
-
-This is worse than EWMA2war0fit and EWMA2war0fit2.  
-
-However, time series models are known to occasionally have convergence problems and even multimodal likelihoods.  Therefore, let's check with starting values designed to give the same answer as EWMA2:  
-
-```{r}
-EWMA2war0init2 <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=-999, lnP1.44=-999, lnP1.34=0)
-EWMA2war0fit4 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init2, 
-                        updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit4)[1:4]
-```
-
-This matches logLik(EWMA2war0fit2$model).  Let's try something between EWMA2war0init and EWMA2war0init2:  
-
-```{r}
-EWMA2war0init3 <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=-9, lnP1.44=-9, lnP1.34=0)
-EWMA2war0fit5 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init3,
-                        updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit5)[1:4]
-```
-
-At logLik = 383.8239, this is not as good as EWMA2war0fit5.  We might get something better with different starting values.
-
-```{r}
-EWMA2war0init4 <- c(EWMA2fit$optim.out$par, 
-                lnP1.33=-2, lnP1.44=-9, lnP1.34=0)
-EWMA2war0fit6 <- fitSSM(EWMA2war0mdl2, inits=EWMA2war0init4, 
-                        updatefn=EWMA2war0updt)
-logLik2(EWMA2war0fit6)[1:4]
-```
-
-Let's give up for the moment.  
+At least we can match the diffuse and marginal likelihoods plus rmse.lnUSD of EWMA2.  Let's declare convergence and consider a random effect for war:  
 
 # 7. EWMA2 with a random effect for war 
 
@@ -1771,10 +1826,10 @@ $$T_t = \left[\begin{array}
 \end{array}\right],
 $$ 
 
-where $w_0$ = 1 during wars and 0 otherwise, as above.  And we need to make the migration variance time varying to match: 
+where $w_0$ = 1 during wars and 0 otherwise, as above.  And we need to make the migration variance time-varying to match: 
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> 
 
 [(state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
@@ -1860,8 +1915,8 @@ EWMA2war1updt <- function(pars=EWMA2war1init,
 } 
 EWMA2war1fit <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init, 
                         updatefn=EWMA2war1updt)
-logLiks[7, -1] <- logLik2(EWMA2war1fit)
-logLiks[1:7,1:5]
+logLiks[1:6,1:5]
+logLik2(EWMA2war1fit)[1:4]
 ```
 
 This looks like more convergence problems with logLik numbers slightly less than those for EWMA2.  
@@ -1877,22 +1932,62 @@ EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0,
 logLik2(EWMA2war1fit0)[1:4]
 ```
 
-These match EWMA2.  Let's refit with different starting values:  
+Both likelihoods and rmse.lnUSD match EWMA2.  Let's try a constrained standard deviation transformation as we did with EWMA2pres1:  
 
-```{r}
-EWMA2war1init1 <- EWMA2war1init
-EWMA2war1init1[c(1, 2, 6)] <- EWMA2fit$optim.out$par
-EWMA2war1init1[3:4] <- EWMA2fit$optim.out$par[1]/2
-EWMA2war1fit0 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init0, 
-                        updatefn=EWMA2war1updt)
-logLik2(EWMA2war1fit0)[1:4]
+```{r EWMA2p1aUpdt2}
+EWMA2war1init2 <- exp(EWMA2war1init/
+        c(2, 2, 1, 1, 1, 2))
+EWMA2war1init2[5] <- 0
+names(EWMA2war1init2) <- c('Q.lvl', 'Q.slope', 'Q.war', 
+    'Q.deaths', 'Q.warDeaths', 'H')
+EWMA2war1init2
+EWMA2war1updt2 <- function(pars=EWMA2war1init2,
+              model=EWMA2war1mdl, ...){
+  Q <- model$Q
+  Q[1,1,] <- pars[1]^2
+  Q[2,2,] <- pars[2]^2
+# 
+  C1w. <- matrix(c(1, pars[5], pars[5], 1), 2)
+  P1w. <- (C1w.*outer(pars[3:4], pars[3:4]))
+#  
+  model$P1[3:4, 3:4] <- P1w.
+  Q[3:4, 3:4, beforeWar] <- P1w.
+  model$Q <- Q
+#  
+  model$H[] <- pars[6]^2
+  model
+} 
+
+# Confirm that the two functions 
+# produce the same model
+# from comparable 
+EWMA2war1mdl1.0 <- EWMA2war1updt()
+EWMA2war1mdl2.0 <- EWMA2war1updt2()
+all.equal(EWMA2war1mdl1.0, EWMA2war1mdl2.0)
+
+# lower and upper limits 
+EWMA2war1l <- rep(0, 6)
+EWMA2war1l[5] <- (-1)
+names(EWMA2war1l) <- names(EWMA2war1init2)
+EWMA2war1l
+EWMA2war1u <- rep(Inf, 6)
+EWMA2war1u[5] <- 1
+names(EWMA2war1u) <- names(EWMA2war1init2)
+EWMA2war1u
+EWMA2war1fit2 <- fitSSM(EWMA2war1mdl, inits=EWMA2war1init2, 
+    updatefn=EWMA2war1updt2, method = "L-BFGS-B", 
+    lower=EWMA2war1l, upper=EWMA2war1u)
+logLiks[7, -1] <- logLik2(EWMA2war1fit2)
+logLiks[1:7, 1:5]
 ```
 
-These also match EWMA2.  That suggests we may not be able to do better with this model.  
+The marginal logLik now matches EWMA2.  
+
+What about war as a variance effect?   
 
 # 8. EWMA2 with variance effect for war
 
-One more possibility is to allow for substantial, single-year changes in the level in EWMA2 by modeling log(Q[1,1]) ~ war + deaths.  For this, we start with EWMA2 and make Q time varying with an appropriate updatefn.  
+One more possibility is to allow for substantial, single-year changes in the level in EWMA2 by modeling log(Q[1,1]) ~ war + deaths.  For this, we start with EWMA2 and make Q time-varying with an appropriate updatefn.  
 
 ```{r}
 EWMA2war2mdl <- EWMA2mdl
@@ -1957,13 +2052,73 @@ logLiks[8, -1] <- logLik2(EWMA2war1fit)
 logLiks[1:8,1:5]
 ```
 
-This matches EWMA2war1.  
+This matches the initial log-scale fit for EWMA2war1.  We'd like to try a constrained optimization over standard deviations for this, as with EWMA2war1 above.  However, it's less that obvious how to transform the war effect.  For this, we'll use the following:  
+
+  Q[1,1] = (sQ.lvl^2)*exp(lnQ.lvl.war*war 
+                  + lnQ.lvl.deaths*deaths)
+
+```{r}
+EWMA2war2init2 <- exp(EWMA2war2init/2)
+EWMA2war2init2[2:3] <- 0 
+names(EWMA2war2init2) <- c('sQ.lvl', 'lnQ.lvl.war',
+                'lnQ.lvl.deaths', 'sQ.slope', 'sH')
+EWMA2war2init2
+
+EWMA2war2updt2 <- function(pars=EWMA2war2init2, 
+                      model=EWMA2war2mdl, ...){
+#
+  Q <- model$Q
+  Q11 <- ((pars[1]^2)*exp(pars[2]*(GDP$war!='') +
+                   pars[3]*GDP$battleDeathsPMP))
+  oops <- which(!is.finite(Q11))
+  Q11[oops] <- .Machine$double.xmax
+#  
+#  noops <- length(oops)
+#  if(noops>0){
+#    cat('Q[1,1] NA or Inf with pars =\n')
+#    print(pars)
+#    stop('Problem occurs ', noops, ' times, ', 
+#         'starting with number ', noops[1], 
+#         ' for which Q[1,1] = ', Q11[oops[1]])
+#  }
+  Q[1,1,] <- Q11
+#
+  Q22 <- pars[4]^2
+  if(!is.finite(Q22)){
+    print(pars)
+    stop('Q22 = ', Q22)
+  }
+  
+  Q[2,2,] <- Q22
+  model$Q <- Q
+#  
+  model$H[] <- (pars[5]^2)
+  model
+} 
+EWMA2war2updt2()
+
+EWMA2war2fit2 <- fitSSM(EWMA2war2mdl, inits=EWMA2war2init2, 
+                        updatefn=EWMA2war2updt2)
+logLiks[8, -1] <- logLik2(EWMA2war2fit2)
+logLiks[1:8,1:5]
+```
+
+This is the best fitting war model so far with a modest increase in the marginal log(likelihood) over EWMA2:  
+
+```{r}
+(d2.8 <- apply(logLiks[c(2, 8), -c(1, 6)], 2, diff))
+pchisq(2*d2.8[3], d2.8[1], lower=FALSE)
+```
+
+`r Citet(bib2, "Stiglitz2003")` discussed "The myth of the war economy":  Many people believe that war is good for the economy.  Stiglitz argued the opposite:  "Markets loathe uncertainty and volatility. Conflict brings both."  These data provide no evidence for any war effect -- not even the increased volatility that Stiglitz mentioned.  
+
+What about unemployment?  
 
 # 9.  Modeling Unemployment 
 
-The simplest model for unemployment is just a standard Bayesian EWMA. This is not adequate, because the older data are clearly not as accruately measured.  
+A simple model for unemployment is a standard Bayesian EWMA. This is not adequate, because the older data are clearly not as accurately measured.  
 
-However, before considering that. let's start with the simplest model first:  
+However, before considering that. let's start with this simple model:  
 
 ```{r}
 unemp1 <- with(GDP, 
@@ -1971,7 +2126,7 @@ unemp1 <- with(GDP,
 uEWMA1fmla <- qnorm(unemployment) ~
         SSMtrend(1,Q=list(matrix(NA)),
                  a1 = qnorm(unemp1),
-                 ynames='logitUnemp' ) 
+                 ynames='probitUnemp' ) 
 ```
 
 We use this to create an SSModel as before:   
@@ -1979,7 +2134,7 @@ We use this to create an SSModel as before:
 ```{r}
 uEWMA1mdl. <-SSModel(uEWMA1fmla, GDP, H=matrix(NA) )
 uEWMA1mdl <- fixModelNames(uEWMA1mdl., 
-                      'unempLvl', 'logitUnemp')
+                      'unempLvl', 'probitUnemp')
 
 uEWMA1fit <- fitSSM(uEWMA1mdl, inits=c(lnQ=0, lnH=0))
 ```
@@ -2070,21 +2225,21 @@ This doesn't look great.  What happens if we force the observation error varianc
 
 # 10.  Modeling unemployment with higher observation variance for older data 
 
-For this, we can use the same [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) as for uEWMA1, but we'll need to make the observation error variane, H, time varying, and we'll also need a special update function to support esimating parameters for the time varying H:
+For this, we can use the same [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) as for uEWMA1, but we'll need to make the observation error variane, H, time-varying, and we'll also need a special update function to support esimating parameters for the time-varying H:
 
 <center> 
-[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
+[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time-varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
 
 -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 ```{r}
 uEWMA1H <- array(NA, c(1, 1, N), 
-  dimnames=list('logitUnemp', 'logitUnemp', GDP$Year))
+  dimnames=list('probitUnemp', 'probitUnemp', GDP$Year))
 
 uEWMA1aMdl. <-SSModel(uEWMA1fmla, GDP, H=uEWMA1H)
 uEWMA1aMdl <- fixModelNames(uEWMA1aMdl., 'level', 
-                    'logitUnemp')
+                    'probitUnemp')
 
 uEWMA1aInit <- rep(0, 5)
 names(uEWMA1aInit) <- c('lnQ', paste0('lnH', 1:4))
@@ -2109,19 +2264,76 @@ logLiks[10, -1] <- logLik2(uEWMA1aFit)
 logLiks[1:10, ]
 ```
 
+What about the estimated variance components?  
+
+```{r}
+exp(uEWMA1fit$optim.out$par/2)
+exp(uEWMA1aFit$optim.out$par/2)
+```
+
+Let's plot the estimated observation error standard deviations from this just to make sure we understand the corresponding parameter estimates:  
+
+```{r,fig.cap = "Estimated observation error standard deviation"} 
+uEWMA1aMdlEst <- uEWMA1aUpdt(uEWMA1aFit$optim.out$par)
+str(uEWMA1aH. <- uEWMA1aMdlEst$H)
+uEWMA1aH <- ts(as.numeric(uEWMA1aH.), 1790)
+plotPresWars(sqrt(uEWMA1aH), GDP, yFDR=.5, 
+             yWar=seq(.5, by=-.1, len=9), 
+             xlab='', ylab='sd(observation error)')
+```
+
+This suggests a drop variance in 1931.  We would have expected a drop in 1890.  To confirm that, let's try constrained optimization:
+
+```{r}
+uEWMA1a1Init <- rep(1, 5)
+names(uEWMA1a1Init) <- c('Q', paste0('H', 1:4))
+uEWMA1a1Updt <- function(pars=uEWMA1a1Init, model=uEWMA1aMdl, 
+                           ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+} 
+
+uEWMA1a1Fit <- fitSSM(uEWMA1aMdl, inits=uEWMA1a1Init, 
+                     updatefn=uEWMA1a1Updt, 
+                     method="L-BFGS-B", lower=0)
+uEWMA1a1Fit$optim.out$par
+logLiks[10, -1] <- logLik2(uEWMA1a1Fit)
+logLiks[1:10, ]
+logLik2(uEWMA1aFit)
+```
+
+The constrained optimization provides a better fit.  Let's plot the standard deviation of observation error for this better fitting model:  
+
+```{r,fig.cap = "Estimated observation error sd for better fit"} 
+uEWMA1a1MdlEst <- uEWMA1a1Updt(uEWMA1a1Fit$optim.out$par)
+str(uEWMA1a1H. <- uEWMA1a1MdlEst$H)
+uEWMA1a1H <- ts(as.numeric(uEWMA1a1H.), 1790)
+plotPresWars(sqrt(uEWMA1a1H), GDP, yFDR=.5, 
+    yWar=seq(.5, by=-.1, len=9), xlab='', 
+    ylab='sd(Observation error)')
+```
+
 Let's test the additional 3 parameters:  
 
 ```{r}
-uEWMA1chisq <- 2*apply(logLiks[9:10, 2:3], 2, diff)
+uEWMA1chisq <- 2*apply(logLiks[9:10, 3:4], 2, diff)
 pchisq(uEWMA1chisq, 3, lower=FALSE)
 ```
 
-Just barely statistically signicant at the traditional 0.05 level:  one chance in 30 of getting a result at least this extreme by chance alone.  
+Just barely statistically signicant at the traditional 0.05 level: one chance in almost 30 of getting a result at least this extreme by chance alone.  
 
 Did this help with the residuals?  
 
 ```{r,fig.cap = "Autocorrelation Function of Standardized Residuals"} 
-uEWMA1a.KFS <- KFS(uEWMA1aFit$model)
+uEWMA1a.KFS <- KFS(uEWMA1a1Fit$model)
 uEWMA1a.rstd <- rstandard(uEWMA1a.KFS)
 
 (acf(uEWMA1a.rstd, na.action=na.pass))
@@ -2140,63 +2352,11 @@ qqnorm(uEWMA1a.rstd[goodUnempData], datax=TRUE,
        xlab='standard normal quantiles')
 ```
 
-No obvious improvement over uEWMA1, but the likelihood ratio chi-square suggests it's still worth keeping.  
+No obvious improvement over uEWMA1.  
 
-What about the estimated variance components?  
+Let's look for a presidential effect.  
 
-```{r}
-exp(uEWMA1fit$optim.out$par/2)
-exp(uEWMA1aFit$optim.out$par/2)
-```
-
-This estimated a much smaller noise for the most recent data (8.5e-5), with the noise ballooning for the nineteenth-century data, as we expected.  To confirm this, let's plot H:  
-
-```{r,fig.cap = "Observation error variance"}
-uEWMA1H. <- ts(as.numeric(uEWMA1aFit$model$H), 
-               GDP$Year)
-
-plotPresWars(uEWMA1H., GDP, 
-             main="Observation error variance",
-             ylab='variance in logits', las=1, log='y', 
-             xlab='Year', yHoover=-.5, yFDR=0.25, 
-             yWar=seq(-0.5, by=-.3, len=9))
-```
-
-Conclusion:  There are really only two differences, not four, in the observation error variance.  
-
-Before continuing, let's delete the two extra parameters to simplify the estimation in looking for president and war effects 
-
-# 11.  Modeling unemployment with higher observation variance for data prior to 1890 
-
-For this, we need to modify the update function to reduce the number of levels for observation variance to 2;  we can reuse uEWMA1aMdl:  
-
-```{r}
-uEWMA1bInit <- uEWMA1aInit[1:3]
-uEWMA1bUpdt <- function(pars=uEWMA1bInit, model=uEWMA1aMdl, 
-                           ...){
-  vars <- exp(pars)
-  Q <- model$Q
-  Q[1,1,] <- vars[1]
-  model$Q <- Q
-#
-  Yrs <- time(uEWMA1mdl$y)
-  H <- (vars[3]+(Yrs<1890)*vars[2])
-  model$H[] <- H
-  model
-} 
-
-uEWMA1bFit <- fitSSM(uEWMA1aMdl, inits=uEWMA1bInit, 
-                     updatefn=uEWMA1bUpdt)
-
-logLiks[11, -1] <- logLik2(uEWMA1bFit)
-logLiks[1:11, ]
-```
-
-Good:  Same numbers as with uEWMA1a.  
-
-The initial plot of unemployment suggested effects due to both presidents and war.  Let's now look for an effect similar to EWMA2pres3.  
-
-# 12. Modeling unemployment with a slope adjustment for each president
+# 11.  Modeling unemployment with a slope adjustment for each president
 
 Do different presidents impact unemployment?  
 
@@ -2225,9 +2385,9 @@ where $q_{\mathrm{lvl}}$ is the migration variance for the level, and $q_{\mathr
 We will create this by modifying a double EWMA following a process similar to the above:  
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time-varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
 
---> [(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+--> [(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 We can reuse EWMA2pres1Q.slope for Q.  We will modify the formula, similar to what we did with EWMA2pres1fmla, above, but for this 2-dimensional state    
@@ -2242,16 +2402,16 @@ uEWMA1pres3fmla <- qnorm(unemployment) ~
   SSMtrend(2, Q = list(level=matrix(NA),
                        pres3=EWMA2pres1Q.slope), 
       P1=uEWMA1pres3P1, P1inf=uEWMA1pres3P1inf, a1=a1.2u,
-           ynames='logitUnemp') 
+           ynames='probitUnemp') 
 ```
 
-For the time varying observation variance we can reuse uEWMA1H.  We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), as before:   
+For the time-varying observation variance we can reuse uEWMA1H.  We next create an [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html), as before:   
 
 ```{r}
 uEWMA1pres3mdl. <- SSModel(uEWMA1pres3fmla, GDP, 
                            H=uEWMA1H)
 uEWMA1pres3mdl <- fixModelNames(uEWMA1pres3mdl., 
-                      uPres3states, 'logitUnemp')
+                      uPres3states, 'probitUnemp')
 ```
 
 Now we need to create the desired time-varying state transition matrix, T:  
@@ -2271,11 +2431,11 @@ As for EWMA2pres2mdl, we need also to fix the 'tv' attribute:
 attr(uEWMA1pres3mdl, 'tv') <- c(Z=0L, H=1L, T=1L, R=0L, Q=1L)
 ```
 
-We now have 4 parameters to estimate:  lnQ.lvl, lnQ.pres3, and lnH1..2.  We need starting values for the parameters to be estimated. As before, we select starting values based on the preceding fit:  
+We now have 6 parameters to estimate:  lnQ.lvl, lnQ.pres3, and lnH1..4.  We need starting values for the parameters to be estimated. As before, we select starting values based on the preceding fit:  
 
 ```{r}
-uEWMA1bFit$optim.out$par
-uEWMA1pres3init <- rep(uEWMA1bFit$optim.out$par, c(2, 1, 1))
+uEWMA1aFit$optim.out$par
+uEWMA1pres3init <- rep(uEWMA1aFit$optim.out$par, c(2, rep(1, 4)))
 names(uEWMA1pres3init)[1:2] <- c("lnQ.lvl", "lnQ.pres3")
 uEWMA1pres3init
 ```
@@ -2293,24 +2453,59 @@ uEWMA1pres3updt <- function(pars=uEWMA1pres3init,
   model$Q <- Q
 #
   Yrs <- time(uEWMA1mdl$y)
-  H <- (vars[4]+(Yrs<1890)*vars[3])
+  H <- (vars[6]+(Yrs<1940)*vars[5] + 
+          (Yrs<1931)*vars[4]+(Yrs<1890)*vars[3])
   model$H[] <- H
   model
 }
 
 uEWMA1pres3fit <- fitSSM(uEWMA1pres3mdl,
     inits=uEWMA1pres3init, updatefn=uEWMA1pres3updt) 
-logLiks[12, -1] <- logLik2(uEWMA1pres3fit)
-logLiks[1:12,]
+logLiks[11, -1] <- logLik2(uEWMA1pres3fit)
+logLiks[1:11,]
+(lrchisq11 <- 2*apply(logLiks[10:11, 3:4], 2, diff))
+pchisq(lrchisq11, 1, lower=FALSE)
 ```
 
-The increase in the log(likelihood) is just under 0.4, so the likelihood ratio chi-square is under 0.8.  Clearly that can't be statistically signficant.  
+The increase in the log(likelihood) is just over 0.8, so the likelihood ratio chi-square is just over 1.6.  That's not statistically signficant, as confirmed by the p-value of the reference chi-square distribution.  
+
+Let's confirm this using constrained optimization:  
+
+```{r}
+uEWMA1pres3Cinit <- exp(uEWMA1pres3fit$optim.out$par/2)
+names(uEWMA1pres3Cinit) <- sub('^ln', 's', 
+                    names(uEWMA1pres3init))
+uEWMA1pres3Cinit
+uEWMA1pres3Cupdt <- function(pars=uEWMA1pres3Cinit, 
+                      model=uEWMA1pres3mdl, ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$P1[2,2] <- vars[2]
+  Q[2,2,presLastYr] <- vars[2]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[6]+(Yrs<1940)*vars[5] + 
+          (Yrs<1931)*vars[4]+(Yrs<1890)*vars[3])
+  model$H[] <- H
+  model
+}
+
+uEWMA1pres3Cfit <- fitSSM(uEWMA1pres3mdl,
+    inits=uEWMA1pres3Cinit, updatefn=uEWMA1pres3Cupdt, 
+    method="L-BFGS-B", lower=0) 
+uEWMA1pres3Cfit$optim.out$par
+logLik2(uEWMA1pres3Cfit)
+```
+
+There's a slight change in the values of the estimated parameters. However, there was no detectable change in the log(likelihoods) or in rmse.pbtUnemp.  
 
 What about a war effect?  
 
-# 13. Modeling unemployment with a fixed slope adjustment for war
+# 12. Modeling unemployment with a fixed slope adjustment for war
 
-The plots above suggest that war reduce unemployment.  Let's look for a fixed effect with a 3-dimensional state vector and a transition matrix as when we looked for a president effect of war:  
+The plots above suggest that war reduces unemployment.  Let's look for a fixed effect with a 3-dimensional state vector and a transition matrix as when we looked for fixed effect of war on income:  
 
 $$T_t = \left[\begin{array}
 {rrrr}
@@ -2327,12 +2522,12 @@ For this model, Q is constant, and we want a diffuse prior on all 3 components o
 For this model, we need an update function to make H vary with time like we want.  
 
 <center> 
-[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) --> 
+[formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time-varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) --> 
 
-[(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+[(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
-As before, we'll let $R_t$ = the 3-dimensional identity matrix with $Q_t$ being a diagonal matrix with only the first element nonzero.  
+As before, we'll let $R_t$ = the 3-dimensional identity matrix with $Q_t$ being a diagonal matrix with only the first element nonzero.
 
 We'll use a similar formula to those above, requesting a third degree [SSMtrend](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) and modifying $T_t$ as before:  
 
@@ -2343,11 +2538,11 @@ uWarStates <- names(a1.3u)
 uEWMA1war0fmla <- qnorm(unemployment) ~ 
     SSMtrend(3, Q = list(level=matrix(NA), 
                 war=matrix(0), deaths=matrix(0)), a1=a1.3u,
-           ynames='logitUnemp') 
+           ynames='probitUnemp') 
 
 uEWMA1war0mdl. <- SSModel(uEWMA1war0fmla, GDP, H=uEWMA1H)
 uEWMA1war0mdl <- fixModelNames(uEWMA1war0mdl., uWarStates, 
-                               'logitUnemp')
+                               'probitUnemp')
 ```
 
 Now we need to create the desired time-varying state transition matrix, $T_t$:  
@@ -2379,17 +2574,17 @@ We also need to fix the 'tv' attribute, as we did for models 4 and 5 (EWMA2pres2
 attr(uEWMA1war0mdl, 'tv') <- c(Z=0L, H=1L, T=1L, R=0L, Q=0L)
 ```
 
-For starting values, let's look at the the parameter estimates for uEWMA1b:  
+For starting values, let's look at the the parameter estimates for uEWMA1a:  
 
 ```{r}
-uEWMA1bFit$optim.out$par
+uEWMA1aFit$optim.out$par
 ```
 
-We'll use the first two but the third looks too small for a starting value for the logarithm of a variance.  Let's replace the it by the second:  
+We'll use the first one but the second and fourth look too small for a starting value for the logarithm of a variance.  Let's replace lnH1..4 by lnH3:  
 
 ```{r}
-uEWMA1war0init <- rep(uEWMA1bFit$optim.out$par[1:2], c(1, 2))
-names(uEWMA1war0init) <- names(uEWMA1bFit$optim.out$par)
+uEWMA1war0init <- rep(uEWMA1aFit$optim.out$par[c(1, 3)], c(1, 4))
+names(uEWMA1war0init) <- names(uEWMA1aFit$optim.out$par)
 uEWMA1war0init
 ```
 
@@ -2404,26 +2599,48 @@ uEWMA1war0updt <- function(pars=uEWMA1war0init,
   model$Q <- Q
 #
   Yrs <- time(uEWMA1mdl$y)
-  H <- (vars[3]+(Yrs<1890)*vars[2])
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
   model$H[] <- H
   model
 }
 
-uEWMA1war0fit <- fitSSM(uEWMA1war0mdl, inits=uEWMA1bInit, 
+uEWMA1war0fit <- fitSSM(uEWMA1war0mdl, inits=uEWMA1war0init, 
                         uEWMA1war0updt)
-logLiks[13, -1] <- logLik2(uEWMA1war0fit)
-logLiks[1:13,]
-
-(uEWMA1war0Chisq <- 2*apply(logLiks[c(11, 13), 2:3], 2, diff))
+logLik2(uEWMA1war0fit)
 ```
 
-If we count the two values of a1 estimated, double this should be a chi-square 2:  
+The diffuse likelihood declined from uEWMA1a but the marginal likelihood increased and rmse.pbtUnemp also increased.  This is plausible, but let's revise this to use constrained estimation:
+
 
 ```{r}
-pchisq(uEWMA1war0Chisq[2], 2, lower=FALSE)
+uEWMA1war0Cinit <- exp(uEWMA1war0fit$optim.out$par/2)
+names(uEWMA1war0Cinit) <- sub('ln', 's', 
+                              names(uEWMA1war0Cinit))
+uEWMA1war0Cinit
+uEWMA1war0Cupdt <- function(pars=uEWMA1war0Cinit, 
+                      model=uEWMA1war0mdl, ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+}
+
+uEWMA1war0Cfit <- fitSSM(uEWMA1war0mdl, inits=uEWMA1war0Cinit, 
+          uEWMA1war0Cupdt, method="L-BFGS-B", lower=0)
+logLiks[12, -1] <- logLik2(uEWMA1war0Cfit)
+logLiks[1:12,]
+(uEWMA1war0Chisq <- apply(logLiks[c(10, 12), 2:4], 2, diff))
+pchisq(2*uEWMA1war0Chisq[3], uEWMA1war0Chisq[1], lower=FALSE)
 ```
 
-Quite significant.  This seems to be a better model, even if rmse.lgtUnemp is larger.  
+Quite significant.  This seems to be a better model, even if the unweighted rmse.pbtUnemp is larger.  
 
 Let's try a random slope similar to EWMA2war1:    
 
@@ -2439,13 +2656,13 @@ $$T_t = \left[\begin{array}
 \end{array}\right],
 $$ 
 
-where $w_0$ and $w_1$ indicate the presence of war and battle deaths per million population, as before.  And we need to make the migration variance time varying to match: 
+where $w_0$ and $w_1$ indicate the presence of war and battle deaths per million population, as before.  And we need to make the migration variance time-varying to match: 
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) ->
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time-varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) ->
 [SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) 
 
--> [(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+-> [(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 Similar to EWMA2war1 , we will allow Q for the (war, deaths) components to be nonzero the year before the start of each war:  Specifically, we want Q[1, 1, ] to be NA, Q[2:3, 2:3, beforeWar] to NA;  all other elements of Q should be 0:  
@@ -2492,7 +2709,7 @@ uEWMA1war1mdl$T <- uWar1T
 We also need a matching updatefn.  That requires specifying the parameters to be estimated, for which we will ultimately need starting values.  What were the paramter estimates for the three models most like the current one?  
 
 ```{r}
-uEWMA1bFit$optim.out$par
+uEWMA1aFit$optim.out$par
 uEWMA1pres3fit$optim.out$par
 uEWMA1war0fit$optim.out$par
 ```
@@ -2501,7 +2718,7 @@ For a random effect of war, we'll want to include 3 parameters for the [nlme::pd
 
 ```{r}
 uEWMA1war1init <- c(lnQ=-2.66, lnQ.war=-1, lnQ.deaths=-1, 
-    lnQ.warDeaths=0, lnH1=-4, lnH2=-4)
+    lnQ.warDeaths=0, lnH1=-4, lnH2=-4, lnH3=-4, lnH4=-4)
 uEWMA1war1init
 
 uEWMA1war1updt <- function(pars=uEWMA1war1init, 
@@ -2515,18 +2732,19 @@ uEWMA1war1updt <- function(pars=uEWMA1war1init,
   model$Q <- Q
 # 
   Yrs <- time(uEWMA1mdl$y)
-  H <- (exp(pars[5])+(Yrs<1890)*exp(pars[6]))
+  H <- (exp(pars[8])+(Yrs<1890)*exp(pars[7]) +
+      (Yrs<1931)*exp(pars[6])+(Yrs<1890)*exp(pars[4]))
   model$H[] <- H 
   model
 } 
 
 uEWMA1war1fit <- fitSSM(uEWMA1war1mdl, inits=uEWMA1war1init, 
                         updatefn=uEWMA1war1updt)
-logLiks[14, -1] <- logLik2(uEWMA1war1fit)
-logLiks[1:14,]
+logLiks[13, -1] <- logLik2(uEWMA1war1fit)
+logLiks[1:13,]
 ```
 
-This is worse than for uEWMA1war0 or even uEWMA1b.    
+This is worse than for uEWMA1war0 or even uEWMA1a.    
 
 We could try a model with a variance effect for war.  However, when we tried that with average annual income (EWMA2war2), we got nothing useful.  Moreover uEWMA2war0 seemed like a pretty good model.  
 
@@ -2560,12 +2778,12 @@ $$
 
 where $q_{\mathrm{lvl}}$ is the migration variance for the level, $q_{\mathrm{pres3}}$ = $P_{1,2,2}$ is the variance of the presidential effect, and $Q_{\mathrm{war}}$ is the 2 x 2 covariance matrix of the war effect.  
 
-To build this, we'll need all the steps we've used before to add "pres3" to the state vector, construct time varying matrices for state transition, T, transition variance, Q, and observation variance, H:  
+To build this, we'll need all the steps we've used before to add "pres3" to the state vector, construct time-varying matrices for state transition, T, transition variance, Q, and observation variance, H:  
 
 <center> 
-[(time varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) ->
+[(time-varying migration variance, Q)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [formula](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/formula.html) -> [(time-varying observation error variance, H)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) ->
 
-[SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(time varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
+[SSModel](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) -> [(time-varying state transition matrix, T)](http://rpackages.ianhowson.com/cran/KFAS/man/KFAS.html) -> [(updatefn)](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [fitSSM](http://rpackages.ianhowson.com/cran/KFAS/man/fitSSM.html) -> [KFS](http://rpackages.ianhowson.com/cran/KFAS/man/KFS.html)  
 </center>
 
 As before, we'll let $R_t$ = the 4-dimensional identity matrix.  We create Q as follows:  
@@ -2587,7 +2805,7 @@ a1.4u <- c(level=qnorm(unemp1), pres3=0, war=0, deaths=0)
 uP3w0States <- names(a1.4u)
 
 uEWMA1p3w0mdl <- fixModelNames(EWMA2war1mdl, uP3w0States, 
-                               'logitUnemp')
+                               'probitUnemp')
 uEWMA1p3w0mdl$y <- uEWMA1mdl$y
 uEWMA1p3w0mdl$H <- uEWMA1H
 uEWMA1p3w0mdl$Q <- uP3w0Q
@@ -2666,7 +2884,7 @@ Instead, we will proceed with modeling log(realGDPperCapita) and qnorm(unemploym
 
 # 16.  Modeling GDP and unemployment with Okun's law
 
-[Okun's law](https://en.wikipedia.org/wiki/Okun's_law) suggests that changes in unemployment and GDP are negatively correlated.  `r Citet(bib2, "BallOkun")` reported different regression coefficients between the two in different countries.  In the present work we decompose the regression coefficient into three terms:  [the standard deviations of changes in log(realGDPperCapita) and qlogit(unemployment) and their correlation](http://people.duke.edu/~rnau/mathreg.htm). Thus, the differences between countries in the regression coefficient could be due to differences in either this correlation or in how narrowly different countries manage GDP growth or unemployment.  
+[Okun's law](https://en.wikipedia.org/wiki/Okun's_law) suggests that changes in unemployment and GDP are negatively correlated.  `r Citet(bib2, "BallOkun")` reported different regression coefficients between the two in different countries.  In the present work we decompose the regression coefficient into three terms:  [the standard deviations of changes in log(realGDPperCapita) and qnorm(unemployment) and their correlation](http://people.duke.edu/~rnau/mathreg.htm). Thus, the differences between countries in the regression coefficient could be due to differences in either this correlation or in how narrowly different countries manage GDP growth or unemployment.  
 
 We will extend this to modeling both GDP and unemployment in terms of a state vector with the following components:  
 
@@ -2676,7 +2894,7 @@ GDP.lvl | level of log(realGDPperCapita)
 unemp.lvl | level of qnorm(unemployment).  
 GDP.slope | slope of log(realGDPperCapita)
 
-This work deviates from the traditional literature on Okun's law in a couple of ways.  First, we use transformations of GDP and unemployment:  GDP can theoretically never be negative, but log(realGDPperCapita) can in theory range from minus infinity to plus infinity.  Similarly, unemployment is a number between 0 and 1, but qnorm(unemployment) again can in theory cover the entire real line.  It's difficult to use linear models in the untransformed space because of these constraints of positivity and (0, 1), respectively.  Second, we also consider the rate of growth in log(realGDPperCapita) and how its changes correlate with those in logit(unemployment).  
+This work deviates from the traditional literature on Okun's law in a couple of ways.  First, we use transformations of GDP and unemployment:  GDP can theoretically never be negative, but log(realGDPperCapita) can in theory range from minus infinity to plus infinity.  Similarly, unemployment is a number between 0 and 1, but qnorm(unemployment) again can in theory cover the entire real line.  It's difficult to use linear models in the untransformed space because of these constraints of positivity and (0, 1), respectively.  Second, we also consider the rate of growth in log(realGDPperCapita) and how its changes correlate with those in qnorm(unemployment).  
 
 We will look for two correlations between changes in these components:  The single correlation that seems most closely related to Okun's law is that beteen changes in GDP.lvl and unemp.lvl.  However, the correlation between changes in GDP.slope and unemp.lvl also seems relevant to the study of the relationship between unemployment and economic growth.  We will assume zero correlation between changes in GDP.lvl and GDP.slope, as is commonly done in similar situations.  
 
@@ -2699,7 +2917,7 @@ Response matrix -> Z, T, Q, a1, P1, P1inf -> [SSMcustom](http://rpackages.ianhow
 
 ```{r}
 OkunDat <- cbind(lnGDPperCap=log(GDP$realGDPperCapita), 
-           logitUnemp=qnorm(GDP$unemployment))
+           probitUnemp=qnorm(GDP$unemployment))
 (OkunVars <- colnames(OkunDat))
 
 (OkunStates <- c('GDP.lvl', 'unemp.lvl', 'GDP.slope'))
@@ -2740,17 +2958,17 @@ OkunMdl <- fixModelNames(OkunMdl., OkunStates,
 
 The Z, T, Q, a1, P1, and P1inf arrays created here all look plausible.  
 
-For starting values, let's use EWMA2 and uEWMA1b, because the current model combines those two models allowing for correlations in the migration variance:  
+For starting values, let's use EWMA2 and uEWMA1a, because the current model combines those two models allowing for correlations in the migration variance:  
 
 ```{r}
 EWMA2fit$optim.out$par
-uEWMA1bFit$optim.out$par
+uEWMA1aFit$optim.out$par
 
 OkunInit <- rep(0, 8)
 names(OkunInit) <- c("lnQ.pl", "lnQ.ul", "lnQ.ps", 
   "lnQ.pl.ul", "lnQ.ul.ps", "lnHp", "lnHu1", "lnHu2")
 OkunInit[c(1, 3, 6)] <- EWMA2fit$optim.out$par
-OkunInit[c(2, 7:8)] <- uEWMA1bFit$optim.out$par
+OkunInit[c(2, 7:8)] <- uEWMA1aFit$optim.out$par
 OkunInit
 
 pdLogChol3.5 <- function(value, ...){
@@ -2783,7 +3001,7 @@ logLiks[16, -1] <- logLik2(OkunFit)
 logLiks[1:16, ]
 ```
 
-Unfortunately, "Computation of marginal likelihood failed", and the diffuse likelihood for this case cannot be compared with any of the previous models.  The rmse.lnUSD was better than EWMA1 but slightly worse than EWMA2:  0.0429 vs. 0.0456 and 0.0427.  However, the rmse.lgtUnemp was substantially lower than the best previous model:  0.268 vs. 0.283 for uEWMA1b and 0.284 for uEWMA1war0.  
+Unfortunately, "Computation of marginal likelihood failed", and the diffuse likelihood for this case cannot be compared with any of the previous models.  The rmse.lnUSD was better than EWMA1 but slightly worse than EWMA2:  0.0429 vs. 0.0456 and 0.0427.  However, the rmse.pbtUnemp was substantially lower than the best previous model:  0.268 vs. 0.283 for uEWMA1a and 0.284 for uEWMA1war0.  
 
 What are the paramter estimates and the resulting correlations in Q?  
 
@@ -2803,7 +3021,7 @@ For this we only need to change the update function and starting values from the
 
 ```{r}
 EWMA2fit$optim.out$par
-uEWMA1bFit$optim.out$par
+uEWMA1aFit$optim.out$par
 
 (Okun1Init <- OkunInit[-(4:5)])
 
@@ -2827,7 +3045,7 @@ logLiks[17, -1] <- logLik2(Okun1Fit)
 logLiks[1:17, ]
 ```  
   
-Again, "Computation of marginal likelihood failed".  The diffuse likelihood got substantially worse, but it's not clear if we can interpret that in any meaningful way.  However, both of the root mean square error numbers, rmse.lnUSD and   rmse.lgtUnemp, got a little better.  
+Again, "Computation of marginal likelihood failed".  The diffuse likelihood got substantially worse, but it's not clear if we can interpret that in any meaningful way.  However, both of the root mean square error numbers, rmse.lnUSD and   rmse.pbtUnemp, got a little better.  
 
 Let's manually cast this as univariate to see if the algorithm works better for the problem in that form.  
 
@@ -2974,15 +3192,15 @@ Okun1.1Fit0 <- fitSSM(Okun1.1Mdl, Okun1Init,
                      Okun1.1Updt0)
 ```
 
-Before we proceed, we must modify logLik2 so it computes correctely rmse.lnUSD and rmse.lgtUnemp:  
+Before we proceed, we must modify logLik2 so it computes correctely rmse.lnUSD and rmse.pbtUnemp:  
 
 ```{r}
 logLik2.1 <- function(object, ...){
   ll2 <- rep(NA, 5)
   names(ll2) <- c('pars', 'diffuse', 'marginal', 
-        'rmse.lnUSD', 'rmse.lgtUnemp')
+        'rmse.lnUSD', 'rmse.pbtUnemp')
   ll2 <- data.frame(pars=NA, diffuse=NA, 
-      marginal=NA, rmse.lnUSD=NA, rmse.lgtUnemp=NA)
+      marginal=NA, rmse.lnUSD=NA, rmse.pbtUnemp=NA)
   ll2[1] <- length(object$optim.out$par)
   ll2[2] <- logLik(object$model)
   ll2[3] <- logLik(object$model, marginal=TRUE)
@@ -2996,7 +3214,7 @@ logLik2.1 <- function(object, ...){
 }
 ```
 
-The marginal log(likelihood) here should be at least as large as the sum of the log(likelihoods) from EWMA2 and uEWMA1b:  
+The marginal log(likelihood) here should be at least as large as the sum of the log(likelihoods) from EWMA2 and uEWMA1a:  
 
 ```{r}
 with(logLiks, sum(marginal[model %in% 
@@ -3061,7 +3279,7 @@ MATERIAL I WROTE BEFORE I TRIED UNIVARIATE:
 
 # 19.  Okun's law with a president effect 
 
-As with EWMA2pres3 and uEWMA1pres3, we need to add a "GDP.pres3" component to the state vector of "OkunMdl", making its state transition and migration variance matrices time varying.  This will also add one additional parameter to be estimated:  "lnQ.pres3".  
+As with EWMA2pres3 and uEWMA1pres3, we need to add a "GDP.pres3" component to the state vector of "OkunMdl", making its state transition and migration variance matrices time-varying.  This will also add one additional parameter to be estimated:  "lnQ.pres3".  
 
 For this we will assign the following names to the components of this 4-dimensional state vector:  GDP.lvl, unemp.lvl, GDP.slope, and GDP.pres3.  
 
@@ -3082,7 +3300,7 @@ The migration variance $Q_t$ will be block diagonal with the leading 3 x 3 block
 
 Similarly the matrix $P_1$ is zero except for $P_{1,4,4}$, which is $q_{\mathrm{p.pres3}}$.  
 
-Modeling will follow essentially the same steps as in the previous section, except that T and Q were constant before and will be time varying for this model.  
+Modeling will follow essentially the same steps as in the previous section, except that T and Q were constant before and will be time-varying for this model.  
 
 <center> 
 Response matrix -> Z, T, Q, a1, P1, P1inf -> [SSMcustom](http://rpackages.ianhowson.com/cran/KFAS/man/SSModel.html) in 

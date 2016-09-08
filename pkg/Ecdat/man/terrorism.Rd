@@ -1,18 +1,19 @@
-\name{GTDbyYear}
+\name{terrorism}
 \docType{data}
-\alias{GTDbyYear}
+\alias{terrorism}
 \title{
-  Global Terrorism Database yearly summaries}
+  Global Terrorism Database yearly summaries
+}
 \description{
   The \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database (GTD)} 
   "is a database of incidents of terrorism 
-  from 1970 onward".  Through 2014, this 
+  from 1970 onward".  Through 2015, this 
   database contains information on 141,966 
   incidents.  
   
-  \code{GTDbyYear} provides a few summary
-  statistics along with a \code{methodology} 
-  \code{\link{factor}}, which \href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{Pape et al.} 
+  \code{terrorism} provides a few summary
+  statistics along with an \code{\link{ordered}}
+  factor \code{methodology}, which \href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{Pape et al.}
   insisted is necessary, because an increase 
   of over 70 percent in suicide terrorism 
   between 2007 and 2013 is best explained by 
@@ -22,19 +23,19 @@
   showed a 19 percent \emph{decrease} over
   the same period.  
 }
-\usage{data(GTDbyYear)}
+\usage{data(terrorism)}
 \format{A dataframe containing :
   \describe{
     \item{year}{integer year, 1970:2014.}
     \item{methodology}{
-      Dominant methodology / organization
-      primarily responsible for the data
-      collection in the given year.  The 
-      Pinkerton Global Intelligence Service
-      (PGIS) managed data collection from 
-      1970-01-01 to 1997-12-31.  The Center
-      for Terrorism and Intelligence Studies
-      (CETIS) managed the project from 
+      an \code{\link{ordered}} factor giving the 
+      methodology / organizationresponsible for 
+      the data collection for most of the given
+      year.  The Pinkerton Global Intelligence 
+      Service (PGIS) managed data collection 
+      from 1970-01-01 to 1997-12-31.  The 
+      Center for Terrorism and Intelligence 
+      Studies (CETIS) managed the project from 
       1998-01-01 to 2008-03-31.  Institute
       for the Study of Violent Groups (ISVG) 
       carried the project from 2008-04-01 to 
@@ -53,12 +54,12 @@
       each year.  
       
       NOTE:  
-      \code{sum(GTDbyYear[["incidents"]])} =
+      \code{sum(terrorism[["incidents"]])} =
       146920 = 141966 in the GTD database
       plus 4954 for 1993, for which the
       incident-level data were lost.  
     }
-    \item{incidentsus}{
+    \item{incidents.us}{
       integer number of incidents identified 
       each year with \code{country_txt} = 
       "United States".  
@@ -78,7 +79,7 @@
       Pape et al. analyzed but before the 
       data used for this analysis.  
     }
-    \item{suicideus}{
+    \item{suicide.us}{
       Number of suicide incidents by year 
       with  \code{country_txt} = 
       "United States". 
@@ -106,10 +107,10 @@
       represent a slight but not substantive 
       undercount.  
     }
-    \item{nkillus}{
+    \item{nkill.us}{
       number of U.S. citizens who died as a
       result of incidents for that year = 
-      \code{sum(nkillus, na.rm=TRUE)} in the 
+      \code{sum(nkill.us, na.rm=TRUE)} in the 
       GTD incident data.  (This is subject 
       to the same likely modest undercount 
       discussed with \code{nkill}.)
@@ -120,26 +121,50 @@
       undercount discussed with 
       \code{nkill}.)
     }
-    \item{nwoundus}{
+    \item{nwound.us}{
       Number of U.S. citizens wounded in
       terrorist incidents for that year = 
-      \code{sum(nwoundus, na.rm=TRUE)} in 
+      \code{sum(nwound.us, na.rm=TRUE)} in 
       the GTD incident data.  (This is
       subject to the same likely modest
       undercount discussed with 
       \code{nkill}.)
     }
-    \item{pNA.kill, pNA.nkillus, 
-          pNA.nwound, pNA.nwoundus}{
+    \item{pNA.kill, pNA.nkill.us, 
+          pNA.nwound, pNA.nwound.us}{
       proportion of observations by year
       with missing values.  These numbers
       are higher for the early data than 
       more recent numbers.  This is 
-      particularly true for \code{nkillus}
-      and \code{nwoundus}, which exceed 
+      particularly true for \code{nkill.us}
+      and \code{nwound.us}, which exceed 
       90 percent for most of the period 
       with \code{methodology} = 'PGIS', 
       prior to 1998.  
+    }
+    \item{worldPopulation, USpopulation}{
+      Estimated de facto population in thousands 
+      living in the world and in the US as of 1 
+      July of the year indicated, according to 
+      the Population Division of the Department 
+      of Economic and Social Affairs of the 
+      United Nations;  see "Sources" below.  
+    }
+    \item{worldDeathRate, USdeathRate}{
+      \href{https://en.wikipedia.org/wiki/Mortality_rate}{Crude death rate}
+      (deaths per 1,000 population) world wide and 
+      in the US, according to the World Bank; 
+      see "Sources" below.  This World Bank 
+      data set includes USdeathRate for each 
+      year from 190 to 2015.  The WorldDeathRate
+      here were read manually from a plot on  
+      \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page.}
+    }
+    \item{worldDeaths, USdeaths}{
+      number of deaths by year in the world and 
+      US = population * deathRate 
+      (with population in thousands and 
+      death rate per thousand)
     }
   }
 }
@@ -169,6 +194,13 @@
   The \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} 
   maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} 
   (START, 2015), \href{http://www.start.umd.edu/gtd}{downloaded 2015-11-28}.  
+  
+  The world and US population figures came from \href{https://esa.un.org/unpd/wpp/Download/Standard/Population/}{"Total Population - Both Sexes", World Population Prosects 2015, published by the Population Division of the Department of Economic and Social Affairs of the United Nations}, 
+  accessed 2016-09-05.  
+  
+  The World and US death rates came from 
+  \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN}{the World Bank}, 
+  accessed 2016-09-05.  
 }
 \references{
   Robert Pape, Keven Ruby, Vincent Bauer and 
@@ -180,13 +212,13 @@
 }
 %\seealso{}
 \examples{
-data(GTDbyYear)
+data(terrorism)
 
-plot(incidents~year, GTDbyYear, type='l')
+plot(incidents~year, terrorism, type='l')
 
-plot(nkillus~year, GTDbyYear, type='l')
+plot(nkill.us~year, terrorism, type='l')
 
-plot(pNA.nkillus~year, GTDbyYear, type='l')
+plot(pNA.nkill.us~year, terrorism, type='l')
 abline(v=1997.5)
 }
 \keyword{datasets}

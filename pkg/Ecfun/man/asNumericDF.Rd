@@ -111,7 +111,8 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     2.17.0), while \code{\link[openxlsx]{read.xlsx}}
     read them as integers using openxlsx 3.0.0. 
     This capability will convert those integers to 
-    Dates.  
+    Dates using \code{as.Date(., origin = 
+    as.Date('1899-12-31')).  
   }
   \item{leadingChar}{
     A regular expression passed to 
