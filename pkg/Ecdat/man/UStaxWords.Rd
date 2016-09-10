@@ -3,7 +3,7 @@
 \alias{UStaxWords}
 \title{ Number of Words in US Tax Law }
 \description{
-  Thousdands of words  in US tax law for 1995 to 2005 in 10 year
+  Thousands of words in US tax law for 1995 to 2005 in 10 year
   intervals.  This includes income taxes and all taxes in the code
   itself (written by congress) and regulations (written by government
   administrators).
@@ -57,7 +57,7 @@
   interest appear to defend almost anything.
 
   The decline of 48 percent seems more curious for two additional
-  reasons:  First, it was preceeded by a tripling of
+  reasons:  First, it was preceded by a tripling of
   \code{otherTaxRegulations} between 1955 and 1965.  Second, it was NOT
   accompanied by any comparable behavior of \code{otherTaxCode}.
   Instead, the latter grew each decade by between 17 and 53 percent,

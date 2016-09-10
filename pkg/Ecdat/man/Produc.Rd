@@ -23,12 +23,12 @@
     \item{util}{other public buildings and structures}
     \item{pc}{public capital}
     \item{gsp}{gross state products}
-    \item{emp}{labor input measured by the employement in non--agricultural payrolls}
+    \item{emp}{labor input measured by the employment in non--agricultural payrolls}
     \item{unemp}{state unemployment rate}
   }
 }
 \source{
-    Munnel, A. (1990) \dQuote{Why has productivity growth declined? Productivity and public investment}, \emph{New England Economic Review}, 3--22.
+    Munnell, A. (1990) \dQuote{Why has productivity growth declined? Productivity and public investment}, \emph{New England Economic Review}, 3--22.
 
     Baltagi, B. H.  and  N.  Pinnoi (1995) \dQuote{Public capital stock and state productivity growth: further evidence}, \emph{Empirical Economics}, \bold{20}, 351--359.
 

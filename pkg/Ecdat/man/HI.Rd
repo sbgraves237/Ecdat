@@ -31,11 +31,11 @@
   }
 }
 \source{
-    Olson, Craig A. (1998) \dQuote{A comparison of parametric and semiparametric estimates of the effect of spousal healpth insurance coverage on weekly hours worked by wiwes}, \emph{Journal of Applied Econometrics}, \bold{13(5)}, september--october, 543--565.
+    Olson, Craig A. (1998) \dQuote{A comparison of parametric and semiparametric estimates of the effect of spousal health insurance coverage on weekly hours worked by wiwes}, \emph{Journal of Applied Econometrics}, \bold{13(5)}, september--october, 543--565.
 
 }
 \references{
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 

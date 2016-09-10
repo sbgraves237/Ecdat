@@ -20,7 +20,7 @@
     \item{crmrte}{crimes committed per person}
     \item{prbarr}{'probability' of arrest}
     \item{prbconv}{'probability' of conviction}
-    \item{prbpris}{'probability' of prison sentenc}
+    \item{prbpris}{'probability' of prison sentence}
     \item{avgsen}{average sentence, days    }
     \item{polpc}{police per capita}
     \item{density}{people per square mile}
@@ -34,7 +34,7 @@
     \item{wfir}{weekly wage in  finance, insurance and real estate}
     \item{wser}{weekly wage in service industry}
     \item{wmfg}{weekly wage in manufacturing}
-    \item{wfed}{weekly wage of federal emplyees}
+    \item{wfed}{weekly wage of federal employees}
     \item{wsta}{weekly wage of state employees}
     \item{wloc}{weekly wage of local governments employees      }
     \item{mix}{offence mix: face-to-face/other}
@@ -50,7 +50,7 @@
 \references{
     Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{http://www.wiley.com/legacy/wileychi/baltagi/},  .
 
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
 

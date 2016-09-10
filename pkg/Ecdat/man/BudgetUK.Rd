@@ -21,8 +21,8 @@
     \item{walc}{budget share for alcohol expenditure}
     \item{wtrans}{budget share for transport expenditure}
     \item{wother}{budget share for other good expenditure}
-    \item{totexp}{total houshold expenditure (rounded to the nearest 10 UK pounds sterling)}
-    \item{income}{total net houshold income (rounded to the nearest 10 UK pounds sterling)}
+    \item{totexp}{total household expenditure (rounded to the nearest 10 UK pounds sterling)}
+    \item{income}{total net household income (rounded to the nearest 10 UK pounds sterling)}
     \item{age}{age of household head}
     \item{children}{number of children}
   }
@@ -32,7 +32,7 @@
 
 }
 \references{
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 

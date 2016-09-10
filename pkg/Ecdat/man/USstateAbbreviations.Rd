@@ -24,7 +24,7 @@ data(USstateAbbreviations)}
     \item{ISO, ANSI.letters, ANSI.digits, USPS, USCG, Old.GPO, AP,
       Other}{
       Alternative abbreviations used per different standards.  The most
-      commmonly used among these may be the 2-letter codes officially
+      commonly used among these may be the 2-letter codes officially
       used by the US Postal Service (\code{USPS}).
     }
   }

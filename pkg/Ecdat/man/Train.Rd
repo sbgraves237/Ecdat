@@ -15,8 +15,8 @@
 \usage{data(Train)}
 \format{A dataframe containing :
   \describe{
-    \item{id}{individual identifient}
-    \item{choiceid}{choice identifient}
+    \item{id}{individual identifier}
+    \item{choiceid}{choice identifier}
     \item{choice}{one of choice1, choice2}
     \item{pricez}{price of proposition z (z=1,2) in cents of guilders}
     \item{timez}{travel time  of proposition z (z=1,2) in minutes}
@@ -33,7 +33,7 @@
 
 }
 \references{
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 

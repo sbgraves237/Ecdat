@@ -17,15 +17,15 @@
   \describe{
     \item{mode}{choice : air, train, bus or car}
     \item{ttme}{terminal waiting cost time, 0 for car}
-    \item{invc}{in vehicule cost-cost component}
-    \item{invt}{travel time in vehicule}
+    \item{invc}{in vehicle cost-cost component}
+    \item{invt}{travel time in vehicle}
     \item{gc}{generalized cost measure}
     \item{hinc}{household income}
     \item{psize}{party size in mode chosen}
   }
 }
 \source{
-    Greene, W.H.  and  D.  Hensher (1997) \emph{Multinomial logit and discret choice models} \emph{in}  Greene, W. H. (1997) \emph{LIMDEP version 7.0 user's manual revised}, Plainview, New York econometric software, Inc .
+    Greene, W.H.  and  D.  Hensher (1997) \emph{Multinomial logit and discrete choice models} \emph{in}  Greene, W. H. (1997) \emph{LIMDEP version 7.0 user's manual revised}, Plainview, New York econometric software, Inc .
 
 }
 \references{

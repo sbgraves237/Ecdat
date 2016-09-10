@@ -22,7 +22,7 @@
     \item{religious}{how religious, from 1 (anti) to 5 (very)}
     \item{education}{education}
     \item{occupation}{occupation, from 1 to 7, according to hollingshead classification (reverse numbering)}
-    \item{rate}{self rating of mariage, from 1 (very unhappy) to 5 (very happy)}
+    \item{rate}{self rating of marriage, from 1 (very unhappy) to 5 (very happy)}
     \item{nbaffairs}{number of affairs in past year}
   }
 }

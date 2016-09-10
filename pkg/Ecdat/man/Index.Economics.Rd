@@ -26,7 +26,7 @@
 \item economics of education
  \itemize{
 \item \code{\link{Caschool}} : The California Test Score Data Set
-\item \code{\link{MCAS}} : The Massashusets Test Score Data Set
+\item \code{\link{MCAS}} : The Massachusetts Test Score Data Set
 \item \code{\link{Mathlevel}} : Level of Calculus Attained for Students Taking Advanced Micro--economics
 \item \code{\link{Star}} : Effects on Learning of Small Class Sizes
 }
@@ -68,13 +68,13 @@
  \itemize{
 \item \code{\link{Computers}} : Prices of Personal Computers
 \item \code{\link{Diamond}} : Pricing the C's of Diamond Stones
-\item \code{\link{Hedonic}} : Hedonic Prices of Cencus Tracts in Boston
+\item \code{\link{Hedonic}} : Hedonic Prices of Census Tracts in Boston
 \item \code{\link{Housing}} : Sales Prices of Houses in the City of Windsor
 \item \code{\link{Journals}} : Economic Journals Dat Set
 }
 \item labor economics
  \itemize{
-\item \code{\link{Benefits}} : Unemployement of Blue Collar Workers
+\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Bwages}} : Wages in Belgium
 \item \code{\link{CPSch3}} : Earnings from the Current Population Survey
 \item \code{\link{Earnings}} : Earnings for Three Age Groups
@@ -133,7 +133,7 @@
 \item \code{\link{Clothing}} : Sales Data of Men's Fashion Stores
 \item \code{\link{Electricity}} : Cost Function for Electricity Producers
 \item \code{\link{Grunfeld}} : Grunfeld Investment Data
-\item \code{\link{Hdma}} : The Boston HDMA Data Set
+\item \code{\link{Hmda}} : The Boston HMDA Data Set
 \item \code{\link{ManufCost}} : Manufacturing Costs
 \item \code{\link{Metal}} : Production for SIC 33
 \item \code{\link{Mofa}} : International Expansion of U.S. Mofa's (majority--owned Foreign Affiliates in Fire (finance, Insurance and Real Estate)

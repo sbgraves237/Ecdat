@@ -17,7 +17,7 @@
   \describe{
     \item{year}{year}
     \item{fi}{firm's id}
-    \item{sector}{firm's main industry sector, one of aero (aerospace), chem (chemistry), comput (computer), drugs, elec (electricity), food, fuel (fuel and mining), glass, instr (instruments), machin (machinery), metals, other, paper, soft (software), motor (motor vehicules) }
+    \item{sector}{firm's main industry sector, one of aero (aerospace), chem (chemistry), comput (computer), drugs, elec (electricity), food, fuel (fuel and mining), glass, instr (instruments), machin (machinery), metals, other, paper, soft (software), motor (motor vehicles) }
     \item{geo}{geographic area, one of eu (European Union), japan, usa, rotw (rest of the world)}
     \item{patent}{numbers of European patent applications}
     \item{rdexp}{log of R\&D expenditures}
@@ -29,8 +29,8 @@
 
 }
 \references{
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, chapter 7.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
+    Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapter 7.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},

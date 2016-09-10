@@ -21,7 +21,7 @@
   }
 }
 \source{
-    Solow, R. (1957) \dQuote{Technical change and the agregate production function}, \emph{Review of Economics and Statistics}, \bold{39}, 312-320.
+    Solow, R. (1957) \dQuote{Technical change and the aggregate production function}, \emph{Review of Economics and Statistics}, \bold{39}, 312-320.
 
 }
 \references{

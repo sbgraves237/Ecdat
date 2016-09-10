@@ -14,7 +14,7 @@
     \item{year}{ integer year starting with 1929 }
     \item{CorporateProfitsAdj}{
       Corporate profits with inventory valuation and capital
-      consumption adjustments in billons of current (not adjusted for
+      consumption adjustments in billions of current (not adjusted for
       inflation) US dollars
     }
     \item{Domestic}{ Domestic industries profits in billions }
@@ -29,7 +29,7 @@
 }
 \details{
   This is extracted from Table 6.16 of the National Income and Product
-  Accounts (NIPA) copiled by the Bureau of Economic Analysis of the
+  Accounts (NIPA) compiled by the Bureau of Economic Analysis of the
   United States federal government.  This table comes in four parts, A
   (1929-1947), B (1948-1987), C (1987-2000), and D (1998-present).  Parts
   A, B, C and D contain different numbers of data elements, but the

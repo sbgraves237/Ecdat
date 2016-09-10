@@ -1,7 +1,7 @@
 \name{Benefits}
 \docType{data}
 \alias{Benefits}
-\title{Unemployement of Blue Collar Workers }
+\title{Unemployment of Blue Collar Workers }
 \description{
   a cross-section from 1972
 
@@ -40,7 +40,7 @@
 
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, chapter 7.
+    Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapter 7.
 
       Journal of Business Economics and Statistics web site : \url{http://www.amstat.org/publications/jbes/}.
 }

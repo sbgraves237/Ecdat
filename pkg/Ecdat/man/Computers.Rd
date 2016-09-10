@@ -32,7 +32,7 @@
 
 }
 \references{
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 

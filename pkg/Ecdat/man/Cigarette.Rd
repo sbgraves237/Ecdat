@@ -17,7 +17,7 @@
   \describe{
     \item{state}{state}
     \item{year}{year}
-    \item{cpi}{consummer price index}
+    \item{cpi}{consumer price index}
     \item{pop}{state population}
     \item{packpc}{number of packs per capita}
     \item{income}{state personal income (total, nominal)}
@@ -27,11 +27,11 @@
   }
 }
 \source{
-    Professor Jonhatan Gruber, MIT.
+    Professor Jonathan Gruber, MIT.
 
 }
 \references{
-    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, \url{http://wps.aw.com/aw_stockwatsn_economtrcs_1}, chapter 10.
+    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, chapter 10.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},

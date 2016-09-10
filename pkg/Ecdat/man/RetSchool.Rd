@@ -25,7 +25,7 @@
     \item{smsa66}{lived in smsa in 1966 ?}
     \item{momdad14}{lived with both parents at age 14 ?}
     \item{sinmom14}{lived with mother only at age 14 ?}
-    \item{nodaded}{father has no formal eduction ?}
+    \item{nodaded}{father has no formal education ?}
     \item{nomomed}{mother has no formal education ?}
     \item{daded}{mean grade level of father}
     \item{momed}{mean grade level of mother}

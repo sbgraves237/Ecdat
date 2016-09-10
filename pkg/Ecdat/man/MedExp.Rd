@@ -3,7 +3,7 @@
 \alias{MedExp}
 \title{Structure of Demand for Medical Care }
 \description{
-  Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}
+  Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}
 
  \emph{number of observations} :  5574
 

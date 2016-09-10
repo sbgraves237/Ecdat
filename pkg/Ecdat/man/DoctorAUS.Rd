@@ -20,7 +20,7 @@
     \item{income}{annual income in tens of thousands of dollars}
     \item{insurance}{insurance contract (medlevy : medibanl levy, levyplus : private health insurance, freepoor : government insurance due to low income, freerepa : government insurance due to old age disability or veteran status}
     \item{illness}{number of illness in past 2 weeks}
-    \item{actdays}{number of days of reduced activiy in past 2 weeks due to illness or injury}
+    \item{actdays}{number of days of reduced activity in past 2 weeks due to illness or injury}
     \item{hscore}{general health score using Goldberg's method (from 0 to 12)}
     \item{chcond}{chronic condition (np : no problem, la : limiting activity, nla : not limiting activity)}
     \item{doctorco}{number of consultations with a doctor or specialist in the past 2 weeks}

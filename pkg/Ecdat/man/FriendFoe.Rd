@@ -19,7 +19,7 @@
     \item{white}{is contestant white ?}
     \item{age}{contestant's age in years}
     \item{play}{contestant's choice : a factor with levels "foe" and "friend". If both players play "friend", they share the trust box, if both play "foe", both players receive zero prize, if one of them play "foe" and the other one "friend", the "foe" player receive the entire trust bix and the "friend" player nothing}
-    \item{round}{round in which constestant is eliminated, a factor with levels ("1","2","3")}
+    \item{round}{round in which contestant is eliminated, a factor with levels ("1","2","3")}
     \item{season}{season show, a factor with levels ("1","2")}
     \item{cash}{the amount of cash in the trust box}
     \item{sex1}{partner's sex}

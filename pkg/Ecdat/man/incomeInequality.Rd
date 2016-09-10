@@ -38,7 +38,7 @@
     }
     \item{P95IRSvsCensus}{
       ratio of the estimates of the 95th percentile of distributions of
-      family income from the Piketty and Saez analyis of data from the
+      family income from the Piketty and Saez analysis of data from the
       Internal Revenue Service (IRS) and from the US Census Bureau.
 
       The IRS has ranged between 72 and 98 percent of the Census Bureau
@@ -131,7 +131,7 @@ matplot(incomeInequality$Year, incomeInequality[plotCols]/1000,
         log='y', type='l', col=plotColors, lty=plotLty)
 
 #*** Growth broadly shared 1947 - 1970, then began diverging
-#*** The divergence has been most pronouced among the top 1%
+#*** The divergence has been most pronounced among the top 1%
 #*** and especially the top 0.01%
 
 ##

@@ -144,7 +144,7 @@ data(USGDPpresidents)
       "Spanish-American-Philippine" war.  
       
       \href{http://correlatesofwar.org/}{The Correlates of 
-      War (COW)} data include multiple US uses of militar force 
+      War (COW)} data include multiple US uses of military force 
       during the Vietnam War era.  It starts with "Vietnam 
       Phase 1", 1961-65, with 506 battle deaths in the COW 
       data base.  It includes the "Second Laotian" war phases 

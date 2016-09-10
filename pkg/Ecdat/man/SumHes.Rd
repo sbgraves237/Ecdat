@@ -25,7 +25,7 @@
   }
 }
 \source{
-    Summers, R.  and  A.  Heston (1991) \dQuote{The Penn world table (mark 5): an exanded set of international comparaisons, 1950-1988}, \emph{Quarterly Journal of Economics}, \bold{29}, 229-256.
+    Summers, R.  and  A.  Heston (1991) \dQuote{The Penn world table (mark 5): an expanded set of international comparisons, 1950-1988}, \emph{Quarterly Journal of Economics}, \bold{29}, 229-256.
 
 }
 \references{

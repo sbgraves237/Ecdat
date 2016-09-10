@@ -15,10 +15,10 @@
 \usage{data(Mishkin)}
 \format{A time serie containing :
   \describe{
-    \item{pai1}{one-mounth inflation rate (in percent, annual rate)}
-    \item{pai3}{three-mounth inflation rate (in percent, annual rate)}
-    \item{tb1}{one-mounth T-bill rate (in percent, annual rate)}
-    \item{tb3}{three-mounth T-bill rate (in percent, annual rate)}
+    \item{pai1}{one-month inflation rate (in percent, annual rate)}
+    \item{pai3}{three-month inflation rate (in percent, annual rate)}
+    \item{tb1}{one-month T-bill rate (in percent, annual rate)}
+    \item{tb3}{three-month T-bill rate (in percent, annual rate)}
     \item{cpi}{CPI for urban consumers, all items (the 1982-1984 average is set to 100)}
   }
 }

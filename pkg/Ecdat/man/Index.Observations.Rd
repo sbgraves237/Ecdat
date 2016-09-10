@@ -52,7 +52,7 @@
 }
 \item individuals
  \itemize{
-\item \code{\link{Benefits}} : Unemployement of Blue Collar Workers
+\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Bwages}} : Wages in Belgium
 \item \code{\link{CPSch3}} : Earnings from the Current Population Survey
 \item \code{\link{Car}} : Stated Preferences for Car Choice
@@ -66,7 +66,7 @@
 \item \code{\link{FriendFoe}} : Data from the Television Game Show Friend Or Foe ?
 \item \code{\link{Griliches}} : Wage Datas
 \item \code{\link{HI}} : Health Insurance and Hours Worked By Wives
-\item \code{\link{Hdma}} : The Boston HDMA Data Set
+\item \code{\link{Hmda}} : The Boston HMDA Data Set
 \item \code{\link{Kakadu}} : Willingness to Pay for the Preservation of the Kakadu National Park
 \item \code{\link{Ketchup}} : Choice of Brand for Ketchup
 \item \code{\link{Males}} : Wages and Education of Young Males
@@ -114,7 +114,7 @@
 \item \code{\link{Cigarette}} : The Cigarette Consumption Panel Data Set
 \item \code{\link{Crime}} : Crime in North Carolina
 \item \code{\link{Fatality}} : Drunk Driving Laws and Traffic Deaths
-\item \code{\link{Hedonic}} : Hedonic Prices of Cencus Tracts in Boston
+\item \code{\link{Hedonic}} : Hedonic Prices of Census Tracts in Boston
 \item \code{\link{Metal}} : Production for SIC 33
 \item \code{\link{MunExp}} : Municipal Expenditure Data
 \item \code{\link{Produc}} : Us States Production
@@ -123,7 +123,7 @@
 \item schools
  \itemize{
 \item \code{\link{Caschool}} : The California Test Score Data Set
-\item \code{\link{MCAS}} : The Massashusets Test Score Data Set
+\item \code{\link{MCAS}} : The Massachusetts Test Score Data Set
 \item \code{\link{University}} : Provision of University Teaching and Research
 }
 }

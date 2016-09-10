@@ -1,7 +1,7 @@
 \name{Hedonic}
 \docType{data}
 \alias{Hedonic}
-\title{Hedonic Prices of Cencus Tracts in Boston }
+\title{Hedonic Prices of Census Tracts in Boston }
 \description{
   a cross-section
 
@@ -35,7 +35,7 @@
 \source{
     Harrison, D.  and  D.L.  Rubinfeld (1978) \dQuote{Hedonic housing prices and the demand for clean air}, \emph{Journal of Environmental Economics Ans Management}, \bold{5}, 81--102.
 
-    Belsley, D.A.,  E.   Kuh and  R. E.  Welsch (1980) \emph{Regression diagnostics: identifying influencal data ans sources of collinearity}, John Wiley, New--York.
+    Belsley, D.A., E. Kuh and R. E. Welsch (1980) \emph{Regression diagnostics: identifying influential data and sources of collinearity}, John Wiley, New--York.
 
 }
 \references{

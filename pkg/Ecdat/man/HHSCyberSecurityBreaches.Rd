@@ -20,7 +20,7 @@
     }
     \item{State}{
       A \code{factor} giving the two-letter abbreviation of 
-      the US state or territory where the breach occured.  
+      the US state or territory where the breach occurred.  
       This has 52 levels for the 50 states plus the District 
       of Columbia (DC) and Puerto Rico (PR).   
     }
@@ -70,7 +70,7 @@
   catalogues reports starting 2009-10-21.  Earlier downloads 
   included a few breaches prior to 2009 when the law was 
   enacted (inconsistently reported), and a date for breach 
-  occurrance in addition to the date of the report.  
+  occurrence in addition to the date of the report.  
   
   The following corrections were made to the file:
     * UCLA Health System,  breach date 11/4/2011, had cover entity added as "Healthcare Provider"

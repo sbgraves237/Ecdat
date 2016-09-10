@@ -17,7 +17,7 @@
   \describe{
     \item{priceoj}{producer price for frozen orange juice}
     \item{pricefg}{producer price index for finished goods}
-    \item{fdd}{freezing degree days (from daily minimimum temperature reacorded at Orlando area airports)}
+    \item{fdd}{freezing degree days (from daily minimum temperature recorded at Orlando area airports)}
   }
 }
 \source{
@@ -25,7 +25,7 @@
 
 }
 \references{
-    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, \url{http://wps.aw.com/aw_stockwatsn_economtrcs_1}.
+    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
 

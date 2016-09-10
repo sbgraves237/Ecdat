@@ -15,14 +15,14 @@
 \usage{data(Males)}
 \format{A dataframe containing :
   \describe{
-    \item{nr}{identifiant}
+    \item{nr}{identifier}
     \item{year}{year}
     \item{school}{years of schooling}
     \item{exper}{years of experience (=age-6-school)}
     \item{union}{wage set by collective bargaining ?}
     \item{ethn}{a factor with levels (black,hisp,other)}
     \item{maried}{maried ?}
-    \item{health}{healph problem ?}
+    \item{health}{health problem ?}
     \item{wage}{log of hourly wage}
     \item{industry}{a factor with 12 levels}
     \item{occupation}{a factor with 9 levels}
@@ -36,9 +36,9 @@
 
 }
 \references{
-    Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons, chapter 10.
+    Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapter 10.
 
-      Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}.
+      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
 

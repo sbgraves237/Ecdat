@@ -29,7 +29,7 @@
     \item{year}{integer year, 1970:2014.}
     \item{methodology}{
       an \code{\link{ordered}} factor giving the 
-      methodology / organizationresponsible for 
+      methodology / organization responsible for 
       the data collection for most of the given
       year.  The Pinkerton Global Intelligence 
       Service (PGIS) managed data collection 
@@ -85,7 +85,7 @@
       "United States". 
     } 
     \item{nkill}{
-      number of confirmed fatilities for
+      number of confirmed fatalities for
       incidents in the given year, including 
       attackers = 
       \code{sum(nkill, na.rm=TRUE)} in the 
@@ -195,7 +195,7 @@
   maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} 
   (START, 2015), \href{http://www.start.umd.edu/gtd}{downloaded 2015-11-28}.  
   
-  The world and US population figures came from \href{https://esa.un.org/unpd/wpp/Download/Standard/Population/}{"Total Population - Both Sexes", World Population Prosects 2015, published by the Population Division of the Department of Economic and Social Affairs of the United Nations}, 
+  The world and US population figures came from \href{https://esa.un.org/unpd/wpp/Download/Standard/Population/}{"Total Population - Both Sexes", World Population Prospects 2015, published by the Population Division of the Department of Economic and Social Affairs of the United Nations}, 
   accessed 2016-09-05.  
   
   The World and US death rates came from 

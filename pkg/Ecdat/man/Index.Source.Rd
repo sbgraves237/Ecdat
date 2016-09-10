@@ -4,7 +4,7 @@
 \description{
   \describe{
     \itemize{
-\item Journal of Applied Econometrics data archive : \url{http://jae.wiley.com/jae/}
+\item Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}
  \itemize{
 \item \code{\link{Bids}} : Bids Received By U.S. Firms
 \item \code{\link{BudgetFood}} : Budget Share of Food for Spanish Households
@@ -33,7 +33,7 @@
 
 \item Journal of Business Economics and Statistics web site : \url{http://www.amstat.org/publications/jbes/}
  \itemize{
-\item \code{\link{Benefits}} : Unemployement of Blue Collar Workers
+\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Catsup}} : Choice of Brand for Catsup
 \item \code{\link{Cracker}} : Choice of Brand for Crakers
 \item \code{\link{Kakadu}} : Willingness to Pay for the Preservation of the Kakadu National Park
@@ -65,7 +65,7 @@
 \item \code{\link{Crime}} : Crime in North Carolina
 \item \code{\link{Gasoline}} : Gasoline Consumption
 \item \code{\link{Grunfeld}} : Grunfeld Investment Data
-\item \code{\link{Hedonic}} : Hedonic Prices of Cencus Tracts in Boston
+\item \code{\link{Hedonic}} : Hedonic Prices of Census Tracts in Boston
 \item \code{\link{Produc}} : Us States Production
 \item \code{\link{Wages}} : Panel Datas of Individual Wages
 }
@@ -144,24 +144,24 @@
 \item \code{\link{Yen}} : Yen-dollar Exchange Rate
 }
 
-\item Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, \url{http://wps.aw.com/aw_stockwatsn_economtrcs_1}
+\item Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers
  \itemize{
 \item \code{\link{CPSch3}} : Earnings from the Current Population Survey
 \item \code{\link{Caschool}} : The California Test Score Data Set
 \item \code{\link{Cigarette}} : The Cigarette Consumption Panel Data Set
 \item \code{\link{Fatality}} : Drunk Driving Laws and Traffic Deaths
-\item \code{\link{Hdma}} : The Boston HDMA Data Set
+\item \code{\link{Hmda}} : The Boston HMDA Data Set
 \item \code{\link{Journals}} : Economic Journals Dat Set
-\item \code{\link{MCAS}} : The Massashusets Test Score Data Set
+\item \code{\link{MCAS}} : The Massachusetts Test Score Data Set
 \item \code{\link{Macrodat}} : Macroeconomic Time Series for the United States
 \item \code{\link{Orange}} : The Orange Juice Data Set
 \item \code{\link{Star}} : Effects on Learning of Small Class Sizes
 }
 
-\item Verbeek, Marno (2004) \emph{A guide to modern econometrics}, John Wiley and Sons
- \itemize{
+\item Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons
+\itemize{
 \item \code{\link{Airq}} : Air Quality for Californian Metropolitan Areas
-\item \code{\link{Benefits}} : Unemployement of Blue Collar Workers
+\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Bwages}} : Wages in Belgium
 \item \code{\link{Capm}} : Stock Market Data
 \item \code{\link{Clothing}} : Sales Data of Men's Fashion Stores

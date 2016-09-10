@@ -19,7 +19,7 @@
     \item{rns80}{same variable for 1980}
     \item{mrt}{married  (first observation) ?}
     \item{mrt80}{same variable for 1980}
-    \item{smsa}{residency in metropolan areas (first observation) ?}
+    \item{smsa}{residency in metropolitan areas (first observation) ?}
     \item{smsa80}{same variable for 1980}
     \item{med}{mother's education in years}
     \item{iq}{IQ score}

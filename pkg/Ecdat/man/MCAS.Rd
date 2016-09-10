@@ -1,7 +1,7 @@
 \name{MCAS}
 \docType{data}
 \alias{MCAS}
-\title{The Massashusets Test Score Data Set }
+\title{The Massachusetts Test Score Data Set }
 \description{
   a cross-section from 1997-1998
 
@@ -35,11 +35,11 @@
   }
 }
 \source{
-    Massachusetts Comprehensive Assessment System (MCAS), Massachusets Department of Education, 1990 U.S. Census.
+    Massachusetts Comprehensive Assessment System (MCAS), Massachusetts Department of Education, 1990 U.S. Census.
 
 }
 \references{
-    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, \url{http://wps.aw.com/aw_stockwatsn_economtrcs_1}, chapter 7.
+    Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, chapter 7.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}

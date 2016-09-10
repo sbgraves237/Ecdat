@@ -26,7 +26,7 @@
   }
 }
 \source{
-    Nerlove, M. (1963) \emph{Returns to scale in electricity industry} \emph{in}  Christ, C. ed. (1963) \emph{Measurment in economics: studies in mathematical economics and econometrics in memory of Yehuda Grunfeld }, Standford, California, Standford University Press .
+    Nerlove, M. (1963) \emph{Returns to scale in electricity industry} \emph{in}  Christ, C. ed. (1963) \emph{Measurement in Economics: Studies in Mathematical Economics and Econometrics in Memory of Yehuda Grunfeld }, Stanford, California, Stanford University Press .
 
     Christensen, L.  and  W. H.  Greene (1976) \dQuote{Economies of scale in U.S. electric power generation}, \emph{Journal of Political Economy}, \bold{84}, 655-676.
 
