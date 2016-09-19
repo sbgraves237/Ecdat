@@ -248,44 +248,9 @@ And the different models require estimating different parameters.  These pieces 
 
 We will limit the discussion in this interim report to these models.  We expect, however, that fitting other similar models would likely support a deeper understanding of the macroeconomic impact of presidents and wars.   
 
+Details of the exact structure of the matrices in each model are available in companion vignette included in the [Ecdat](https://rweb.crmda.ku.edu/cran/web/packages/Ecdat/Ecdat.pdf) package for R.  
+
 The following table summarizes the fit obtained from these models starting with the number of degrees of freedom with the estimated marginal likelihood and the root mean square prediction errors for each model.  The number of degrees of freedom is the number of parameters estimated by nonlinear iteration plus the number of diffuse states;  the latter is obtained as sum($P_{1,\infty}$), since $P_{1,\infty}$ is a 0-1 matrix with 1's on the diagonal for each state with a diffuse prior.  The table also includes columns summarizing whether the nonlinear estimation seemed to converge when parameterized in terms of log(variances) [logScale = y or n] and whether a constrained optimization was attempted and if so, whether it returned an error code or returned the best fit ("failed" vs. y or n;  "-" if not attempted):  
-
-
-
-
-** Table of ndf + marginal likelihood (but not diffuse likelihood) + rmse.lnGDPperCap + rmse.probitUnemp + logScale + constr + compare + p-values 
-
-Need to cite paper on diffuse & marginal likelihood 
-+ 2*log(LR) ~ approx chi-square in Wikipedia 
-+ Pinheiro and Bates 
-+ Doug Bates et al. re concerns ... .
-
-
-
-
-# President effect on GDP 
-
-
-
-* Discuss war effect on GDP 
-
-
-# Unemployment and war 
-
-
-
-
-# Okun's law 
-
-
-
-
-# Future work 
-
-
-** JOUNI **: What about the differences in the marginal likelihood between the univariate and bivariate formulations of the Okun's law model?  
-
-
 
 ```{r, echo=FALSE}
 suppressMessages(library(KFAS))
@@ -375,30 +340,10 @@ EWMA1.woDeprFit<-fitSSM(EWMA1mdl.woDepr,
                          inits=c(lnQ=0, lnH=0))
 EWMA1.woDeprPred <- predict(EWMA1.woDeprFit$model, 
               interval='prediction', filtered=TRUE)
-```
 
-Do we want to include $T_t$ for the different models in the paper -- or leave it implied in the table and refer the interested reader to the other vignette?  
+# EWMA2:  
 
-EWMA2:  
- 
-$$T_t = \left[\begin{array}
-{rrr}
-1 & 1 \\
-0 & 1 
-\end{array}\right]
-$$  
-
-
-
-
-The p.value in the table was obtained by using [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) to compare the marginal likelihood of the model in that row with the reference model.  The likelihood ratio in this test is "most powerful", per the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma).
-
-JOUNI:  What do you suggest we do with this?  I vote we publish naive Wilk's p-values, noting as follows:  
-
-Unfortunately, Wilk's theorem does not apply when the null hypothesis is on a boundary, as with a variance parameter at 0.  In that case, the likelihood ratio is still most powerful, but twice the log(likelihood ratio) may not be approximately chi-square.  `r Citet(bib2, "PinBates")` recommend simulation to estimate p-values.  They provide simulations that suggest that in cases like these, the p-values per Wilk's theorem tend to be larger than the actual (simulated) p-values by factors ranging from 1 to 3. If that's accurate for these cases, then a nominal p-value of 0.05 means that it likely is significant at that level, which a nominal p-value of 0.10 says that it might be significant at the 0.05 level but not at the 0.02 level, for example.  
-
-```{r, echo=FALSE}
-(a1.2 <- c(level=log(GDP$realGDPperCapita[1]), slope=0))
+a1.2 <- c(level=log(GDP$realGDPperCapita[1]), slope=0)
 EWMA2fmla <- log(realGDPperCapita)~
   SSMtrend(2,Q=list(Q.lvl=matrix(NA), Q.slope=matrix(NA)), 
            a1=a1.2, ynames='lnGDPperCap')
@@ -413,11 +358,7 @@ logLiks[2, 7:9] <- c('y', '-', 'EWMA1')
 logLR2 <- apply(logLiks[1:2, 2:4], 2, diff)
 logLiks[2, 10] <- signif(pchisq(2*logLR2[3], 2, 
                          lower=FALSE), 2)
-```
 
-While H is at a boundary, it was not one of the two parameters tested on the comparison of EWMA1 and EWMA2, which suggests that Wilk's theorem may apply in this case.  
-
-```{r, echo=FALSE}
 EWMA2.KFS <- KFS(EWMA2fit$model)
 
 EWMA2pres1Q.slope <- array(0, c(1,1,N), 
@@ -431,7 +372,8 @@ EWMA2pres1fmla <- log(realGDPperCapita) ~
               lnQ.slope=EWMA2pres1Q.slope), a1=a1.2,
            ynames='lnGDPperCap') 
 
-EWMA2pres1mdl <-SSModel(EWMA2pres1fmla, GDP, H=matrix(NA))
+EWMA2pres1mdl <-SSModel(EWMA2pres1fmla, GDP,
+                        H=matrix(NA))
 
 EWMA2pres1updt <- function(pars=EWMA2init,
               model=EWMA2pres1mdl, ...){
@@ -464,75 +406,82 @@ EWMA2pres1updt2 <- function(pars=EWMA2init2,
   model$H[] <- pars[3]
   model
 } 
+```
+
+line 411
+
+```{r, echo=FALSE}
 EWMA2pres1fit2 <- fitSSM(EWMA2pres1mdl,
     inits=EWMA2init2, updatefn=EWMA2pres1updt2,  
     method = "L-BFGS-B", lower=rep(0, 3), 
     upper=rep(Inf, 3))
-EWMA2pres1fit2$optim.out
-EWMA2pres1fit$optim.out
+#EWMA2pres1fit2$optim.out
+#EWMA2pres1fit$optim.out
 logLiks[3, 8] <- 'failed'
 
 EWMA2p1init <- exp(EWMA2pres1fit$optim.out$par)
 names(EWMA2p1init) <- c('Q.lvl', 'Q.slope', 'H')
-EWMA2p1init
+#EWMA2p1init
 EWMA2pres1fit2a <- fitSSM(EWMA2pres1mdl,
     inits=EWMA2p1init, updatefn=EWMA2pres1updt2,  
     method = "L-BFGS-B", lower=rep(0, 3), 
     upper=rep(Inf, 3))
-EWMA2pres1fit2a$optim.out
-```
+#EWMA2pres1fit2a$optim.out
+#This stopped where it started with an #ABNORMAL_TERMINATION_IN_LNSRCH -- but without 
+#violating the lower bound as before.  
 
-This stopped where it started with an ABNORMAL_TERMINATION_IN_LNSRCH -- but without violating the lower bound as before.  
-
-`r Citet(bib2, "lme4vignette")` recommend bounded optimization by quadratic approximation ([BOBYQA](http://rpackages.ianhowson.com/cran/minqa/man/bobyqa.html)) in the [minqa](https://rweb.crmda.ku.edu/cran/web/packages/nloptr/minqa.pdf) package or Nelder-Mead, BOBYQA, or COBYLA in the [nloptr](https://rweb.crmda.ku.edu/cran/web/packages/nloptr/nloptr.pdf) package.  
-
-To use this, we must write our own objective function (modeled after the content of fitSSM) ...   
-
-```{r, echo=FALSE}
 likfn <- function(pars=EWMA2init2, model=EWMA2pres1mdl, 
                   updatefn=EWMA2pres1updt2) {
     Model <- do.call(updatefn, args = 
                        list(pars, model))
     (-logLik(object = Model, check.model = FALSE))
 }
-likfn()
-likfn(EWMA2p1init)
+#likfn()
+#likfn(EWMA2p1init)
 
-library(minqa)
-(EWMA2pres1fit2a <- bobyqa(EWMA2init2, likfn, 
+suppressMessages(library(minqa))
+EWMA2pres1fit2a <- bobyqa(EWMA2init2, likfn, 
         lower=rep(0, 3), model=EWMA2pres1mdl, 
-        updatefn=EWMA2pres1updt2))
+        updatefn=EWMA2pres1updt2)
 # This stopped with Objective = (-272.68),
 # substantially larger than the previous min 
 # of (-386.91).  
 # Let's try starting with the previous best:  
-(EWMA2pres1fit2b <- bobyqa(EWMA2p1init, likfn, 
+EWMA2pres1fit2b <- bobyqa(EWMA2p1init, likfn, 
         lower=rep(0, 3), model=EWMA2pres1mdl, 
-        updatefn=EWMA2pres1updt2))
+        updatefn=EWMA2pres1updt2)
 #This put Q.slope = H = 0, their lower bounds, 
-# and essentially no change in the objective function. # Let's try nloptr:  
-library(nloptr)
-(EWMA2pres1fit2c <- nloptr(EWMA2init2, likfn, 
+# and essentially no change in the objective function. # Let's try nloptr: 
+suppressMessages(library(nloptr))
+EWMA2pres1fit2c <- suppressWarnings(
+  nloptr(EWMA2init2, likfn, 
         lb=rep(0, 3), 
         opts=list(algorithm='NLOPT_LN_BOBYQA'), 
         model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
-(EWMA2pres1fit2d <- nloptr(EWMA2p1init, likfn,
+EWMA2pres1fit2d <- suppressWarnings(
+  nloptr(EWMA2p1init, likfn,
         lb=rep(0, 3), 
         opts=list(algorithm='NLOPT_LN_BOBYQA'), 
         model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
 
-(EWMA2pres1fit2e <- nloptr(EWMA2init2, likfn, 
+EWMA2pres1fit2e <- suppressWarnings(
+  nloptr(EWMA2init2, likfn, 
         lb=rep(0, 3), 
         opts=list(algorithm='NLOPT_LN_NELDERMEAD'), 
         model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
-(EWMA2pres1fit2f <- nloptr(EWMA2p1init, likfn,
+EWMA2pres1fit2f <- suppressWarnings(
+  nloptr(EWMA2p1init, likfn,
         lb=rep(0, 3), 
         opts=list(algorithm='NLOPT_LN_NELDERMEAD'), 
         model=EWMA2pres1mdl, updatefn=EWMA2pres1updt2))
 #Conclusion:  We got convergence 
 # when we gave the answer but not when we didn't.  
 # That doesn't help.  
+```
 
+line 478 after nloptr
+
+```{r, echo=FALSE}
 #compute the smoothed estimate of the state vector,
 #because we use it in the next model:  
 EWMA2pres1.KFS <- KFS(EWMA2pres1fit$model)
@@ -542,7 +491,8 @@ EWMA2pres1.KFS <- KFS(EWMA2pres1fit$model)
 a1.3 <- c(level=log(GDP$realGDPperCapita[1]), 
            slope=NA, a1.slope=NA)
 EWMA2pres2.P1inf <- diag(c(1,0,0))
-dimnames(EWMA2pres2.P1inf) <- list(names(a1.3), names(a1.3))
+dimnames(EWMA2pres2.P1inf) <- list(names(a1.3),
+                                   names(a1.3))
 EWMA2pres2.P1 <- EWMA2pres2.P1inf
 EWMA2pres2.P1[1,1] <- 0
 EWMA2pres2.P1[2,2] <- NA
@@ -628,7 +578,11 @@ fixModelNames <- function(model, stateNames,
 }
 EWMA2pres2mdl <- fixModelNames(EWMA2pres2mdl., 
             names(a1.3), 'logGDPperCapita' )
+```
 
+line 583 after fixModelNames
+
+```{r, echo=FALSE}
 T3.other <- EWMA2pres2mdl$T
 EWMA2pres2.T <- array(T3.other, c(3,3,N), 
       dimnames=dimnames(T3.other))
@@ -643,13 +597,13 @@ attr(EWMA2pres2mdl, 'tv') <- c(Z=0L, H=0L,
 
 EWMA2pres2.a1.2 <- mean(EWMA2pres1.KFS$alphahat[,2])
 
-EWMA2pres1fit$optim.out$par
-exp(EWMA2pres1fit$optim.out$par/2)
+#EWMA2pres1fit$optim.out$par
+#exp(EWMA2pres1fit$optim.out$par/2)
 
 EWMA2pres2init <- c(a1.2=EWMA2pres2.a1.2,
         EWMA2pres1fit$optim.out$par)
 EWMA2pres2init[3:4] <- EWMA2pres2init[2]
-EWMA2pres2init
+#EWMA2pres2init
 
 EWMA2pres2updt <- function(pars=EWMA2pres2init, 
                       model=EWMA2pres2mdl, ...){
@@ -678,7 +632,7 @@ logLiks[4, 7:9] <- c('y', '-', 'EWMA2')
 logLR2p2 <- apply(logLiks[c(2,4), 2:4], 2, diff)
 logLiks[4, 10] <- 'significant'
 
-logLiks[1:4,]
+#logLiks[1:4,]
 
 EWMA2pres2.KFS <- KFS(EWMA2pres2fit$model)
 
@@ -735,33 +689,34 @@ stateByFactor <- function(object, state='slope',
   F.. <- (chisq./(nSt-1))
   F. <- c(F=F.., df1=nSt-1, df2=dfe, 
           p=pf(chisq., nSt, dfe, lower=FALSE))
-  print(F.)
+#  print(F.)
   attr(stateSum, 'F') <- F.
 #
   stateSum
 }
+```
 
+line 699 stateByFactor
+
+```{r, echo=FALSE}
 EWMA2pres2sum <- stateByFactor(EWMA2pres2.KFS)
 suppressMessages(library(ggplot2))
 
 # DON'T PLOT EWMA2pres2sum here
 # Instead plot EWMA2pres3sum below 
 
-EWMA2pres2fit$optim.out$par
-exp(EWMA2pres2fit$optim.out$par[-1]/2)
-```
+#EWMA2pres2fit$optim.out$par
+#exp(EWMA2pres2fit$optim.out$par[-1]/2)
 
-This says that the average growth rate is 1.6 percent per year, the standard deviations of the migration for level and slope are 0.038 and 0.019, respectively, and the standard deviation of the observation error is tiny, 0.00004.  
-
-Before looking at the next model, let's review the standardized residuals as before:  
-
-```{r, echo=FALSE}
 EWMA2pres2.rstd <- rstandard(EWMA2pres2.KFS)
-
-# 5.  EWMA2 with an adjustment for each president 
 
 a1.3a <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
            pres3=0)
+```
+
+line 717 after a1.3a
+
+```{r, echo=FALSE}
 EWMA2pres3P1 <- diag(c(0, 0, NA))
 EWMA2pres3P1inf <- diag(c(1, 1, 0))
 EWMA2pres3fmla <- log(realGDPperCapita) ~ 
@@ -770,13 +725,19 @@ EWMA2pres3fmla <- log(realGDPperCapita) ~
       P1=EWMA2pres3P1, P1inf=EWMA2pres3P1inf, a1=a1.3a, 
       ynames='logGDPperCap') 
 
-EWMA2pres3mdl. <- SSModel(EWMA2pres3fmla, GDP, H=matrix(NA))
+EWMA2pres3mdl. <- SSModel(EWMA2pres3fmla, GDP,
+                          H=matrix(NA))
 EWMA2pres3mdl <- fixModelNames(EWMA2pres3mdl., 
                     names(a1.3a), 'logGDPperCap' )
+```
 
+LINE 734 after EWMA2pres3mdl
+
+```{r, echo=FALSE}
 pres3states <- names(a1.3a)
 pres3T <- array(EWMA2pres3mdl$T, dim=c(3,3,N), 
-        dimnames=list(pres3states, pres3states, GDP$Year) )
+        dimnames=list(pres3states, pres3states,
+                      GDP$Year) )
 pres3T[1,3,] <- 1
 pres3T[2,3,] <- 0 
 pres3T[3,3, presLastYr] <- 0
@@ -786,13 +747,17 @@ EWMA2pres3mdl$T <- pres3T
 attr(EWMA2pres3mdl, 'tv') <- c(Z=0L, H=0L, 
                                T=1L, R=0L, Q=1L)
 
-EWMA2pres2fit$optim.out$par
+#EWMA2pres2fit$optim.out$par
 EWMA2pres3init <- rep(
         EWMA2pres2fit$optim.out$par[2], 4)
 names(EWMA2pres3init) <- c("lnQ.lvl", "lnQ.slope", 
         "lnQ.pres3", "lnH")
-EWMA2pres3init
+#EWMA2pres3init
+```
 
+LINE 758 in EWMA2pres3
+
+```{r, echo=FALSE}
 EWMA2pres3updt <- function(pars=EWMA2pres3init, 
                       model=EWMA2pres3mdl, ...){
   vars <- exp(pars)
@@ -816,45 +781,17 @@ logLiks[5, 7:9] <- c('y', '-', 'EWMA2')
 logLR2p3 <- apply(logLiks[c(2, 5), 2:4], 2, diff)
 logLiks[5, 10] <- signif(pchisq(2*logLR2p3[3], 1, 
                          lower=FALSE), 2)
-logLiks[1:5,]
+#logLiks[1:5,]
 
 EWMA2pres3.KFS <- KFS(EWMA2pres3fit$model)
-```
 
-*** JOUNI:  IF YOU READ THIS FAR, PLEASE NOTE THAT THE PRIMARY THING I THINK WE WANT IN THIS PROCEEDINGS PAPER FROM ALL THIS IS THE SUMMARY TABLE.  
+#EWMA2pres3fit$optim.out$par
+#exp(EWMA2pres3fit$optim.out$par/2)
+#apply(EWMA2pres3.KFS$alphahat, 2, range)
 
-*** I CAN FINISH THIS NEXT WEEK IF YOU AGREE IT'S WORTH DOING.  
+EWMA2pres3sum <- stateByFactor(EWMA2pres3.KFS,
+                                "pres3")
 
-```{r, echo=FALSE}
-EWMA2pres3fit$optim.out$par
-exp(EWMA2pres3fit$optim.out$par/2)
-apply(EWMA2pres3.KFS$alphahat, 2, range)
-```
-
-The slope is estimated as a constant, making this model virtually equivalent to EWMA2pres2.  
-
-What does the presidential summary look like? 
-
-```{r}
-(EWMA2pres3sum <- stateByFactor(EWMA2pres3.KFS,
-                                "pres3"))
-```
-
-This seems quite similar to the EWMA2pres2 model.  Let's plot this summary as before:  
-
-```{r,fig.cap = "EWMA2pres3 slope for each presidency"}
-ggplot(EWMA2pres3sum[
-          c('president', 'pres3', 'lower', 'upper')], 
-       aes(x=president, y=pres3)) + geom_point() +
-    coord_cartesian(ylim = c(-0.08, 0.08)) + 
-    geom_errorbar(ymin=EWMA2pres3sum$lower,
-                  ymax=EWMA2pres3sum$upper) + 
-    geom_hline(aes(yintercept=mean(pres3),color="red")) 
-```
-
-This clearly says that the Hoover and FDR administrations were different from all others, but it still doesn't say whether FDR himself was different or World War II created the difference.  
-
-```{r, echo=FALSE}
 # 6.  EWMA2 with a fixed effect for war 
 a1.4 <- c(level=log(GDP$realGDPperCapita[1]), slope=0, 
            war=0, deaths=0)
@@ -863,7 +800,8 @@ EWMA2war0fmla <- log(realGDPperCapita) ~
         slope=matrix(NA), war=matrix(0),
         deaths=matrix(0)), a1=a1.4,
            ynames='lnGDPperCap') 
-EWMA2war0mdl. <- SSModel(EWMA2war0fmla, GDP, H=matrix(NA))
+EWMA2war0mdl. <- SSModel(EWMA2war0fmla, GDP,
+                         H=matrix(NA))
 
 EWMA2war0mdl <- fixModelNames(EWMA2war0mdl., 
                   names(a1.4), 'logGDPperCap' )
@@ -880,8 +818,704 @@ EWMA2war0mdl$T <- war0T
 attr(EWMA2war0mdl, 'tv') <- c(Z=0L, H=0L, 
                           T=1L, R=0L, Q=0L)
 
-(EWMA2war0fit <- fitSSM(EWMA2war0mdl, inits=EWMA2init)) 
+EWMA2war0fit <- fitSSM(EWMA2war0mdl, inits=EWMA2init)
+logLiks[6, 2:6] <- logLik2(EWMA2war0fit)
+logLiks[6, 7:9] <- c('y', '-', 'EWMA2') 
+
+logLR2w0 <- apply(logLiks[c(2, 6), 2:4], 2, diff)
+logLiks[6, 10] <- signif(pchisq(2*logLR2w0[3], 2, 
+                         lower=FALSE), 2)
+#logLiks[1:6,]
+
+EWMA2war0fit2 <- fitSSM(EWMA2war0mdl, 
+                       inits=EWMA2fit$optim.out$par)
+#logLik2(EWMA2war0fit2)
+#The same as before.  
+
+#As a further check on the code we used, we should get #the same answer as from EWMA2 if we set the war #components of P1inf to 0:  
+
+EWMA2war0mdl3 <- EWMA2war0mdl 
+war0P1inf <- diag(c(1, 1, 0, 0))
+dimnames(war0P1inf) <- list(warStates, warStates)
+EWMA2war0mdl3$P1inf <- war0P1inf
+EWMA2war0fit3 <- fitSSM(EWMA2war0mdl3, inits=EWMA2init)
+#logLik2(EWMA2war0fit3)
+# same as EWMA2, as we expected.  
+
+beforeWar <- which(c(
+    head(GDP$war, -1)=='' & tail(GDP$war, -1)!=''),
+    FALSE)
+#GDP[beforeWar[1]+0:1,]
+
+EWMA2warQ <- array(0, c(4,4,N), 
+    dimnames=list(warStates, warStates, GDP$Year))
+EWMA2warQ[1,1,] <- NA
+EWMA2warQ[2,2,] <- NA
+EWMA2warQ[3:4,3:4,beforeWar] <- NA 
+
+#EWMA2warQ[,,beforeWar[1]+(-1):1]
+
+EWMA2war1mdl <- EWMA2war0mdl
+EWMA2war1mdl$Q <- EWMA2warQ
+attr(EWMA2war1mdl, 'tv')[5] <- 1L
+
+EWMA2war1mdl$P1inf <- diag(c(1,1,0,0))
+
+war1T <- war0T
+war1T[3:4, 3:4, GDP$war==''] <- 0
+#war1T[,,c(1:2, 8, 22:24)]
+
+EWMA2war1mdl$T <- war1T
+
+EWMA2war1init <- 
+    c(1, 1, .5, .5, 0, 1) * 
+  rep(EWMA2fit$optim.out$par[1], 6)
+names(EWMA2war1init) <- c('lnQ.lvl', 'lnQ.slope', 
+      'lnQ.war', 'lnQ.deaths', 'lnQ.warDeaths', 'lnH')
+#EWMA2war1init
+EWMA2war1updt <- function(pars=EWMA2war1init, 
+                      model=EWMA2war1mdl, ...){
+  Q <- model$Q
+  Q[1,1,] <- exp(pars[1])
+  Q[2,2,] <- exp(pars[2])
+#  
+  P1w <- as.matrix(nlme::pdLogChol(pars[3:5]))
+  model$P1[3:4, 3:4] <- P1w
+  Q[3:4, 3:4, beforeWar] <- P1w
+  model$Q <- Q
+#  
+  model$H[] <- exp(pars[6])
+  model
+} 
+EWMA2war1fit <- fitSSM(EWMA2war1mdl,
+    inits=EWMA2war1init, updatefn=EWMA2war1updt)
+#logLiks[1:6,1:5]
+#logLik2(EWMA2war1fit)[1:4]
+
+EWMA2war1init0 <- EWMA2war1init
+EWMA2war1init0[c(1, 2, 6)] <- EWMA2fit$optim.out$par
+EWMA2war1init0[3:5] <- c(-999, -999, 0)
+EWMA2war1fit0 <- fitSSM(EWMA2war1mdl,
+                        inits=EWMA2war1init0, 
+                        updatefn=EWMA2war1updt)
+#logLik2(EWMA2war1fit0)[1:4]
+
+EWMA2war1init2 <- exp(EWMA2war1init/
+        c(2, 2, 1, 1, 1, 2))
+EWMA2war1init2[5] <- 0
+names(EWMA2war1init2) <- c('Q.lvl', 'Q.slope', 
+    'Q.war', 'Q.deaths', 'Q.warDeaths', 'H')
+#EWMA2war1init2
+EWMA2war1updt2 <- function(pars=EWMA2war1init2,
+              model=EWMA2war1mdl, ...){
+  Q <- model$Q
+  Q[1,1,] <- pars[1]^2
+  Q[2,2,] <- pars[2]^2
+# 
+  C1w. <- matrix(c(1, pars[5], pars[5], 1), 2)
+  P1w. <- (C1w.*outer(pars[3:4], pars[3:4]))
+#  
+  model$P1[3:4, 3:4] <- P1w.
+  Q[3:4, 3:4, beforeWar] <- P1w.
+  model$Q <- Q
+#  
+  model$H[] <- pars[6]^2
+  model
+} 
+
+# Confirm that the two functions 
+# produce the same model
+# from comparable 
+EWMA2war1mdl1.0 <- EWMA2war1updt()
+EWMA2war1mdl2.0 <- EWMA2war1updt2()
+#all.equal(EWMA2war1mdl1.0, EWMA2war1mdl2.0)
+
+# lower and upper limits 
+EWMA2war1l <- rep(0, 6)
+EWMA2war1l[5] <- (-1)
+names(EWMA2war1l) <- names(EWMA2war1init2)
+#EWMA2war1l
+EWMA2war1u <- rep(Inf, 6)
+EWMA2war1u[5] <- 1
+names(EWMA2war1u) <- names(EWMA2war1init2)
+#EWMA2war1u
+EWMA2war1fit2 <- fitSSM(EWMA2war1mdl,
+    inits=EWMA2war1init2, 
+    updatefn=EWMA2war1updt2, method = "L-BFGS-B", 
+    lower=EWMA2war1l, upper=EWMA2war1u)
+logLiks[7, 2:6] <- logLik2(EWMA2war1fit2)
+
+logLiks[7, 7:9] <- c('n', 'y', 'EWMA2') 
+
+logLR2w1 <- apply(logLiks[c(2, 7), 2:4], 2, diff)
+logLiks[7, 10] <- signif(pchisq(2*logLR2w1[3], 1, 
+                         lower=FALSE), 2)
+#logLiks[1:7, 1:5]
+#The marginal logLik now matches EWMA2.  
+
+EWMA2war2mdl <- EWMA2mdl
+EWMA2war2Q <- array(EWMA2mdl$Q, dim=c(2,2,N), 
+    dimnames=list(names(a1.2), names(a1.2), GDP$Year))
+#EWMA2war2Q[,, 1:2]
+
+EWMA2war2mdl$Q <- EWMA2war2Q
+attr(EWMA2war2mdl, 'tv') <- 
+        c(Z=0L, H=0L, T=0L, R=0L, Q=1L)
+
+EWMA2war2init <- c(1, 0, 0, 1, 1) * 
+  EWMA2fit$optim.out$par[1]
+names(EWMA2war2init) <- c('lnQ.lvl', 'lnQ.lvl.war',
+                'lnQ.lvl.deaths', 'lnQ.slope', 'lnH')
+#EWMA2war2init
+
+EWMA2war2updt <- function(pars=EWMA2war2init, 
+                      model=EWMA2war2mdl, ...){
+#
+  Q <- model$Q
+  lnQ11 <- (pars[1] + pars[2]*(GDP$war!='') +
+                   pars[3]*GDP$battleDeathsPMP)
+  Q11 <- exp(lnQ11)
+  oops <- which(!is.finite(Q11))
+  Q11[oops] <- .Machine$double.xmax
+#  
+#  noops <- length(oops)
+#  if(noops>0){
+#    cat('Q[1,1] NA or Inf with pars =\n')
+#    print(pars)
+#    stop('Problem occurs ', noops, ' times, ', 
+#         'starting with number ', noops[1], 
+#         ' for which Q[1,1] = ', Q11[oops[1]])
+#  }
+  Q[1,1,] <- Q11
+#
+  Q22 <- exp(pars[4])
+  if(!is.finite(Q22)){
+    print(pars)
+    stop('Q22 = ', Q22)
+  }
+  
+  Q[2,2,] <- Q22
+  model$Q <- Q
+#  
+  model$H[] <- exp(pars[5])
+  model
+} 
+#EWMA2war2updt()
+
+EWMA2war2fit <- fitSSM(EWMA2war2mdl,
+    inits=EWMA2war2init, updatefn=EWMA2war2updt)
+#logLik2(EWMA2war2fit)
+# did not converge
+# try a constrained optimization over standard
+# deviations for this, as with EWMA2war1 above.  
+
+EWMA2war2init2 <- exp(EWMA2war2init/2)
+EWMA2war2init2[2:3] <- 0 
+names(EWMA2war2init2) <- c('sQ.lvl', 'lnQ.lvl.war',
+                'lnQ.lvl.deaths', 'sQ.slope', 'sH')
+
+EWMA2war2updt2 <- function(pars=EWMA2war2init2, 
+                      model=EWMA2war2mdl, ...){
+#
+  Q <- model$Q
+  Q11 <- ((pars[1]^2)*exp(pars[2]*(GDP$war!='') +
+                   pars[3]*GDP$battleDeathsPMP))
+  oops <- which(!is.finite(Q11))
+  Q11[oops] <- .Machine$double.xmax
+#  
+#  noops <- length(oops)
+#  if(noops>0){
+#    cat('Q[1,1] NA or Inf with pars =\n')
+#    print(pars)
+#    stop('Problem occurs ', noops, ' times, ', 
+#         'starting with number ', noops[1], 
+#         ' for which Q[1,1] = ', Q11[oops[1]])
+#  }
+  Q[1,1,] <- Q11
+#
+  Q22 <- pars[4]^2
+  if(!is.finite(Q22)){
+    print(pars)
+    stop('Q22 = ', Q22)
+  }
+  
+  Q[2,2,] <- Q22
+  model$Q <- Q
+#  
+  model$H[] <- (pars[5]^2)
+  model
+} 
+
+EWMA2war2fit2 <- fitSSM(EWMA2war2mdl,
+    inits=EWMA2war2init2, updatefn=EWMA2war2updt2)
+logLiks[8, 2:6] <- logLik2(EWMA2war2fit2)
+logLiks[8, 7:9] <- c('n', 'y', 'EWMA2') 
+logLR2w2 <- apply(logLiks[c(2, 8), 2:4], 2, diff)
+logLiks[8, 10] <- signif(pchisq(2*logLR2w2[3], 
+    logLR2w2[1],lower=FALSE), 2)
+# best fitting war model so far 
+# but still not statistically significant
+
+# unemployment? 
+unemp1 <- with(GDP, 
+               unemployment[!is.na(unemployment)][1])
+uEWMA1fmla <- qnorm(unemployment) ~
+        SSMtrend(1,Q=list(matrix(NA)),
+                 a1 = qnorm(unemp1),
+                 ynames='probitUnemp' ) 
+
+uEWMA1mdl. <-SSModel(uEWMA1fmla, GDP, H=matrix(NA) )
+uEWMA1mdl <- fixModelNames(uEWMA1mdl., 
+                      'unempLvl', 'probitUnemp')
+
+uEWMA1fit <- fitSSM(uEWMA1mdl, inits=c(lnQ=0, lnH=0))
+
+#uEWMA1pred <- predict(uEWMA1fit$model, 
+#              interval='prediction', filtered=TRUE)
+#ylim <- range(qnorm(GDP$unemployment), na.rm=TRUE)
+#plotPresWars(qnorm(unemployment), GDP, ... 
+
+logLiks[9, 2:6] <- logLik2(uEWMA1fit)
+logLiks[9, 7:9] <- c('n', '-', '') 
+
+#uEWMA1.KFS <- KFS(uEWMA1fit$model)
+#uEWMA1.rstd <- rstandard(uEWMA1.KFS)
+
+#ylim.std <- range(uEWMA1.rstd, na.rm=TRUE)
+
+uEWMA1H <- array(NA, c(1, 1, N), 
+  dimnames=list('probitUnemp', 'probitUnemp',
+                GDP$Year))
+
+uEWMA1aMdl. <-SSModel(uEWMA1fmla, GDP, H=uEWMA1H)
+uEWMA1aMdl <- fixModelNames(uEWMA1aMdl., 'level', 
+                    'probitUnemp')
+
+uEWMA1aInit <- rep(0, 5)
+names(uEWMA1aInit) <- c('lnQ', paste0('lnH', 1:4))
+uEWMA1aUpdt <- function(pars=uEWMA1aInit,
+      model=uEWMA1aMdl, ...){
+  vars <- exp(pars)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+} 
+
+uEWMA1aFit <- fitSSM(uEWMA1aMdl, inits=uEWMA1aInit, 
+                     updatefn=uEWMA1aUpdt)
+
+uEWMA1aMdlEst <- uEWMA1aUpdt(uEWMA1aFit$optim.out$par)
+uEWMA1aH. <- uEWMA1aMdlEst$H
+uEWMA1aH <- ts(as.numeric(uEWMA1aH.), 1790)
+
+uEWMA1a1Init <- rep(1, 5)
+names(uEWMA1a1Init) <- c('Q', paste0('H', 1:4))
+uEWMA1a1Updt <- function(pars=uEWMA1a1Init, 
+      model=uEWMA1aMdl, ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+} 
+
+uEWMA1a1Fit <- fitSSM(uEWMA1aMdl, inits=uEWMA1a1Init, 
+                     updatefn=uEWMA1a1Updt, 
+                     method="L-BFGS-B", lower=0)
+
+logLiks[10, 2:6] <- logLik2(uEWMA1a1Fit)
+
+logLiks[10, 7:9] <- c('n', 'y', 'uEWMA1') 
+logLRu1a1 <- apply(logLiks[c(9, 10), 2:4], 2, diff)
+logLiks[10, 10] <- signif(pchisq(2*logLRu1a1[3], 
+    logLRu1a1[1],lower=FALSE), 2)
+
+uEWMA1a1MdlEst <-
+  uEWMA1a1Updt(uEWMA1a1Fit$optim.out$par)
+
+uEWMA1a.KFS <- KFS(uEWMA1a1Fit$model)
+uEWMA1a.rstd <- rstandard(uEWMA1a.KFS)
+
+a1.2u <- c(level=qnorm(unemp1), pres3=0)
+uPres3states <- names(a1.2u)
+
+uEWMA1pres3P1 <- diag(c(0, NA))
+uEWMA1pres3P1inf <- diag(c(1, 0))
+uEWMA1pres3fmla <- qnorm(unemployment) ~ 
+  SSMtrend(2, Q = list(level=matrix(NA),
+            pres3=EWMA2pres1Q.slope), 
+      P1=uEWMA1pres3P1, P1inf=uEWMA1pres3P1inf,
+      a1=a1.2u, ynames='probitUnemp') 
+
+uEWMA1pres3mdl. <- SSModel(uEWMA1pres3fmla, GDP, 
+                           H=uEWMA1H)
+uEWMA1pres3mdl <- fixModelNames(uEWMA1pres3mdl., 
+                      uPres3states, 'probitUnemp')
+
+uPres3T <- array(uEWMA1pres3mdl$T, dim=c(2,2,N), 
+        dimnames=list(uPres3states, uPres3states,
+                      GDP$Year) )
+uPres3T[2,2, presLastYr] <- 0
+
+uEWMA1pres3mdl$T <- uPres3T 
+
+attr(uEWMA1pres3mdl, 'tv') <- c(Z=0L, 
+                  H=1L, T=1L, R=0L, Q=1L)
+
+uEWMA1pres3init <- rep(uEWMA1aFit$optim.out$par, 
+                       c(2, rep(1, 4)))
+names(uEWMA1pres3init)[1:2] <- c("lnQ.lvl",
+                                 "lnQ.pres3")
+
+uEWMA1pres3updt <- function(pars=uEWMA1pres3init, 
+                      model=uEWMA1pres3mdl, ...){
+  vars <- exp(pars)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$P1[2,2] <- vars[2]
+  Q[2,2,presLastYr] <- vars[2]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[6]+(Yrs<1940)*vars[5] + 
+          (Yrs<1931)*vars[4]+(Yrs<1890)*vars[3])
+  model$H[] <- H
+  model
+}
+
+uEWMA1pres3fit <- fitSSM(uEWMA1pres3mdl,
+    inits=uEWMA1pres3init, updatefn=uEWMA1pres3updt) 
+#logLik2(uEWMA1pres3fit)
+
+uEWMA1pres3Cinit <- exp(uEWMA1pres3fit$optim.out$par/2)
+names(uEWMA1pres3Cinit) <- sub('^ln', 's', 
+                    names(uEWMA1pres3init))
+
+uEWMA1pres3Cupdt <- function(pars=uEWMA1pres3Cinit, 
+                      model=uEWMA1pres3mdl, ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$P1[2,2] <- vars[2]
+  Q[2,2,presLastYr] <- vars[2]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[6]+(Yrs<1940)*vars[5] + 
+          (Yrs<1931)*vars[4]+(Yrs<1890)*vars[3])
+  model$H[] <- H
+  model
+}
+
+uEWMA1pres3Cfit <- fitSSM(uEWMA1pres3mdl,
+    inits=uEWMA1pres3Cinit, updatefn=uEWMA1pres3Cupdt, 
+    method="L-BFGS-B", lower=0) 
+
+logLiks[11, 2:6] <- logLik2(uEWMA1pres3Cfit)
+
+logLiks[11, 7:9] <- c('y', 'y', 'uEWMA1a') 
+logLRu1p3 <- apply(logLiks[c(10, 11), 2:4], 2, diff)
+logLiks[11, 10] <- signif(pchisq(2*logLRu1p3[3], 
+    logLRu1p3[1],lower=FALSE), 2)
+
+a1.3u <- c(level=qnorm(unemp1), war=0, deaths=0)
+uWarStates <- names(a1.3u)
+
+uEWMA1war0fmla <- qnorm(unemployment) ~ 
+    SSMtrend(3, Q = list(level=matrix(NA), 
+                war=matrix(0), deaths=matrix(0)), 
+        a1=a1.3u, ynames='probitUnemp') 
+
+uEWMA1war0mdl. <- SSModel(uEWMA1war0fmla, GDP,
+                          H=uEWMA1H)
+uEWMA1war0mdl <- fixModelNames(uEWMA1war0mdl., 
+                  uWarStates, 'probitUnemp')
+
+uWar0T <- array(diag(3), dim=c(3,3,N), 
+    dimnames=list(uWarStates, uWarStates, GDP$Year))
+uWar0T[1, 2,] <- (GDP$war!='')
+uWar0T[1, 3,] <- GDP$battleDeathsPMP
+
+uEWMA1war0mdl$T <- uWar0T 
+
+attr(uEWMA1war0mdl, 'tv') <- c(Z=0L, 
+                H=1L, T=1L, R=0L, Q=0L)
+
+uEWMA1war0init <- rep(uEWMA1aFit$optim.out$par[
+            c(1, 3)], c(1, 4))
+names(uEWMA1war0init) <-
+      names(uEWMA1aFit$optim.out$par)
+
+uEWMA1war0updt <- function(pars=uEWMA1war0init, 
+                      model=uEWMA1war0mdl, ...){
+  vars <- exp(pars)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+}
+
+uEWMA1war0fit <- fitSSM(uEWMA1war0mdl,
+    inits=uEWMA1war0init, uEWMA1war0updt)
+
+uEWMA1war0Cinit <- exp(uEWMA1war0fit$optim.out$par/2)
+names(uEWMA1war0Cinit) <- sub('ln', 's', 
+                              names(uEWMA1war0Cinit))
+uEWMA1war0Cupdt <- function(pars=uEWMA1war0Cinit, 
+                      model=uEWMA1war0mdl, ...){
+  vars <- (pars^2)
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+  model$Q <- Q
+#
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[5]+(Yrs<1940)*vars[4] + 
+          (Yrs<1931)*vars[3]+(Yrs<1890)*vars[2])
+  model$H[] <- H
+  model
+}
+
+uEWMA1war0Cfit <- fitSSM(uEWMA1war0mdl, 
+      inits=uEWMA1war0Cinit, uEWMA1war0Cupdt,
+      method="L-BFGS-B", lower=0)
+
+logLiks[12, 2:6] <- logLik2(uEWMA1war0Cfit)
+
+logLiks[12, 7:9] <- c('y', 'y', 'uEWMA1a') 
+logLRu1w0 <- apply(logLiks[c(10, 12), 2:4], 2, diff)
+logLiks[12, 10] <- signif(pchisq(2*logLRu1w0[3], 
+    logLRu1w0[1],lower=FALSE), 2)
+
+uEWMA1warQ <- array(0, c(3,3,N), 
+    dimnames=list(uWarStates, uWarStates, GDP$Year))
+uEWMA1warQ[1,1,] <- NA
+uEWMA1warQ[2:3,2:3,beforeWar] <- NA 
+
+#uEWMA1warQ[,,beforeWar[1]+(-1):1]
+
+uEWMA1war1mdl <- uEWMA1war0mdl
+uEWMA1war1mdl$Q <- uEWMA1warQ
+attr(uEWMA1war1mdl, 'tv')[5] <- 1L
+
+uEWMA1war1mdl$P1inf <- diag(c(1,0,0))
+
+uWar1T <- uWar0T
+uWar1T[2:3, 2:3, GDP$war==''] <- 0
+
+uEWMA1war1mdl$T <- uWar1T
+
+uEWMA1war1init <- c(lnQ=-2.66, lnQ.war=-1,
+    lnQ.deaths=-1, lnQ.warDeaths=0, lnH1=-4, 
+    lnH2=-4, lnH3=-4, lnH4=-4)
+
+uEWMA1war1updt <- function(pars=uEWMA1war1init, 
+                      model=uEWMA1war1mdl, ...){
+  Q <- model$Q
+  Q[1,1,] <- exp(pars[1])
+#  
+  P1w <- as.matrix(nlme::pdLogChol(pars[2:4]))
+  model$P1[2:3, 2:3] <- P1w
+  Q[2:3, 2:3, beforeWar] <- P1w
+  model$Q <- Q
+# 
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (exp(pars[8])+(Yrs<1890)*exp(pars[7]) +
+      (Yrs<1931)*exp(pars[6])+(Yrs<1890)*exp(pars[5]))
+  model$H[] <- H 
+  model
+} 
+
+uEWMA1war1fit <- fitSSM(uEWMA1war1mdl,
+        inits=uEWMA1war1init, 
+        updatefn=uEWMA1war1updt)
+
+uEWMA1war1Cinit <- exp(uEWMA1war1init)
+names(uEWMA1war1Cinit) <- sub('ln', 's', 
+                  names(uEWMA1war1init))
+uEWMA1war1Cinit[4] <- 0 
+names(uEWMA1war1Cinit)[4] <- 'rQ.warDeaths' 
+
+uEWMA1war1Cupdt <- function(pars=uEWMA1war1Cinit, 
+                      model=uEWMA1war1mdl, ...){
+  vars <- pars^2
+  Q <- model$Q
+  Q[1,1,] <- vars[1]
+#  
+  C1w <- matrix(rep(pars[4], 4), 2,2) 
+  diag(C1w) <- 1
+  P1w <- (C1w * outer(pars[2:3], pars[2:3]))
+  model$P1[2:3, 2:3] <- P1w
+  Q[2:3, 2:3, beforeWar] <- P1w
+  model$Q <- Q
+# 
+  Yrs <- time(uEWMA1mdl$y)
+  H <- (vars[8]+(Yrs<1890)*vars[7] +
+      (Yrs<1931)*vars[6]+(Yrs<1890)*vars[5])
+  model$H[] <- H 
+  model
+} 
+
+uEWMA1war1l <- uEWMA1war1Cinit
+uEWMA1war1l[] <- 0
+uEWMA1war1l[4] <- (-1)
+uEWMA1war1u <- uEWMA1war1Cinit
+uEWMA1war1u[] <- Inf
+uEWMA1war1u[4] <- 1
+
+uEWMA1war1Cfit <- fitSSM(uEWMA1war1mdl,
+    inits=uEWMA1war1Cinit, updatefn=uEWMA1war1Cupdt,
+    method="L-BFGS-B", 
+    lower=uEWMA1war1l, upper=uEWMA1war1u)
+logLiks[13, 2:6] <- logLik2(uEWMA1war1Cfit)
+
+logLiks[13, 7:9] <- c('n', 'y', 'uEWMA1a') 
+logLRu1w1 <- apply(logLiks[c(10, 13), 2:4], 2, diff)
+logLiks[13, 10] <- signif(pchisq(2*logLRu1w1[3], 
+    logLRu1w1[1],lower=FALSE), 2)
+
+# Okun's law 
+
+OkunDat <- cbind(lnGDPperCap=log(GDP$realGDPperCapita),
+           probitUnemp=qnorm(GDP$unemployment))
+OkunVars <- colnames(OkunDat)
+
+OkunStates <- c('GDP.lvl', 'unemp.lvl', 'GDP.slope')
+OkunZ <- array(c(1, 0, 0, 1, 0, 0), dim=c(2, 3, 1), 
+    dimnames=list(OkunVars, OkunStates, NULL) ) 
+              
+OkunT <- array(c(1, 0, 0, 0, 1, 0, 1, 0, 1), 
+    dim=c(3, 3, 1), 
+    dimnames=list(OkunStates, OkunStates, NULL) )
+
+OkunQ <- array(c(NA, NA, 0, NA, NA, NA, 0, NA, NA), 
+    dim=c(3, 3, 1), 
+    dimnames=list(OkunStates, OkunStates, NULL))
+
+Okun.a1 <- c(apply(OkunDat, 2, 
+      function(x)x[!is.na(x)][1]), 0) 
+names(Okun.a1) <- OkunStates
+
+OkunP1 <- diag(0, 3)
+dimnames(OkunP1) <- list(OkunStates, OkunStates)
+OkunP1inf <- OkunP1
+diag(OkunP1inf) <- 1
+
+OkunFmla <- formula(OkunDat ~ -1 + SSMcustom(
+  Z=OkunZ, T=OkunT, Q=OkunQ, a1=Okun.a1, 
+  P1=OkunP1, P1inf=OkunP1inf, index=1:2, n=N,
+  state_names=OkunStates) )
+
+OkunH <- array(diag(NA, 2), dim=c(2, 2, N), 
+    dimnames=list(OkunVars, OkunVars, GDP$Year) )
+
+OkunMdl. <- SSModel(OkunFmla, H=OkunH)
+OkunMdl <- fixModelNames(OkunMdl., OkunStates, 
+                  OkunVars)
+
+OkunInit <- rep(0, 10)
+names(OkunInit) <- c("lnQ.pl", "lnQ.ul", "lnQ.ps", 
+  "lnQ.pl.ul", "lnQ.ul.ps", "lnHp", "lnHu1", 
+  "lnHu2", 'lnHu3', 'lnHu4')
+OkunInit[c(1, 3, 6)] <- EWMA2fit$optim.out$par[1]
+OkunInit[c(2, 7:10)] <- rep(
+  uEWMA1aFit$optim.out$par[c(1, 3)], c(1, 4))
+
+pdLogChol3.5 <- function(value, ...){
+  v6 <- c(value[1:4], 0, value[5])
+  nlme::pdLogChol(v6)
+}
+
+OkunUpdt <- function(pars=OkunInit, 
+                     model=OkunMdl, ...){
+#  
+  Q <- pdLogChol3.5(pars) 
+  model$Q[,,] <- as.matrix(Q)
+# 
+  Yrs <- time(model$y)
+  H <- model$H
+  vars <- exp(pars)
+  H[1,1,] <- vars[6]
+#  
+  Yrs <- time(uEWMA1mdl$y)
+  Hu <- (vars[10]+(Yrs<1890)*vars[9] +
+      (Yrs<1931)*vars[8]+(Yrs<1890)*vars[7])
+  H[2,2,] <- Hu
+  model$H[] <- H 
+  model
+}
+
+OkunFit <- fitSSM(OkunMdl, OkunInit, OkunUpdt)
+logLiks[14, 2:6] <- logLik2(OkunFit)
+
+logLiks[14, 7:9] <- c('y', '-', '') 
+
+logLiks[, c(1:2, 4, 5:10)]
+logLiks[, c(1:2, 4, 7:10)]
+```
+
+Unfortunately, "Computation of marginal likelihood failed", and the diffuse likelihood for this case cannot be compared with any of the previous models.  The rmse.lnUSD was better than EWMA1 but slightly worse than EWMA2:  0.0429 vs. 0.0456 and 0.0427.  However, the rmse.pbtUnemp was substantially lower than the best previous model:  0.268 vs. 0.283 for uEWMA1a and 0.284 for uEWMA1war0.  
+
+What are the paramter estimates and the resulting correlations in Q?  
+
+```{r}
+OkunFit$optim.out$par
+(OkunQ1.3 <- pdLogChol3.5(OkunFit$optim.out$par))
+cov2cor(as.matrix(OkunQ1.3))
+```
+
+Wow:  The correlation between the increments in GDP.lvl and unemp.lvl is -0.999997.  The literature on Okun's Law says that the increments in GDP and unemployment are often cointegrated, e.g.,  `r Citet(bib2, "Lee2000")`, and negatively correlated.  Moreover the correlation between the increments in GDP.lvl and GDP.slope is estimated at -0.002 -- virtually zero.  
+
+This suggests we modify this model to estimate only 6 parameters, not 8, and force those 2 correlations to -1 and 0, respectively.  We'll call this a separate model:  Okun1.  
+
+
+```
+
 # SEE AverageIncomeModelsPlus.Rmd for the rest ... 
+```
+
+The p.values in this table were obtained by using [Wilks's theorem](https://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem) to compare the marginal likelihood of the model in that row with the reference model.  The likelihood ratio in this test is "most powerful", per the [Neyman–Pearson lemma](https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma).
+
+Unfortunately, Wilk's theorem does not apply when the null hypothesis is on a boundary, as with a variance parameter at 0.  In that case, the likelihood ratio is still most powerful, but twice the log(likelihood ratio) may not be approximately chi-square.  `r Citet(bib2, "PinBates")` recommend simulation to estimate p-values.  They provide simulations that suggest that in cases like these, the p-values per Wilk's theorem tend to be larger than the actual (simulated) p-values by factors ranging from 1 to 3. If that's accurate for these cases, then a nominal p-value of 0.05 means that it likely is significant at that level, which a nominal p-value of 0.10 says that it might be significant at the 0.05 level but not at the 0.02 level, for example.  
+
+
+
+# President effect on GDP 
+
+
+
+* Discuss war effect on GDP 
+
+
+# Unemployment and war 
+
+
+
+
+# Okun's law 
+
+
+
+
+# Future work 
+
+
+
 
 # References
 ```{r results = "asis", echo = FALSE}
