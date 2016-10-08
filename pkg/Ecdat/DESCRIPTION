@@ -7,7 +7,7 @@ Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0), Ecfun
 Suggests: car, systemfit, sem, lmtest, sandwich, gdata, RCurl, XML,
           tis, knitr, KFAS, RefManageR, ggplot2, optimx, caTools, 
-          nlme
+          nlme, minqa, nloptr
 Description: Data sets for econometrics.
 LazyData: true
 License: GPL (>=2)

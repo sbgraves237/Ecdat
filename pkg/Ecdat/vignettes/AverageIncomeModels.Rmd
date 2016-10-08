@@ -1467,6 +1467,8 @@ logLiks[14, 7:9] <- c('y', '-', '')
 
 logLiks[, c(1:2, 4, 5:10)]
 logLiks[, c(1:2, 4, 7:10)]
+
+OkunFit$optim.out$par
 ```
 
 Unfortunately, "Computation of marginal likelihood failed", and the diffuse likelihood for this case cannot be compared with any of the previous models.  The rmse.lnUSD was better than EWMA1 but slightly worse than EWMA2:  0.0429 vs. 0.0456 and 0.0427.  However, the rmse.pbtUnemp was substantially lower than the best previous model:  0.268 vs. 0.283 for uEWMA1a and 0.284 for uEWMA1war0.  
