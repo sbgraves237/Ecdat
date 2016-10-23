@@ -112,7 +112,7 @@ asNumericDF(x, keep=function(x)any(!is.na(x)),
     read them as integers using openxlsx 3.0.0. 
     This capability will convert those integers to 
     Dates using \code{as.Date(., origin = 
-    as.Date('1899-12-31')).  
+    as.Date('1899-12-31'))}.  
   }
   \item{leadingChar}{
     A regular expression passed to 

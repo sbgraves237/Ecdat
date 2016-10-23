@@ -106,11 +106,26 @@ likfn <- function(pars, model, ...) {
                      theta = theta, ...))
 }
 
+library(optimrx)
 # Calling optim directly 
-optim.out <- optim(par = EWMA2init2, 
+optim.out <- optimr(par = EWMA2init2, 
     fn = likfn,  method = "L-BFGS-B", lower=0, 
     upper=Inf, model = EWMA2pres1mdl)
 optim.out
+
+opm.out <- opm(par = EWMA2init2, 
+    fn = likfn,  method = "ALL", lower=0, 
+    upper=Inf, model = EWMA2pres1mdl)
+summary(opm.out, order=value)
+
+## Now put in numerical derivatives via numDeriv (grnd), use grfwd, grback, grcentral also
+opmnd.out <- opm(par = EWMA2init2, 
+    fn = likfn, gr="grnd", method = "ALL", lower=0, 
+    upper=Inf, model = EWMA2pres1mdl)
+summary(opmnd.out, order=value)
+
+
+
 ```
 
 Note that [optim(..., method='L-BFGS-B')](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/optim.html) stopped with an error message while violating the lower bound for par[2].  
