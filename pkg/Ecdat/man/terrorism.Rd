@@ -36,7 +36,7 @@
       from 1970-01-01 to 1997-12-31.  The 
       Center for Terrorism and Intelligence 
       Studies (CETIS) managed the project from 
-      1998-01-01 to 2008-03-31.  Institute
+      1998-01-01 to 2008-03-31.  The Institute
       for the Study of Violent Groups (ISVG) 
       carried the project from 2008-04-01 to 
       2011-10-31.  The National Consortium
