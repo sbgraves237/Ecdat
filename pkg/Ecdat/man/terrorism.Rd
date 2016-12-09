@@ -47,7 +47,14 @@
       partial years are ignored, so 
       \code{methodology} = CEDIS for 
       1998:2007, ISVG for 2008:2011, and 
-      START for 2012:2014.  
+      START for 2012:2014. 
+    }
+    \item{method}{
+      a character vector consisting of 
+      the first character of the levels 
+      of \code{methodology}:  
+
+      c('p', 'c', 'i', 's')
     }
     \item{incidents}{
       integer number of incidents identified 
@@ -95,17 +102,18 @@
       data includes both perpetrators
       and victims when both are available.  
       It includes one when only one is
-      available and is \code{NA} when neither       is available.  However, in most cases, 
-      we might expect that the more 
-      spectacular and lethal incidents would 
-      likely be more accurately reported.  
-      To the exent that this is true, it 
-      means that when numbers are missing, 
-      they are usually zero or small.  This 
-      further suggests that the summary 
-      numbers recorded here probably 
-      represent a slight but not substantive 
-      undercount.  
+      available and is \code{NA} when 
+      neither is available. However, in 
+      most cases, we might expect that the 
+      more spectacular and lethal incidents 
+      would likely be more accurately 
+      reported. To the exent that this is 
+      true, it means that when numbers are
+      missing, they are usually zero or 
+      small.  This further suggests that 
+      the summary numbers recorded here 
+      probably represent a slight but not
+      substantive undercount.  
     }
     \item{nkill.us}{
       number of U.S. citizens who died as a
@@ -130,7 +138,7 @@
       undercount discussed with 
       \code{nkill}.)
     }
-    \item{pNA.kill, pNA.nkill.us, 
+    \item{pNA.nkill, pNA.nkill.us, 
           pNA.nwound, pNA.nwound.us}{
       proportion of observations by year
       with missing values.  These numbers
@@ -152,19 +160,53 @@
     }
     \item{worldDeathRate, USdeathRate}{
       \href{https://en.wikipedia.org/wiki/Mortality_rate}{Crude death rate}
-      (deaths per 1,000 population) world wide and 
-      in the US, according to the World Bank; 
-      see "Sources" below.  This World Bank 
-      data set includes USdeathRate for each 
-      year from 190 to 2015.  The WorldDeathRate
-      here were read manually from a plot on  
-      \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page.}
+      (deaths per 1,000 population) worldwide 
+      and in the US, according to the World 
+      Bank;  see "Sources" below.  This World
+      Bank data set includes USdeathRate for 
+      each year from 1900 to 2014.  
+      
+      The WorldDeathRate here were read 
+      manually from a plot on  
+      \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page,} except for the the number for 
+      2015, which was estimated as a reduction 
+      of 0.73 percent from 2014, which was the 
+      average rate of decline (ratio of two 
+      successive years) for 1990 to 2014.  
+      The same method was used to estimate the 
+      USdeathRate for 2015 as the same as for
+      2014.  
+      
+      NOTE:  USdeathRate is to two significant 
+      digits only, unlike WorldDeathRate, which 
+      has four significant digits. 
     }
     \item{worldDeaths, USdeaths}{
       number of deaths by year in the world and 
-      US = population * deathRate 
-      (with population in thousands and 
-      death rate per thousand)
+      US
+      
+      worldDeaths = 
+         worldPopulation * worldDeathRate.  
+      
+      USdeaths were computed by summing across 
+      age groups in "Deaths_5x1.txt" for the 
+      United States, downloaded from 
+      \url{http://www.mortality.org/cgi-bin/hmd/country.php?cntr=USA&level=1} from the Human 
+      Mortality Database;  see sources below.  
+    }
+    \item{kill.pmp, kill.pmp.us}{
+      terrorism deaths per million 
+      population worldwide and in the US = 
+      
+      0.001 * nkill / worldPopulation
+    }
+    \item{pkill, pkill.us}{
+      terrorism deaths as a proportion of 
+      total deaths worldwide and in the US
+      
+      pkill = nkill / worldDeaths 
+      
+      pkill.us = nkill.us / USdeaths 
     }
   }
 }
@@ -201,6 +243,8 @@
   The World and US death rates came from 
   \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN}{the World Bank}, 
   accessed 2016-09-05.  
+  
+  \href{http://www.mortality.org/}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany).}
 }
 \references{
   Robert Pape, Keven Ruby, Vincent Bauer and 
@@ -214,11 +258,29 @@
 \examples{
 data(terrorism)
 
-plot(incidents~year, terrorism, type='l')
+plot(kill.pmp~year, terrorism, 
+     pch=method, type='b')
+plot(kill.pmp.us~year, terrorism, 
+     pch=method, type='b', 
+     log='y', las=1)
 
-plot(nkill.us~year, terrorism, type='l')
+plot(pkill*1e4~year, terrorism, 
+     pch=method, type='b', 
+     las=1)
+plot(pkill.us*1e4~year, terrorism, 
+     pch=method, type='b', 
+     log='y', las=1)
 
-plot(pNA.nkill.us~year, terrorism, type='l')
-abline(v=1997.5)
+plot(incidents~year, terrorism, type='b', 
+      pch=method)
+
+plot(nkill.us~year, terrorism, type='b', 
+      pch=method)
+plot(nkill.us~year, terrorism, type='b', 
+      pch=method, log='y')
+
+plot(pNA.nkill.us~year, terrorism, type='b', 
+      pch=method)
+abline(v=1997.5, lty='dotted', col='red')
 }
 \keyword{datasets}
