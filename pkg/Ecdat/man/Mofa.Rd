@@ -27,8 +27,7 @@
 
 }
 \references{
-      Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20
-      http://www.amstat.org/publicat}.
+      Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 
