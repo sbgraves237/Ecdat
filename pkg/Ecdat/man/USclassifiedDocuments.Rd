@@ -42,7 +42,7 @@ data(USclassifiedDocuments)
 }
 \source{
   Fitzpatrick, John P. (2013) 
-\href{http://www.archives.gov/isoo/reports/}{\emph{Annual Report to the President for 2012}, United States Information Security Oversight Office, National Archives and Record Administration, June 20, 2013}
+\href{https://www.archives.gov/isoo/reports/}{\emph{Annual Report to the President for 2012}, United States Information Security Oversight Office, National Archives and Record Administration, June 20, 2013}
 }
 \examples{
 ##

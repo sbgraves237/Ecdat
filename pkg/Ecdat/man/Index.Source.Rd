@@ -31,7 +31,7 @@
 \item \code{\link{Workinghours}} : Wife Working Hours
 }
 
-\item Journal of Business Economics and Statistics web site : \url{http://www.amstat.org/publications/jbes/}
+\item Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}
  \itemize{
 \item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Catsup}} : Choice of Brand for Catsup

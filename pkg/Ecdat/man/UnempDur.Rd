@@ -3,7 +3,7 @@
 \alias{UnempDur}
 \title{Unemployment Duration }
 \description{
-  Journal of Business Economics and Statistics web site : \url{http://www.amstat.org/publications/jbes/}
+  Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}
 
  \emph{number of observations} :  3343
 

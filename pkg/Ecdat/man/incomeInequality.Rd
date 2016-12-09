@@ -73,8 +73,8 @@
 \source{
   United States Census Bureau, Table F-1. Income Limits for Each Fifth
   and Top 5 Percent of Families, All Races,
-  \url{http://www.census.gov/hhes/www/income/data/historical/families},
-  accessed March 25, 2014.
+  \url{http://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-inequality.html},
+  accessed 2016-12-09.
 
   Thomas Piketty and Emmanuel Saez (2003) "Income Inequality in the
   United States, 1913-1998", Quarterly Journal of Economics, 118(1)
