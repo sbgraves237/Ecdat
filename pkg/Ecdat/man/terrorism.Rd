@@ -257,12 +257,16 @@
 %\seealso{}
 \examples{
 data(terrorism)
+# plot deaths per million population 
 
 plot(kill.pmp~year, terrorism, 
      pch=method, type='b')
 plot(kill.pmp.us~year, terrorism, 
      pch=method, type='b', 
      log='y', las=1)
+     
+# terrorism as parts per 10,000 
+# of all deaths 
 
 plot(pkill*1e4~year, terrorism, 
      pch=method, type='b', 
@@ -270,6 +274,9 @@ plot(pkill*1e4~year, terrorism,
 plot(pkill.us*1e4~year, terrorism, 
      pch=method, type='b', 
      log='y', las=1)
+     
+# plot number of incidents, number killed, 
+# and proportion NA
 
 plot(incidents~year, terrorism, type='b', 
       pch=method)
