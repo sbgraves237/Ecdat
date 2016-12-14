@@ -1,6 +1,8 @@
 \name{terrorism}
 \docType{data}
 \alias{terrorism}
+\alias{incidents.byCountryYr}
+\alias{nkill.byCountryYr}
 \title{
   Global Terrorism Database yearly summaries
 }
@@ -23,8 +25,30 @@
   showed a 19 percent \emph{decrease} over
   the same period.  
 }
-\usage{data(terrorism)}
-\format{A dataframe containing :
+\usage{
+  data(terrorism)
+  data(incidents.byCountryYr)
+  data(nkill.byCountryYr)
+}
+\format{
+  \code{incidents.byCountryYr} and 
+  \code{nkill.byCountryYr} are matrices giving 
+  the numbes of incidents and numbers of deaths 
+  by year and by country for 206 countries and 
+  for all years between 1970 and 2015 except 
+  for 1993, for which the raw data were lost. 
+  
+  NOTE:  For nkill.byCountryYr and for 
+  terrorism[c('nkill', 'nkill.us')], NAs in 
+  GTD were treated as 0.  Thus the actual 
+  number of deaths were likely higher, unless 
+  this was more than offset by incidents being 
+  classified as terrorism, when they should not
+  have been.  
+  
+  \code{terrorism} is a \code{\link{data.frame}}
+  containing the following:  
+  
   \describe{
     \item{year}{integer year, 1970:2014.}
     \item{methodology}{
@@ -289,5 +313,35 @@ plot(nkill.us~year, terrorism, type='b',
 plot(pNA.nkill.us~year, terrorism, type='b', 
       pch=method)
 abline(v=1997.5, lty='dotted', col='red')
+
+
+# by country by year
+yr <- as.integer(colnames(
+  incidents.byCountryYr))
+str(maxDeaths <- apply(nkill.byCountryYr, 
+                       1, max) )
+str(omax <- order(maxDeaths, decreasing=TRUE))
+head(maxDeaths[omax], 8)
+tolower(substring( 
+  names(maxDeaths[omax[1:8]]), 1, 2))
+
+pch. <- c('i', 'g', 'f', 'l', 
+          's', 'c', 'u', 'p')
+  
+cols <- 1:4
+matplot(yr, sqrt(t(
+  nkill.byCountryYr[omax[1:8], ])),
+  type='b', pch=pch., axes=FALSE, 
+  ylab='', xlab='', col=cols, 
+  main="number of terrorism deaths\nby country") 
+axis(1)
+(max.nk <- max(nkill.byCountryYr[omax[1:8], ]))
+i.nk <- c(1, 100, 300, 1000, 2000, 3000, 
+          5000, 7000, 10000)
+cbind(i.nk, sqrt(i.nk))
+axis(2, sqrt(i.nk), i.nk, las=1)
+ip <- paste(pch., names(maxDeaths[omax[1:8]]))
+legend('topleft', ip, cex=.55, 
+       col=cols, text.col=cols)
 }
 \keyword{datasets}
