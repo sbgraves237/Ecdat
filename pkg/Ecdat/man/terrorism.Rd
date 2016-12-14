@@ -332,7 +332,7 @@ matplot(yr, sqrt(t(
   nkill.byCountryYr[omax[1:8], ])),
   type='b', pch=pch., axes=FALSE, 
   ylab='(square root scale)   ', xlab='', 
-  col=cols, 
+  col=cols,
   main='number of terrorism deaths\nby country') 
 axis(1)
 (max.nk <- max(nkill.byCountryYr[omax[1:8], ]))
