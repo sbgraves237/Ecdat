@@ -69,7 +69,7 @@ data(CRANpackages)
 \source{
   John Fox, "Aspects of the Social Organization and Trajectory of the R
   Project", \emph{R Journal}, 1(2), Dec. 2009, 5-13.
-  \url{http://journal.r-project.org/archive/2009-2/RJournal_2009-2_Fox.pdf},
+  \url{https://journal.r-project.org/archive/2009-2/RJournal_2009-2_Fox.pdf},
   accessed 2014-04-13.
 }
 %\references{}
