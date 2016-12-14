@@ -324,19 +324,19 @@ str(omax <- order(maxDeaths, decreasing=TRUE))
 head(maxDeaths[omax], 8)
 tolower(substring( 
   names(maxDeaths[omax[1:8]]), 1, 2))
-
 pch. <- c('i', 'g', 'f', 'l', 
           's', 'c', 'u', 'p')
-  
 cols <- 1:4
+
 matplot(yr, sqrt(t(
   nkill.byCountryYr[omax[1:8], ])),
   type='b', pch=pch., axes=FALSE, 
-  ylab='', xlab='', col=cols, 
-  main="number of terrorism deaths\nby country") 
+  ylab='(square root scale)   ', xlab='', 
+  col=cols, 
+  main='number of terrorism deaths\nby country') 
 axis(1)
 (max.nk <- max(nkill.byCountryYr[omax[1:8], ]))
-i.nk <- c(1, 100, 300, 1000, 2000, 3000, 
+i.nk <- c(1, 100, 1000, 3000, 
           5000, 7000, 10000)
 cbind(i.nk, sqrt(i.nk))
 axis(2, sqrt(i.nk), i.nk, las=1)
