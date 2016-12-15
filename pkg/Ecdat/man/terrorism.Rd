@@ -316,6 +316,9 @@ abline(v=1997.5, lty='dotted', col='red')
 
 
 # by country by year
+data(incidents.byCountryYr)
+data(nkill.byCountryYr)
+
 yr <- as.integer(colnames(
   incidents.byCountryYr))
 str(maxDeaths <- apply(nkill.byCountryYr, 
