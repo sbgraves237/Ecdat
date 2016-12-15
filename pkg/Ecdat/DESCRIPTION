@@ -1,15 +1,12 @@
 Package: Ecdat
-Version: 0.3-0
-Date: 2015-08-01
+Version: 0.3-1
+Date: 2016-12-15
 Title: Data Sets for Econometrics
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0), Ecfun
-Suggests: car, systemfit, sem, lmtest, sandwich, gdata, RCurl, XML,
-          tis, knitr, KFAS, RefManageR, ggplot2, optimx, caTools, 
-          nlme, minqa, nloptr, optimrx
+Suggests: 
 Description: Data sets for econometrics.
 LazyData: true
 License: GPL (>=2)
 URL: https://www.r-project.org
-VignetteBuilder: knitr
