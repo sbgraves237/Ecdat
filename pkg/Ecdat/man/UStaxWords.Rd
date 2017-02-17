@@ -3,14 +3,16 @@
 \alias{UStaxWords}
 \title{ Number of Words in US Tax Law}
 \description{
-  Thousands of words in US tax law for 1995 to 2015
-  in 10 year intervals.  This includes income taxes
-  and all taxes in the code itself (written by
-  congress) and regulations (written by government 
+  Thousands of words in US tax law for 1995
+  to 2015 in 10 year intervals.  This
+  includes income taxes and all taxes in the
+  code itself (written by congress) and
+  regulations (written by government 
   administrators).  For 2015 only 
-  "EntireTaxCodeAndRegs" is given;  for other 
-  years, this number is broken down by income tax
-  vs. other taxes and code vs. regulations.  
+  "EntireTaxCodeAndRegs" is given;  for other
+  years, this number is broken down by income
+  tax vs. other taxes and code vs. 
+  regulations.  
 }
 \usage{data(UStaxWords)}
 \format{
@@ -18,97 +20,106 @@
   \describe{
     \item{year}{ tax year }
     \item{IncomeTaxCode}{
-      number of words in thousands in the US income
-      tax code
+      number of words in thousands in the US 
+      income tax code
     }
     \item{otherTaxCode}{
-      number of words in thousands in US tax code
-      other than income tax
+      number of words in thousands in US tax 
+      code other than income tax
     }
     \item{EntireTaxCode}{
-      number of words in thousands in the US tax
-      code
+      number of words in thousands in the US 
+      tax code
     }
     \item{IncomeTaxRegulations}{
-      number of words in thousands in US income tax
-      regulations
+      number of words in thousands in US 
+      income tax regulations
     }
     \item{otherTaxRegulations}{
       number of words in thousands in US tax
       regulations other than income tax
     }
     \item{IncomeTaxCodeAndRegs}{
-      number of words in thousands in both the code
-      and regulations for the US income tax
+      number of words in thousands in both 
+      the code and regulations for the US
+      income tax
     }
     \item{otherTaxCodeAndRegs}{
-      number of wrds in thousands in both code and
-      regulations for US taxes apart from income
-      taxes.
+      number of wrds in thousands in both 
+      code and regulations for US taxes apart
+      from income taxes.
     }
     \item{EntireTaxCodeAndRegs}{
-      number of words in thousands in US tax code
-      and regulations
+      number of words in thousands in US tax 
+      code and regulations
     }
   }
 }
 \details{
-  Thousands of words in the US tax code and federal
-  tax regulations, 1955-2015.  This is based on
-  data from the Tax Foundation (taxfoundation.org),
-  adjusted to eliminate an obvious questionable
-  observation in \code{otherTaxRegulations} for
-  1965.  The numbers of words in 
+  Thousands of words in the US tax code and 
+  federal tax regulations, 1955-2015.  This
+  is based on data from the Tax Foundation
+  (taxfoundation.org), adjusted to eliminate
+  an obvious questionable observation in
+  \code{otherTaxRegulations} for 1965.  The
+  numbers of words in 
   \code{otherTaxRegulations} was not reported
-  directly by the Tax Foundation but is easily
-  computed as the difference between their Income
-  and Entire tax numbers.  This series  shows the
-  numbers falling by 48 percent between 1965 and
-  1975 and by 1.5 percent between 1995 and 2005. 
-  These are the only declines seen in these numbers
-  and seem inconsistent with the common concern
-  (expressed e.g., in Moody, Warcholik and Hodge,
-  2005) about the difficulties of simplifying
-  any governmental program, because vested interest
-  appear to defend almost anything.  Lessig (2011) 
-  notes that virtually all provisions of US law
-  that favor certain segments of society are set to
-  expire after a modest number of years.  These
-  sunset provisions provide recurring opportunities
-  for incumbent politicians to extort campaign
-  contributions from those same segments to ensure
-  the continuation of the favorable treatment.  
+  directly by the Tax Foundation but is
+  easily computed as the difference between
+  their Income and Entire tax numbers.  This
+  series  shows the numbers falling by 48
+  percent between 1965 and 1975 and by 1.5
+  percent between 1995 and 2005.  These are
+  the only declines seen in these numbers
+  and seem inconsistent with the common 
+  concern (expressed e.g., in Moody,
+  Warcholik and Hodge, 2005) about the
+  difficulties of simplifying any 
+  governmental program, because vested 
+  interest appear to defend almost anything.
+  Lessig (2011) notes that virtually all
+  provisions of US law that favor certain
+  segments of society are set to expire after
+  a modest number of years.  These sunset
+  provisions provide recurring opportunities
+  for incumbent politicians to extort 
+  campaign contributions from those same
+  segments to ensure the continuation of the
+  favorable treatment.  
 
   The decline of 48 percent in 
-  \code{otherTaxRegulations} seems more curious for
-  two additional reasons:  First, it was preceded
-  by a tripling of \code{otherTaxRegulations}
-  between 1955 and 1965.  Second, it was NOT
-  accompanied by any comparable behavior of
-  \code{otherTaxCode}. Instead, the latter grew
-  each decade by between 17 and 53 percent, similar
-  to but slower than the growth in 
-  \code{IncomeTaxCode} and 
+  \code{otherTaxRegulations} seems more 
+  curious for two additional reasons:  First,
+  it was preceded by a tripling of 
+  \code{otherTaxRegulations} between 1955 and
+  1965.  Second, it was NOT accompanied by
+  any comparable behavior of 
+  \code{otherTaxCode}. Instead, the latter 
+  grew each decade by between 17 and 53
+  percent, similar to but slower than the
+  growth in \code{IncomeTaxCode} and 
   \code{IncomeTaxRegulations}.
 
-  Accordingly, \code{otherTaxRegulations} for 1965
-  is replaced by the average of the numbers for
-  1955 and 1975, and \code{EntireTaxRegulations}
-  for 1965 is comparably adjusted.  This replaces
-  (1322, 2960) for those two variables for 1965
+  Accordingly, \code{otherTaxRegulations} for
+  1965 is replaced by the average of the
+  numbers for 1955 and 1975, and 
+  \code{EntireTaxRegulations} for 1965 is
+  comparably adjusted.  This replaces (1322,
+  2960) for those two variables for 1965
   with (565, 2203).  In addition, 
   \code{otherTaxCodeAndRegs} and
   \code{EntireTaxCodeAndRegulations} are also
   changed from (1626, 3507) to (870, 2751).
 
-  Independent of whether this adjustment is correct
-  or not, it's clear that there have been roughly 3
-  words of regulations for each word in the tax
-  code.  Most of these are income tax regulations,
-  which have recently contained 4.5 words for every
+  Independent of whether this adjustment is 
+  correct or not, it's clear that there have
+  been roughly 3 words of regulations for
+  each word in the tax code.  Most of these
+  are income tax regulations, which have
+  recently contained 4.5 words for every
   word in code. The income tax code currently
-  includes roughly 50 percent more words than other
-  tax code.
+  includes roughly 50 percent more words than
+  other tax code.
 }
 \source{
   \href{http://taxfoundation.org/article/number-words-internal-revenue-code-and-federal-tax-regulations-1955-2005}{Tax
@@ -177,5 +188,22 @@ plot(UStaxWords$year, resid(newWdsPerYr))
 # since 1955.  
 # No indication of nonlinearity.  
 # adusted R-squared exceeds 99 percent.  
+
+##
+## linear trend with increased slope
+## during the Reagan years
+##
+# linear spline with knots at
+# 1981 and 1989 
+Reagan <- pmax(0, pmin(
+  (UStaxWords$year-1981)/8, 1))
+plot(Reagan~year, UStaxWords, type='b')
+UStaxWords$Reagan <- Reagan
+
+ReaganMdl <- 
+  EntireTaxCodeAndRegs~year + Reagan
+fitReagan <- lm(ReaganMdl, UStaxWords )
+summary(fitReagan)
+
 }
 \keyword{datasets}

@@ -34,18 +34,25 @@
   \code{incidents.byCountryYr} and 
   \code{nkill.byCountryYr} are matrices giving 
   the numbes of incidents and numbers of deaths 
-  by year and by country for 206 countries and 
-  for all years between 1970 and 2015 except 
-  for 1993, for which the raw data were lost. 
+  by year and by location of the event for 206
+  countries and for all years between 1970 and 
+  2015 except for 1993, for which the raw data
+  were lost. 
   
-  NOTE:  For nkill.byCountryYr and for 
-  terrorism[c('nkill', 'nkill.us')], NAs in 
-  GTD were treated as 0.  Thus the actual 
+  NOTES:  
+  
+  1.  For \code{nkill.byCountryYr} and for 
+  \code{terrorism[c('nkill', 'nkill.us')]}, NAs 
+  in GTD were treated as 0.  Thus the actual 
   number of deaths were likely higher, unless 
   this was more than offset by incidents being 
   classified as terrorism, when they should not
   have been.  
   
+  2.  \code{incidents.byCountryYr} and 
+  \code{nkill.byCountryYr} are NA for 1993,
+  because the GTD data for that year were lost.  
+
   \code{terrorism} is a \code{\link{data.frame}}
   containing the following:  
   
@@ -143,9 +150,19 @@
       number of U.S. citizens who died as a
       result of incidents for that year = 
       \code{sum(nkill.us, na.rm=TRUE)} in the 
-      GTD incident data.  (This is subject 
-      to the same likely modest undercount 
-      discussed with \code{nkill}.)
+      GTD incident data.  
+      
+      NOTES:  
+      
+      1.  This is subject to the same likely
+      modest undercount discussed with 
+      \code{nkill}.)
+      
+      2.  These are U.S. citizens killed 
+      regardless of location.  This explains at
+      least part of the discrepancies between
+      \code{terrorism[, 'nkill.us']} and 
+      \code{nkill.byCountryYr['United States', ]}.
     }
     \item{nwound}{
       number of people wounded.  (This is
@@ -278,11 +295,13 @@
   \emph{The Washington Post}, August 11, 
   2014 (accessed 2016-01-09).  
 }
+\author{Spencer Graves}
 %\seealso{}
 \examples{
 data(terrorism)
-# plot deaths per million population 
-
+##
+## plot deaths per million population 
+##
 plot(kill.pmp~year, terrorism, 
      pch=method, type='b')
 plot(kill.pmp.us~year, terrorism, 
@@ -314,8 +333,9 @@ plot(pNA.nkill.us~year, terrorism, type='b',
       pch=method)
 abline(v=1997.5, lty='dotted', col='red')
 
-
-# by country by year
+##
+## by country by year
+##
 data(incidents.byCountryYr)
 data(nkill.byCountryYr)
 
