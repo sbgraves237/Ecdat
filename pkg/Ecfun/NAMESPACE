@@ -24,7 +24,7 @@ export(Arrows, as.Date1970, asNumericChar, asNumericDF,
        parseName, 
        plot.qqnorm2, plot.qqnorm2s, 
        pmatch2, points.qqnorm2, ptruncdist, 
-       qqnorm2, qqnorm2s, qtruncdist, 
+       qqnorm2, qqnorm2s, qqnorm2t, qtruncdist, 
        rasterImageAdj, read.testURLs, 
        read.transpose, readCookPVI, readCookPVI., 
        readDates3to1, readFinancialCrisisFiles, readNIPA, 
@@ -45,6 +45,7 @@ importFrom("methods", "as", "is")
 importFrom("stats", "median", "qqnorm", "runif", "sd", 
            "cov2cor")
 importFrom("utils", "de", "head", "read.csv", "tail")
+importFrom("xml2", 'as_list', 'read_xml')
 
 import(MASS)
 import(TeachingDemos)

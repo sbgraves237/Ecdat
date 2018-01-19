@@ -4,6 +4,13 @@
   Create a list of members of the US House and Senate
 }
 \description{
+NOTE:  THIS FUNCTION IS CURRENTLY UNAVAILABLE: A CALL TO 
+"RCurl::getURL" THAT RETURNED INFO ON ALL MEMBERS OF THE 
+US HOUSE IN 2013 AND 2016 ONLY RETURNS 222 CHARACTERS 
+AS OF 2018-01-11.  
+
+  If and when a fix for this is found, this function may again:
+
   Combine the output of \code{\link{readUShouse}} and
   \code{\link{readUSsenate}}.
 }
@@ -24,7 +31,7 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
 \value{
   a \code{\link{data.frame}} with the following columns:
 
-  \item{Office}{
+  \item{Chamber}{
     A factor identifying "House" vs. "Senate", indicating whether the
     person is in the US House or Senate
   }
@@ -39,10 +46,9 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
     next election for that seat is an integer multiple of 6 years after
     2012, 2008, or 2010 for class "1", "2", or "3", respectively.
   }
-  \item{Party}{
+  \item{party}{
     a factor identifying the party affiliation of each representative,
-    e.g., 'Democratic', 'Republican', 'Democratic-Farmer-Labor',
-    'Independent'.
+    e.g., 'D', 'R', 'I'.
   }
   \item{surname}{
     family name
@@ -59,11 +65,20 @@ UShouse.senate(house=readUShouse(), senate=readUSsenate())
   \code{\link{readUSsenate}}
 }
 \examples{
+if(FALSE){
+#NOTE:  THIS FUNCTION IS CURRENTLY UNAVAILABLE: A CALL TO 
+#"RCurl::getURL" THAT RETURNED INFO ON ALL MEMBERS OF THE 
+#US HOUSE IN 2013 AND 2016 ONLY RETURNS 222 CHARACTERS 
+#AS OF 2018-01-11.  
+
+#  If and when a fix for this is found, this function may again 
+#  work as it did 2013-2016.
+
 if(!fda::CRAN()){
 house <- readUShouse()
 
 USreps <- UShouse.senate(house)
-}
+}}
 }
 \keyword{datasets}
 \keyword{IO}

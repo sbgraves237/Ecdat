@@ -7,9 +7,27 @@
   Normal Probability Plot with Multiple Symbols
 }
 \description{
-  Create a normal probability plot with different symbols for the values
-  of another variable.  \code{qqnorm2} produces an object of class
+  Create a normal probability plot with one line and different 
+  symbols for the values of another variable, \code{z}.  
+  
+  \code{qqnorm2} produces an object of class 
   \code{qqnorm2}, whose plot method produces the plot.
+  
+  To create a normal normal probability plots with multiple 
+  lines, see \code{\link{qqnorm2t}} or \code{\link{qqnorm2s}}:
+  
+  \itemize{
+    \item \code{\link{qqnorm2s}} produces a plot with multiple 
+    lines specified either by different names in a character 
+    vector \code{y} or by different \code{\link{data.frame}}s 
+    in a list \code{data.}, with different points labeled 
+    according to the different levels of \code{z}.  
+  
+    \item \code{\link{qqnorm2t}} produces a plot with multiple 
+    lines with \code{y} split on different levels of \code{x}, 
+    optionally with different points labeled according to 
+    different levels of \code{z}.  
+  }
 }
 \usage{
 qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL, ...)
@@ -27,6 +45,14 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL, ...)
   }
   \item{z}{
     A variable to indicate different plotting symbols.
+    
+    NOTE:  is.logical(z) is replaced by 
+    z <- as.character(z). 
+    
+    Otherwise, pch[z] would delete symbols in pch
+    for which z is FALSE and would recycle the 
+    remaining symbols.  That would rarely be what
+    we want.  
   }
   \item{plot.it}{
     logical:  Should the result be plotted?
@@ -42,46 +68,78 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL, ...)
   }
   \item{pch}{
     a named vector of the plotting symbols to be used with names
-    corresponding to the levels of z.
+    corresponding to the levels of z.  If \code{pch} is provided, 
+    it must either have names corresponding to levels of \code{z}, 
+    or \code{z} must be integers between 1 and \code{length(pch)}.
 
-    By default, if \code{z} takes levels
-    \code{FALSE} and \code{TRUE} (or 0 and 1), pch=c(4, 1) to plot a "x"
-    for \code{FALSE} and "o" for \code{TRUE}.
+    Otherwise, if \code{z} takes levels \code{FALSE} and 
+    \code{TRUE} (or 0 and 1), pch=c(4, 1) to plot an 
+    "x" for \code{FALSE} and "o" for \code{TRUE}.
 
-    If \code{z} assumes integer values between 0 and 255, by default,
-    the symbols are chosen as described with \code{\link{points}}.
+    Or if \code{z} assumes integer values between 0 and 255, by 
+    default, the symbols are chosen as described with 
+    \code{\link{points}}.
 
     Otherwise, by default, \code{z} is coerced to
     \code{\link{character}}, and the result is plotted.
-
-    If \code{pch} is provided, it must eitehr have names corresponding
-    to levels of \code{z}, or \code{z} must be integers between 1 and
-    \code{length(pch)}.
   }
   \item{\dots}{
     Optional arguments.
 
     For \code{plot.qqnorm2}, they are passed to \code{plot}.
 
-    For \code{qqnorm2}, they are passed to \code{\link{qqnorm}} and to
-    \code{plot.qqnorm2}.
+    For \code{qqnorm2}, they are passed to \code{\link{qqnorm}} 
+    and to \code{plot.qqnorm2}.
   }
 }
 \details{
   For \code{qqnorm2}:
 
-  1.  q2 <- qqnorm(y, datax=datax, ...)
+  qq1.  q2 <- qqnorm(y, datax=datax, ...)
 
-  2.  q2[["z"]] <- z
+  qq2.  q2[["z"]] <- z
 
-  3.  q2[["pch"]] gets whatever \code{pch} decodes to.
+  qq3.  q2[["pch"]] gets whatever \code{pch} decodes to.
 
-  4.  Silently return(list(x, y, z, pch)), where "x" and "y" are as
-  returned by \code{\link{qqnorm}} in step 1 above.
+  qq4.  Silently return(list(x, y, z, pch, ...)), where 
+  "x" and "y" are as returned by \code{\link{qqnorm}} 
+  in step 1 above.  If pch is not provided and z is not 
+  logical or positive integers, then z itself will be 
+  plotted and "pch" will not be in the returned list.  
 
-  For \code{plot.qqnorm2}, plot(x, y, pch=pch[z], ...).
-  For \code{lines.qqnorm2}, lines(x, y, pch=pch[z], ...).
-  For \code{points.qqnorm2}, points(x, y, pch=pch[z], ...).
+  For \code{plot.qqnorm2}:  
+  
+  plot1.  plot(x\$x, x\$y, type="n", ...) with "..." taking
+  precidence over x, where the same plot argument appears
+  in both.  
+  
+  plot2.  if(type \%in\% c('l', 'b', 'c', 'o'))
+  lines(x\$x, x\$y, ...)
+
+  plot3.  if(type \%in\% c('p', 'b', 'o')): 
+  if(is.null(x\$z))points(x\$x, x\$y, ...)
+  else if(is.logical(x\$z))points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+  else if(is.numeric(x\$z) && (min(z0 <- round(x\$z))>0)
+  && (max(abs(x\$z-z0))<10*.Machine\$double.eps))
+  points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+  else text(x\$x, x\$y, x\$z, ...)
+
+  For \code{lines.qqnorm2}
+  lines1.  if(type != 'p')lines(x$x, x$y, ...);  
+
+  lines2.  if(type \%in\% c('p', 'b', 'o'))
+  if(is.null(pch))text(x\$x, x\$y, x\$z, ...)
+  else if(is.character(pch))text(x\$x, x\$y, x\$phc[x\$z], ...) 
+  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+
+  For \code{points.qqnorm2}
+  points1.  if(type \%in\% c('p', 'b', 'o'))
+  if(is.null(pch))text(x\$x, x\$y, x\$z, ...)
+  else if(is.character(pch))text(x\$x, x\$y, x\$phc[x\$z], ...) 
+  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+
+  points2.  if(!(type \%in\% c('p', 'n')))
+  lines(x$x, x$y, ...)
 }
 \value{
   \code{qqnorm2} returns a list with components, x, y, z, and pch.
@@ -90,7 +148,8 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL, ...)
   Spencer Graves
 }
 \seealso{
-  \code{\link{qqnorm}}, \code{\link{qqnorm2s}},
+  \code{\link{qqnorm}}, \code{\link{qqnorm2s}}, 
+  \code{\link{qqnorm2t}}
   \code{\link{plot}}
   \code{\link{points}}
   \code{\link{lines}}
@@ -189,6 +248,16 @@ class(qn44) <- 'qqnorm2'
 \dontshow{stopifnot(}
 all.equal(qn4, qn44)
 \dontshow{)}
+
+##
+## Test lines(qn4) without z
+##
+#  just as a test, so this code can be used 
+#  in other contexts
+qn4. <- qn4
+qn4.$z <- NULL
+plot(qn4.)
+
 
 }
 \keyword{plot}

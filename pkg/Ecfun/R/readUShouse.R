@@ -3,7 +3,6 @@ readUShouse <- function(url.="http://www.house.gov/representatives/",
                'Guam', 'Northern Mariana Islands', 'Puerto Rico',
                'Virgin Islands'),
    fixNonStandard=subNonStandardNames, ...){
-#, USstateAbbreviations=readUSstateAbbreviations() ){
 ##
 ## 1.  download content
 ##
@@ -11,7 +10,7 @@ readUShouse <- function(url.="http://www.house.gov/representatives/",
   Start <- paste(date(), ': readUShouse(', url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  house.gov <- try(RCurl::getURL(url.))
+  house.gov <- try(RCurl::getURL(url., followlocation = TRUE))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(house.gov), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -23,34 +22,69 @@ readUShouse <- function(url.="http://www.house.gov/representatives/",
 ##
 ## 2.  find "state"
 ##
-#  st <- gregexpr('state_', house.gov)[[1]] # finds 75
-  st <- gregexpr('\t<h2 id=\"', house.gov)[[1]]
-#  substring(house.gov, st, st+28)
+  if(length(house.gov)>1){
+    stop('Structure of ', url., ' has changed:\n', 
+         'getURL(...) no longer returns a single ', 
+         'long character string as before.')
+  }
+#  st <- gregexpr('state_', house.gov)[[1]] # found 75 in 2013
+#  but later found nothing.  
+# Was replaced by:  
+#  st <- gregexpr('\t<h2 id=\"', house.gov)[[1]]
+#  which by 2018-01-10 also found nothing.
+#  st <- gregexpr('<a href=\"#state-', house.gov)[[1]] # 19 <- not enough 
+#  st <- gregexpr('href=\"#state-', house.gov)[[1]] # still only 19
+#  st <- gregexpr('#state-', house.gov)[[1]] # still only 19
+#  st <- gregexpr('#state', house.gov)[[1]] # still only 19
+#  st <- gregexpr('state', house.gov)[[1]] # 81 probably better?
+#  st <- gregexpr('state-', house.gov)[[1]] # 76 probably better?
+#  substring(house.gov, st, st+28) 
+# state-alabama twice: # 2 and 21 
+# This has 56 entries starting with # 21 <- what I want.  
+# First find the last "Alabama":  
+  Alabama <- tail(gregexpr('state-alabama', house.gov)[[1]], 1) 
+  stateTable <- substring(house.gov, Alabama)
+  st <- gregexpr('state-', stateTable)[[1]] 
+# length = 56: What I want, I think.  
+  nst <- length(st)
+  if(nst != 56){
+    warning('house.gov has changed.  readUShouse ', 
+            'may not return the desired information.')
+  }
   st. <- sapply(st, function(x){
-      hgi <- substring(house.gov, x)
+      hgi <- substring(stateTable, x)
       x2 <- (x+regexpr('\">', hgi))
   } )
-  stCodes <- substring(house.gov, st+9, st.-2)
-# 2014-12-06: state_al (Alabama representatives)... 
-#    name_y (names beginning with y)
-  st. <- strsplit(stCodes, "_")
-  St. <- sapply(st., "[", 2)
+  st.codes <- substring(stateTable, st+6, st.-2)
+# 2018-01-11: alabama ... american-samoa ... 
 ##
 ## 3.  Convert to tables
 ##
 #  library(XML)
   House.gov <- XML::readHTMLTable(house.gov, stringsAsFactors=FALSE)
-  names(House.gov) <- stCodes
+  stNms0 <- names(House.gov)
+  stNms1 <- strsplit(stNms0, '\n')
+  stNms2 <- sapply(stNms1, '[', 2)
+  stNms3 <- trimws(stNms2) 
+# 81 = 56 states and territories + 25 letters 
+  names(House.gov) <- stNms3
+  byState <- (nchar(stNms3)>1)
+  State. <- stNms3[byState] # 50 states + DC + 5 territories
+#  House.gov <- House.gov0[nchar(stNms3)>1]
 ##
 ## 4.  Rbind tables with the same headers
 ##
   headers <- lapply(House.gov, names)
   h. <- sapply(headers, paste, collapse=":")
   H. <- table(h.)
-  st2 <- St.[1:H.[1]]
-#
+# st2 <- St.[1:H.[1]]
   ns <- sapply(House.gov, nrow)
-  St2 <- rep(st2, ns[1:length(st2)])
+  State <- rep(State., ns[byState]) # 441 rows 
+#  USPS <- grep('USPS', names(Ecdat::USstateAbbreviations))
+  stateAbbr <- Ecdat::USstateAbbreviations[c('Name', 'USPS')]
+  rownames(stateAbbr) <- stateAbbr$Name
+  state <- stateAbbr[State, 2]
+#  St2 <- rep(st2, ns[1:length(st2)])
 #
   nh <- length(H.)
   out <- vector(mode='list', length=nh)
@@ -59,94 +93,54 @@ readUShouse <- function(url.="http://www.house.gov/representatives/",
     out[[ih]] <- do.call(rbind, House.gov[sel])
   }
   names(out) <- names(H.)
+  District <- paste(State, out[[1]]$District)
+  distr <- sub('At Large|Delegate|Resident Commissioner', 
+                  '0', out[[1]]$District)
+  distr2 <- sub('st|nd|rd|th', '', distr)
+  district <- as.integer(distr2)
+  idistr <- which('District' == names(out[[1]]))
+  iparty <- which('Party' == names(out[[1]]))
+  inm <- which('Name' == names(out[[1]]))
+#  
+  out[[1]] <- cbind(State=factor(State), 
+      state=factor(state), district, 
+      out[[1]]['Name'], 
+      party=factor(out[[1]]$Party), 
+      out[[1]][-c(idistr, inm, iparty)], 
+      stringsAsFactors=FALSE)  
+  rm <- grep('Office Room', names(out[[1]]))
+  names(out[[1]])[rm] <- 'Room'
+#  
+  cmtes <- grep('Committee', names(out[[1]]))
+  if(length(cmtes)==1){
+    names(out[[1]])[[cmtes]] <- 'Committees'
+  } else {
+    warning("length(grep('Committee', names(out[[1]])))", 
+            ' != 1:  Name problems')
+  }
+  rownames(out[[1]]) <- District
+#  
+  surnm <- parseName(out[[1]]$Name, TRUE)
+# fix nonstandard names?
+  Surnm <- fixNonStandard(surnm)
+  out[[1]] <- cbind(out[[1]], Surnm, 
+            stringsAsFactors=FALSE)
 ##
-## 5.  If 2 tables, use the first but add the state names
+## 5.  If not 2 tables, issue a warning
 ##
-  if(nh>2){
-      warning(nh, " > 2 different tables found;  I'm confused")
+  if(nh!=2){
+      warning(nh, " != 2 different tables found;  I'm confused")
       return(out)
   }
   n. <- sapply(out, nrow)
   if(n.[1] != n.[2]){
     warning('2 tables found with differing numbers of rows:  ', 
-            paste(n., collapse=' and '), '; returning the larger')
-#      stop('2 tables found with different numbers of rows')
-#    return(out)
+            paste(n., collapse=' and '), "; I'm confused:", 
+            ' Returning both.')
+    return(out)
   }
-#
-  n2 <- max(n.)
-  i2 <- which(n.==n2)[1]
-  i1 <- 3-i2
-  n1 <- n.[i1]
-#  Dist <- out[[2]]$District
-  Dist <- out[[i2]]$District
-  D. <- strsplit(Dist, ' ')
-  state <- sapply(D., function(x){
-      nx <- length(x)
-      Di <- (x[nx]=='District')
-      x. <- paste(x[seq(length=nx-Di-1)], collapse=' ')
-      x.
-  } )
-# but in the wrong order
-#  State <- character(n.[1])
-  State <- character(n2)
-#  for(i. in 1:n.[1]){
-  for(i. in 1:n2){
-      j. <- which(out[[i2]]$Name==out[[i1]]$Name[i.])
-      if((nj <- length(j.)) != 1){
-        warning('for row ', i., ' found ', nj, ' matches')
-      } else State[i.] <- state[j.]
-  }
-#
-#  USPS <- grep('USPS', names(USstateAbbreviations))
-#  USPScodes <- USstateAbbreviations[, USPS]
-#  good <- (USPScodes!='')
-#  stateAbbr <- USstateAbbreviations[good,]
-#  USPScds <- USPScodes[good]
-#  rownames(stateAbbr) <- USPScds
-  ST2 <- toupper(St2)
-#  which(!(ST2 %in% USPScds))
-# state <- stateAbbr[ST2, "Name"]
-#
-# Out <- cbind(data.frame(State = State, state = ST2), out[[1]][1:5])
-  Out <- cbind(data.frame(State=State, state=ST2),
-               out[[i2]][1:5])
-  Out$Party <- factor(Out$Party)
-# Out$Committees <- out[[1]][["Committee Assignment"]]
-#  Out$Committees <- out[[i2]][["Committee Assignment"]]
-  Out$nonvoting <- (Out$State %in% nonvoting)
-#
-  surnm <- parseName(Out$Name, TRUE)
-  O <- cbind(Out, as.data.frame(surnm, stringsAsFactors=FALSE))
-##
-## 6.  convert District to "district",
-##     "At Large", "At-Large", "AtLarge" to "0"
-##
-  Dist <- which(names(O) %in% "District")
-  if(length(Dist)!=1){
-      print(names(O))
-      stop('UShouse does not contain a unique column named "District"')
-  }
-  names(O)[Dist] <- "district"
-  zero <- (O[, Dist] %in% c("At Large", "At-Large", "AtLarge"))
-  O[zero, Dist] <- "0"
-##
-## 7.  rename Party -> party because it's "D" & "R",
-##     and standard "Party" = "Democrat", "Republican", ...
-##
-  Pty <- which(names(O) %in% "Party")
-  if(length(Dist)!=1){
-      print(names(O))
-      stop('UShouse does not contain a unique column named "Party"')
-  }
-  names(O)[Pty] <- "party"
-##
-## 8.  nonStandard?
-##
-  O$surname <- fixNonStandard(O$surname, ...)
-  O$givenName <- fixNonStandard(O$givenName, ...)
 ##
 ## 8.  Done
 ##
-  O
+  out[[1]]
 }

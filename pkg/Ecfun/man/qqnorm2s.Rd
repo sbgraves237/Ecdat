@@ -6,29 +6,24 @@
   and Multiple Symbols
 }
 \description{
-  Create a normal probability plot with multiple
-  lines and different symbols for the values of
-  another variable.
+  Create a normal probability plot with one 
+  line for each \code{y} variable or each 
+  \code{\link{data.frame}} in a list \code{data.}
+  with different plotting symbols for the values 
+  of \code{z}.  
   
-  This can work with with \code{data.} = 
-  either one \code{\link{data.frame}} or a 
-  \code{\link{list}} of data.frames.  
-  
-  With one data.frame, if \code{length(y)} > 1, 
-  one line is plotted for each element of 
-  \code{y}.  If \code{length(y)} == 1, the 
-  one data.frame is split into a list of 
-  data.frames using \code{z}, and the 
-  resulting list is then passed to 
-  \code{qqnorm2s}.  
-  
+  To create a normal probability plot with one 
+  \code{y} variable split on a \code{link{factor}}
+  or \code{\link{character}} variable \code{x}, 
+  see \code{\link{qqnorm2t}}.  
+
   \code{qqnorm2s} produces an object of class
   \code{qqnorm2s}, whose plot method produces 
   the plot.
 }
 \usage{
-qqnorm2s(y, z, data., plot.it=TRUE, datax=TRUE,
-    outnames=y, pch=NULL, col=c(1:4, 6), 
+qqnorm2s(y, z=NULL, data., plot.it=TRUE, datax=TRUE,
+    outnames=NULL, pch=NULL, col=c(1:4, 6), 
     legend.=NULL, ...)
 \method{plot}{qqnorm2s}(x, y, ...)
 }
@@ -53,7 +48,7 @@ qqnorm2s(y, z, data., plot.it=TRUE, datax=TRUE,
     shorter are replicated to the length of the
     longest before computations begin.
 
-    For \code{plot.qqnorm2}, \code{y} is ignored;
+    For \code{plot.qqnorm2s}, \code{y} is ignored;
     it is included, because the generic 
     \code{\link{plot}} function requires it.
   }
@@ -214,16 +209,21 @@ all.equal(Qn2, Qn2.)
 ##
 tstDF2b <- tstDF2
 tstDF2b$y <- c(0.1, 0.1, 9)
-Qn2b <- qqnorm2s('y', 'z2', list(tstDF2, 
-      tstDF2b), outnames=c('ok', 'oops'), 
-      log='x' )
+Qn2b <- qqnorm2s('y', 'z2', 
+    list(tstDF2, tstDF2b), 
+    outnames=c('ok', 'oops'), log='x' )
 ##
 ## Split one data.frame 
 ##
 tstDF2. <- rbind(cbind(tstDF2, z1=1), 
                  cbind(tstDF2b, z1=2) )
-Qn2. <- qqnorm2s('y', 'z1')
-
-
+Qn2. <- qqnorm2s('y', 'z1', tstDF2.)
+# Plot has only one line, because only 1 y variable.  
+##
+## Two data.frames without z
+##
+Qn2.0 <- qqnorm2s('y', 
+    data.=list(tstDF2, tstDF2b), 
+    outnames=c('ok', 'oops'), log='x' )
 }
 \keyword{plot}

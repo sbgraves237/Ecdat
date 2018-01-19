@@ -12,7 +12,7 @@
 \usage{
 mergeUShouse.senate(x, UScongress=UShouse.senate(),
         newrows="amount0",
-        default=list(member=FALSE, amount=0, vote="notEligible",
+        default=list(member=FALSE, amount=0, #vote="notEligible",
                      incumbent=TRUE) )
 }
 \arguments{
@@ -53,7 +53,7 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
   10.  Look for NAs in "incumbent" who are nevertheless in UScongress;
   fix.  Thus, if x[['incumbent']] is TRUE or FALSE, this value is not
   checked in UScongress;  it's checked only if NA.  The check consists
-  of comparing names for a given Office:state:district between
+  of comparing names for a given Chamber:state:district between
   strsplit(x[['surname']], ' ')[[1]][1] and
   strsplit(UScongress[['surname']], ' ')[[1]][1] and similarly for
   givenName.  This allows 'Rogers' in x[['surname']] to match 'Rogers
@@ -73,20 +73,19 @@ mergeUShouse.senate(x, UScongress=UShouse.senate(),
 }
 %\references{}
 \examples{
-tst <- data.frame(Office=factor(rep(c('House', 'Senate'), c(4, 2))),
+tst <- data.frame(Chamber=factor(rep(c('House', 'Senate'), c(4, 2))),
          State=factor(c('Missouri', 'Minnesota', 'Tennessee',
                         'New York', rep('South Carolina', 2))),
          state=factor(c('MO', 'MN', 'TN', 'NY', 'SC', 'SC')),
-         district=as.character(c(4, 1, 8, 18, 2, 3)),
+         district=c(4, 1, 8, 18, 2, 3),
          surname=c('Hartzler', 'Walz', 'Fincher', 'Maloney',
                    'Graham', 'DeMint'),
          givenName=c('Vicky', 'Timothy J.', 'Stephen Lee',
                    'Sean Patrick', 'Lindsey', 'Jim'),
-         Party=c('Republican', 'Democrat', 'Republican', 'Democrat',
-                 'Republican', 'Democrat'),
+         party=c('R', 'D', 'R', 'D', 'R', 'D'),
          CommitteeMember=rep(c(TRUE, FALSE), c(4, 2)),
          amount=c(5000, 2000, 29500, 1000, 1000, 11500),
-         xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
+         #xvote=c('Y', 'N', 'Y', 'Y', 'notEligible', 'notEligible'),
          incumbent=NA, stringsAsFactors=FALSE )
          
 if(!fda::CRAN()){         

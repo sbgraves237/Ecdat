@@ -4,22 +4,19 @@
   Read the list of elected officials in the United States Senate
 }
 \description{
-  Read the list of elected officias in the United States Senate.
+  Read the list of elected officials in the United States Senate.
 }
 \usage{
 readUSsenate(url.=
-"https://en.wikipedia.org/wiki/List_of_current_United_States_Senators",
+"https://www.senate.gov/general/contact_information/senators_cfm.xml",
     stateAbbreviations=Ecdat::USstateAbbreviations,
-   fixNonStandard=subNonStandardNames, ...)
+    fixNonStandard=subNonStandardNames, ...)
 }
 \arguments{
   \item{url.}{
     Universal resource locator to be read and processed to obtain the
-    desired list
-
-    NOTE:  On April 26, 2013 the obvious naive use of
-    \code{\link[XML]{readHTMLTable}} worked with the Wikipedia article
-    on the US Senate but did not work with "senate.gov".
+    desired list.  (The current default was suggested by Julia 
+    Silge.)  
   }
   \item{stateAbbreviations}{
     a \code{\link{data.frame}} giving names and alternative codes for US
@@ -55,28 +52,32 @@ readUSsenate(url.=
     A factor giving the 2-letter USPS code for the state represented
   }
   \item{Class}{
-    "1", "2", or "3" for election in the 6-year cycle including 2008,
-    2010, or 2012, respectively.
+    an integer = 1, 2, or 3 for election in the 6-year cycle 
+    including 2008, 2010, or 2012, respectively.
   }
   \item{Name}{
     A character vector giving the name of each representative (in surname,
     given name format)
   }
-  \item{Party}{
+  \item{party}{
     a factor identifying the party affiliation of each representative
-    ("Democrat", "Republican", or "Independent").
+    ("D", "R", "I" or ...)
   }
-  \item{Experience}{
-    character vector highlighting prior experience.
+  \item{address}{
+    character vector of physical addresses of offices in 
+    Washington, DC.
   }
-  \item{assumedOffice}{
-    character vector giving the date assumed office
+  \item{phone}{
+    character vector the phone number of the offices in 
+    Washington, DC.
   }
-  \item{Born}{
-    a character vector giving the year of birth
+  \item{email}{
+    a character vector giving the URL of their office 
+    contact form.  
   }
-  \item{endOffice}{
-    a character vector giving the last day in the present term.
+  \item{website}{
+    a character vector giving the URL of their web site in 
+    "senate.gov".  
   }
   \item{surname}{
     character vector giving the surname of each representative
@@ -85,9 +86,13 @@ readUSsenate(url.=
     given name of each representative (possibly with middle name or
     initial, a nickname, and a suffix like "Jr.")
   }
+  \item{leadership_position}{
+    a character vector giving the names of the official leaders or 
+    blank.  
+  }
 }
 %\references{}
-\author{Spencer Graves}
+\author{Spencer Graves with help from Julia Silge}
 \seealso{
   \code{\link[RCurl]{getURL}}
   \code{\link[XML]{readHTMLTable}}

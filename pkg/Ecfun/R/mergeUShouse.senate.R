@@ -1,6 +1,6 @@
 mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
                                 newrows='amount0',
-        default=list(member=FALSE, amount=0, vote="notEligible",
+        default=list(member=FALSE, amount=0, #vote="notEligible",
                      incumbent=TRUE) ){
 ##
 ## 0.  Check district
@@ -14,8 +14,8 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
 #  X <- x
 #  x$district[x$district=='0'] <- 'At Large'
 #
-  keyx <- with(x, paste(Office, state, district, sep=":"))
-  keyy <- with(UScongress, paste(Office, state, district, sep=":"))
+  keyx <- with(x, paste(Chamber, state, district, sep=":"))
+  keyy <- with(UScongress, paste(Chamber, state, district, sep=":"))
 ##
 ## 2.  notx
 ##
@@ -26,7 +26,8 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
       print(x[huh,][1,])
       stop('District coding problem in x')
   }
-  notx. <- (notx & !UScongress$nonvoting)
+#  notx. <- (notx & !UScongress$nonvoting)
+  notx. <- notx
 #
   Y <- UScongress[notx., ]
   keyy. <- keyy[notx.]
@@ -64,16 +65,18 @@ mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
   xY <- rbind(x[nmx.Y], Y[nmY.x])
 ##
 ## 5.  Replace 'Democrat' with 'Democratic' in xY$Party
+##     is this a no-op now that "Party" is "party" 
+##     coded as R and D...?
 ##
-  Pty <- xY$Party
-  Pty[Pty=='Democrat'] <- 'Democratic'
-  xY$Party <- factor(Pty)
+  Pty <- xY$party
+#  Pty[Pty=='Democrat'] <- 'Democratic'
+  xY$party <- factor(Pty)
 ##
 ## 6.  incumbent?
 ##
   if('incumbent' %in% names(xY)){
       oops <- is.na(xY$incumbent)
-      keyo <- with(xY[oops, ], paste(Office, state, district, sep=":"))
+      keyo <- with(xY[oops, ], paste(Chamber, state, district, sep=":"))
 #     see notx above
 #      oddDist <- which(!(keyo %in% keyy))
 #      if((nod <- length(oddDist))>0){

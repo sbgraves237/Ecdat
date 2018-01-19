@@ -55,46 +55,51 @@ readUShouse(url.="http://www.house.gov/representatives/",
 }
 %\source{ }
 \value{
-  \code{readUShouse} returns a \code{data.frame} with the following
-  columns:
+  \code{readUShouse} returns a \code{data.frame} with row names 
+  = District (State + district, like "New York 3rd") and the 
+  following columns:  
 
   \item{State}{
-    A factor identifying the state or territory the person 
-    represents
+    A \code{\link{factor}} identifying the state or territory 
+    the person represents
   }
   \item{state}{
-    2-letter US Postal Service abbreviation for the state or
-    territory
+    A \code{\link{factor}} giving the 2-letter US Postal Service 
+    abbreviation for the state or non-state governmental entity. 
   }
   \item{district}{
-    the character vector identifying the district each person
-    represents.  This is either an integer in character format or 0
-    for "At Large".
+    An \code{\link{integer}} identifying the district each person 
+    represents, with 0 for entities with only one representative, 
+    designated "At Large" for states, "Resident Commissioner" for 
+    Puerto Rico, and "Delegate" for the territories.  
   }
   \item{Name}{
-    A character vector giving the name of each representative (in 
-    surname, given name format)
+    A \code{\link{character}} vector giving the name of each 
+    representative (in "surname, given name" format)
   }
   \item{party}{
-    a factor identifying the party affiliation of each 
-    representative ("D" or "R").
+    a \code{\link{factor}} identifying the party affiliation of 
+    each representative ("D" or "R").
   }
   \item{Room}{
-    character vector identifying the room number of the office
+    a \code{\link{character}} vector identifying the room number 
+    of the office
   }
   \item{Phone}{
-    character vector giving the phone number
+    a \code{\link{character}} vector giving the phone number
   }
   \item{Committees}{
-    a character vector giving the committee assignments of each
-    representative
+    a \code{\link{character}} vector giving the committee 
+    assignments of each representative
   }
   \item{surname}{
-    character vector giving the surname of each representative
+    a \code{\link{character}} vector giving the surname of each 
+    representative
   }
   \item{givenName}{
-    given name of each representative (possibly with middle name or
-    initial, a nickname, and a suffix like "Jr.")
+    a \code{\link{character}} vector with the given name of 
+    each representative (possibly with middle name or initial, 
+    a nickname, and a suffix like "Jr.")
   }
 }
 %\references{}

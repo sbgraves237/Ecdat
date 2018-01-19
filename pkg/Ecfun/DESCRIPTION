@@ -8,7 +8,7 @@ Depends: R (>= 3.0.1)
 Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr, 
           knitr
 Imports:  fda, gdata, RCurl, XML, tis, jpeg, 
-          MASS, TeachingDemos, stringi, methods
+          MASS, TeachingDemos, stringi, methods, xml2
 Description: Functions to update data sets in Ecdat and to create,
           manipulate, plot and analyze those and similar data sets.
 LazyData: true
