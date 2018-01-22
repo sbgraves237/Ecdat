@@ -14,7 +14,7 @@
   \code{qqnorm2}, whose plot method produces the plot.
   
   To create a normal normal probability plots with multiple 
-  lines, see \code{\link{qqnorm2t}} or \code{\link{qqnorm2s}}:
+  lines, see \code{\link{qqnorm2t}} or \code{\link{qqnorm2s}}:x`
   
   \itemize{
     \item \code{\link{qqnorm2s}} produces a plot with multiple 
@@ -79,6 +79,12 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL, ...)
     Or if \code{z} assumes integer values between 0 and 255, by 
     default, the symbols are chosen as described with 
     \code{\link{points}}.
+    
+    NOTE:  *** points.qqnorm2 may not work properly 
+    for z being integer between 0 and 255.  
+    lines.qqnorm2 is more likely to work in such 
+    cases.  *** No time to fix this as of 
+    2018-01-20.  
 
     Otherwise, by default, \code{z} is coerced to
     \code{\link{character}}, and the result is plotted.
