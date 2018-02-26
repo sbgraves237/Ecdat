@@ -15,10 +15,21 @@
 \usage{data(Mroz)}
 \format{A dataframe containing :
   \describe{
-    \item{work}{participation in 1975 ?}
+    \item{work}{
+      work at home in 1975? 
+      (Opposite of carData::lfp[['lfp']] = 
+      labor force participation:  When one is 'no', 
+      the other is 'yes' and vice versa.)
+    }
     \item{hoursw}{wife's hours of work in 1975}
-    \item{child6}{number of children less than 6 years old in household}
-    \item{child618}{number of children between ages 6 and 18 in household}
+    \item{child6}{
+      number of children less than 6 years old in household
+      (Same as carData::Mroz['k5'].)
+    }
+    \item{child618}{
+      number of children between ages 6 and 18 in household
+      (Same as carData::Mroz['k618'])
+    }
     \item{agew}{wife's age}
     \item{educw}{wife's educational attainment, in years}
     \item{hearnw}{wife's average hourly earnings, in 1975 dollars}
@@ -35,6 +46,13 @@
     \item{experience}{actual years of wife's previous labor market experience}
   }
 }
+\details{
+  These data seem to have come from the same source as
+  carData::Mroz, though each data set has variables not 
+  in the other.  The variables that are shared have different
+  names, and the level names for 'work' here are swapped from 
+  the levels of carData::Mroz['lfp'].  
+}
 \source{
     Mroz, T. (1987) \dQuote{The sensitivity of an empirical model of married women's hours of work to economic and statistical assumptions}, \emph{Econometrica}, \bold{55}, 765-799.
 
@@ -45,7 +63,11 @@
     Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{http://www.prenhall.com/greene/greene1.html}, Table F4.1.
 
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
-
-
+\seealso{
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}}, 
+  \code{\link[carData]{Mroz}}
+}
 \keyword{datasets}
