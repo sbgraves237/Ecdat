@@ -97,5 +97,5 @@ head(Mroz)
 # then use the following to be clear that 
 # you want this version: 
 head(Ecdat::Mroz)
-
+}
 \keyword{datasets}
