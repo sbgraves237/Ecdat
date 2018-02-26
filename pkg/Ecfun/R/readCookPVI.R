@@ -1,30 +1,3 @@
-readCookPVI. <- function(url.=
-"https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
-      UShouse=readUShouse(), USsenate=readUSsenate(), ...){
-##
-## 1.  readCookPVI()
-##
-  CookPVI <- readCookPVI(url.)
-##
-## 2.  merge with UShouse
-##
-  keyPVI <- with(CookPVI$House, paste(State, District, sep='.'))
-  houseKey <- with(UShouse, paste(state, district, sep='.'))
-  rownames(UShouse) <- houseKey
-  House <- cbind(UShouse[keyPVI, ], CookPVI$House[, c('PVInum', 'PVIchar')])
-##
-## 3.  merge with USsenate
-##
-  CookSenate <- CookPVI$Senate
-  rownames(CookSenate) <- CookSenate$State
-  Senate <- cbind(USsenate, CookSenate[USsenate$State, -1])
-  rownames(Senate) <- rownames(USsenate)
-##
-## 4.  Done
-##
-  list(House=House, Senate=Senate)
-}
-
 readCookPVI <- function(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index"){
 ##
@@ -35,7 +8,8 @@ readCookPVI <- function(url.=
                  url., ')', sep='')
   cat(Start)
   startTime <- proc.time()
-  Url. <- try(RCurl::getURL(url.))
+  Url. <- try(RCurl::getURL(url., 
+                            followlocation = TRUE))
   et <- max(proc.time()-startTime, na.rm=TRUE)
   Read <- paste('|', nchar(Url.), 'bytes read in',
                 round(et, 2), 'seconds\n')
@@ -48,7 +22,8 @@ readCookPVI <- function(url.=
 ## 2.  readHTMLTable
 ##
 #  library(XML)
-  Wikitbls <- XML::readHTMLTable(Url., stringsAsFactors=FALSE)
+  Wikitbls <- XML::readHTMLTable(Url., 
+                      stringsAsFactors=FALSE)
 ##
 ## 3.  Find House and Senate tables
 ##
@@ -81,15 +56,66 @@ readCookPVI <- function(url.=
       PVIchar <- sapply(x., '[', 2)
       list(PVInum=PVInum, PVIchar=PVIchar)
   }
-  House. <- cbind(House[c('State', 'District')],
-                  pvi(House[['PVI']]),
-                  stringsAsFactors=FALSE)
-  House.$PartyOfRepresentative <- factor(House[['Party of\nRepresentative']])
+  sti <- which(tolower(names(House)) == 'state')
+#  if(!('state' %in% tolower(names(House)))){
+  if(length(sti)<1){
+    disti <- which(tolower(names(House)) 
+                   == 'district')
+    if(length(disti)>0){
+#    if('District' %in% names(House)){
+      Distr <- House[, disti[1]] 
+      H1. <- Distr
+      kH1 <- regexpr('!', Distr)
+      H1.[kH1>0] <- substring(Distr[kH1>0], 
+                1, kH1[kH1>0]-2)
+#     On 2018-02-26       
+#     the space in "Alabama 1" is NOT a standrd
+#     space.  I don't know what it is, but 
+#     I need it:  
+      Blk.Ala <- substring(Distr[[1]], 8, 8)
+      Blk <- paste0(Blk.Ala, '| ')
+      H1.. <- strsplit(H1., Blk)
+      State. <- sapply(H1.., function(x){
+        paste(head(x, -1), collapse=' ')
+      })
+      State1 <- sub('Nor ', 'North ', State.)
+      State <- sub('Sou ', 'South ', State1)
+      District <- sapply(H1.., tail, 1)
+    } else {
+      stop('Neither "State" nor
+              names(House)')
+    }
+  } else {
+    State <- House[, sti[1]]
+    disti <- which(tolower(names(House)) 
+                   == 'district')
+    if(length(disti)>0){
+      #    if('District' %in% names(House)){
+      District <- House[, disti[1]] 
+    } else {
+      stop('"District" not in names(House)')
+    }
+  }
+#      
+  House. <- cbind(data.frame(
+    State=State, District=District, 
+    stringsAsFactors=FALSE), 
+    pvi(House[['PVI']]),
+    stringsAsFactors=FALSE)
+  ptyi <- which(names(House) ==
+      'Party of\nRepresentative')
+  if(length(ptyi)<1)
+    stop('Party of ... not in names(House)')
+  House.$PartyOfRepresentative <- factor(
+          House[[ptyi[1]]])
 #
-  Senate. <- cbind(Senate['State'], pvi(Senate[['PVI']]),
+  Senate. <- cbind(Senate['State'], 
+                   pvi(Senate[['PVI']]),
                    stringsAsFactors=FALSE)
-  Senate.$PartyOfGovernor <- factor(Senate[['Party of\nGovernor']])
-  Senate.$PartyInSenate <- factor(Senate[['Party\nin Senate']])
+  Senate.$PartyOfGovernor <- factor(
+    Senate[['Party of\nGovernor']])
+  Senate.$PartyInSenate <- factor(
+    Senate[['Party\nin Senate']])
   houseBal <- pvi(Senate[['House\nbalance']])
   Senate.$houseBalanceNum <- houseBal[[1]]/10
   Senate.$houseBalanceChar <- houseBal[[2]]
