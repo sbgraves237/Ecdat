@@ -1,0 +1,296 @@
+---
+title: "Accountants-Auditors-IPUMS"
+author: "Spencer Graves"
+#date: "9/1/2018"
+date: "`r Sys.Date()`"
+#output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Accountants-Auditors-IPUMS}
+  \usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Accountants and auditors from IPUMS 
+
+I created an account wit IPUMS and selected and requested historical data on the number of accountants and auditors in the US labor force dating back to the nineteenth century.  After a while I got an email saying my extract was ready for download.  
+
+However, the obvious thing to download produced a *.dat file, but the obvious instructions for reading it required a *.xml file.  
+
+From "help(pac=ipumsr)" I found that the packages included six vignettes.  One of those is titled ["Introduction to ipumsr - IPUMS Data in R"](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html).  From this, I learned that I needed to right click (ctrl-click on a Mac) on "DDI" under "Codebook" and then select and then select "Save link as...".  Moreover, I should NOT do this in Safari.  Google Chrome worked for me for this on 2018-09-01.  
+
+Following this process, I downloaded "usa_00001.dat" with 4.91 GB of data plus "usa_00001.xml" being a codebook file of size 67 KB.  
+
+The "Command File" for R recommends using the following:  
+
+```{r ipums}
+readAndCompute <- FALSE
+# "usa_0001.dat" is huge. 
+# It takes a long time to read 
+# (3.63 seconds on a reasonably fast notebook on 2018-09-02)
+# and shorter but still long times with other operations 
+# on "data" (roughly 30 seconds with each computation).
+# Therefore, I'm wrapping each computation in a condition, 
+# so it will only be run if I actually want it.  
+if(readAndCompute){
+#***IF readAndCompute
+#***change setwd as needed to 
+#***the directory containing 
+#***'usa_00001.xml' and 'usa_00001.dat'
+#*** The following is required to knit this .Rmd file 
+#*** from within ~ecdat/pkg/Ecfun/vignette 
+#*** when getwd() is at the top of this file stack.  
+  setwd("../../../..")  
+  library(ipumsr)
+  start.time <- Sys.time()
+  ddi <- read_ipums_ddi("usa_00001.xml")
+  data <- read_ipums_micro(ddi)
+  (et <- Sys.time() - start.time)
+}
+```
+
+I timed this, because the first time it seemed to take a long while.  Obviously, I extracted a lot moredata than I need.  But conveniently, when I'm running this manually, it displays both percent completion and number of MB read so far: 3.63 minutes.   
+
+The "data" is an object with a huge number of rows and 8 colums:  
+
+```{r data}
+if(readAndCompute){
+  str(data)
+  nrow(data)/1e6
+}
+```
+
+"data" is an object of classes "tbl_df","tbl" and "data.frame" with over 114 million rows.  
+
+That's too few rows to have one row for each person in the most recent census -- or even one row for each household in all the census since 1850:  
+
+```{r tbl_year}
+if(readAndCompute){
+  startYr <- Sys.time()
+  str(tbl_year <- table(data$YEAR))
+  (etYr <- Sys.time()-startYr)
+  plot(tbl_year)
+  tbl_year
+}
+```
+
+The plot looks funny but shows that we have data from every census except 1890, and that with the listing shows that we also have data for each year between 2000 and 2016.  
+
+Let's look at "var_desc" for HHWT:  
+
+```{r HHWT}
+if(readAndCompute){
+  attributes(data$HHWT)
+}
+```
+
+Let's look at the distribution of HHWT:  
+
+```{r q_HHWT}
+if(readAndCompute){
+  quantile(data$HHWT)
+}
+```
+
+Let's also examine the the attributes of OCC1950:  
+
+```{r OCC1950}
+if(readAndCompute){
+  stOCC <- Sys.time()
+  str(OCCcodes <- attributes(data$OCC1950))
+  (etOCC <- Sys.time()-stOCC)
+}
+```
+
+We're especially interested in "labels":  
+
+```{r OCClbls}
+if(readAndCompute){
+  head(OCCcodes$labels)
+  tail(OCCcodes$labels)
+}
+```
+
+"Accountants and auditors" are coded 0, "Gentleman/lady/at liesure" is 991, and there are two different missing value codes, which we should probably examine after we do some tabulations.  
+
+Let's sum HHWT within YEAR and OCC1950:  
+
+```{r tabYrOcc}
+if(readAndCompute){
+  stYrOcc <- proc.time()
+  str(YrOcc <- tapply(data$HHWT, data[c("OCC1950", "YEAR")], sum))
+  (etYrOcc <- proc.time()-stYrOcc)
+}
+```
+
+This is an array of OCC1950 by YEAR.  The first column should estimate the number of Accountants and Auditors by YEAR.  
+
+Let's plot
+
+```{r AccAud}
+if(readAndCompute){
+  plot(colnames(YrOcc), YrOcc['0', ], type='l', log='y', las=1)
+}
+```
+
+What about the break in this line?  
+
+```{r printAct}
+if(readAndCompute){
+  YrOcc['0',]
+}
+```
+
+1940 is NA.  Is this consistent across all OCC1950 codes?  
+
+```{r yrNA}
+if(readAndCompute){
+  (yrNA <- colSums(is.na(YrOcc)))
+}
+```
+
+Different occupation codes are missing for different years, ranging from 4 OCC1850 codes not used in 1930 to 116 in 1850 and 102 in 2016.  
+
+For the purpose of computing the size of the labor force, I think we should treat those NAs as 0, because people nominally with those occupations would probably have been counted in other categories.  
+
+```{r NA}
+if(readAndCompute){
+  stNA <- proc.time()
+  NA.yr <- colSums(is.na(data))
+  (etNA <- proc.time()-stNA)
+}
+```
+
+```{r NA.}
+if(readAndCompute){
+  NA.yr
+}
+```
+
+No NAs in "data".  
+
+Note also that there are ony 281 rows in YrOcc, while OCCcodes$labels has length 283.  Let's find which OCCcodes$labels were not used:  
+
+```{r OCClblsTbl}
+if(readAndCompute){
+  stOl <- proc.time()
+  str(OCClbls <- table(data$OCC1950))
+  (etOl <- proc.time()-stOl)
+}
+```
+
+```{r codesNotUsed}
+if(readAndCompute){
+  OCCcodes$labels[!(OCCcodes$labels %in% names(OCClbls))]
+}
+```
+
+"Not yet classified" and "New Worker".  
+
+That makes some sense:  These codes may have been generated and may even have been used prior to data cleaning operations.  If used, they've been eliminated from the data I received.  
+
+Let's delete these two and create a logical variable of length 281 indicating which codes are in the labor force (TRUE / FALSE).  To start, let's look at the list of occupational names to see which would not have been counted in the labor force:    
+
+```{r OCC-allLbls}
+if(readAndCompute){
+  OCCcodes$labels
+}
+```
+
+"Keeps house/housekeeping at home/housewife, 980" has traditionally not been considered part of the labor force.  "Imputed keeping house (1850-1900), 981" should probably be included with that.  Similarly, "Helping at home/helps parents/housework, 982" has probably not been traditionally considered part of the labor force.  Same with "At school/student, 983" and "Retired, 984", "Unemployed/without occupation, 985", "Invalid/disabled w no occupation reported, 986", "Inmate, 987", "Gentleman/lady/at leisure, 991", "Other non-occupaton, 995", "Occupation missing/unknown, 997", and "N/A (blank), 999".  
+Since "Keeps house ... 980" exists, "Housekeepers, private household, 700" must be considered part of the labor force, as with "Laundresses, private household, 710" and "Private household workers (nec), 720", I think.  
+
+What about "Farm laborers, unpaid family workers, 830"?  Are these part of the labor force?  Probably, being between "Farm laborers, wage workers, 820" and "Farm service laborers, self-employed, 840".  
+
+```{r LaborForce}
+if(readAndCompute){
+  LaborForce <- rep(TRUE, length=nrow(YrOcc))
+  names(LaborForce) <- rownames(YrOcc)
+  LaborForce[as.character(c(980:987, 991, 995, 997, 999))] <- FALSE
+
+  LaborForce[!LaborForce]
+  table(LaborForce)
+
+  OccNms <- OCCcodes$labels[OCCcodes$labels %in% names(LaborForce)]
+  OccNames <- names(OccNms)
+  names(OccNames) <- OccNms
+  OccNames[!LaborForce]
+}
+```
+
+That all looks good.  
+
+```{r TotalLaborForce}
+if(readAndCompute){
+  str(TotalLaborForce <- colSums(YrOcc[LaborForce, ], na.rm=TRUE))
+  plot(names(TotalLaborForce), TotalLaborForce, type='l', log='y', 
+     las=1)
+  TotalLaborForce
+}
+```
+
+The number for 1970 seems suspect at 219 million, but the other numbers look plausible and roughly consistent with other sources.  In particular, they seem more consistent with the [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html) than the Labor Force numbers (items Ba1033 and Ba1159) in the more recent [Historical Statistics of the United States](https://en.wikipedia.org/wiki/Historical_Statistics_of_the_United_States), whose numbers for "Accountants and auditors" (item Ba1161) seem to contain some fairly blatant errors, e.g., 0 for 1940 and 1700 and 1200 for 1860 and 1870, respectively, while the labor force grew by over 40% in that decade.  
+
+Let's look at the ratio, being "Accountants and auditors" as a percent of the labor force:  
+
+```{r AApct}
+if(readAndCompute){
+  str(AApct <- (YrOcc["0", ] / TotalLaborForce))
+  plot(names(AApct), 100*AApct, type='l', log='y', las=1)
+  AApct
+}
+```
+
+These numbers all look reasonably plausible, both internally consistent and moderately consistent with other sources.  
+
+Let's compare this with the 0.46% number from the [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html), which was used by [Wyatt and Hecker (2006) "Occupational changes during the 20th century"](https://www.bls.gov/opub/mlr/2006/03/art3full.pdf):  
+
+```{r AApct1970}
+if(readAndCompute){
+  plot(names(AApct), 100*AApct, type='l', log='y', las=1)
+  points(1940, 0.46)
+}
+```
+
+Let's just ignore that NA:  
+
+```{r AApct1970.}
+if(readAndCompute){
+  AccountantsAuditorsPct <- AApct[!is.na(AApct)]
+  AccountantsAuditorsPct[1:3] <- c(0.000133, 0.000147, 0.000142)
+} else {
+  library(Ecdat)
+  data(AccountantsAuditorsPct)
+} 
+plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct, 
+       type='l', log='y', las=1)
+points(1940, 0.46)
+```
+
+Let's drop the 1940 point from [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html) and create an svg file suitable for Wikimedia Commons:  
+
+```{r svg}
+plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct, 
+     type='l', log='y', las=1, 
+     xlab='', ylab='', cex.axis=1.8)
+if(FALES){
+# To write the file to svg:   
+  svg('AccountantsAuditorsUS.svg')
+  plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct, 
+     type='l', log='y', las=1, 
+      xlab='', ylab='', cex.axis=1.8)
+  dev.off()
+}
+```
+
+Let's save "AccountantsAuditorsPct" and port to another platform, where "svg" works as advertised.  [On 2018-08-31 "svg" failed to use "cex.axis=1.8" using R 3.5.1 on macOS 10.13.6, but R 3.2.1 under Windows 7 worked as expected.]
+
+```{r save}
+if(FALSE){
+  save(AccountantsAuditorsPct, file='AccountantsAuditorsPct.rda')
+}
+```
