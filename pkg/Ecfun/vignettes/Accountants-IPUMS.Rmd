@@ -17,17 +17,30 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Accountants and auditors from IPUMS 
 
-I created an account wit IPUMS and selected and requested historical data on the number of accountants and auditors in the US labor force dating back to the nineteenth century.  After a while I got an email saying my extract was ready for download.  
+I created an account with the [Integrated Public Use Microdata Series (IPUMS) data library at the University of Minnesota](https://usa.ipums.org/usa/cite.shtml) and selected and requested historical data on the number of accountants and auditors in the US labor force dating back to 1850 "Selecting harmonized variables" > Person > Work.  
 
-However, the obvious thing to download produced a *.dat file, but the obvious instructions for reading it required a *.xml file.  
+From here, I first selected "OCC1950 = Occupation 1950 basis" and got something useful doing that.  
 
-From "help(pac=ipumsr)" I found that the packages included six vignettes.  One of those is titled ["Introduction to ipumsr - IPUMS Data in R"](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html).  From this, I learned that I needed to right click (ctrl-click on a Mac) on "DDI" under "Codebook" and then select and then select "Save link as...".  Moreover, I should NOT do this in Safari.  Google Chrome worked for me for this on 2018-09-01.  
+Later I redid the exercise adding OCC = Occupaton".  Then "Data cart:  Your data extract" said, "2 variable, 32 samples".  Then clicking "View Cart" listed 9 variables, being "YEAR", "DATANUM", "SERIAL", "HHWT", "GQ", "PERNUM", "PERWT", "OCC", and "OCC1950".  Then I clicked, "Create data extract". This allowed me to further "select data quality flags" for GQ, OCC, and OCC1950. The first time I did this, I ignored the data quality flags.  The second time, I requested them. However, with both the additional "OCC" and the data quality flags, the data set was bigger than I could read into my computer.  So I split that extract into two for seq(1850, 2000, 10) and for 2001:2016.  When I read the 2001:2016 extract, I found that I could not understand "OCC" nor the data quality flags.  I decided that the answer I already had was probably good enough, and it wasn't clear if I could learn enough to justify the work of further study of "OCC" and the data quality flags.  
 
-Following this process, I downloaded "usa_00001.dat" with 4.91 GB of data plus "usa_00001.xml" being a codebook file of size 67 KB.  
+In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submited.  You will be notfied by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  When it completed, the "Processing..." changed to "Download .DAT".  
 
-The "Command File" for R recommends using the following:  
+After while (47 minutes for one extract on 2018-09-03) I got an email saying my extract was ready for download.  
+
+I clicked "Download .DAT" under "Data" and "R" under "Command files".  The "R" code started with "ddi <- read_ipums_ddi("usa_00002.xml")", but I downloaded a *.DAT file, and not a *.xml file.  
+
+I was confused.  To get past this problem, I read the fine manual (RTFM).  Specifically, from "help(pac=ipumsr)" I found that the ipumsr package included six vignettes. One of those is titled ["Introduction to ipumsr - IPUMS Data in R"](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html).  From that, I learned that I needed to right-click (ctrl-click on a Mac) on "DDI" under "Codebook" and then select "Save link as...".  Moreover, I should NOT do this in Safari.  Google Chrome worked for me for this on 2018-09-01 and Firefox worked when I repeated it with a slightly different extract on 2018-09-03.  
+
+Following this process, I downloaded "usa_00002.dat.gz", which unzipped into "use_00002.dat" consuming 5.6 GB of data plus "usa_00002.xml" being a codebook file of size 73 KB.  
+
+Then I followed the instructions in the "Command File" for R, and got, "Error: Error in read_tokens_(data, tokenizer, col_specs, col_names, locale_, : Evaluation error: vector memory exhausted (limit reached?)."  
+
+This same process had worked earlier with my first extraction, "usa_00001.*". I decided to ignore OCC and the data quality flags, as mentioned above.  The rest of this vignette describes what I did with "usa_00001.*".  
 
 ```{r ipums}
+# Change readAndCompute to TRUE to actually run this. 
+# It's set to FALSE, because "usa_00001.dat" is too big to keep 
+# and it takes too long to read and process with routing testing.  
 readAndCompute <- FALSE
 # "usa_0001.dat" is huge. 
 # It takes a long time to read 
@@ -53,7 +66,7 @@ if(readAndCompute){
 }
 ```
 
-I timed this, because the first time it seemed to take a long while.  Obviously, I extracted a lot moredata than I need.  But conveniently, when I'm running this manually, it displays both percent completion and number of MB read so far: 3.63 minutes.   
+I timed this, because the first time it seemed to take a long while.  Obviously, I extracted a lot more data than I need.  But conveniently, when I'm running this manually, it displays both percent completion and number of MB read so far: 3.63 minutes for "usa_00001.*"
 
 The "data" is an object with a huge number of rows and 8 colums:  
 
@@ -64,7 +77,7 @@ if(readAndCompute){
 }
 ```
 
-"data" is an object of classes "tbl_df","tbl" and "data.frame" with over 114 million rows.  
+"data" is an object of classes "tbl_df","tbl" and "data.frame" with over 114 million rows for "dat00001.*" on 2018-09-01, 43 million for "dat00003.*".  
 
 That's too few rows to have one row for each person in the most recent census -- or even one row for each household in all the census since 1850:  
 
@@ -78,7 +91,7 @@ if(readAndCompute){
 }
 ```
 
-The plot looks funny but shows that we have data from every census except 1890, and that with the listing shows that we also have data for each year between 2000 and 2016.  
+The plot looks funny but shows that we have data from every census except 1890, and that with the listing shows that we also have data for each year between 2000 and 2016 with "dat00001.*".  
 
 Let's look at "var_desc" for HHWT:  
 
@@ -101,7 +114,8 @@ Let's also examine the the attributes of OCC1950:
 ```{r OCC1950}
 if(readAndCompute){
   stOCC <- Sys.time()
-  str(OCCcodes <- attributes(data$OCC1950))
+#  str(OCCcodes <- attributes(data$OCC))
+  str(OCC50codes <- attributes(data$OCC1950))
   (etOCC <- Sys.time()-stOCC)
 }
 ```
@@ -110,12 +124,28 @@ We're especially interested in "labels":
 
 ```{r OCClbls}
 if(readAndCompute){
-  head(OCCcodes$labels)
-  tail(OCCcodes$labels)
+#  OCCcodes$labels
+  print(head(OCC50codes$labels))
+  tail(OCC50codes$labels)
 }
 ```
 
-"Accountants and auditors" are coded 0, "Gentleman/lady/at liesure" is 991, and there are two different missing value codes, which we should probably examine after we do some tabulations.  
+The "labels" attribute from "OCC1950" provided a translate table giving English-language names to the numeric codes.  I didn't seem to find that when I included "OCC".  
+
+Let's table:  
+
+```{r OCC.OCC50}
+if(readAndCompute){
+  stOCC <- proc.time()
+# str(OCCtbl <- table(data$OCC) )
+  str(OCC50tbl <- table(data$OCC1950))
+  etOCC <- proc.time()-stOCC
+}
+```
+
+When I did this with "OCC", I got a table of length 1101.  Meanwhile the table for "OCC1950" had length only 260.  I could have tabled the two together, producing a 2-way table with 260*1101 cells.  I decided to give up on "OCC" rather than try that.  I also looked briefly at QOCC and decided it was not worth looking further at that.  
+
+When I did this with only OCC1950, I got a table of length 281.  I don't know the differences, and I don't plan to take the time now to research that.  
 
 Let's sum HHWT within YEAR and OCC1950:  
 
@@ -160,20 +190,14 @@ For the purpose of computing the size of the labor force, I think we should trea
 ```{r NA}
 if(readAndCompute){
   stNA <- proc.time()
-  NA.yr <- colSums(is.na(data))
+  (NA.yr <- colSums(is.na(data)))
   (etNA <- proc.time()-stNA)
 }
 ```
 
-```{r NA.}
-if(readAndCompute){
-  NA.yr
-}
-```
+There were no NAs in "data".  
 
-No NAs in "data".  
-
-Note also that there are ony 281 rows in YrOcc, while OCCcodes$labels has length 283.  Let's find which OCCcodes$labels were not used:  
+Note also that there are ony 281 rows in YrOcc, while OCC50codes$labels has length 283.  Let's find which OCCcodes$labels were not used:  
 
 ```{r OCClblsTbl}
 if(readAndCompute){
@@ -185,7 +209,7 @@ if(readAndCompute){
 
 ```{r codesNotUsed}
 if(readAndCompute){
-  OCCcodes$labels[!(OCCcodes$labels %in% names(OCClbls))]
+  OCC50codes$labels[!(OCC50codes$labels %in% names(OCClbls))]
 }
 ```
 
@@ -197,7 +221,7 @@ Let's delete these two and create a logical variable of length 281 indicating wh
 
 ```{r OCC-allLbls}
 if(readAndCompute){
-  OCCcodes$labels
+  OCC50codes$labels
 }
 ```
 
@@ -215,7 +239,7 @@ if(readAndCompute){
   LaborForce[!LaborForce]
   table(LaborForce)
 
-  OccNms <- OCCcodes$labels[OCCcodes$labels %in% names(LaborForce)]
+  OccNms <- OCC50codes$labels[OCC50codes$labels %in% names(LaborForce)]
   OccNames <- names(OccNms)
   names(OccNames) <- OccNms
   OccNames[!LaborForce]
@@ -245,9 +269,9 @@ if(readAndCompute){
 }
 ```
 
-These numbers all look reasonably plausible, both internally consistent and moderately consistent with other sources.  
+These numbers all look reasonably plausible, both internally consistent and moderately consistent with other sources, apart from the numbers for 1850, 1860 and 1870.  
 
-Let's compare this with the 0.46% number from the [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html), which was used by [Wyatt and Hecker (2006) "Occupational changes during the 20th century"](https://www.bls.gov/opub/mlr/2006/03/art3full.pdf):  
+Let's compare this with the 0.46% number for 1940 from the [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html), which was used by [Wyatt and Hecker (2006) "Occupational changes during the 20th century"](https://www.bls.gov/opub/mlr/2006/03/art3full.pdf) for 1910 to 1940:  
 
 ```{r AApct1970}
 if(readAndCompute){
@@ -256,12 +280,13 @@ if(readAndCompute){
 }
 ```
 
-Let's just ignore that NA:  
+Let's replace that NA with 0.0046, consistent with Wyatt and Hecker (2006):  
 
 ```{r AApct1970.}
 if(readAndCompute){
-  AccountantsAuditorsPct <- AApct[!is.na(AApct)]
+  AccountantsAuditorsPct <- AApct
   AccountantsAuditorsPct[1:3] <- c(0.000133, 0.000147, 0.000142)
+  AccountantsAuditorsPct['1940'] <- 0.0046
 } else {
   library(Ecdat)
   data(AccountantsAuditorsPct)
@@ -271,13 +296,13 @@ plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct,
 points(1940, 0.46)
 ```
 
-Let's drop the 1940 point from [Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html) and create an svg file suitable for Wikimedia Commons:  
+Next, let's create and create an svg file suitable for Wikimedia Commons:  
 
 ```{r svg}
 plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct, 
      type='l', log='y', las=1, 
      xlab='', ylab='', cex.axis=1.8)
-if(FALES){
+if(FALSE){
 # To write the file to svg:   
   svg('AccountantsAuditorsUS.svg')
   plot(names(AccountantsAuditorsPct), 100*AccountantsAuditorsPct, 
@@ -287,7 +312,7 @@ if(FALES){
 }
 ```
 
-Let's save "AccountantsAuditorsPct" and port to another platform, where "svg" works as advertised.  [On 2018-08-31 "svg" failed to use "cex.axis=1.8" using R 3.5.1 on macOS 10.13.6, but R 3.2.1 under Windows 7 worked as expected.]
+Let's now save AccountantsAuditorsPct as *.rda to add to or update the corresponding datat item in the Ecdat package.  (Also, an 2018-08-31 "svg" failed to use "cex.axis=1.8" using R 3.5.1 on macOS 10.13.6, but R 3.2.1 under Windows 7 worked as expected.  To get around that problem, I saved "AccountantsAuditorsPct" and created the svg file using R 3.2.1 under Window 7.)
 
 ```{r save}
 if(FALSE){
