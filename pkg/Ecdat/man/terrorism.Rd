@@ -7,7 +7,9 @@
   Global Terrorism Database yearly summaries
 }
 \description{
-  The \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database (GTD)} 
+  The 
+\href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global 
+  Terrorism Database (GTD)} 
   "is a database of incidents of terrorism 
   from 1970 onward".  Through 2015, this 
   database contains information on 141,966 
@@ -15,7 +17,8 @@
   
   \code{terrorism} provides a few summary
   statistics along with an \code{\link{ordered}}
-  factor \code{methodology}, which \href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{Pape et al.}
+  factor \code{methodology}, which 
+\href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{Pape et al.}
   insisted is necessary, because an increase 
   of over 70 percent in suicide terrorism 
   between 2007 and 2013 is best explained by 
@@ -35,9 +38,13 @@
   \code{nkill.byCountryYr} are matrices giving 
   the numbes of incidents and numbers of deaths 
   by year and by location of the event for 206
-  countries and for all years between 1970 and 
-  2015 except for 1993, for which the raw data
-  were lost. 
+  countries (rows) and for all years between 
+  1970 and 2016 (columns) except for 1993, for 
+  which the entries are all NA, because the raw
+  data previously collected was lost (though 
+  the total for that year is available in 
+  the \code{\link{data.frame}} 
+  \code{terrorism}). 
   
   NOTES:  
   
@@ -57,7 +64,7 @@
   containing the following:  
   
   \describe{
-    \item{year}{integer year, 1970:2014.}
+    \item{year}{integer year, 1970:2016.}
     \item{methodology}{
       an \code{\link{ordered}} factor giving the 
       methodology / organization responsible for 
@@ -274,9 +281,9 @@
   it suggests larger problems.  
 }
 \source{
-  The \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} 
-  maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} 
-  (START, 2015), \href{http://www.start.umd.edu/gtd}{downloaded 2015-11-28}.  
+  National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{http://www.start.umd.edu/gtd} [accessed 2018-04-08]. 
+
+  See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{http://www.start.umd.edu/gtd}.  
   
   The world and US population figures came from \href{https://esa.un.org/unpd/wpp/Download/Standard/Population/}{"Total Population - Both Sexes", World Population Prospects 2015, published by the Population Division of the Department of Economic and Social Affairs of the United Nations}, 
   accessed 2016-09-05.  
