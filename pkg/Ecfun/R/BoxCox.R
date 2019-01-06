@@ -1,4 +1,5 @@
-BoxCox <- function(y, lambda, rescale=TRUE, na.rm=rescale){
+BoxCox <- function(y, lambda, rescale=TRUE, 
+                   na.rm=rescale){
 ##
 ## 1.  lambda, sign.y, log(abs(y+lambda[2]))
 ##

@@ -343,7 +343,22 @@ all.equal(bc1, bc1.)
 \dontshow{)}
 
 ##
-## 2.  The "boxcox" function in the MASS package 
+## 2.  another simple example with lambda=0
+##
+bc0.4 <- BoxCox(1:5, 0)
+GM5 <- prod(1:5)^.2
+bc0.4. <- log(1:5)*GM5
+attr(bc0.4., 'lambda') <- 0  
+attr(bc0.4., 'rescale') <- TRUE 
+attr(bc0.4., 'GeometricMean') <- GM5 
+class(bc0.4.) <- 'BoxCox'
+
+\dontshow{stopifnot(}
+all.equal(bc0.4, bc0.4.)
+\dontshow{)}
+
+##
+## 3.  The "boxcox" function in the MASS package 
 ##     computes a maximum likelihood estimate with  
 ##     BoxCox(Days+1, lambda=0.21) 
 ##     with a 95 percent confidence interval of 
@@ -372,7 +387,7 @@ all.equal(iDays, MASS::quine$Days)
 \dontshow{)}
 
 ##
-## 3.  Easily computed example 
+## 4.  Easily computed example 
 ##
 bc2 <- BoxCox(c(1, 4), 2)
 
@@ -392,7 +407,7 @@ all.equal(invBoxCox(bc2), c(1, 4))
 \dontshow{)}
 
 ##
-## 4.  plot(BoxCox())
+## 5.  plot(BoxCox())
 ##
 y0 <- seq(-2, 2, .1)
 z2 <- BoxCox(y0, 2, rescale=FALSE)
