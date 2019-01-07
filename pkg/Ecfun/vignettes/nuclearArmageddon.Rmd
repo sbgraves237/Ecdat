@@ -13,6 +13,13 @@ output: html_document
 # I was successful after switching to 
 # output: word_document
 
+vignette: >
+  %\VignetteIndexEntry{Time to nuclear Armageddon}
+  %\VignetteKeyword{nuclear Armageddon}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\SweaveUTF8
+  \usepackage[utf8](inputenc)
+
 ---
 
 ```{r setup, include=FALSE}

@@ -6,7 +6,8 @@ Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.0.1)
 Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr, 
-          knitr
+          knitr, rmarkdown, invgamma, ipumsr
+VignetteBuilder: knitr          
 Imports:  fda, gdata, RCurl, XML, tis, jpeg, 
           MASS, TeachingDemos, stringi, methods, xml2
 Description: Functions to update data sets in Ecdat and to create,
