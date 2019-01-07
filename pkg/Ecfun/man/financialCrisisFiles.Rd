@@ -2,16 +2,18 @@
 \alias{financialCrisisFiles}
 \title{ Files containing financial crisis data }
 \description{
-  \code{FinancialCrisisFiles} in \code{Ecdat} is an object of class
-  \code{financialCrisisFiles} created by the \code{financialCrisisFiles}
-  function to describe files containing data on financial crises
-  downloadable from
+  \code{FinancialCrisisFiles} in \code{Ecdat} is 
+  an object of class \code{financialCrisisFiles}
+  created by the \code{financialCrisisFiles}
+  function to describe files containing data on
+  financial crises downloadable from
   \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
 }
 \usage{
 %data(FinancialCrisisFiles)
-financialCrisisFiles(files=c("22_data.xls", "23_data.xls",
-       "Varieties_Part_III.xls", "25_data.xls"), ...)
+financialCrisisFiles(files=c("22_data.xls", 
+    "23_data.xls", "Varieties_Part_III.xls", 
+    "25_data.xls"), ...)
 }
 \arguments{
   \item{files}{
@@ -79,10 +81,12 @@ financialCrisisFiles(files=c("22_data.xls", "23_data.xls",
   \code{\link[gdata]{read.xls}}
 }
 \examples{
-Ecdat.demoFiles <- system.file('demoFiles', package='Ecdat')
-Ecdat.xls <- dir(Ecdat.demoFiles, pattern='xls$',
-                 full.names=TRUE)
-if(require(gdata)){
+Ecdat.demoFiles <- system.file('demoFiles', 
+    package='Ecdat')
+Ecdat.xls <- dir(Ecdat.demoFiles, 
+    pattern='xls$', full.names=TRUE)
+if(require(gdata) &&
+        !fda::CRAN()){
   tst <- financialCrisisFiles(Ecdat.xls)
 }
 \dontrun{

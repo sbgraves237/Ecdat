@@ -4,28 +4,35 @@
   sub nonstandard characters with replacement
 }
 \description{
-  First convert to ASCII, stripping standard accents and special
-  characters.  Then find the first and last character not in 
-  \code{standardCharacters} and replace all between them with 
-  \code{replacement}.  For example, a string like "Ruben" where 
-  "e" carries an accent and is mangled by some software would 
-  become something like "Rub_n" using the default values for 
-  \code{standardCharacters} and \code{replacement}.
+  First convert to ASCII, stripping standard 
+  accents and special characters.  Then find 
+  the first and last character not in 
+  \code{standardCharacters} and replace all 
+  between them with \code{replacement}.  For 
+  example, a string like "Ruben" where "e" 
+  carries an accent and is mangled by some 
+  software would become something like 
+  "Rub_n" using the default values for 
+  \code{standardCharacters} and 
+  \code{replacement}.
 }
 \usage{
 subNonStandardCharacters(x,
-   standardCharacters=c(letters, LETTERS, ' ','.', '?', '!', 
-      ',', 0:9, '/', '*', '$', '\%', '\"', "\'", '-', '+', '&', 
+   standardCharacters=c(letters, LETTERS, 
+      ' ','.', '?', '!', ',', 0:9, '/', '*', 
+      '$', '\%', '\"', "\'", '-', '+', '&', 
       '_', ';', '(', ')', '[', ']', '\n'),
    replacement='_',
-   gsubList=list(list(pattern='\\\\\\\\\\\\\\\\|\\\\\\\\',
+   gsubList=list(list(pattern = 
+      '\\\\\\\\\\\\\\\\|\\\\\\\\',
       replacement='\"')), ... )
 }
 \arguments{
   \item{x}{
-    character vector in which it is desired to find the first and
-    last character not in \code{standardCharacters} and replace that
-    substring by \code{replacement}.
+    character vector in which it is desired 
+    to find the first and last character not 
+    in \code{standardCharacters} and replace 
+    that substring by \code{replacement}.
   }
   \item{standardCharacters}{
     a character vector of acceptable characters to keep.
@@ -94,12 +101,13 @@ subNonStandardCharacters(x,
   \code{\link{sub}}, \code{\link{strsplit}},
   \code{\link{grepNonStandardCharacters}},
   \code{\link{subNonStandardNames}}
-  \code{\link[tools]{encoded_text_to_latex}}
   \code{\link{subNonStandardNames}}
-  \code{\link{iconv}} in the \code{base} package does some 
-  conversion, but is not consistent across platforms, at least 
-  using R 3.1.2 on 2015-01.25.  
-  \code{\link[stringi]{stri_trans_general}} seems better.  
+  \code{\link{iconv}} in the \code{base} 
+      package does some conversion, but is not
+      consistent across platforms, at least 
+      using R 3.1.2 on 2015-01.25.  
+  \code{\link[stringi]{stri_trans_general}} 
+      seems better.  
 }
 %\references{}
 \examples{
