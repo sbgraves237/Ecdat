@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction 
 
-This is a companion to the [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization).  That article assumes the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis) and the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident) provide one observation on the time ''between'' major nuclear crises, with a second time between such crises being ''censored'' at the present.
+This is a companion to the [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization).  That article assumes the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis) and the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident) provide one observation on the time _between_ major nuclear crises, with a second time between such crises being _censored_ at the present.
 
 What can we say about the distribution of the time between such major nuclear crises?  
 
