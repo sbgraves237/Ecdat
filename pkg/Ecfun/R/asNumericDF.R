@@ -228,7 +228,7 @@ asNumericDF <- function(x, keep=function(x)any(!is.na(x)),
 #  if(missing(orderBy)){
 #      orderBy <- 1:length(X)
 #  }
-  if((length(orderBy)>1) && !is.na(orderBy)){
+  if((length(orderBy)>1) && all(!is.na(orderBy))){
     o <- do.call(order, X[orderBy])
     return(X[o, kp])
   }
