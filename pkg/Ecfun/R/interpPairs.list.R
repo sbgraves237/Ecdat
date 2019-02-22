@@ -1,4 +1,5 @@
-interpPairs.list <- function(object, .proportion, envir=list(), 
+interpPairs.list <- function(object, .proportion, 
+        envir=list(), 
         pairs=c('1'='\\.0$', '2'='\\.1$', replace0='', 
                 replace1='.2', replace2='.3'),     
         validProportion=0:1, message0=character(0), ...){
@@ -86,8 +87,13 @@ interpPairs.list <- function(object, .proportion, envir=list(),
   for(j in seq(length=nel)){
 #   eval(interpObj[[j]])    
 #   Is this a symbol to which to assign?      
-    if((j==2) && (as.character(object[[1]])=='<-')){
-      Envir[[Names[j]]] <- object[[j]]
+# *** I don't understand this line
+#     and don't have time to figure it out now
+#     it generates length > 1 error     
+#    if((j==2) && (as.character(object[[1]])=='<-')){
+#     Fix like this for now:      
+     if((j==2) && all(as.character(object[[1]])=='<-')){
+        Envir[[Names[j]]] <- object[[j]]
       next 
     }
     Nj <- eval(object[[j]], Envir) 
