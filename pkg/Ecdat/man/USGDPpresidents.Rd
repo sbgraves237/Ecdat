@@ -73,7 +73,11 @@ data(USGDPpresidents)
       
       Population figures for 1610 to 1780 came from 
       Springston (2013).  The rest came from 
-      Johnston and Williamson.  
+      Johnston and Williamson.  (The early 
+      population figures reflect only the 
+      European settlers in the British 
+      colonies that eventually became the 
+      US.)
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product per capita 

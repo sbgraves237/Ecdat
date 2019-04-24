@@ -1,0 +1,50 @@
+\name{coolingFromNuclearWar}
+\docType{data}
+\alias{coolingFromNuclearWar}
+\title{Global cooling from a nuclear war}
+\description{
+  Average surface temperature changes 
+  world wide and in the Northern Hemisphere
+  3 and 10 years after the injections of 5, 
+  50 and 15 Tg (teragrams = millions of 
+  metric tons) of smoke into the upper 
+  troposphere, per Robock, Oman, and 
+  Stenchikov (2007).
+  
+  These numbers are relative to the 
+  average for 1925-1975, which explains why 
+  the numbers are positive with smoke = 0.  
+}
+\usage{data(coolingFromNuclearWar)}
+\format{A dataframe containing :
+  \describe{
+    \item{smoke}{teragrams = millions of metric tons}
+    \item{dC3g, dC10g, dC3n, dC10n}{
+      average change in surface temperatature 3 and 
+      10 years after injection of \code{smoke} into 
+      the upper troposphere globally (g) or in the 
+      Northern Hemisphers (n) in degrees Celsius.
+    }
+  }
+}
+\source{
+  Alan Robock, Luke Oman, and Georgiy L. Stenchikov (2007)
+  Nuclear winter revisited with a modern climate model 
+  and current nuclear arsenals: Still catastrophic 
+  consequences, \emph{Journal of Geophysical Research}, 
+  112
+}
+\examples{
+data(coolingFromNuclearWar)
+matplot(coolingFromNuclearWar[, 'smoke'], 
+    coolingFromNuclearWar[, 2:5], type='l')
+(linFit <- lm(cbind(dC3g, dC10g, dC3n, dC10n)~smoke, 
+      coolingFromNuclearWar))
+      
+# total change 
+dC <- as.matrix(coolingFromNuclearWar[, 2:5] - 
+        rep(unlist(coolingFromNuclearWar[1, -1]), e=4))
+(linFit0 <- lm(dC~smoke, coolingFromNuclearWar))
+summary(linFit0)
+}
+\keyword{datasets}
