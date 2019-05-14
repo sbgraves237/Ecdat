@@ -27,11 +27,15 @@ Then you want to export the nuclearWeaponStates dataset as a csv file:
 ```{r export}
 library(Ecdat)
 availInPkg <- objects(2, pattern='nuclearWeaponStates')
+canWrite <- FALSE 
 if('nuclearWeaponStates' %in% availInPkg){
   data(nuclearWeaponStates)
-  write.csv(nuclearWeaponStates, 
+  canWr <- try(write.csv(nuclearWeaponStates, 
             'nuclearWeaponStates.csv', 
-            row.names=FALSE)
+            row.names=FALSE))
+  if(!inherits(canWr, 'try-error')){
+    canWrite <- TRUE
+  }
 }
 getwd()
 ```
@@ -44,12 +48,14 @@ After that's done, put it in the current working directory and read it:
 
 ```{r readCSV}
 library(Ecfun)
-nWS <- read.csv(
-  'nuclearWeaponStates.csv', 
-  stringsAsFactors = FALSE)
-nuclearWeaponStates <-
-  asNumericDF(nWS, 
+if(canWrite){
+  nWS <- read.csv(
+    'nuclearWeaponStates.csv', 
+    stringsAsFactors = FALSE)
+  nuclearWeaponStates <-
+    asNumericDF(nWS, 
           ignore=1:2, Dates=3) 
+}
 ```
 
 ## Check 
