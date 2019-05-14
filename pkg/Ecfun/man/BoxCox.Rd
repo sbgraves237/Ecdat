@@ -38,7 +38,7 @@
   where sgn(y) = 1 if y >= 0 and -1 otherwise.  
   
   NOTE:  \code{sgn(y)} is different from 
-  \code{link[base]{sign}}(y), which is 0 for y = 0.
+  \code{\link[base]{sign}}(y), which is 0 for y = 0.
   A two-argument update to the sign function 
   in the base package has been added to 
   this Ecfun package, so \code{\link{sign}}(y, 1) 
@@ -355,6 +355,23 @@ class(bc0.4.) <- 'BoxCox'
 
 \dontshow{stopifnot(}
 all.equal(bc0.4, bc0.4.)
+\dontshow{)}
+
+bc0.4e9 <- BoxCox(1:5, .Machine$double.eps)
+bc0.4ex <- log(1:5)*exp(mean(log(1:5)))
+\dontshow{stopifnot(}
+all.equal(bc0.4ex, as.numeric(bc0.4e9))
+\dontshow{)}
+
+# now invert:  
+
+bc0.4i <- invBoxCox(bc0.4.)
+\dontshow{stopifnot(}
+all.equal(1:5, bc0.4i)
+\dontshow{)}
+
+\dontshow{stopifnot(}
+all.equal(1:5, invBoxCox(bc0.4e9))
 \dontshow{)}
 
 ##

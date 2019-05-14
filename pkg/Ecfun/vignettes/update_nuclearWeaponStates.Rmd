@@ -30,7 +30,8 @@ availInPkg <- objects(2, pattern='nuclearWeaponStates')
 if('nuclearWeaponStates' %in% availInPkg){
   data(nuclearWeaponStates)
   write.csv(nuclearWeaponStates, 
-            'nuclearWeaponStates.csv')
+            'nuclearWeaponStates.csv', 
+            row.names=FALSE)
 }
 getwd()
 ```
@@ -58,19 +59,28 @@ There are two checks we can perform:
 # Does yearsSincePreviousTest = diff(firstTest)?
 
 ```{r chk1}
-dDays <- diff(
-  nuclearWeaponStates[,
+nmsNucWeapSt <- names(nuclearWeaponStates)
+if('firstTest' %in% nmsNucWeapSt){
+  dDays <- diff(
+    nuclearWeaponStates[,
                     'firstTest'])
+} else {
+  print(nmsNucWeapSt)
+  stop("'firstTest' not in names(nuclearWeaponStates)")
+}
 dYrs <- (dDays / 365.25)
-edYrs <- (nuclearWeaponStates[-1,
-      'yearsSinceLastFirstTest'] 
-    - dYrs)
-cbind(dDays, dYrs, edYrs)
 
-oopsDifYrs <- which(abs(
-  nuclearWeaponStates[-1,
-    'yearsSinceLastFirstTest'] - 
-        dYrs)>.005)
+if('yearsSinceLastFirstTest' %in% nmsNucWeapSt){
+  edYrs <- (nuclearWeaponStates[-1,
+        'yearsSinceLastFirstTest'] 
+      - dYrs)
+  cbind(dDays, dYrs, edYrs)
+
+  oopsDifYrs <- which(abs(
+    nuclearWeaponStates[-1,
+      'yearsSinceLastFirstTest'] - 
+          dYrs)>.005)
+}
 if(length(oopsDifYrs)>1){
   cat('difftime compute errors. ', 
       ' bad rows = ')

@@ -118,8 +118,8 @@ invBoxCox <- function(z, lambda, sign.y, GeometricMean, rescale){
 #  = w*(1+la*w*(1/2)+la*w*((1/3)+la*w*(1+...)))
     ay <- 1
     lws <- law[smlw]
-    for(j in 8:1){
-      ay <- lws*((1/j)-ay)
+    for(j in 1:8){
+      ay <- (ay + (lws^j)*(1/(j+1)))
     }
     lay[smlw] <- (w[smlw]*ay)    
   }
