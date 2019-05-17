@@ -20,9 +20,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document describes how to add new information to the nuclearWeaponStates dataset in the Ecdat package.  
 
-The first step is to update the companion "nuclearWeaponStates.Rd" file.  
+The first step is to update the companion "nuclearWeaponStates.Rd" file.
 
-Then you want to export the nuclearWeaponStates dataset as a csv file:
+Then you want to export the nuclearWeaponStates dataset as a csv file so you can edit it to match the changes in the "nuclearWeaponStates.Rd" file:
 
 ```{r export}
 library(Ecdat)
@@ -42,7 +42,7 @@ getwd()
 
 ## Edit and read 
 
-Next edit the csv file just created to match your revised  "nuclearWeaponStates.Rd".
+Next edit the csv file just created as mentioned above.
 
 After that's done, put it in the current working directory and read it:
 

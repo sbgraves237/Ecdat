@@ -31,7 +31,7 @@
 \item \code{\link{Workinghours}} : Wife Working Hours
 }
 
-\item Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}
+\item Journal of Business Economics and Statistics web site : \url{https://amstat.tandfonline.com/loi/ubes20}
  \itemize{
 \item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
 \item \code{\link{Catsup}} : Choice of Brand for Catsup
@@ -52,14 +52,14 @@
 \item \code{\link{FriendFoe}} : Data from the Television Game Show Friend Or Foe ?
 }
 
-\item Kenneth Train's home page :  \url{http://elsa.berkeley.edu/~train/}
+\item Kenneth Train's home page :  \url{https://elsa.berkeley.edu/~train/}
  \itemize{
 \item \code{\link{HC}} : Heating and Cooling System Choice in Newly Built Houses in California
 \item \code{\link{Heating}} : Heating System Choice in California Houses
 \item \code{\link{Mode}} : Mode Choice
 }
 
-\item Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{http://www.wiley.com/legacy/wileychi/baltagi/}
+\item Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{https://www.wiley.com/legacy/wileychi/baltagi/}
  \itemize{
 \item \code{\link{Cigar}} : Cigarette Consumption
 \item \code{\link{Crime}} : Crime in North Carolina
@@ -96,7 +96,7 @@
 \item \code{\link{StrikeNb}} : Number of Strikes in Us Manufacturing
 }
 
-\item Davidson, R.  and  James G.  MacKinnon (2004) \emph{Econometric Theory and Methods}, New York, Oxford University Press, \url{http://www.econ.queensu.ca/ETM/}
+\item Davidson, R.  and  James G.  MacKinnon (2004) \emph{Econometric Theory and Methods}, New York, Oxford University Press
  \itemize{
 \item \code{\link{CRSPday}} : Daily Returns from the CRSP Database
 \item \code{\link{CRSPmon}} : Monthly Returns from the CRSP Database
@@ -110,7 +110,7 @@
 \item \code{\link{Tbrate}} : Interest Rate, GDP and Inflation
 }
 
-\item Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{http://www.prenhall.com/greene/greene1.html}
+\item Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall
  \itemize{
 \item \code{\link{Accident}} : Ship Accidents
 \item \code{\link{Airline}} : Cost for U.S. Airlines

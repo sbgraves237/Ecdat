@@ -29,7 +29,7 @@
 
 }
 \references{
-    Davidson, R.  and  James G.  MacKinnon (2004) \emph{Econometric Theory and Methods}, New York, Oxford University Press, \url{http://www.econ.queensu.ca/ETM/}, chapter 11.
+    Davidson, R.  and  James G.  MacKinnon (2004) \emph{Econometric Theory and Methods}, New York, Oxford University Press, chapter 11.
 
       Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }

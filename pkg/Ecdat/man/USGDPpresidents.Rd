@@ -16,7 +16,7 @@
   However, no comparable growth spurts in GDP per capita 
   catch the eye in a plot of log(GDP per capita) from 
   1790 to 2015, whether associated with a war or not, 
-  using the \href{http://measuringworth.com/}{Measuring 
+  using the \href{https://measuringworth.com/}{Measuring 
   Worth} data.  The only other features of that plot that 
   seem visually comparable are the economic disaster of 
   Herbert Hoover's presidency (when GDP per capital fell 
@@ -43,7 +43,7 @@
   This data set provides a platform for testing the effects 
   of presidency, war, and Keynes.  It does this by 
   combining the numbers for US population and real GDP per 
-  capital dollars from \href{http://measuringworth.com/}{
+  capital dollars from \href{https://measuringworth.com/}{
   Measuring Worth}  with the presidency and a list of major 
   wars and an estimate of the battle deaths by year per 
   million population.  
@@ -214,11 +214,11 @@ data(USGDPpresidents)
 }
 \details{rownames(USGDPpresidents) = Year}
 \source{
-  \href{http://www.measuringworth.org/usgdp/}{Louis 
+  \href{https://www.measuringworth.org/usgdp/}{Louis 
   Johnston and Samuel H. Williamson, "What Was the U.S. GDP 
   Then?", Measuring Worth}, accessed 2015-09-08.  
   
-  \href{http://www.measuringworth.com/uscpi/}{Lawrence 
+  \href{https://www.measuringworth.com/uscpi/}{Lawrence 
   H. Officer and Samuel H. Williamson (2015) 'The Annual 
   Consumer Price Index for the United States, 1774-2014,' 
   MeasuringWorth}, accessed 2015-09-19.     
