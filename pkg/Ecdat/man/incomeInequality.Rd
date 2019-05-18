@@ -73,16 +73,16 @@
 \source{
   United States Census Bureau, Table F-1. Income Limits for Each Fifth
   and Top 5 Percent of Families, All Races,
-  \url{http://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-inequality.html},
+  \url{https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-inequality.html},
   accessed 2016-12-09.
 
   Thomas Piketty and Emmanuel Saez (2003) "Income Inequality in the
   United States, 1913-1998", Quarterly Journal of Economics, 118(1)
-  1-39, \url{http://elsa.berkeley.edu/~saez}, update accessed February
+  1-39, \url{https://eml.berkeley.edu/~saez}, update accessed February
   28, 2014.
 
   Louis Johnston and Samuel H. Williamson (2011) "What Was the U.S. GDP
-  Then?" MeasuringWorth, \url{http://www.measuringworth.org/usgdp},
+  Then?" MeasuringWorth, \url{https://www.measuringworth.org/usgdp},
   accessed February 28, 2014.
 }
 %\references{}
