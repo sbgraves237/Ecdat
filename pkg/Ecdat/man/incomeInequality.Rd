@@ -11,7 +11,9 @@
   (2) Piketty and Saez for the 95th and higher quantiles
 
   (3) Gross Domestic Product and implicit price deflators from
-  \href{https://MeasuringWorth.com}{MeasuringWorth.com}
+  href{https://MeasuringWorth.com}{MeasuringWorth.com}
+  (As of 2019-06-26 a check on R-Forge complained, 
+  "server certificate verification failed")
 }
 \usage{data(incomeInequality)}
 \format{
