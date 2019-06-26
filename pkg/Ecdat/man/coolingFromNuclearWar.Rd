@@ -6,7 +6,7 @@
   Average surface temperature changes 
   world wide and in the Northern Hemisphere
   3 and 10 years after the injections of 5, 
-  50 and 15 Tg (teragrams = millions of 
+  50 and 150 Tg (teragrams = millions of 
   metric tons) of smoke into the upper 
   troposphere, per Robock, Oman, and 
   Stenchikov (2007).

@@ -117,12 +117,27 @@ if(length(oopsNuk <- which(dnuk != 0))>0){
 
 ```{r plot}
 data(nuclearWeaponStates)
-plot(yearsSinceLastFirstTest~firstTest, nuclearWeaponStates, 
-      type='h', xlab='', ylab='')
+plot(yearsSinceLastFirstTest~firstTest,
+     nuclearWeaponStates, las=1, 
+     type='h', xlab='', ylab='')
 with(nuclearWeaponStates, 
   text(firstTest, yearsSinceLastFirstTest, ctry))
 ```  
-  
+
+... to svg 
+
+```{r svg}
+svg('Time2nextNuclearState.svg')
+cex. <- 1.5
+plot(yearsSinceLastFirstTest~firstTest,
+     nuclearWeaponStates, las=1, 
+     type='h', xlab='', ylab='', cex.axis=cex.)
+with(nuclearWeaponStates, 
+  text(firstTest, yearsSinceLastFirstTest, ctry, 
+       cex=cex.))
+dev.off()
+```  
+
 # save 
 
 ```{r save}
