@@ -6,7 +6,7 @@ Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr> and Spencer Graves
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 1.8.0), Ecfun
 Suggests: 
-Description: Data sets for econometrics.
+Description: Data sets for econometrics. 
 LazyData: true
 License: GPL (>=2)
 URL: https://www.r-project.org
