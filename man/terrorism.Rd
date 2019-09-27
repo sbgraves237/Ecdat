@@ -216,7 +216,7 @@
       
       The WorldDeathRate here were read 
       manually from a plot on  
-      \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page,} except for the the number for 
+      \href{https://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page,} except for the the number for 
       2015, which was estimated as a reduction 
       of 0.73 percent from 2014, which was the 
       average rate of decline (ratio of two 
