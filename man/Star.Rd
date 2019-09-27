@@ -26,8 +26,11 @@
   }
 }
 \source{
-    Project STAR \url{http://www.heros-inc.org/star.htm}.
-
+    Project STAR:
+    
+      \href{https://web.archive.org/web/20010602060225/http://www.heros-inc.org/star.htm}{Description from 2001-06-02}.
+      \href{https://web.archive.org/web/20110618025529/http://www.heros-inc.org/star.htm}{Description from 2011-06-18}.
+    
 }
 \references{
     Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, chapter 11.
