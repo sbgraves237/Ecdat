@@ -32,9 +32,10 @@
     }     
     \item{Individuals_Affected}{
       \code{\link{integer}} number of humans whose records 
-      were compromised in the breach.  This is 500 or greater;  
-      U.S. law requires reports of breaches involving 500 or 
-      more records but not of breaches involving fewer.  
+      were compromised in the breach.  This is 500 or 
+      greater;  U.S. law requires reports of breaches
+      involving 500 or more records but not of breaches
+      involving fewer.  
     }
     \item{Date_of_Breach}{
       \code{\link{character}} vector giving the date or date 
@@ -102,11 +103,10 @@
     \cr
     \tab \tab Involving Unauthorized Access Lead to Notification." 
     \cr
-    \tab \tab \href{http://www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification/}{PHIprivacy.net. 
-    N.p., 20 Apr. 2010.} \cr 
+    \tab \tab [www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification;  approximately 2010-04-20.  This web page has since been removed, apparently without having been captured by archive.net.] \cr 
 
     123 \tab Aetna \tab Cause of breach was missing. Added Improper \cr
-    \tab \tab disposal per \href{http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
+    \tab \tab disposal per \href{https://web.archive.org/web/20101130080315/http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
     Aetna.com/news/newsReleases/2010/0630}
     \cr 
     
@@ -151,9 +151,9 @@
 \source{
   U.S. Department of Health and Human Services: Health Information 
   Privacy: \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{Breaches Affecting 500 or More Individuals}
-}
 %\references{}
-%\author{Spencer Graves}
+}
+\author{Spencer Graves}
 \seealso{
   \code{\link{HHSCyberSecurityBreaches}} for a version of 
   these data downloaded more recently.  This newer version 
