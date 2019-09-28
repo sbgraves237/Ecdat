@@ -75,11 +75,13 @@ plot(FinanceProportion~year, USFinanceIndustry, type='b',
      col='blue')
 
 # Write to a file for Wikimedia Commons
-svg('USFinanceIndustry.svg')
-plot(FinanceProportion~year, USFinanceIndustry, type='b',
+\dontrun{
+  svg('USFinanceIndustry.svg')
+  plot(FinanceProportion~year, USFinanceIndustry, type='b',
      ylim=c(0, max(FinanceProportion, na.rm=TRUE)),
      xlab='', ylab='', las=1, cex.axis=2, bty='n', lwd=2,
      col='blue')
-dev.off()
+  dev.off()
+  }
 }
 \keyword{datasets}
