@@ -76,12 +76,14 @@ plot(FinanceProportion~year, USFinanceIndustry, type='b',
 
 # Write to a file for Wikimedia Commons
 \dontrun{
+if(FALSE){
   svg('USFinanceIndustry.svg')
   plot(FinanceProportion~year, USFinanceIndustry, type='b',
      ylim=c(0, max(FinanceProportion, na.rm=TRUE)),
      xlab='', ylab='', las=1, cex.axis=2, bty='n', lwd=2,
      col='blue')
   dev.off()
+  }
   }
 }
 \keyword{datasets}
