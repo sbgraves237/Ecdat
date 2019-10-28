@@ -217,7 +217,8 @@ str(Pred <- predict(Fit))
 ##
 #  Plot to a file?  Wikimedia Commons prefers svg format.
 \dontrun{
-svg('incomeInequality8.svg')
+if(FALSE){
+  svg('incomeInequality8.svg')
 #  If you want software to convert svg to another format 
 #  such as png, consider GIMP (www.gimp.org).
 
@@ -311,6 +312,7 @@ svg('incomeInequality8.svg')
   par(op) # reset margins
 
   dev.off() # for plot to a file
+  }
   }
 }
 \keyword{datasets}
