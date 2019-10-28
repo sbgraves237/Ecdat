@@ -23,9 +23,11 @@
       of the 
       \href{https://en.wikipedia.org/wiki/Vela_Incident}{Vela Incident}.  
     }
+    \item{firstTestYr}{
+      lubridate::decimal_date(firstTest)
+    }
     \item{yearsSinceLastFirstTest}{
-      years since the most recent previous first test (as 
-      \code{\link{numeric}}).  
+      c(NA, diff(firstTestYr))
     }
     \item{nuclearWeapons}{
       number of nuclear weapons 
@@ -64,8 +66,8 @@
 }
 \examples{
 data(nuclearWeaponStates)
-plot(yearsSinceLastFirstTest~firstTest, nuclearWeaponStates, 
-      type='h', xlab='', ylab='')
+plot(yearsSinceLastFirstTest~firstTest, 
+    nuclearWeaponStates, type='h', xlab='', ylab='')
 with(nuclearWeaponStates, 
   text(firstTest, yearsSinceLastFirstTest, ctry))
 }
