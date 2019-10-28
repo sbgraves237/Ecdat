@@ -2,4 +2,5 @@
 
 language: R
 cache: packages
-r: r_build_args: --resave-data
+r: 
+  r_build_args: --resave-data
