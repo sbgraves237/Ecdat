@@ -17,9 +17,8 @@
   \describe{
     \item{work}{
       work at home in 1975? 
-      (Opposite of carData::lfp[['lfp']] = 
-      labor force participation:  When one is 'no', 
-      the other is 'yes' and vice versa.)
+      (Same carData::Mroz[['lfp']] = 
+      labor force participation.)
     }
     \item{hoursw}{wife's hours of work in 1975}
     \item{child6}{
@@ -62,23 +61,27 @@
   }
 }
 \details{
-  These data seem to have come from the same source as
-  carData::Mroz, though each data set has variables not 
-  in the other.  The variables that are shared have 
-  different names, and the level names for 'work' here 
-  are swapped from the levels of carData::Mroz['lfp'].  
+  These data seem to have come from the same source 
+  as carData::Mroz, though each data set has
+  variables not in the other.  The variables that
+  are shared have different names.  
+  
+  On 2019-11-04 Bruno Rodrigues explained that 
+  Ecdat::Mroz['work'] had the two labels 
+  incorrectly swapped, and 
+  wooldridge::mroz['inlf'] was correct; 
+  wooldridge matches carData::Mroz['lfp'].  
 }
 \source{
     Mroz, T. (1987) \dQuote{The sensitivity of an 
-    empirical model of married women's hours of work 
+    empirical model of married women's hours of work
     to economic and statistical assumptions}, 
     \emph{Econometrica}, \bold{55}, 765-799.
 
     1976 Panel Study of Income Dynamics.
-
 }
 \references{
-    Greene, W.H. (2003) \emph{Econometric Analysis}, 
+    Greene, W.H. (2003) \emph{Econometric Analysis},
     Prentice Hall, 
     \url{http://www.prenhall.com/greene/greene1.html}, 
     Table F4.1.
@@ -89,6 +92,7 @@
   \code{\link{Index.Econometrics}}, 
   \code{\link{Index.Observations}}, 
   \code{\link[carData]{Mroz}}
+  \code{\link[wooldridge]{mroz}}
 }
 \examples{
 head(Mroz)
