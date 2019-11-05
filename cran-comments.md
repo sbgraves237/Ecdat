@@ -1,3 +1,7 @@
+2019-11-05:
+## revdepcheck under Windows 10: 
+* "no problems" with everything current
+
 2019-10-31:  
 
 ## Test environments: 
