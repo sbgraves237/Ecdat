@@ -1,4 +1,10 @@
 2019-11-05:
+## https://MeasuringWorth.com 
+and subpages are sometimes flagged
+INCORRECTLY as "(possibly) invalid URLs".
+MeasuringWorth.com seems to be the best
+source for the data they offer.  
+
 ## revdepcheck under Windows 10: 
 * "no problems" with everything current
 
