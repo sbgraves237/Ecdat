@@ -23,7 +23,7 @@
     \item{prbpris}{'probability' of prison sentence}
     \item{avgsen}{average sentence, days    }
     \item{polpc}{police per capita}
-    \item{density}{people per square mile}
+    \item{density}{hundreds of people per square mile}
     \item{taxpc}{tax revenue per capita}
     \item{region}{one of 'other', 'west' or 'central'}
     \item{smsa}{'yes' or 'no' if in SMSA}
@@ -41,20 +41,27 @@
     \item{pctymle}{percentage of young males}
   }
 }
+\note{
+Thanks to Yungfong "Frank" Tang for identifying an error in the description of "density", previously documented erroneously as only "people per square mile". 
+}
 \source{
     Cornwell, C.  and  W.N.  Trumbull (1994) \dQuote{Estimating the economic model of crime with panel data}, \emph{Review of Economics and Statistics}, \bold{76}, 360--366.
 
-    Baltagi, B. H. (forthcoming) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}, .
-
+    Baltagi, B. H. (forthcoming) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}.
+    
+    \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{CRIME4.DES}
 }
 \references{
-    Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{http://www.wiley.com/legacy/wileychi/baltagi/},  .
+    Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, 
+    \url{http://www.wiley.com/legacy/wileychi/baltagi/},  .
 
-      Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
+      Journal of Applied Econometrics data archive : 
+      \url{http://qed.econ.queensu.ca/jae/}.
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
-
- \code{\link{Index.Time.Series}}}
-
-
+\seealso{
+\code{\link{Index.Source}}, \code{\link{Index.Economics}}, 
+\code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
+\code{\link{Index.Time.Series}}, 
+\code{\link[plm]{Crime}}
+}
 \keyword{datasets}
