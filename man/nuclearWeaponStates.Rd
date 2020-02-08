@@ -10,7 +10,8 @@
 \format{A dataframe containing :
   \describe{
     \item{nation}{
-      The name of the country (character).  The former USSR is listed here as Russia.  
+      The name of the country (character).  
+      The former USSR is listed here as Russia.  
     }
     \item{ctry}{
       \href{https://en.wikipedia.org/wiki/ISO_3166-1#cite_note-iso3166-info-1}{ISO 31661-} alpha-2 two-letter country codes 
@@ -38,6 +39,16 @@
       (kilotons), the size of the Hiroshima bomb, 
       (nMidYield) = greater than 15 but less that 50 kt, 
       and (nHighYield) = at least 50 kt.  
+    }
+    \item{popM, popYr}{
+      popM = estimated population in millions for 
+      year popYr, per the Wikipedia article for 
+      the indicated country on 2020-02-05.  
+    }
+    \item{GDP_B,	GDPyr}{
+      GDP_B = nominal Gross Domestic Product in billions
+      of US dollars for year GDPyr, per the Wikipedia
+      article for the indicated country on 2020-02-05. 
     }
   }
 }
