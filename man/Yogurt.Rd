@@ -16,8 +16,15 @@
 \format{A dataframe containing :
   \describe{
     \item{id}{individuals identifiers}
-    \item{choice}{one of yoplait, dannon, hiland, weight (weight watcher)}
-    \item{feat.z}{is there a newspaper feature advertisement for brand z ?}
+    \item{choice}{
+      one of \code{yoplait}, \code{dannon}, 
+      \code{hiland}, \code{weight} (weight 
+      watcher)
+    }
+    \item{feat.z}{
+      is there a newspaper feature 
+      advertisement for brand z?
+    }
     \item{price.z}{price of brand z}
   }
 }
