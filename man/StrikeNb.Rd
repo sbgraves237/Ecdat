@@ -13,7 +13,7 @@
 
 }
 \usage{data(StrikeNb)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{strikes}{number of strikes (number of contract strikes in U.S. manufacturing beginning each month)}
     \item{output}{ level of economic activity (measured as cyclical departure of aggregate production from its trend level)}
@@ -23,7 +23,7 @@
 \source{
     Kennan, J. (1985) \dQuote{The Duration of Contract strikes in U.S. Manufacturing}, \emph{Journal of Econometrics}, \bold{28}, 5-28.
 
-    Cameron, A.C.  and    Trivedi P.K. (1990) \dQuote{Regression Based Tests for Overdispersion in the Poisson  Model}, \emph{Journal of Econometrics}, december, 347-364.
+    Cameron, A.C.  and    Trivedi P.K. (1990) \dQuote{Regression Based Tests for Overdispersion in the Poisson  Model}, \emph{Journal of Econometrics}, December, 347-364.
 
 }
 \references{
