@@ -19,14 +19,24 @@
     \item{sat}{sat Math score}
     \item{language}{foreign language proficiency ?}
     \item{sex}{male, female}
-    \item{major}{one of  other, eco, oss (other social sciences), ns (natural sciences), hum (humanities)}
-    \item{mathcourse}{number of courses in advanced math (0 to 3)}
-    \item{physiccourse}{number of courses in physics (0 to 2)}
-    \item{chemistcourse}{number of courses in chemistry (0 to 2)}
+    \item{major}{
+      one of \code{other}, \code{eco}, \code{oss}
+      (other social sciences), \code{ns} (natural 
+      sciences), \code{hum} (humanities)
+    }
+    \item{mathcourse}{
+      number of courses in advanced math (0 to 3)
+    }
+    \item{physiccourse}{
+      number of courses in physics (0 to 2)
+    }
+    \item{chemistcourse}{
+      number of courses in chemistry (0 to 2)
+    }
   }
 }
 \source{
-    Butler, J.S.,  T. Aldrich   Finegan and  John J.  Siegfried (1998) \dQuote{Does more calculus improve student learning in intermediate micro and macroeconomic theory ?}, \emph{Journal of Applied Econometrics}, \bold{13(2)}, april, 185--202.
+    Butler, J.S.,  T. Aldrich   Finegan and  John J.  Siegfried (1998) \dQuote{Does more calculus improve student learning in intermediate micro and macroeconomic theory ?}, \emph{Journal of Applied Econometrics}, \bold{13(2)}, April, 185--202.
 
 }
 \references{
