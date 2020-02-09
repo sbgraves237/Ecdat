@@ -20,10 +20,11 @@
   \describe{
     \item{smoke}{teragrams = millions of metric tons}
     \item{dC3g, dC10g, dC3n, dC10n}{
-      average change in surface temperatature 3 and 
+      average change in surface temperature 3 and 
       10 years after injection of \code{smoke} into 
-      the upper troposphere globally (g) or in the 
-      Northern Hemisphers (n) in degrees Celsius.
+      the upper troposphere globally (\code{g}) or in 
+      the Northern Hemisphere (\code{n}) in degrees 
+      Celsius.
     }
   }
 }
