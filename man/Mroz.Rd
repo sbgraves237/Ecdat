@@ -17,17 +17,17 @@
   \describe{
     \item{work}{
       work at home in 1975? 
-      (Same carData::Mroz[['lfp']] = 
+      (Same \code{carData::Mroz[['lfp']]} = 
       labor force participation.)
     }
     \item{hoursw}{wife's hours of work in 1975}
     \item{child6}{
       number of children less than 6 years old in household
-      (Same as carData::Mroz['k5'].)
+      (Same as \code{carData::Mroz['k5']}.)
     }
     \item{child618}{
       number of children between ages 6 and 18 in household
-      (Same as carData::Mroz['k618'])
+      (Same as \code{carData::Mroz['k618']})
     }
     \item{agew}{wife's age}
     \item{educw}{wife's educational attainment, in years}
@@ -62,15 +62,16 @@
 }
 \details{
   These data seem to have come from the same source 
-  as carData::Mroz, though each data set has
+  as \code{carData::Mroz}, though each data set has
   variables not in the other.  The variables that
   are shared have different names.  
   
   On 2019-11-04 Bruno Rodrigues explained that 
-  Ecdat::Mroz['work'] had the two labels 
+  \code{Ecdat::Mroz['work']} had the two labels 
   incorrectly swapped, and 
-  wooldridge::mroz['inlf'] was correct; 
-  wooldridge matches carData::Mroz['lfp'].  
+  \code{wooldridge::mroz['inlf']} was correct; 
+  \code{wooldridge} matches 
+  \code{carData::Mroz['lfp']}.  
 }
 \source{
     Mroz, T. (1987) \dQuote{The sensitivity of an 
