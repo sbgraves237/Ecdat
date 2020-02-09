@@ -9,7 +9,7 @@
   code itself (written by congress) and
   regulations (written by government 
   administrators).  For 2015 only 
-  "EntireTaxCodeAndRegs" is given;  for other
+  \code{EntireTaxCodeAndRegs} is given;  for other
   years, this number is broken down by income
   tax vs. other taxes and code vs. 
   regulations.  
@@ -45,7 +45,7 @@
       income tax
     }
     \item{otherTaxCodeAndRegs}{
-      number of wrds in thousands in both 
+      number of words in thousands in both 
       code and regulations for US taxes apart
       from income taxes.
     }
