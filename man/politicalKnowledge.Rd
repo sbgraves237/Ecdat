@@ -4,9 +4,11 @@
   Political knowledge in the US and Europe 
 }
 \description{
-  Data from McChesney and Nichols (2010) on domestic and international 
-  knowledge in Denmark, Finland, the UK and the US among college 
-  graduates, people with some college, and roughly 12th grade only.  
+  Data from McChesney and Nichols (2010) 
+  on domestic and international knowledge 
+  in Denmark, Finland, the UK and the US 
+  among college graduates, people with 
+  some college, and roughly 12th grade only.  
 }
 \usage{
 data(politicalKnowledge)
@@ -16,28 +18,35 @@ data(politicalKnowledge)
   \describe{
     \item{country}{
       a character vector of Denmark, Finland, UK, and 
-      US, being the four countries comparied in this data set.  
+      US, being the four countries compared in this data set.  
     }
     \item{DomesticKnowledge.hs, DomesticKnowledge.sc, 
       DomesticKnowledge.c}{
-      percent correct answers to calibrated questions regarding 
-      knowledge of prominent items in domestic news in a 
-      survey of residents of the four countries among college 
-      graduates (ending ".c"), some college (".sc") and 
-      high school ("hs").  Source:  McChesney and Nichols
-      (2010, chapter 1, chart 8).  
+        percent correct answers to calibrated questions
+        regarding knowledge of prominent items in domestic
+        news in a survey of residents of the four 
+        countries among college graduates (ending 
+        "\code{.c}"), some college ("\code{.sc}") and
+        high school ("\code{.hs}").  Source:  McChesney 
+        and Nichols (2010, chapter 1, chart 8).  
     }
-    \item{InternationalKnowledge.hs, InternationalKnowledge.sc, 
+    \item{InternationalKnowledge.hs, 
+      InternationalKnowledge.sc, 
       InternationalKnowledge.c}{
-      percent correct answers to calibrated questions regarding
-      knowledge of prominent items in international news in a 
-      survey of residents of the four countries by education 
-      level as for DomesticKnowledge.  Source:  McChesney and 
-      Nichols (2010, chapter 1, chart 7).  
+        percent correct answers to calibrated 
+        questions regarding knowledge of 
+        prominent items in international news 
+        in a survey of residents of the four 
+        countries by education level as for 
+        \code{DomesticKnowledge}.  Source:  
+        McChesney and Nichols (2010, chapter 1, 
+        chart 7).  
     }
-    \item{PoliticalKnowledge.hs, PoliticalKnowledge.sc, 
+    \item{PoliticalKnowledge.hs, 
+      PoliticalKnowledge.sc, 
       PoliticalKnowledge.c}{
-      average of domestic and international knowledge
+        average of domestic and international 
+        knowledge
     }
     \item{PublicMediaPerCapita}{
       Per capital spending on public media in 2007 
