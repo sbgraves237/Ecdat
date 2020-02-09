@@ -13,7 +13,7 @@
 
 }
 \usage{data(Macrodat)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{lhur}{unemployment rate (average of months in quarter)       }
     \item{punew}{cPI   (Average of Months in Quarter)       }
