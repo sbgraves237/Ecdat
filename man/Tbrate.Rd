@@ -13,7 +13,7 @@
 
 }
 \usage{data(Tbrate)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{r}{the 91-day treasury bill rate}
     \item{y}{the log of real GDP}
