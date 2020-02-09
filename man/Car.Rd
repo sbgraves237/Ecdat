@@ -19,11 +19,29 @@
     \item{college}{college education ?}
     \item{hsg2}{size of household greater than 2 ?}
     \item{coml5}{commute lower than 5 miles a day ?}
-    \item{typez}{body type, one of regcar (regular car), sportuv (sport utility vehicle), sportcar, stwagon (station wagon), truck, van, for each proposition z from 1 to 6}
-    \item{fuelz}{fuel for proposition z, one of gasoline, methanol, cng (compressed natural gas), electric.}
-    \item{pricez}{price of vehicle divided by the logarithm of income}
-    \item{rangez}{hundreds of miles vehicle  can travel between refuelings/rechargings}
-    \item{accz}{acceleration, tens of seconds required to reach 30 mph from stop}
+    \item{typez}{
+      body type, one of \code{regcar} (regular car), 
+      \code{sportuv} (sport utility vehicle), 
+      \code{sportcar}, \code{stwagon} (station 
+      wagon), \code{truck}, \code{van}, for each 
+      proposition z from 1 to 6
+    }
+    \item{fuelz}{
+      fuel for proposition z, one of \code{gasoline}, 
+      \code{methanol}, \code{cng} (compressed natural 
+      gas), \code{electric}.
+    }
+    \item{pricez}{
+      price of vehicle divided by the logarithm of income
+    }
+    \item{rangez}{
+      hundreds of miles vehicle  can travel between 
+      refuelings/rechargings
+    }
+    \item{accz}{
+      acceleration, tens of seconds required to 
+      reach 30 mph from stop
+    }
     \item{speedz}{highest attainable speed in hundreds of mph}
     \item{pollutionz}{tailpipe emissions as fraction of those for new gas vehicle}
     \item{sizez}{0 for a mini, 1 for a subcompact, 2 for a compact and 3 for a mid--size or large vehicle}
