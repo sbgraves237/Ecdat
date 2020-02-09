@@ -9,7 +9,7 @@
 
  \emph{observation} :  households
 
-   \emph{country} :  United Kingdown
+   \emph{country} :  United Kingdom
 
 }
 \usage{data(BudgetUK)}
