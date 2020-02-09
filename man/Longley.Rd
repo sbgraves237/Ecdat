@@ -13,7 +13,7 @@
 
 }
 \usage{data(Longley)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{employ}{employment (1,000s)}
     \item{price}{GNP deflator}
