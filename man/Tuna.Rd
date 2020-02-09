@@ -17,7 +17,13 @@
   \describe{
     \item{hid}{individuals identifiers}
     \item{id}{purchase identifiers}
-    \item{choice}{one of skw (Starkist water), cosw (Chicken of the sea water), pw (store--specific private label water), sko (Starkist oil), coso (Chicken of the sea oil)}
+    \item{choice}{
+      one of \code{skw} (Starkist water), 
+      \code{cosw} (Chicken of the sea water), 
+      \code{pw} (store--specific private 
+      label water), \code{sko} (Starkist 
+      oil), \code{coso} (Chicken of the sea 
+      oil)}
     \item{price.z}{price of brand z}
   }
 }
