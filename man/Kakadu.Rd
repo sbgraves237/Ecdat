@@ -15,23 +15,81 @@
 \usage{data(Kakadu)}
 \format{A dataframe containing :
   \describe{
-    \item{lower}{lowerbound of willingness to pay, 0 if observation is left censored}
-    \item{upper}{upper bound of willingness to pay, 999 if observation is right censored}
-    \item{answer}{an ordered factor with levels nn (respondent answers no, no), ny (respondent answers no, yes or yes, no), yy (respondent answers yes, yes)}
-    \item{recparks}{the greatest value of national parks and nature reserves is in recreation activities (from 1 to 5)}
-    \item{jobs}{jobs are the most important thing in deciding how to use our natural resources  (from 1 to 5)}
-    \item{lowrisk}{development should be allowed to proceed where environmental damage from activities such as mining is possible but very unlikely  (from 1 to 5)}
-    \item{wildlife}{it's important to have places where wildlife is preserved  (from 1 to 5)}
-    \item{future}{it's important to consider future generations  (from 1 to 5)}
-    \item{aboriginal}{in deciding how to use areas such as Kakadu national park, their importance to the local aboriginal people should be a major factor  (from 1 to 5)}
-    \item{finben}{in deciding how to use our natural resources such as mineral deposits and forests, the most important thing is the financial benefits for Australia  (from 1 to 5)}
-    \item{mineparks}{if areas within natural parks are set aside for development projects such as mining, the value of the parks is greatly reduced  (from 1 to 5)}
-    \item{moreparks}{there should be more national parks created from state forests  (from 1 to 5)}
-    \item{gov}{the government pays little attention to the people in making decisions  (from 1 to 4)}
-    \item{envcon}{the respondent recycles things such as paper or glass and regularly buys unbleached toilet paper or environmentally friendly products ?}
-    \item{vparks}{the respondent has visited a national park or bushland recreation area in the previous 12 months ?}
-    \item{tvenv}{the respondent watches tv programs about the environment ?  (from 1 to 9)}
-    \item{conservation}{the respondent is member of a conservation organization ?}
+    \item{lower}{
+      lower bound of willingness to pay, 0 if 
+      observation is left censored
+    }
+    \item{upper}{
+      upper bound of willingness to pay, 999 if observation 
+      is right censored
+    }
+    \item{answer}{
+      an ordered factor with levels \code{nn} (respondent 
+      answers no, no), \code{ny} (respondent answers no, 
+      yes or yes, no), \code{yy} (respondent answers yes, yes)}
+    \item{recparks}{
+      the greatest value of national parks and nature reserves 
+      is in recreation activities (from 1 to 5)
+    }
+    \item{jobs}{
+      jobs are the most important thing in deciding how to 
+      use our natural resources  (from 1 to 5)
+    }
+    \item{lowrisk}{
+      development should be allowed to proceed where 
+      environmental damage from activities such as mining is 
+      possible but very unlikely  (from 1 to 5)
+    }
+    \item{wildlife}{
+      it's important to have places where wildlife is 
+      preserved  (from 1 to 5)
+    }
+    \item{future}{
+      it's important to consider future generations  (from 1 
+      to 5)
+    }
+    \item{aboriginal}{
+      in deciding how to use areas such as Kakadu national 
+      park, their importance to the local aboriginal people 
+      should be a major factor  (from 1 to 5)
+    }
+    \item{finben}{
+      in deciding how to use our natural resources such as 
+      mineral deposits and forests, the most important 
+      thing is the financial benefits for Australia  (from 
+      1 to 5)
+    }
+    \item{mineparks}{
+      if areas within natural parks are set aside for 
+      development projects such as mining, the value of 
+      the parks is greatly reduced  (from 1 to 5)
+    }
+    \item{moreparks}{
+      there should be more national parks created from 
+      state forests  (from 1 to 5)
+    }
+    \item{gov}{
+      the government pays little attention to the people 
+      in making decisions  (from 1 to 4)
+    }
+    \item{envcon}{
+      the respondent recycles things such as paper or 
+      glass and regularly buys unbleached toilet paper 
+      or environmentally friendly products?
+    }
+    \item{vparks}{
+      the respondent has visited a national park or 
+      bushland recreation area in the previous 12 
+      months?
+    }
+    \item{tvenv}{
+      the respondent watches tv programs about the 
+      environment?  (from 1 to 9)
+    }
+    \item{conservation}{
+      the respondent is member of a conservation 
+      organization?
+    }
     \item{sex}{male,female}
     \item{age}{age}
     \item{schooling}{years of schooling}
@@ -40,7 +98,7 @@
   }
 }
 \source{
-    Werner, Megan (1999) \dQuote{Allowing for zeros in dichotomous--choice contingent--valuation models}, \emph{Journal of Business and Economic Statistics}, \bold{17(4)}, october, 479--486.
+    Werner, Megan (1999) \dQuote{Allowing for zeros in dichotomous--choice contingent--valuation models}, \emph{Journal of Business and Economic Statistics}, \bold{17(4)}, October, 479--486.
 
 }
 \references{
