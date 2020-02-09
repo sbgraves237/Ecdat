@@ -10,7 +10,7 @@
  \emph{observation} : individuals
  \emph{country} : United States
 
-In package version 0.2-9 and earlier this dataset was called Hdma.
+In package version 0.2-9 and earlier this dataset was called \code{Hdma}.
 }
 \usage{data(Hmda)}
 \format{A dataframe containing :
@@ -25,7 +25,11 @@ In package version 0.2-9 and earlier this dataset was called Hdma.
     \item{self}{self employed ?}
     \item{single}{is the applicant  single ?}
     \item{uria}{1989 Massachusetts unemployment rate in the applicant's industry}
-    \item{condominium}{is unit a condominium ? (was called comdominiom in version 0.2-9 and earlier versions of the package)}
+    \item{condominium}{
+      is unit a condominium ? (was called 
+      comdominiom in version 0.2-9 and earlier 
+      versions of the package)
+    }
     \item{black}{is the applicant black ?}
     \item{deny}{mortgage application denied ?}
   }
