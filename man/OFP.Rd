@@ -24,15 +24,20 @@
     \item{numchron}{number of chronic conditions}
     \item{adldiff}{the person has a condition that limits activities of daily living ?}
     \item{age}{age in years (divided by 10)}
-    \item{black}{is the person african--american ?}
+    \item{black}{is the person African--American ?}
     \item{sex}{is the person male ?}
-    \item{maried}{is the person maried ?}
+    \item{maried}{is the person married ?}
     \item{school}{number of years of education}
     \item{faminc}{family income in 10000\$}
     \item{employed}{is the person employed ?}
-    \item{privins}{is the person covered by private health insurance ?}
+    \item{privins}{
+      is the person covered by private health insurance?
+    }
     \item{medicaid}{is the person covered by medicaid ?}
-    \item{region}{the region (noreast, midwest,west)}
+    \item{region}{
+      the region (\code{noreast}, \code{midwest}, 
+      \code{west})
+    }
     \item{hlth}{self-perceived health (excellent, poor, other)}
   }
 }
