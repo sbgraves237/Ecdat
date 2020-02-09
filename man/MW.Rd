@@ -13,7 +13,7 @@
 
 }
 \usage{data(MW)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{rdi}{the rate of growth of real U.S. disposable income, seasonally adjusted}
     \item{trate}{the U.S. treasury bill rate}
