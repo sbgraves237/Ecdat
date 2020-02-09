@@ -30,7 +30,7 @@
   }
 }
 \source{
-    Lee, Myoung--Jae (1995) \dQuote{Semi--parametric estimation of simultaneous equations with limited dependent variables : a case study of female labour supply}, \emph{Journal of Applied Econometrics}, \bold{10(2)}, april--june, 187--200.
+    Lee, Myoung--Jae (1995) \dQuote{Semi--parametric estimation of simultaneous equations with limited dependent variables : a case study of female labour supply}, \emph{Journal of Applied Econometrics}, \bold{10(2)}, April--June, 187--200.
 
 }
 \references{
