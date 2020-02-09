@@ -73,15 +73,34 @@
   occurrence in addition to the date of the report.  
   
   The following corrections were made to the file:
-    * UCLA Health System,  breach date 11/4/2011, had cover entity added as "Healthcare Provider"
-    * Wyoming Department of Health, breach date 3/2/2010 had breach type changed to "Unauthorized Access / Disclosure"
-    * Computer Program and Systems, Inc. (CPSI), breach date 3/30/2010 had breach type changed to "Unauthorized Access / Disclosure"  
-    * Aetna, breach date 7/27/2010 had breach type changed to "Improper Disposal' (see explanation below), breach date 5/24/2010 name changed to City of Charlotte, NC (Health Plan) and state changed to NC
-    * Mercer, breach date 7/30/2010 state changed to MI
-    * Not applicable, breach date 11/2/2011 name changed to Northridge Hospital Medical Center and state changed to CA
-    * na, breach date  4/4/2011 name changed to Brian J Daniels DDS, Paul R Daniels DDS and state changed to AZ
-    * NA, breach date  5/27/2011 name changed to and  Spartanburg Regional Healthcare System state changed to SC
-    * NA, breach date 7/4/2011 name changed to Yanz Dental Corporation and state changed to CA
+  \itemize{
+    \item UCLA Health System,  breach date 11/4/2011, 
+    had cover entity added as "Healthcare Provider"
+    \item Wyoming Department of Health, breach date 
+    3/2/2010 had breach type changed to 
+    "Unauthorized Access / Disclosure"
+    \item Computer Program and Systems, Inc. (CPSI), 
+    breach date 3/30/2010 had breach type changed to 
+    "Unauthorized Access / Disclosure"  
+    \item Aetna, breach date 7/27/2010 had breach 
+    type changed to "Improper Disposal' (see 
+    explanation below), breach date 5/24/2010 name 
+    changed to City of Charlotte, NC (Health Plan) 
+    and state changed to NC
+    \item Mercer, breach date 7/30/2010 state 
+    changed to MI
+    \item Not applicable, breach date 11/2/2011 
+    name changed to Northridge Hospital Medical 
+    Center and state changed to CA
+    \item na, breach date  4/4/2011 name changed 
+    to Brian J Daniels DDS, Paul R Daniels DDS 
+    and state changed to AZ
+    \item NA, breach date  5/27/2011 name changed 
+    to and  Spartanburg Regional Healthcare System 
+    state changed to SC
+    \item NA, breach date 7/4/2011 name changed to 
+    Yanz Dental Corporation and state changed to CA
+  }
 }
 \source{
   \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{"Breaches Affecting 500 or More Individuals" downloaded from the Office for Civil Rights of the U.S. Department of Health and Human Services, 2015-02-26}
