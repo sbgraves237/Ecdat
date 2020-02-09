@@ -9,7 +9,7 @@
 
  \emph{observation} :  schools
 
-   \emph{country} :  United Kingdown
+   \emph{country} :  United Kingdom
 
 }
 \usage{data(University)}
@@ -35,7 +35,7 @@
   }
 }
 \source{
-    Glass, J.C.,  D.G.   McKillop and  N.  Hyndman (1995) \dQuote{Efficiency in the provision of university teaching and research : an empirical analysis of UK universities}, \emph{Journal of Applied Econometrics}, \bold{10(1)}, january--march, 61--72.
+    Glass, J.C.,  D.G.   McKillop and  N.  Hyndman (1995) \dQuote{Efficiency in the provision of university teaching and research : an empirical analysis of UK universities}, \emph{Journal of Applied Econometrics}, \bold{10(1)}, January--March, 61--72.
 
 }
 \references{
