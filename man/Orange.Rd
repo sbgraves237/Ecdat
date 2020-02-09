@@ -13,7 +13,7 @@
 
 }
 \usage{data(Orange)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{priceoj}{producer price for frozen orange juice}
     \item{pricefg}{producer price index for finished goods}
