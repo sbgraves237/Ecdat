@@ -13,7 +13,7 @@
 
 }
 \usage{data(Consumption)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{yd}{ personal disposable income, 1986 dollars}
     \item{ce}{personal consumption expenditure, 1986 dollars}
