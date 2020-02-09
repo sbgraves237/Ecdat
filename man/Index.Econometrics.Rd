@@ -6,11 +6,11 @@
     \itemize{
       \item binomial model
       \itemize{
-	\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
-	\item \code{\link{Hmda}} : The Boston HMDA Data Set
-	\item \code{\link{Mroz}} : Labor Supply Data
-	\item \code{\link{Participation}} : Labor Force Participation
-	\item \code{\link{Train}} : Stated Preferences for Train Traveling
+      	\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
+      	\item \code{\link{Hmda}} : The Boston HMDA Data Set
+      	\item \code{\link{Mroz}} : Labor Supply Data
+	      \item \code{\link{Participation}} : Labor Force Participation
+	      \item \code{\link{Train}} : Stated Preferences for Train Traveling
       }
       \item censored and truncated model
       \itemize{
