@@ -21,17 +21,20 @@
     \item{hhi2}{husband has HI thru own job ?}
     \item{education}{a factor with levels, "<9years", "9-11years", "12years", "13-15years", "16years", ">16years"}
     \item{race}{one of white, black, other}
-    \item{hispanic}{hispanic ?}
+    \item{hispanic}{Hispanic ?}
     \item{experience}{years of potential work experience}
     \item{kidslt6}{number of kids under age of 6}
     \item{kids618}{number of kids 6--18 years old}
     \item{husby}{husband's income in thousands of dollars}
-    \item{region}{one of other, northcentral, south, west}
+    \item{region}{
+      one of \code{other}, \code{northcentral}, 
+      \code{south}, \code{west}
+    }
     \item{wght}{sampling weight}
   }
 }
 \source{
-    Olson, Craig A. (1998) \dQuote{A comparison of parametric and semiparametric estimates of the effect of spousal health insurance coverage on weekly hours worked by wiwes}, \emph{Journal of Applied Econometrics}, \bold{13(5)}, september--october, 543--565.
+    Olson, Craig A. (1998) \dQuote{A comparison of parametric and semiparametric estimates of the effect of spousal health insurance coverage on weekly hours worked by wives}, \emph{Journal of Applied Econometrics}, \bold{13(5)}, September--October, 543--565.
 
 }
 \references{
