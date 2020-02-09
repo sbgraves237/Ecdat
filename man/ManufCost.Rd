@@ -13,7 +13,7 @@
 
 }
 \usage{data(ManufCost)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{cost}{cost index}
     \item{sk}{capital cost share}
