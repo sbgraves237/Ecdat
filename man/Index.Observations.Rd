@@ -4,9 +4,9 @@
 \description{
   \describe{
     \itemize{
-\item country
- \itemize{
-\item \code{\link{Consumption}} : Quarterly Data on Consumption and Expenditure
+      \item country
+      \itemize{
+        \item \code{\link{Consumption}} : Quarterly Data on Consumption and Expenditure
 \item \code{\link{DM}} : DM Dollar Exchange Rate
 \item \code{\link{Garch}} : Daily Observations on Exchange Rates of the US Dollar Against Other Currencies
 \item \code{\link{Gasoline}} : Gasoline Consumption
