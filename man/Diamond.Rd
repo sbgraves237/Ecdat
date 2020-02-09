@@ -18,7 +18,10 @@
     \item{carat}{weight of diamond stones in carat unit}
     \item{colour}{a factor with levels (D,E,F,G,H,I)}
     \item{clarity}{a factor with levels (IF,VVS1,VVS2,VS1,VS2)}
-    \item{certification}{certification body, a factor with levels (GIA,IGI,HRD)}
+    \item{certification}{
+      certification body, a factor with levels (
+      \code{GIA}, \code{IGI}, \code{HRD})
+    }
     \item{price}{price in Singapore \$}
   }
 }
