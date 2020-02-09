@@ -28,8 +28,12 @@
     \item{lnchpct}{eligible for free or reduced price lunch}
     \item{tchratio}{students per teacher}
     \item{percap}{per capita income}
-    \item{totsc4}{4th grade score (math+english+science)}
-    \item{totsc8}{8th grade score (math+english+science)}
+    \item{totsc4}{
+      4th grade score (\code{math+english+science})
+    }
+    \item{totsc8}{
+      8th grade score (\code{math+english+science})
+    }
     \item{avgsalary}{average teacher salary}
     \item{pctel}{percent english learnersh}
   }
@@ -42,7 +46,12 @@
     Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, chapter 7.
 
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
+\seealso{
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}}
+}
 
 
 \keyword{datasets}
