@@ -17,7 +17,11 @@
   \describe{
     \item{hid}{individuals identifiers}
     \item{id}{purchase identifiers}
-    \item{choice}{one of heinz, hunts, delmonte, stb (store brand)}
+    \item{choice}{
+      one of \code{heinz}, \code{hunts}, 
+      \code{delmonte}, \code{stb} (store 
+      brand)
+    }
     \item{price.z}{price of brand z}
   }
 }
@@ -28,7 +32,13 @@
 \references{
       Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
+\seealso{
+  \code{\link{Catsup}}, 
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}}
+}
 
 
 \keyword{datasets}
