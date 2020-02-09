@@ -5,8 +5,10 @@
   US Finance Industry Profits
 }
 \description{
-  A \code{data.frame} giving the profits of the finance industry in the
-  United States as a proportion of total corporate domestic profits.
+  A \code{data.frame} giving the profits of 
+  the finance industry in the United States 
+  as a proportion of total corporate domestic 
+  profits.
 }
 \usage{data(USFinanceIndustry)}
 \format{ A \code{data.frame} with the following columns:
@@ -28,28 +30,34 @@
   }
 }
 \details{
-  This is extracted from Table 6.16 of the National Income and Product
-  Accounts (NIPA) compiled by the Bureau of Economic Analysis of the
-  United States federal government.  This table comes in four parts, A
-  (1929-1947), B (1948-1987), C (1987-2000), and D (1998-present).  Parts
-  A, B, C and D contain different numbers of data elements, but the
-  first five have the same names and are the only ones used here.  The
-  overlap between parts C and D (1998-2000) have a root mean square
-  relative difference of 0.7 percent;  there were no differences between
-  the numbers in the overlap period between parts B and C (1987).
+  This is extracted from Table 6.16 of the 
+  National Income and Product Accounts (NIPA) 
+  compiled by the Bureau of Economic Analysis 
+  of the United States federal government.  
+  This table comes in four parts, A (1929-1947), 
+  B (1948-1987), C (1987-2000), and D 
+  (1998-present).  Parts A, B, C and D contain 
+  different numbers of data elements, but the
+  first five have the same names and are the 
+  only ones used here.  The overlap between 
+  parts C and D (1998-2000) have a root mean 
+  square relative difference of 0.7 percent;  
+  there were no differences between the numbers 
+  in the overlap period between parts B and C 
+  (1987).
 
   This was created using the following command:
 
-  demoDir <- system.file('demoFiles', package='Ecdat')
-  demoCsv <- dir(demoDir, pattern='csv$', full.names=TRUE)
+  \code{demoDir <- system.file('demoFiles', package='Ecdat')}
+  \code{demoCsv <- dir(demoDir, pattern='csv$', full.names=TRUE)}
 
-  nipa6.16 <- readNIPA(demoCsv)
-  USFinanceIndustry <- as.data.frame(nipa6.16)
-  names(USFinanceIndustry) <- c('year', 'CorporateProfitsAdj',
-                              'Domestic', 'Financial', 'Nonfinancial',
-                              'restOfWorld')
-  USFinanceIndustry$FinanceProportion <- with(USFinanceIndustry,
-                                Financial/Domestic)
+  \code{nipa6.16 <- readNIPA(demoCsv)}
+  \code{USFinanceIndustry <- as.data.frame(nipa6.16)}
+  \code{names(USFinanceIndustry) <- c('year', 
+    'CorporateProfitsAdj', 'Domestic', 'Financial', 
+    'Nonfinancial', 'restOfWorld')}
+  \code{USFinanceIndustry$FinanceProportion <- 
+    with(USFinanceIndustry, Financial/Domestic)}
 }
 \source{
   \url{http://www.bea.gov}:  Under "U.S. Economic Accounts", first
