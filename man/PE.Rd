@@ -13,7 +13,7 @@
 
 }
 \usage{data(PE)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{price}{S\&P composite stock price index}
     \item{earnings}{S\&P composite earnings index}
