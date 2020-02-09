@@ -9,7 +9,7 @@
 
 }
 \usage{data(UnempDur)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{spell}{length of spell in number of two-week intervals}
     \item{censor1}{= 1 if re-employed at full-time job}
