@@ -9,7 +9,7 @@
 
  \emph{observation} :  production units
 
-   \emph{country} :  United Kingdown
+   \emph{country} :  United Kingdom
 
 }
 \usage{data(Oil)}
