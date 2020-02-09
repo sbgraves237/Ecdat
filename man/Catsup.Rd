@@ -16,7 +16,10 @@
 \format{A dataframe containing :
   \describe{
     \item{id}{individuals identifiers}
-    \item{choice}{one of heinz41, heinz32, heinz28, hunts32}
+    \item{choice}{
+      one of \code{heinz41}, \code{heinz32}, 
+      \code{heinz28}, \code{hunts32}
+    }
     \item{disp.z}{is there a display for brand z ?}
     \item{feat.z}{is there a newspaper feature advertisement for brand z ?}
     \item{price.z}{price of brand z}
@@ -29,7 +32,12 @@
 \references{
       Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
+\seealso{
+  \code{\link{Ketchup}},
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}}}
 
 
 \keyword{datasets}
