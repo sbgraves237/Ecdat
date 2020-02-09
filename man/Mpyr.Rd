@@ -13,7 +13,7 @@
 
 }
 \usage{data(Mpyr)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{m}{natural log of M1}
     \item{p}{natural log of the net national product price deflator}
