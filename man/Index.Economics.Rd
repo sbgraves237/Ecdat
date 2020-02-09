@@ -5,7 +5,7 @@
   \itemize{
     \item consumer behavior
     \itemize{
-\item \code{\link{BudgetFood}} : Budget Share of Food for Spanish Households
+      \item \code{\link{BudgetFood}} : Budget Share of Food for Spanish Households
 \item \code{\link{BudgetItaly}} : Budget Shares for Italian Households
 \item \code{\link{BudgetUK}} : Budget Shares of British Households
 \item \code{\link{Car}} : Stated Preferences for Car Choice
