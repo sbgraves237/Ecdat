@@ -18,14 +18,17 @@
     \item{bid1}{initial bid, in euro}
     \item{bidh}{higher bid}
     \item{bidl}{lower bid}
-    \item{answers}{a factor with levels (nn,ny,yn,yy)}
+    \item{answers}{
+      a factor with levels (\code{nn}, 
+      \code{ny}, \code{yn}, \code{yy})
+    }
     \item{age}{age in 6 classes}
     \item{sex}{a factor with levels (male,female) }
     \item{income}{income in 8 classes}
   }
 }
 \source{
-    Nunes, Paulo (2000) \emph{Contingent Valuation of the Benefits of natural areas and its warmglow component}, PhD thesis 133, FETEW, KULeuven.
+    Nunes, Paulo (2000) \emph{Contingent Valuation of the Benefits of natural areas and its warmglow component}, PhD thesis 133, FETEW, \href{https://en.wikipedia.org/wiki/KU_Leuven}{KU Leuven}.
 
 }
 \references{
