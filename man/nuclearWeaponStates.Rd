@@ -25,30 +25,33 @@
       \href{https://en.wikipedia.org/wiki/Vela_Incident}{Vela Incident}.  
     }
     \item{firstTestYr}{
-      lubridate::decimal_date(firstTest)
+      \code{lubridate::decimal_date(firstTest)}
     }
     \item{yearsSinceLastFirstTest}{
-      c(NA, diff(firstTestYr))
+      \code{c(NA, diff(firstTestYr))}
     }
     \item{nuclearWeapons}{
       number of nuclear weapons 
     }
     \item{nYieldNA, nLowYield, nMidYield, nHighYield}{
-      number of weapons for wich the yield in (nYieldNA) 
-      = unknown or variable, (nLowYield) = at most 15 kt 
-      (kilotons), the size of the Hiroshima bomb, 
-      (nMidYield) = greater than 15 but less that 50 kt, 
-      and (nHighYield) = at least 50 kt.  
+      number of weapons for which the yield in 
+      \code{(nYieldNA)} = unknown or variable, 
+      \code{(nLowYield)} = at most 15 kt 
+      (kilotons), the size of the Hiroshima 
+      bomb, \code{(nMidYield)} = greater than 15 
+      but less that 50 kt, and \code{(nHighYield)} 
+      = at least 50 kt.  
     }
     \item{popM, popYr}{
-      popM = estimated population in millions for 
-      year popYr, per the Wikipedia article for 
-      the indicated country on 2020-02-05.  
+      \code{popM} = estimated population in millions 
+      for year \code{popYr}, per the Wikipedia 
+      article for the indicated country on 2020-02-05.  
     }
     \item{GDP_B,	GDPyr}{
-      GDP_B = nominal Gross Domestic Product in billions
-      of US dollars for year GDPyr, per the Wikipedia
-      article for the indicated country on 2020-02-05. 
+      \code{GDP_B} = nominal Gross Domestic Product 
+      in billions of US dollars for year 
+      \code{GDPyr}, per the Wikipedia article for 
+      the indicated country on 2020-02-05. 
     }
   }
 }
@@ -63,7 +66,7 @@
   
   UK from \href{https://journals.sagepub.com/doi/pdf/10.1177/0096340213493260}{Robert S. Norris and Hans M. Kristensen (2013) The British nuclear stockpile, 1953-2013, Bulletin of the Atomic Scientists, 69:4, 69-75s}
   
-  France from \href{https://journals.sagepub.com/doi/pdf/10.2968/064004012}{Robert S. Norris & Hans M. Kristenen (2008) French nuclear forces, 2008, Bulletin of the Atomic Scientists, 64:4, 52-54, 57}  
+  France from \href{https://journals.sagepub.com/doi/pdf/10.2968/064004012}{Robert S. Norris & Hans M. Kristensen (2008) French nuclear forces, 2008, Bulletin of the Atomic Scientists, 64:4, 52-54, 57}  
   
   China from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1486620?needAccess=true}{Hans M. Kristensen & Robert S. Norris (2018) Chinese nuclear forces, 2018,Bulletin of the Atomic Scientists, 74:4, 289-295}
   
@@ -73,7 +76,7 @@
   
   Pakistan from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1507796?needAccess=true}{Hans M. Kristensen, Robert S. Norris & Julia Diamond (2018)Pakistani nuclear forces, 2018, Bulletin of the Atomic Scientists, 74:5, 348-358}
   
-  North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062?needAccess=true}{ Hans M. Kristensen & Robert S. Norris (2018) North Koreannuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}
+  North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062?needAccess=true}{ Hans M. Kristensen & Robert S. Norris (2018) North Korean nuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}
 }
 \examples{
 data(nuclearWeaponStates)
