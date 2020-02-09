@@ -9,11 +9,11 @@
 
  \emph{observation} :  country
 
-   \emph{country} :  United Kingdown
+   \emph{country} :  United Kingdom
 
 }
 \usage{data(IncomeUK)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{income}{total disposable income  (million Pounds, current prices)}
     \item{consumption}{consumer expenditure (million Pounds, current prices)}
