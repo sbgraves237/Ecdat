@@ -20,13 +20,20 @@
     \item{school}{years of schooling}
     \item{exper}{years of experience (=age-6-school)}
     \item{union}{wage set by collective bargaining ?}
-    \item{ethn}{a factor with levels (black,hisp,other)}
-    \item{maried}{maried ?}
+    \item{ethn}{
+      a factor with levels (\code{black}, 
+      \code{hisp}, \code{other})
+    }
+    \item{maried}{married ?}
     \item{health}{health problem ?}
     \item{wage}{log of hourly wage}
     \item{industry}{a factor with 12 levels}
     \item{occupation}{a factor with 9 levels}
-    \item{residence}{a factor with levels (rural area, north east, nothern central, south)}
+    \item{residence}{
+      a factor with levels (\code{rural area}, 
+      \code{north east}, \code{northern central}, 
+      \code{south})
+    }
   }
 }
 \source{
