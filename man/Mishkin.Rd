@@ -13,7 +13,7 @@
 
 }
 \usage{data(Mishkin)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{pai1}{one-month inflation rate (in percent, annual rate)}
     \item{pai3}{three-month inflation rate (in percent, annual rate)}
