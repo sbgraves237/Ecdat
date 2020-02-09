@@ -9,7 +9,7 @@
 
 }
 \usage{data(Pricing)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{r1}{monthly return on portfolio 1 (small firms)}
     \item{r2}{monthly return on portfolio 2 }
