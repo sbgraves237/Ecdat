@@ -16,7 +16,10 @@
     \item{treat}{treated ?}
     \item{age}{age}
     \item{educ}{education in years}
-    \item{ethn}{a factor with levels ("other","black","hispanic")}
+    \item{ethn}{
+      a factor with levels ("\code{other}",
+      "\code{black}", "\code{hispanic}")
+    }
     \item{married}{married ?}
     \item{re74}{real annual earnings in 1974  (pre-treatment)}
     \item{re75}{real annual earnings in 1975  (pre-treatment)}
@@ -37,7 +40,9 @@
     Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge, pp. 889--95.
 
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
+\seealso{
+  \code{\link{RetSchool}}, 
+  \code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 
 
 \keyword{datasets}
