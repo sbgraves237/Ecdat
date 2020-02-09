@@ -9,7 +9,7 @@
 
 }
 \usage{data(Forward)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{usdbp}{ exchange rate USD/British Pound Sterling}
     \item{usdeuro}{ exchange rate US D/Euro }
