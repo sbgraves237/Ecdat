@@ -13,7 +13,7 @@
 
 }
 \usage{data(Icecream)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{cons}{consumption of ice cream per head (in pints);}
     \item{income}{average family income per week (in US Dollars);}
