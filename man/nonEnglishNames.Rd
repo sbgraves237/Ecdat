@@ -5,10 +5,12 @@
   Names with Character Set Problems
 }
 \description{
-  A \code{\link{data.frame}} describing names containing character codes
-  rare or non-existent in standard English text, e.g., with various
-  accent marks that may not be coded consistenty in different locales or
-  by different software.
+  A \code{\link{data.frame}} describing 
+  names containing character codes rare or 
+  non-existent in standard English text, 
+  e.g., with various accent marks that may 
+  not be coded consistently in different 
+  locales or by different software.
 }
 \usage{data(nonEnglishNames)}
 \format{
