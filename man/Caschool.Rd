@@ -24,7 +24,9 @@
     \item{calwpct}{percent qualifying for CalWorks}
     \item{mealpct}{percent qualifying for reduced-price lunch}
     \item{computer}{number of computers}
-    \item{testscr}{average test score (read.scr+math.scr)/2}
+    \item{testscr}{
+      average test score (read.scr+math.scr)/2
+    }
     \item{compstu}{computer per student}
     \item{expnstu}{expenditure per student}
     \item{str}{student teacher ratio}
