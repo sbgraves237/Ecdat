@@ -13,7 +13,7 @@
 
 }
 \usage{data(CRSPmon)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{ge}{the return for General Electric, Permno 12060}
     \item{ibm}{ the return for IBM, Permno 12490}
