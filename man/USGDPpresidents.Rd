@@ -151,18 +151,18 @@ data(USGDPpresidents)
       "Spanish-American-Philippine" war.  
       
       \href{http://correlatesofwar.org/}{The Correlates of 
-      War (COW)} data include multiple US uses of military force 
-      during the Vietnam War era.  It starts with "Vietnam 
-      Phase 1", 1961-65, with 506 battle deaths in the COW 
-      data base.  It includes the "Second Laotian" war phases 
-      1 and 2, plus engagement with a "Communist Coalition"
-      and Kmer Rouge as well as actions in the Dominican 
-      Republic and Guatemala.  The current 
-      \code{\link{data.frame}} includes only "Vietnam", 
-      referring primarily to COW's "Vietnam War, Phase 2", 
-      1965-1973.  The associated battle deaths include 
-      battle deaths from these other, lesser concurrent 
-      conflicts.  
+      War (COW)} data include multiple US uses of military
+      force  during the Vietnam War era.  It starts with
+      "Vietnam Phase 1", 1961-65, with 506 battle deaths 
+      in the COW data base.  It includes the "Second 
+      Laotian" war phases 1 and 2, plus engagement with a
+      "Communist Coalition" and Khmer Rouge as well as 
+      actions in the Dominican Republic and Guatemala.  
+      The current \code{\link{data.frame}} includes 
+      only "Vietnam", referring primarily to COW's 
+      "Vietnam War, Phase 2", 1965-1973.  The associated
+      battle deaths include battle deaths from these 
+      other, lesser concurrent conflicts.  
 
       The COW data currently ends in 2007.  However, the 
       post-2000 conflicts in Afghanistan and Iraq averaged 
@@ -212,7 +212,9 @@ data(USGDPpresidents)
     }
   }
 }
-\details{rownames(USGDPpresidents) = Year}
+\details{
+  \code{rownames(USGDPpresidents) = Year}
+}
 \source{
   \href{https://www.measuringworth.org/usgdp/}{Louis 
   Johnston and Samuel H. Williamson, "What Was the U.S. GDP 
@@ -251,9 +253,9 @@ data(USGDPpresidents)
   Statistics, 55(1): 46-55. 
   
   The unemployment data since 1940 are from series 
-  LNS14000000 from the Curent Population Survey.  These 
+  LNS14000000 from the Current Population Survey.  These 
   data are available as a monthly series from the 
-  [Current Population Survey of the Bureau of Labor Statistics](https://www.bls.gov/cps/). 
+  \href{https://www.bls.gov/cps/}{Current Population Survey of the Bureau of Labor Statistics}. 
   
   \href{http://www.yttwebzine.com/yesterday/2013/10/28/75757/population_13_colonies_chart}{Chuck Springston, 
   "Population of the 13 Colonies 1610-1790", 
