@@ -13,7 +13,7 @@
 
 }
 \usage{data(Money)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{m}{log of the real money supply}
     \item{y}{the log of GDP, in 1992 dollars, seasonally adjusted}
