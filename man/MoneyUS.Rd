@@ -11,7 +11,7 @@
 
 }
 \usage{data(MoneyUS)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{m}{log of real M1 money stock}
     \item{infl}{quarterly inflation rate (change in log prices), \% per year}
