@@ -3,15 +3,16 @@
 \alias{breaches}
 \title{ Cyber Security Breaches }
 \description{
-  \code{data.frame} of cyber security breaches involving 
-  health care records of 500 or more humans reported to 
-  the U.S. Department of Health and Human Services (HHS) 
-  as of June 27, 2014.   
+  \code{data.frame} of cyber security breaches 
+  involving health care records of 500 or more 
+  humans reported to the U.S. Department of 
+  Health and Human Services (HHS) as of June 
+  27, 2014.   
 }
 \usage{data(breaches)}
 \format{
-  A \code{data.frame} with 1055 observations on the 
-  following 24 variables:
+  A \code{data.frame} with 1055 observations on 
+  the following 24 variables:
   \describe{
     \item{Number}{
       integer record number in the HHS data base 
@@ -94,7 +95,7 @@
     45 \tab Wyoming Department of Health \tab Cause of breach was 
     missing.  Added "Unauthorized \cr
     \tab \tab Access / Disclosure" per 
-    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{smartbreif.com/03/29/10} \cr
+    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{smartbrief.com/03/29/10} \cr
     
     55 \tab Reliant Rehabilitation Hospital North
     \tab Cause of breach was missing.  Added "Unauthorized \cr
