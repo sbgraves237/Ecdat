@@ -13,7 +13,7 @@
 
 }
 \usage{data(Benefits)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{stateur}{state unemployment rate (in \%)}
     \item{statemb}{state maximum benefit level}
