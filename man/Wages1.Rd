@@ -13,7 +13,7 @@
 
 }
 \usage{data(Wages1)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{exper}{experience in years}
     \item{sex}{a factor with levels (male,female)}
