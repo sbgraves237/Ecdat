@@ -13,7 +13,7 @@
 
 }
 \usage{data(PPP)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{lnit}{log price index Italy}
     \item{lnfr}{log price index France}
