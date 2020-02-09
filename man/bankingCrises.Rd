@@ -5,26 +5,27 @@
   Countries in Banking Crises
 }
 \description{
-  A \code{data.frame} identifying which of 70 countries had a 
-  banking crisis each year 1800:2010. The first column is 
-  \code{year}.  The remaining columns carry the names of the
-  countries;  those columns are 1 for years with banking 
-  crises and 0 otherwise.
+  A \code{data.frame} identifying which of 70 
+  countries had a banking crisis each year 
+  1800:2010. The first column is \code{year}.  
+  The remaining columns carry the names of the
+  countries;  those columns are 1 for years 
+  with banking crises and 0 otherwise.
 }
 \usage{data(bankingCrises)}
 \format{ A \code{data.frame} }
 \details{
   This file was created using the following command:
 
-  bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)
+  \code{bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)}
 
   This is documented further in the help file for
   \code{\link{readFinancialCrisisFiles}}.
 
-  This is an update of a subset of the data used to create 
-  Figure 10.1.  Capital Mobility and the Incidence of 
-  Banking Crises, All Countries, 1800-2008, Reinhart and 
-  Rogoff (2009, p. 156).
+  This is an update of a subset of the data used 
+  to create Figure 10.1.  Capital Mobility and the 
+  Incidence of Banking Crises, All Countries, 
+  1800-2008, Reinhart and Rogoff (2009, p. 156).
 
   The general upward trend visible in a plot of these data 
   may be attributed to at least two different factors:  
