@@ -9,13 +9,13 @@
 
 }
 \usage{data(Capm)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{rfood}{excess returns food industry}
     \item{rdur}{excess returns durables industry}
     \item{rcon}{excess returns construction industry}
     \item{rmrf}{excess returns market portfolio}
-    \item{rf}{riskfree return}
+    \item{rf}{risk-free return}
   }
 }
 \source{
