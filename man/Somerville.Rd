@@ -26,9 +26,9 @@
   }
 }
 \source{
-    Seller, Christine,  John R.   Stoll and  Jean--Paul  Chavas (1985) \dQuote{Valuation of empirical measures of welfare change : a comparison of nonmarket techniques}, \emph{Land Economics}, \bold{61(2)}, may, 156--175.
+    Seller, Christine, John R. Stoll and Jean--Paul Chavas (1985) \dQuote{Valuation of empirical measures of welfare change : a comparison of nonmarket techniques}, \emph{Land Economics}, \bold{61(2)}, May, 156--175.
 
-    Gurmu, Shiferaw  and  Pravin K.  Trivedi (1996) \dQuote{ Excess zeros in count models for recreational trips}, \emph{Journal of Business and Economics Statistics}, \bold{14(4)}, october, 469--477.
+    Gurmu, Shiferaw  and  Pravin K.  Trivedi (1996) \dQuote{ Excess zeros in count models for recreational trips}, \emph{Journal of Business and Economics Statistics}, \bold{14(4)}, October, 469--477.
 
     Santos Silva, Jao M. C. (2001) \dQuote{A score test for non--nested hypotheses with applications to discrete data models}, \emph{Journal of Applied Econometrics}, \bold{16(5)}, 577--597.
 
