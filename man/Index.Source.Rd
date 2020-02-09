@@ -52,7 +52,8 @@
 \item \code{\link{FriendFoe}} : Data from the Television Game Show Friend Or Foe ?
 }
 
-\item Kenneth Train's home page :  https://elsa.berkeley.edu/~train/ (R-Forge reported "SSL: no alternative certificate subject name matches target host name" for this URL, so I disarmed it.)
+\item Kenneth Train's home page :  
+    \url{https://eml.berkeley.edu/~train/} 
  \itemize{
 \item \code{\link{HC}} : Heating and Cooling System Choice in Newly Built Houses in California
 \item \code{\link{Heating}} : Heating System Choice in California Houses
