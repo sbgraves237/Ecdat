@@ -13,7 +13,7 @@
 
 }
 \usage{data(Solow)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{q}{output}
     \item{k}{capital/labor ratio}
