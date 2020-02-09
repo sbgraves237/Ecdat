@@ -13,7 +13,7 @@
 
 }
 \usage{data(Klein)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{cons}{consumption}
     \item{profit}{corporate profits}
