@@ -9,11 +9,11 @@
 
  \emph{observation} :  country
 
-   \emph{country} :  United Kingdown
+   \emph{country} :  United Kingdom
 
 }
 \usage{data(LT)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{s}{US *Dollar / *Pound exchange rate}
     \item{uswpi}{US wholesale price index, normalized to 100 for 1914}
