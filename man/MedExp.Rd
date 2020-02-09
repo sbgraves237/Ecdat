@@ -9,13 +9,27 @@
 
 }
 \usage{data(MedExp)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
-    \item{med}{annual medical expenditures in constant dollars excluding dental and outpatient mental }
-    \item{lc}{log(coinsrate+1)  where coinsurance rate is 0 to 100}
+    \item{med}{
+      annual medical expenditures in 
+      constant dollars excluding dental 
+      and outpatient mental 
+    }
+    \item{lc}{
+      \code{log(coinsrate+1)}  where 
+      coinsurance rate is 0 to 100
+    }
     \item{idp}{individual deductible plan ?}
-    \item{lpi}{log(annual participation incentive payment) or 0 if no payment }
-    \item{fmde}{log(max(medical deductible expenditure)) if IDP=1 and MDE>1 or 0 otherw}
+    \item{lpi}{
+      \code{log}(annual participation 
+      incentive payment) or 0 if no payment 
+    }
+    \item{fmde}{
+      \code{log}(max(medical deductible 
+      expenditure)) if IDP=1 and MDE>1 or 
+      0 otherwise
+    }
     \item{physlim}{physical limitation ?}
     \item{ndisease}{number of chronic diseases}
     \item{health}{self--rate health (excellent,good,fair,poor)}
@@ -35,9 +49,12 @@
 \references{
     Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge.
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
-
- \code{\link{Index.Time.Series}}}
-
-
+\seealso{
+  \code{\link{DoctorContacts}},
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}},
+  \code{\link{Index.Time.Series}}
+}
 \keyword{datasets}
