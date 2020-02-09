@@ -13,7 +13,7 @@
 
 }
 \usage{data(RetSchool)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{wage76}{wage in 1876}
     \item{grade76}{grade level in 1976}
@@ -21,7 +21,12 @@
     \item{black}{black ?}
     \item{south76}{lived in south in 1976 ?}
     \item{smsa76}{lived in smsa in 1976 ?}
-    \item{region}{region, a factor with levels (un,midatl,enc,wnc,sa,esc,wsc,m,p)}
+    \item{region}{
+      region, a factor with levels (\code{un},
+      \code{midatl}, \code{enc}, \code{wnc},
+      \code{sa}, \code{esc}, \code{wsc}, 
+      \code{m}, \code{p})
+    }
     \item{smsa66}{lived in smsa in 1966 ?}
     \item{momdad14}{lived with both parents at age 14 ?}
     \item{sinmom14}{lived with mother only at age 14 ?}
@@ -35,7 +40,7 @@
   }
 }
 \source{
-    Kling, Jeffrey R. (2001) \dQuote{Interpreting Instrumental Variables Estimates of the Return to Schooling}, \emph{Journal of Business and Economic Statistics}, \bold{19(3)}, july, 358--364.
+    Kling, Jeffrey R. (2001) \dQuote{Interpreting Instrumental Variables Estimates of the Return to Schooling}, \emph{Journal of Business and Economic Statistics}, \bold{19(3)}, July, 358--364.
 
     Dehejia, R.H.  and  S.  Wahba (2002) \dQuote{Propensity-score Matching Methods for Nonexperimental Causal Studies}, \emph{Restat}, 151--161.
 
@@ -43,9 +48,15 @@
 \references{
     Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge.
 }
-\seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
-
- \code{\link{Index.Time.Series}}}
+\seealso{
+  \code{\link{Schooling}},
+  \code{\link{Treatment}}, 
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}},
+ \code{\link{Index.Time.Series}}
+}
 
 
 \keyword{datasets}
