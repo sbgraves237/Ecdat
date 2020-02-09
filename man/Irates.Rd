@@ -13,7 +13,7 @@
 
 }
 \usage{data(Irates)}
-\format{A time serie containing :
+\format{A time series containing :
   \describe{
     \item{r1}{interest rate for a maturity of 1 months  (\% per year). }
     \item{r2}{interest rate for a maturity of 2 months  (\% per year). }
