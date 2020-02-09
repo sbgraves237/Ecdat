@@ -17,8 +17,8 @@
   This is based primarily on data extracted from the 
   \href{https://en.wikipedia.org/wiki/IPUMS}{Integrated 
   Public Use Microdata Series} on 2018-09-01 with 
-  the computations documented in a vignette by this title in 
-  the Ecfun package.  
+  the computations documented in a vignette by this 
+  title in the \code{Ecfun} package.  
   
   This updates the data on Accountants and Auditors in 
   in Wyatt and Hecker (2006).  They relied primarily on 
@@ -51,7 +51,7 @@
   increase in the employment of accountants and auditors 
   between 1850 and 1860 followed by a shocking decline 
   the following decade. If, however, we swap the 1700 
-  and 1200 betweeen 1860 and 1870, the percentages 
+  and 1200 between 1860 and 1870, the percentages 
   become quite stable: 0.013, 0.015, and 0.014 percent, 
   respectively.  
   
