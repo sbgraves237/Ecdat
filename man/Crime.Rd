@@ -31,7 +31,9 @@
     \item{wcon}{weekly wage in construction}
     \item{wtuc}{weekly wage in trns, util, commun}
     \item{wtrd}{weekly wage in whole sales and retail trade}
-    \item{wfir}{weekly wage in  finance, insurance and real estate}
+    \item{wfir}{
+      weekly wage in finance, insurance and real estate
+    }
     \item{wser}{weekly wage in service industry}
     \item{wmfg}{weekly wage in manufacturing}
     \item{wfed}{weekly wage of federal employees}
