@@ -284,15 +284,19 @@
 \source{
   National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{http://www.start.umd.edu/gtd} [accessed 2018-04-08]. 
 
-  See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{http://www.start.umd.edu/gtd}.  
+  See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{http://www.start.umd.edu/gtd}. 
   
-  The world and US population figures came from \href{https://esa.un.org/unpd/wpp/Download/Standard/Population/}{"Total Population - Both Sexes", World Population Prospects 2015, published by the Population Division of the Department of Economic and Social Affairs of the United Nations}, 
-  accessed 2016-09-05.  
-  
-  The World and US death rates came from 
-  \href{http://data.worldbank.org/indicator/SP.DYN.CDRT.IN}{the World Bank}, 
-  accessed 2016-09-05.  
-  
+  The world and US population figures came from 
+"Total Population - Both Sexes", World Population 
+Prospects 2015, published by the Population Division 
+of the Department of Economic and Social Affairs of 
+the United Nations accessed 2016-09-05 (at a web link 
+that has since changed:  No longer at 
+\code{https://esa.un.org/unpd/wpp/Download/Standard/Population}, as it was when the data current used here was 
+downloaded, 2016-09-05.  Fortunately, as of 
+2020-02-09, such data seem to be available at 
+\url{https://population.un.org/wpp/Download/Standard/Population/}.   
+
   \href{http://www.mortality.org/}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany).}
 }
 \references{
