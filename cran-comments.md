@@ -1,13 +1,16 @@
-##2020-02-08:  
-Same incorrect flagging of 
-https://MeasuringWorth.com 
-as "(possibly) invalid URLs, 
-as before.  All tests and revdepcheck
-identified "no problems".  
+##2020-02-08 / -10:  
+* All tests and revdepcheck identified "no problems".  
+* Included current macOS, rhub x 3 and Win-Builder x 2.
+
+##In more detail:  
+* Tested OK on local macOS 10.15.2, R 3.6.2.  
+* rhub in Windows, Ubuntu and Fedora all tested OK except for 3 packages unavailable to check Rd xrefs.  
+* Win-Builder OK on R 3.6.2 and R-devel.  
+* Travis-CI seems not to be functioning, at least for me.    
 
 ## Test environments: 
-
-* local macOS 10.15.2, R 3.6.2;  current versions of everthing else
+* local macOS 10.15.2, R 3.6.2;  current versions of everything else:  Tested OK 2020-02-09.  
+* rhub in Windows, Ubuntu and Fedora all tested OK except for "Packages unavailable to check Rd xrefs: ‘plm’, ‘carData’, ‘wooldridge’".  2020-02-09.  
 * Win-builder:  R version 3.5.3 (2019-03-11), 3.6.1 (2019-07-05), and R Under development (unstable) (2019-10-29 r77335), all using platform: x86_64-w64-mingw32 (64-bit)
 * Travis-CI:  R version 3.6.1 (2017-01-27), Platform: x86_64-pc-linux-gnu (64-bit), Running under: Ubuntu 16.04.6 LTS
 
