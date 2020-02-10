@@ -4,10 +4,14 @@
 \title{ Files containing financial crisis data }
 \description{
   \code{FinancialCrisisFiles} is an object of class
-  \code{financialCrisisFiles} created by the \code{financialCrisisFiles}
-  function in \code{Ecfun}.  It describes files containing data on
-  financial crises downloadable from
-  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
+  \code{financialCrisisFiles} created by the 
+  \code{financialCrisisFiles} function in \code{Ecfun}.  
+  It describes files containing data on financial 
+  crises downloadable from
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.
+  
+NOTE:  When this dataset was created it was downloaded from 
+"http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7".  However, it was "Not Found" in testing on 2020-02-09.  Fortunately the data are still available on the Internet Archive.  
 }
 \usage{
 data(FinancialCrisisFiles)
