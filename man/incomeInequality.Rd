@@ -11,10 +11,11 @@
   (2) Piketty and Saez for the 95th and higher quantiles
 
   (3) Gross Domestic Product and implicit price deflators 
-  from
-  \href{https://MeasuringWorth.com}{MeasuringWorth.com}
-  (As of 2019-06-26 a check on R-Forge complained, 
-  "server certificate verification failed")
+  from Measuring Worth.  (NOTE:  The Measuring 
+  Worth Web site, 
+  \code{https://MeasuringWorth.com}, often gives 
+  security warnings.  The desired data still seems 
+  to be available, however.)
 }
 \usage{data(incomeInequality)}
 \format{
@@ -37,9 +38,16 @@
       The indicated quantiles of family income per Piketty and Saez
     }
     \item{realGDP.M, GDP.Deflator, PopulationK, realGDPperCap }{
-      real GDP in millions, GDP implicit price deflators, US population
-      in thousands, and real GDP per capita, according to
-      \href{https://MeasuringWorth.com}{MeasuringWorth.com}.
+      real GDP in millions, GDP implicit price 
+      deflators, US population in thousands, and 
+      real GDP per capita, according to
+      MeasuringWorth.com.  (NOTE:  The web address
+      for this, 
+      \code{https://MeasuringWorth.com}, seems 
+      to be functional but may not be maintained 
+      to current internet security standards.  It 
+      is therefore given here as text rather than 
+      a hot link.)  
     }
     \item{P95IRSvsCensus}{
       ratio of the estimates of the 95th percentile of distributions of
@@ -53,9 +61,14 @@
       the different quantiles of interest in this combined dataset.
     }
     \item{personsPerFamily}{
-      average number of persons per family using the number of families
-      from US Census Table F-1 and the population from
-      \href{https://MeasuringWorth.com}{MeasuringWorth.com}.
+      average number of persons per family using 
+      the number of families from US Census Table F-1 
+      and the population from Measureing Worth.  (Note:  
+      The web site for Measuring Worth, 
+      \code{https://MeasuringWorth.com}, often gives 
+      security warnings.  It still seems to work.  
+      It seems that the web site is not maintained 
+      to current internet security standards.)  
     }
     \item{realGDPperFamily}{
       \code{personsPerFamily * realGDPperCap}
@@ -77,19 +90,28 @@
   are in constant 2012 dollars.
 }
 \source{
-  United States Census Bureau, Table F-1. Income Limits for Each Fifth
-  and Top 5 Percent of Families, All Races,
+  United States Census Bureau, Table F-1. Income 
+  Limits for Each Fifth and Top 5 Percent of 
+  Families, All Races,
   \url{https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-inequality.html},
   accessed 2016-12-09.
 
-  Thomas Piketty and Emmanuel Saez (2003) "Income Inequality in the
-  United States, 1913-1998", Quarterly Journal of Economics, 118(1)
-  1-39, \url{https://eml.berkeley.edu/~saez}, update accessed February
-  28, 2014.
+  Thomas Piketty and Emmanuel Saez (2003) "Income 
+  Inequality in the United States, 1913-1998", 
+  Quarterly Journal of Economics, 118(1) 1-39, 
+  \url{https://eml.berkeley.edu/~saez}, update accessed
+  February 28, 2014.
 
-  Louis Johnston and Samuel H. Williamson (2011) "What Was the U.S. GDP
-  Then?" MeasuringWorth, \url{https://www.measuringworth.org/usgdp},
-  accessed February 28, 2014.
+  Louis Johnston and Samuel H. Williamson (2011) 
+  "What Was the U.S. GDP Then?" MeasuringWorth.  (Note:
+  Their web address, 
+  \code{https://www.measuringworth.org/usgdp},
+  often gives security warnings.  The desired data 
+  still seems to be available there.  However, it 
+  seems that the site is not maintained to current 
+  internet security standards.  The data used 
+  in the current \code{USGDPpresidents} data set 
+  was extracted February 28, 2014.)
 }
 %\references{}
 \author{Spencer Graves}
