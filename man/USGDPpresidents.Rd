@@ -16,16 +16,20 @@
   However, no comparable growth spurts in GDP per capita 
   catch the eye in a plot of log(GDP per capita) from 
   1790 to 2015, whether associated with a war or not, 
-  using the \href{https://measuringworth.com/}{Measuring 
-  Worth} data.  The only other features of that plot that 
-  seem visually comparable are the economic disaster of 
-  Herbert Hoover's presidency (when GDP per capital fell 
-  by 10 percent per year, 1929-1932), the impressive 
-  growth of the US economy during the first seven years 
-  of Franklin Roosevelt's presidency (6.4 percent per 
-  year, 1933-1940), and the post-World War II recession
-  (when GDP per capita fell by 7.9 percent per year, 
-  1945-1947).  
+  using data from Measuring Worth.  The only other 
+  features of that plot that seem visually comparable are 
+  the economic disaster of Herbert Hoover's presidency 
+  (when GDP per capital fell by 10 percent per year, 
+  1929-1932), the impressive growth of the US economy 
+  during the first seven years of Franklin Roosevelt's
+  presidency (6.4 percent per year, 1933-1940), and the 
+  post-World War II recession (when GDP per capita fell by 
+  7.9 percent per year, 1945-1947).  (NOTE:  The web
+  site for Measuring Worth, 
+  \code{https://measuringworth.com/} still works, 
+  but is not currently maintained to current internet
+  security standards.  Therefore, the link is 
+  provided here in text but not as a not link.)
   
   Closer inspection of this plot suggests that the US 
   economy has generally grown faster after FDR than 
@@ -43,10 +47,14 @@
   This data set provides a platform for testing the effects 
   of presidency, war, and Keynes.  It does this by 
   combining the numbers for US population and real GDP per 
-  capital dollars from \href{https://measuringworth.com/}{
-  Measuring Worth}  with the presidency and a list of major 
-  wars and an estimate of the battle deaths by year per 
-  million population.  
+  capital dollars from Measuring Worth with the presidency 
+  and a list of major wars and an estimate of the battle
+  deaths by year per million population.  (As noted above, 
+  the web address for measuring worth, 
+  \code{https://measuringworth.com/}, often gives 
+  security warnings but still seems to provide the 
+  data as before.)  
+  
   \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{US unemployment is 
   also considered.}
 }
@@ -216,15 +224,16 @@ data(USGDPpresidents)
   \code{rownames(USGDPpresidents) = Year}
 }
 \source{
-  \href{https://www.measuringworth.org/usgdp/}{Louis 
-  Johnston and Samuel H. Williamson, "What Was the U.S. GDP 
-  Then?", Measuring Worth}, accessed 2015-09-08.  
-  
-  \href{https://www.measuringworth.com/uscpi/}{Lawrence 
-  H. Officer and Samuel H. Williamson (2015) 'The Annual 
-  Consumer Price Index for the United States, 1774-2014,' 
-  MeasuringWorth}, accessed 2015-09-19.     
-  
+  Louis Johnston and Samuel H. Williamson, 
+  "What Was the U.S. GDP Then?", Measuring Worth, 
+  accessed 2015-09-08.  (NOTE:  This came from 
+  \code{https://www.measuringworth.org/usgdp/}.  
+  this web link generally works as of 2020-02-09 
+  but routinely returns a warning, e.g., 
+  "SSL certificate problem".  The web site 
+  seems to be good but not maintained to
+  current security stqndards.)  
+
   Sarkees, Meredith Reid; Wayman, Frank (2010). 
   \href{http://correlatesofwar.org/data-sets/COW-war}{
   "The Correlates of War Project: COW War Data, 1816 - 
