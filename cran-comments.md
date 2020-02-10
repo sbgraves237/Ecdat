@@ -1,6 +1,8 @@
 ##2020-02-08 / -10:  
 * All tests and revdepcheck identified "no problems".  
 * Included current macOS, rhub x 3 and Win-Builder x 2.
+* All CRAN checks OK except "r-release-windows-ix86+x86_64", and that failed, because "there is no package called 'leaps'".
+***-->> THAT'S A PROBLEM WITH "r-release-windows-ix86+x86_64", NOT Ecdat.  
 
 ##In more detail:  
 * Tested OK on local macOS 10.15.2, R 3.6.2.  
