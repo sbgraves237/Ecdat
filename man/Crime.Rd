@@ -30,7 +30,9 @@
     \item{pctmin}{percentage minority in 1980}
     \item{wcon}{weekly wage in construction}
     \item{wtuc}{weekly wage in trns, util, commun}
-    \item{wtrd}{weekly wage in whole sales and retail trade}
+    \item{wtrd}{
+      weekly wage in whole sales and retail trade
+    }
     \item{wfir}{
       weekly wage in finance, insurance and real estate
     }
@@ -38,32 +40,36 @@
     \item{wmfg}{weekly wage in manufacturing}
     \item{wfed}{weekly wage of federal employees}
     \item{wsta}{weekly wage of state employees}
-    \item{wloc}{weekly wage of local governments employees      }
+    \item{wloc}{
+      weekly wage of local governments employees      
+    }
     \item{mix}{offence mix: face-to-face/other}
     \item{pctymle}{percentage of young males}
   }
 }
 \note{
-Thanks to Yungfong "Frank" Tang for identifying an error in the description of "density", previously documented erroneously as only "people per square mile". 
+  Thanks to Yungfong "Frank" Tang for identifying 
+  an error in the description of "density", 
+  previously documented erroneously as only "people 
+  per square mile". 
 }
 \source{
     Cornwell, C.  and  W.N.  Trumbull (1994) \dQuote{Estimating the economic model of crime with panel data}, \emph{Review of Economics and Statistics}, \bold{76}, 360--366.
 
-    Baltagi, B. H. (forthcoming) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}.
+    Baltagi, B. H. (2006) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}, 21(4), May/June 2006, pp. 543-547.  
     
-    \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{CRIME4.DES}
+    See also: \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{CRIME4.DES} and Baltagi in \href{http://qed.econ.queensu.ca/jae/2006-v21.4/baltagi}{JAE Data Archive}.
 }
 \references{
     Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, 
-    \url{http://www.wiley.com/legacy/wileychi/baltagi/},  .
-
-      Journal of Applied Econometrics data archive : 
-      \url{http://qed.econ.queensu.ca/jae/}.
+    \url{http://www.wiley.com/legacy/wileychi/baltagi/}.
 }
 \seealso{
-\code{\link{Index.Source}}, \code{\link{Index.Economics}}, 
-\code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
-\code{\link{Index.Time.Series}}, 
-\code{\link[plm]{Crime}}
+  \code{\link{Index.Source}}, 
+  \code{\link{Index.Economics}}, 
+  \code{\link{Index.Econometrics}}, 
+  \code{\link{Index.Observations}},
+  \code{\link{Index.Time.Series}}, 
+  \code{\link[plm]{Crime}}
 }
 \keyword{datasets}
