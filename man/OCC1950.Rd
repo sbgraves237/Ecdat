@@ -9,7 +9,7 @@ Proportion of the US population in each of the 283 OCC1950 occupation codes for 
 }
 \usage{data("OCC1950")}
 \format{
-  A \code{\link{matrix}} with one row for each of the 283 OCC1950 occupation codes in IPUMS-US and one column for each year in their dataset as of 2020-03-17, being \code{c(1850:1880, 1900:2000, 2001:2016)}.
+  A \code{\link{matrix}} with one row for each of 281 OCC1950 occupation codes in IPUMS-US and one column for each year in their dataset as of 2020-03-17, being \code{c(1850:1880, 1900:2000, 2001:2016)}.
 }
 \details{
 This dataset was created using the code in the IPUMS vignette in the Ecfun package using \code{tapply(HHWT, IPUMSdata[c("OCC1950", "YEAR")], sum)}, then normalizing so the total for each year was 1.
@@ -23,6 +23,8 @@ OCC1950 applies the 1950 Census Bureau occupational classification system to occ
 In 1850-1880, any laborer with no specified industry in a household with a farmer is recoded into farm labor. In 1860-1900, any woman with an occupational response of "housekeeper" enters the non-occupational category "keeping house" if she is related to the head of household. Cases affected by these imputation procedures are identified by an appropriate data quality flag (present in the raw IPUMS data but ignored for this summary). 
 
 A parallel variable called OCC1990, available for the samples from 1950 onward, codes occupations into a simplified version of the 1990 occupational coding scheme." [OCC1990 was ignored for the present purposes, because it is not coded for data prior to 1950.]
+
+NOTE:  In the 2020-03-17 extraction, there were 283 OCC1950 codes documented, but only 291 of them were actually in the data I got.  The codes for "Not yet classified" and "New Workers" were not used.  
 }
 \source{
   Steven Ruggles, Sarah Flood, Ronald Goeken, 
