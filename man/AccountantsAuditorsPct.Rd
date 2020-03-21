@@ -21,15 +21,15 @@
   title in the \code{Ecfun} package.  
   
   This updates the data on Accountants and Auditors in 
-  in Wyatt and Hecker (2006).  They relied primarily on 
+  Wyatt and Hecker (2006).  They relied primarily on 
   data extracted from the 
   \href{https://en.wikipedia.org/wiki/IPUMS}{Integrated 
   Public Use Microdata Series}.  I did the same but 
   found two problems that seemed to require 
   modifications:  
   
-  1.  IPUMS provided no data for 1940.  Wyatt and Hecker 
-  (2006) used 
+  1.  IPUMS provided no data for 1940.  Wyatt and 
+  Hecker (2006) used 
 \href{https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html}{Historical Statistics of the United 
   States, Colonial Times to 1970, Bicentennial 
   Edition, part 1 (U.S. Department of Commerce, 
