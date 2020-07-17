@@ -1,6 +1,7 @@
 \name{nuclearWeaponStates}
 \docType{data}
 \alias{nuclearWeaponStates}
+\encoding{UTF-8}
 \title{Nations with nuclear weapons}
 \description{
   Data on the 9 nuclear-weapon states as of 
