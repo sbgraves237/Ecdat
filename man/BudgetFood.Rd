@@ -19,7 +19,11 @@
     \item{totexp}{total expenditure of the household}
     \item{age}{age of reference person in the household}
     \item{size}{size of the household}
-    \item{town}{size of the town where the household is placed  categorised into 5 groups: 1 for small towns, 5 for big ones}
+    \item{town}{
+      size of the town where the household is 
+      placed  categorized into 5 groups: 1 for 
+      small towns, 5 for big ones
+    }
     \item{sex}{sex of reference person (man,woman)}
   }
 }
