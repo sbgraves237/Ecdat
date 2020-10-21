@@ -23,8 +23,7 @@
   }
 }
 \source{
-    Datastream.
-
+    \code{Datastream}.
 }
 \references{
     Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapters 8 and 9.
