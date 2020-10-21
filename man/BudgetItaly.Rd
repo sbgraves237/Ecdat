@@ -29,8 +29,10 @@
   }
 }
 \source{
-    Bollino, Carlo Andrea,  Frederico   Perali and  Nicola  Rossi (2000) \dQuote{Linear household technologies}, \emph{Journal of Applied Econometrics}, \bold{15(3)}, 253--274.
-
+    Bollino, Carlo Andrea, Frederico Perali and 
+    Nicola  Rossi (2000) \dQuote{Linear household
+    technologies}, \emph{Journal of Applied
+    Econometrics}, \bold{15(3)}, 253--274.
 }
 \references{
       Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
