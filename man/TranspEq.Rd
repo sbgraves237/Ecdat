@@ -1,7 +1,9 @@
 \name{TranspEq}
 \docType{data}
 \alias{TranspEq}
-\title{Statewide Data on Transportation Equipment Manufacturing }
+\title{
+  Statewide Data on Transportation Equipment Manufacturing 
+}
 \description{
   a cross-section
 
