@@ -2,39 +2,46 @@
 \docType{data}
 \alias{HHSCyberSecurityBreaches}
 \title{
-  Cybersecurity breaches reported to the US Department 
-  of Health and Human Services 
+  Cybersecurity breaches reported to the US
+  Department of Health and Human Services 
 }
 \description{
-  Since October 2009 organizations in the U.S. that store data 
-  on human health are required to report any incident that 
-  compromises the confidentiality of 500 or more patients 
-  / human subjects (\href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/brinstruction.html}{45 C.F.R. 164.408})  These reports are publicly available.  \code{HHSCyberSecurityBreaches} was downloaded from \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{the Office for Civil Rights of the U.S. Department of Health and Human Services, 2015-02-26}
+  Since October 2009 organizations in the U.S. 
+  that store data on human health are required 
+  to report any incident that compromises the
+  confidentiality of 500 or more patients / 
+  human subjects 
+  (\href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/brinstruction.html}{45 C.F.R. 164.408})  These reports are publicly available.  \code{HHSCyberSecurityBreaches} was downloaded from \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{the Office for Civil Rights of the U.S. Department of Health and Human Services, 2015-02-26}
 }
 \usage{data(HHSCyberSecurityBreaches)}
-\format{A dataframe containing 1151 observations of 9 variables:
+\format{
+    A dataframe containing 1151 observations of 
+    9 variables:
   \describe{
     \item{Name.of.Covered.Entity}{
       A \code{character} vector identifying the 
       organization involved in the breach.  
     }
     \item{State}{
-      A \code{factor} giving the two-letter abbreviation of 
-      the US state or territory where the breach occurred.  
-      This has 52 levels for the 50 states plus the District 
+      A \code{factor} giving the two-letter 
+      abbreviation of the US state or territory 
+      where the breach occurred.  This has 52 
+      levels for the 50 states plus the District 
       of Columbia (DC) and Puerto Rico (PR).   
     }
     \item{Covered.Entity.Type}{
-      A \code{factor} giving the organization type of the 
-      covered entity with levels "Business Associate", 
-      "Health Plan", "Healthcare Clearing House", and 
+      A \code{factor} giving the organization 
+      type of the covered entity with levels
+      "Business Associate", "Health Plan",
+      "Healthcare Clearing House", and 
       "Healthcare Provider" 
     }
     \item{Individuals.Affected}{
-      An \code{integer} giving the number of humans whose 
-      records were compromised in the breach.  This is 500 
-      or greater; U.S. law requires reports of breaches 
-      involving 500 or more records but not of breaches 
+      An \code{integer} giving the number of 
+      humans whose records were compromised in 
+      the breach.  This is 500 or greater; U.S. 
+      law requires reports of breaches involving 
+      500 or more records but not of breaches 
       involving fewer.      
     }
     \item{Breach.Submission.Date}{
@@ -44,44 +51,50 @@
       A \code{factor} giving one of 29 different 
       combinations of 7 different breach types, 
       separated by ", ":  "Hacking/IT Incident", 
-      "Improper Disposal", "Loss", "Other", "Theft", 
-      "Unauthorized Access/Disclosure", and "Unknown"
+      "Improper Disposal", "Loss", "Other", 
+      "Theft", "Unauthorized Access/Disclosure", 
+      and "Unknown"
     }
     \item{Location.of.Breached.Information}{ 
       A \code{factor} giving one of 47 different 
-      combinations of 8 different location categories:  
-      "Desktop Computer", "Electronic Medical Record", 
-      "Email", "Laptop", "Network Server", "Other", 
-      "Other Portable Electronic Device", "Paper/Films"
+      combinations of 8 different location 
+      categories:  "Desktop Computer", 
+      "Electronic Medical Record", "Email", 
+      "Laptop", "Network Server", "Other", 
+      "Other Portable Electronic Device", 
+      "Paper/Films"
     }
     \item{Business.Associate.Present}{
-      \code{Logical} = (Covered.Entity.Type == 
-      "Business Associate")
+      \code{Logical} = (\code{Covered.Entity.Type}
+      == "Business Associate")
     }
     \item{Web.Description}{
-      A character vector giving a narrative description of 
-      the incident.  
+      A character vector giving a narrative
+      description of the incident.  
     }
   }
 }
 \details{
   This contains the breach report data downloaded 
-  2015-02-26 from the US Health and Human Services.  This 
-  catalogues reports starting 2009-10-21.  Earlier downloads 
-  included a few breaches prior to 2009 when the law was 
-  enacted (inconsistently reported), and a date for breach 
-  occurrence in addition to the date of the report.  
+  2015-02-26 from the US Health and Human Services.  
+  This catalogs reports starting 2009-10-21.  
+  Earlier downloads included a few breaches prior 
+  to 2009 when the law was enacted (inconsistently
+  reported), and a date for breach occurrence in
+  addition to the date of the report.  
   
   The following corrections were made to the file:
   \itemize{
-    \item UCLA Health System,  breach date 11/4/2011, 
-    had cover entity added as "Healthcare Provider"
-    \item Wyoming Department of Health, breach date 
-    3/2/2010 had breach type changed to 
-    "Unauthorized Access / Disclosure"
-    \item Computer Program and Systems, Inc. (CPSI), 
-    breach date 3/30/2010 had breach type changed to 
-    "Unauthorized Access / Disclosure"  
+    \item UCLA Health System,  breach date 
+      11/4/2011, had cover entity added as
+      "Healthcare Provider"
+    \item Wyoming Department of Health, breach 
+      date 3/2/2010 had breach type changed to 
+      "Unauthorized Access / Disclosure"
+    \item Computer Program and Systems, Inc. 
+      (CPSI),  breach date 3/30/2010 had breach 
+      type changed to "Unauthorized Access /
+      Disclosure"  
     \item Aetna, breach date 7/27/2010 had breach 
     type changed to "Improper Disposal' (see 
     explanation below), breach date 5/24/2010 name 
@@ -92,14 +105,15 @@
     \item Not applicable, breach date 11/2/2011 
     name changed to Northridge Hospital Medical 
     Center and state changed to CA
-    \item na, breach date  4/4/2011 name changed 
-    to Brian J Daniels DDS, Paul R Daniels DDS 
-    and state changed to AZ
-    \item NA, breach date  5/27/2011 name changed 
-    to and  Spartanburg Regional Healthcare System 
-    state changed to SC
-    \item NA, breach date 7/4/2011 name changed to 
-    Yanz Dental Corporation and state changed to CA
+    \item \code{na}, breach date  4/4/2011 name
+    changed to Brian J Daniels DDS, Paul R 
+    Daniels DDS, and state changed to AZ
+    \item \code{NA}, breach date  5/27/2011 name
+    changed to and Spartanburg Regional 
+    Healthcare System state changed to SC
+    \item \code{NA}, breach date 7/4/2011 name
+    changed to Yanz Dental Corporation and state
+    changed to CA
   }
 }
 \source{
