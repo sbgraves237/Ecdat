@@ -28,7 +28,7 @@
   }
 }
 \source{
-    Nunes, Paulo (2000) \emph{Contingent Valuation of the Benefits of natural areas and its warmglow component}, PhD thesis 133, FETEW, \href{https://en.wikipedia.org/wiki/KU_Leuven}{KU Leuven}.
+    Nunes, Paulo (2000) \emph{Contingent Valuation of the Benefits of natural areas and its warmglow component}, PhD thesis 133, \code{FETEW}, \href{https://en.wikipedia.org/wiki/KU_Leuven}{KU Leuven}.
 
 }
 \references{
