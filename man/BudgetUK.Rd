@@ -17,19 +17,35 @@
   \describe{
     \item{wfood}{budget share for food expenditure}
     \item{wfuel}{budget share for fuel expenditure}
-    \item{wcloth}{budget share for clothing expenditure}
-    \item{walc}{budget share for alcohol expenditure}
-    \item{wtrans}{budget share for transport expenditure}
-    \item{wother}{budget share for other good expenditure}
-    \item{totexp}{total household expenditure (rounded to the nearest 10 UK pounds sterling)}
-    \item{income}{total net household income (rounded to the nearest 10 UK pounds sterling)}
+    \item{wcloth}{
+      budget share for clothing expenditure
+    }
+    \item{walc}{
+      budget share for alcohol expenditure
+    }
+    \item{wtrans}{
+      budget share for transport expenditure
+    }
+    \item{wother}{
+      budget share for other good expenditure
+    }
+    \item{totexp}{
+      total household expenditure (rounded to 
+      the nearest 10 UK pounds sterling)
+    }
+    \item{income}{
+      total net household income (rounded to the
+      nearest 10 UK pounds sterling)
+    }
     \item{age}{age of household head}
     \item{children}{number of children}
   }
 }
 \source{
-    Blundell, Richard,  Alan   Duncan and  Krishna  Pendakur (1998) \dQuote{Semiparametric estimation and consumer demand}, \emph{Journal of Applied Econometrics}, \bold{13(5)}, 435--462.
-
+    Blundell, Richard, Alan Duncan and Krishna 
+    Pendakur (1998) \dQuote{Semiparametric 
+    estimation and consumer demand}, \emph{Journal 
+    of Applied Econometrics}, \bold{13(5)}, 435--462.
 }
 \references{
       Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
