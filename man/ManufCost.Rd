@@ -27,7 +27,7 @@
   }
 }
 \source{
-    Berndt, E.  and  D.  Wood (1975) \dQuote{Technology, prices and the derived demand for energy}, \emph{Journal of Economics and Statistics}, \bold{57}, 376-384.
+    Berndt, E. and D. Wood (1975) \dQuote{Technology, prices and the derived demand for energy}, \emph{Journal of Economics and Statistics}, \bold{57}, 376-384.
 
 }
 \references{
