@@ -15,10 +15,17 @@
 \usage{data(CRSPmon)}
 \format{A time series containing :
   \describe{
-    \item{ge}{the return for General Electric, Permno 12060}
-    \item{ibm}{ the return for IBM, Permno 12490}
-    \item{mobil}{the return for Mobil Corporation, Permno 15966}
-    \item{crsp}{ the return for the CRSP value-weighted index, including  dividends}
+    \item{ge}{the return for General Electric, 
+      \href{http://www.crsp.org/products/documentation/crsp-link}{PERMNO} 12060}
+    \item{ibm}{ the return for IBM, PERMNO 12490}
+    \item{mobil}{
+      the return for Mobil Corporation, 
+      PERMNO 15966
+    }
+    \item{crsp}{ 
+      the return for the CRSP value-weighted index,
+      including  dividends
+    }
   }
 }
 \source{
