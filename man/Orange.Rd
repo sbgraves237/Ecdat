@@ -21,7 +21,7 @@
   }
 }
 \source{
-    U.S. Bureau of Labor Statistics for PPIOJ and PWFSA, National Oceanic and Atmospheric Administration (NOAA) of the U.S Department of Commerce for FDD.
+    U.S. Bureau of Labor Statistics for \code{PPIOJ} and \code{PWFSA}, National Oceanic and Atmospheric Administration (NOAA) of the U.S Department of Commerce for \code{fdd}.
 
 }
 \references{
