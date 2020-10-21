@@ -3,19 +3,21 @@
 \alias{incomeInequality}
 \title{ Income Inequality in the US  }
 \description{
-  Data on quantiles of the distributions of family incomes in the United
-  States. This combines three data sources:
+  Data on quantiles of the distributions of family
+  incomes in the United States. This combines three
+  data sources:
 
   (1) US Census Table F-1 for the central quantiles
 
-  (2) Piketty and Saez for the 95th and higher quantiles
+  (2) Piketty and Saez for the 95th and higher
+  quantiles
 
-  (3) Gross Domestic Product and implicit price deflators 
-  from Measuring Worth.  (NOTE:  The Measuring 
-  Worth Web site, 
+  (3) Gross Domestic Product and implicit price
+  deflators from Measuring Worth.  (NOTE:  The
+  Measuring Worth Web site, 
   \code{https://MeasuringWorth.com}, often gives 
   security warnings.  The desired data still seems 
-  to be available, however.)
+  to be available and not corrupted, however.)
 }
 \usage{data(incomeInequality)}
 \format{
@@ -41,8 +43,8 @@
       real GDP in millions, GDP implicit price 
       deflators, US population in thousands, and 
       real GDP per capita, according to
-      MeasuringWorth.com.  (NOTE:  The web address
-      for this, 
+      \code{MeasuringWorth.com}.  (NOTE:  The web
+      address for this, 
       \code{https://MeasuringWorth.com}, seems 
       to be functional but may not be maintained 
       to current internet security standards.  It 
@@ -50,21 +52,26 @@
       a hot link.)  
     }
     \item{P95IRSvsCensus}{
-      ratio of the estimates of the 95th percentile of distributions of
-      family income from the Piketty and Saez analysis of data from the
-      Internal Revenue Service (IRS) and from the US Census Bureau.
+      ratio of the estimates of the 95th 
+      percentile of distributions of family 
+      income from the Piketty and Saez analysis 
+      of data from the Internal Revenue Service 
+      (IRS) and from the US Census Bureau.
 
-      The IRS has ranged between 72 and 98 percent of the Census Bureau
-      figures for the 95th percentile of the distribution, with this
-      ratio averaging around 75 percent since the late 1980s.  However,
-      this systematic bias is modest relative to the differences between
-      the different quantiles of interest in this combined dataset.
+      The IRS has ranged between 72 and 98 percent 
+      of the Census Bureau figures for the 95th
+      percentile of the distribution, with this
+      ratio averaging around 75 percent since the
+      late 1980s.  However, this systematic bias 
+      is modest relative to the differences between
+      the different quantiles of interest in this
+      combined dataset.
     }
     \item{personsPerFamily}{
       average number of persons per family using 
-      the number of families from US Census Table F-1 
-      and the population from Measureing Worth.  (Note:  
-      The web site for Measuring Worth, 
+      the number of families from US Census Table 
+      F-1 and the population from MeasuringWorth.
+      (Note:  The web site for Measuring Worth, 
       \code{https://MeasuringWorth.com}, often gives 
       security warnings.  It still seems to work.  
       It seems that the web site is not maintained 
@@ -74,19 +81,22 @@
       \code{personsPerFamily * realGDPperCap}
     }
     \item{mean.median}{
-      ratio of \code{realGDPperFamily} to the median.  
-      This is a measure of skewness and income 
-      inequality.
+      ratio of \code{realGDPperFamily} to the 
+      median.  This is a measure of skewness and
+      income inequality.
     }
   }
 }
 \details{
-  For details on how this \code{data.frame} was created, see
-  "F1.PikettySaez.R" in \code{system.file('scripts', package='fda')}.
-  This provides links for files to download and R commands to read those
-  files and convert them into an updated version of
-  \code{incomeInequality}.  This is a reasonable thing to do if it is
-  more  than 2 years since \code{max(incomeInequality$year)}.  All data
+  For details on how this \code{data.frame} was
+  created, see \code{"F1.PikettySaez.R"} in
+  \code{system.file('scripts', package='fda')}.
+  This provides links for files to download and R
+  commands to read those files and convert them 
+  into an updated version of \code{incomeInequality}.
+  This is a reasonable thing to do if it is more 
+  than 2 years since 
+  \code{max(incomeInequality$year)}.  All data
   are in constant 2012 dollars.
 }
 \source{
