@@ -21,7 +21,7 @@
     }
     \item{s}{
       the ask price of the dollar in units of 
-      Yen in the spot market on friday of the 
+      Yen in the spot market on Friday of the 
       current week
     }
     \item{f}{
