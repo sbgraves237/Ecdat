@@ -19,10 +19,19 @@
     \item{age}{age}
     \item{ym}{number of years married}
     \item{child}{children ? a factor }
-    \item{religious}{how religious, from 1 (anti) to 5 (very)}
+    \item{religious}{
+      how religious, from 1 (anti) to 5 (very)
+    }
     \item{education}{education}
-    \item{occupation}{occupation, from 1 to 7, according to hollingshead classification (reverse numbering)}
-    \item{rate}{self rating of marriage, from 1 (very unhappy) to 5 (very happy)}
+    \item{occupation}{
+      occupation, from 1 to 7, according to
+      Hollingshead's classification (reverse 
+      numbering)
+    }
+    \item{rate}{
+      self rating of marriage, from 1 (very 
+      unhappy) to 5 (very happy)
+    }
     \item{nbaffairs}{number of affairs in past year}
   }
 }
