@@ -1,3 +1,6 @@
+2020-09-13: 
+Ecdat 0.3-8 deletes ~demoFiles/*_data.xls, because they were used to test Ecfun::financialDataFiles and Ecfun::readFinancialDataFiles, and those two functions were removed, because they used gdata, which was not being maintained, and the work required to maintain them exceeded the current need of the maintainer.  
+
 2020-02-08:  Ecdat 0.3-6 adds variables popM, popYr, GDP_B, and GDPyr to data set "nuclearWeaponStates".  
 
 2019-12-05:  Ecdat 0.3-5 corrects the description of Crime$density to read, "hundreds of people per square mile" from "people per square mile".  Thanks to Yungfong "Frank" Tang for identifying this error and confirming the needed correction.  
