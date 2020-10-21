@@ -20,14 +20,14 @@
     \item{exp76}{experience 1n 1976}
     \item{black}{black ?}
     \item{south76}{lived in south in 1976 ?}
-    \item{smsa76}{lived in smsa in 1976 ?}
+    \item{smsa76}{lived in SMSA in 1976 ?}
     \item{region}{
       region, a factor with levels (\code{un},
       \code{midatl}, \code{enc}, \code{wnc},
       \code{sa}, \code{esc}, \code{wsc}, 
       \code{m}, \code{p})
     }
-    \item{smsa66}{lived in smsa in 1966 ?}
+    \item{smsa66}{lived in SMSA in 1966 ?}
     \item{momdad14}{lived with both parents at age 14 ?}
     \item{sinmom14}{lived with mother only at age 14 ?}
     \item{nodaded}{father has no formal education ?}
