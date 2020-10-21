@@ -23,7 +23,10 @@
     \item{util}{other public buildings and structures}
     \item{pc}{public capital}
     \item{gsp}{gross state products}
-    \item{emp}{labor input measured by the employment in non--agricultural payrolls}
+    \item{emp}{
+      labor input measured by the employment in 
+      non--agricultural payrolls
+    }
     \item{unemp}{state unemployment rate}
   }
 }
