@@ -1,7 +1,7 @@
 \name{Wages}
 \docType{data}
 \alias{Wages}
-\title{Panel Datas of Individual Wages }
+\title{Panel Data of Individual Wages }
 \description{
   a panel of 595 observations  from 1976  to 1982
 
