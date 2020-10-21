@@ -5,18 +5,23 @@
 \description{
   a cross-section from 1988-1989
 
- \emph{number of observations} :  4266
+  \emph{number of observations} :  4266
 
- \emph{observation} :  individuals
+  \emph{observation} :  individuals
 
-   \emph{country} :  United States
+  \emph{country} :  United States
 
 }
 \usage{data(Earnings)}
 \format{A dataframe containing :
   \describe{
-    \item{age}{age groups, a factor with levels (g1,g2,g3)}
-    \item{y}{average annual earnings, in 1982 US dollars}
+    \item{age}{
+      age groups, a factor with levels 
+      \code{(g1,g2,g3)}
+    }
+    \item{y}{
+      average annual earnings, in 1982 US dollars
+    }
   }
 }
 \source{
