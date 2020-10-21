@@ -22,32 +22,41 @@
     }
     \item{hoursw}{wife's hours of work in 1975}
     \item{child6}{
-      number of children less than 6 years old in household
-      (Same as \code{carData::Mroz['k5']}.)
+      number of children less than 6 years old 
+      in household (Same as 
+      \code{carData::Mroz['k5']}.)
     }
     \item{child618}{
-      number of children between ages 6 and 18 in household
-      (Same as \code{carData::Mroz['k618']})
+      number of children between ages 6 and 18 
+      in household (Same as 
+      \code{carData::Mroz['k618']})
     }
     \item{agew}{wife's age}
-    \item{educw}{wife's educational attainment, in years}
+    \item{educw}{
+      wife's educational attainment, in years
+    }
     \item{hearnw}{
-      wife's average hourly earnings, in 1975 dollars
-      }
+      wife's average hourly earnings, in 1975 
+      dollars
+    }
     \item{wagew}{
       wife's wage reported at the time of the 1976 
       interview  (not= 1975 estimated wage)
     }
     \item{hoursh}{husband's hours worked in 1975}
     \item{ageh}{husband's age}
-    \item{educh}{husband's educational attainment, in years}
+    \item{educh}{
+      husband's educational attainment, in years
+    }
     \item{wageh}{husband's wage, in 1975 dollars}
     \item{income}{family income, in 1975 dollars}
     \item{educwm}{
-      wife's mother's educational attainment, in years
+      wife's mother's educational attainment, in
+      years
     }
     \item{educwf}{
-      wife's father's educational attainment, in years
+      wife's father's educational attainment, in
+      years
     }
     \item{unemprate}{
       unemployment rate in county of residence, in 
