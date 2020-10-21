@@ -1,7 +1,7 @@
 \name{Griliches}
 \docType{data}
 \alias{Griliches}
-\title{Wage Datas }
+\title{Wage Data }
 \description{
   a cross-section from 1980
 
