@@ -5,11 +5,11 @@
 \description{
   a cross-section
 
- \emph{number of observations} :  126
+  \emph{number of observations} :  126
 
- \emph{observation} :  production units
+  \emph{observation} :  production units
 
-   \emph{country} :  United States
+  \emph{country} :  United States
 
 }
 \usage{data(Bids)}
