@@ -29,11 +29,11 @@
   }
 }
 \source{
-  Alan Robock, Luke Oman, and Georgiy L. Stenchikov (2007)
-  Nuclear winter revisited with a modern climate model 
-  and current nuclear arsenals: Still catastrophic 
-  consequences, \emph{Journal of Geophysical Research}, 
-  112
+  Alan Robock, Luke Oman, and Georgiy L. Stenchikov
+  (2007) Nuclear winter revisited with a modern
+  climate model and current nuclear arsenals: Still
+  catastrophic consequences, 
+  \emph{Journal of Geophysical Research}, 112
 }
 \examples{
 data(coolingFromNuclearWar)
