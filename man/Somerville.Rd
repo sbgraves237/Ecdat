@@ -15,14 +15,28 @@
 \usage{data(Somerville)}
 \format{A dataframe containing :
   \describe{
-    \item{visits}{annual number of visits to lake Somerville}
-    \item{quality}{quality ranking score for lake Somerville}
-    \item{ski}{engaged in water--skiing at the lake ?}
+    \item{visits}{
+      annual number of visits to lake Somerville
+    }
+    \item{quality}{
+      quality ranking score for lake Somerville
+    }
+    \item{ski}{
+      engaged in water--skiing at the lake ?
+    }
     \item{income}{annual household income}
-    \item{feeSom}{annual user fee paid at lake Somerville ?}
-    \item{costCon}{expenditures when visiting lake Conroe}
-    \item{costSom}{expenditures when visiting lake Somerville}
-    \item{costHoust}{expenditures when visiting lake Houston}
+    \item{feeSom}{
+      annual user fee paid at lake Somerville ?
+    }
+    \item{costCon}{
+      expenditures when visiting lake Conroe
+    }
+    \item{costSom}{
+      expenditures when visiting lake Somerville
+    }
+    \item{costHoust}{
+      expenditures when visiting lake Houston
+    }
   }
 }
 \source{
