@@ -15,8 +15,15 @@
 \usage{data(Hstarts)}
 \format{A time series containing :
   \describe{
-    \item{hs}{ the log of urban housing starts in Canada, not seasonally adjusted, CANSIM series J6001, converted to quarterly}
-    \item{hssa}{the log of urban housing starts in Canada, seasonally adjusted, CANSIM series J9001, converted to quarterly. Observations prior to 1966:1 are missing}
+    \item{hs}{ the log of urban housing starts 
+      in Canada, not seasonally adjusted, CANSIM
+      series J6001, converted to quarterly
+    }
+    \item{hssa}{the log of urban housing starts 
+      in Canada, seasonally adjusted, CANSIM 
+      series J9001, converted to quarterly.
+      Observations prior to 1966:1 are missing
+    }
   }
 }
 \references{
