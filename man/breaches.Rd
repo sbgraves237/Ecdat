@@ -33,21 +33,21 @@
     }     
     \item{Individuals_Affected}{
       \code{\link{integer}} number of humans whose
-      records were compromised in the breach.  This is 
-      500 or greater;  U.S. law requires reports of 
-      breaches involving 500 or more records but not of
-      breaches involving fewer.  
+      records were compromised in the breach.  This
+      is 500 or greater;  U.S. law requires reports
+      of breaches involving 500 or more records but
+      not of breaches involving fewer.  
     }
     \item{Date_of_Breach}{
-      \code{\link{character}} vector giving the date or
-      date range of the breach.  Recodes as 
-      \code{\link{Date}}s in \code{breach_start} and
-      \code{breach_end}.  
+      \code{\link{character}} vector giving the 
+      date or date range of the breach.  Recodes 
+      as \code{\link{Date}}s in \code{breach_start}
+      and \code{breach_end}.  
     }
     \item{Type_of_Breach}{
       \code{\link{factor}} with 29 levels giving the
-      type of breach (e.g., "Theft" vs., "Unauthorized 
-      Access/Disclosure", etc.)
+      type of breach (e.g., "Theft" vs.
+      "Unauthorized Access/Disclosure", etc.)
     }
     \item{Location_of_Breached_Information}{ 
       \code{\link{factor}} with 41 levels coding the 
@@ -55,20 +55,21 @@
       "Paper", "Laptop", etc.)
     }
     \item{Date_Posted_or_Updated}{
-      \code{\link{Date}} the information was posted to 
-      the HHS data base or last updated.  
+      \code{\link{Date}} the information was posted
+      to the HHS data base or last updated.  
     }
     \item{Summary}{
       \code{\link{character}} vector of a summary of 
       the incident.  
     }
     \item{breach_start}{
-      \code{\link{Date}} of the start of the incident =
-      first date given in \code{Date_of_Breach} above. 
+      \code{\link{Date}} of the start of the 
+      incident = first date given in
+      \code{Date_of_Breach} above. 
     }
     \code{breach_end}{
-      \code{\link{Date}} of the end of the incident or 
-      \code{NA} if only one date is given in 
+      \code{\link{Date}} of the end of the incident
+      or \code{NA} if only one date is given in 
       \code{Date_of_Breach} above.  
     }
     \code{year}{
@@ -78,39 +79,45 @@
   }
 }
 \details{
-  The data primarily consists of breaches that occurred
-  from 2010 through early 2014 when the extract was
-  taken.  However, a few breaches are recorded
-  including 1 from 1997, 8 from 2002-2007, 13 from 2008
-  and 56 from 2009.  The numbers of breaches from 2010 
-  - 2014 are 211, 229, 227, 254 and 56, respectively. 
-  (A chi-square test for equality of the counts from
-  2010 through 2013 is 4.11, which with 3 degrees of
-  freedom has a significance probability of 0.25.  
-  Thus, even though the lowest number is the first and 
-  the largest count is the last, the apparent trend is 
+  The data primarily consists of breaches that
+  occurred from 2010 through early 2014 when the
+  extract was taken.  However, a few breaches are
+  recorded including 1 from 1997, 8 from 2002-2007,
+  13 from 2008 and 56 from 2009.  The numbers of
+  breaches from 2010 - 2014 are 211, 229, 227, 
+  254 and 56, respectively. (A chi-square test for
+  equality of the counts from 2010 through 2013 is 
+  4.11, which with 3 degrees of freedom has a
+  significance probability of 0.25.  Thus, even
+  though the lowest number is the first and the
+  largest count is the last, the apparent trend is 
   not statistically significant under the usual
   assumption of independent Poisson trials.)  
   
   The following corrections were made to the file:  
   
   \tabular{rlll}{
-    Number \tab Name of Covered Entity \tab Corrections
-    \cr \cr 45 \tab Wyoming Department of Health \tab
-    Cause of breach was missing.  Added "Unauthorized
-    \cr \tab \tab Access / Disclosure" per 
-    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{smartbrief.com/03/29/10} \cr
+    Number \tab Name of Covered Entity \tab
+    Corrections \cr \cr 45 \tab Wyoming Department 
+    of Health \tab Cause of breach was missing. 
+    Added "Unauthorized \cr \tab \tab Access /
+    Disclosure" per 
+    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{\code{smartbrief.com/03/29/10}} \cr
     
     55 \tab Reliant Rehabilitation Hospital North
     \tab Cause of breach was missing.  Added 
     "Unauthorized \cr \tab Houston \tab Access / 
     Disclosure" per Dissent. "Two Breaches \cr
     \tab \tab Involving Unauthorized Access Lead to
-    Notification." \cr \tab \tab [www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification;  approximately 2010-04-20.  This web page has since been removed, apparently without having been captured by archive.net.] \cr 
+    Notification." \cr \tab \tab 
+    \code{www.phiprivacy.net/two-breaches-involving-unauthorized-access-lead-to-notification};
+    approximately 2010-04-20.  This web page has
+    since been removed, apparently without having
+    been captured by archive.net.] \cr 
 
     123 \tab Aetna \tab Cause of breach was missing. Added Improper \cr
     \tab \tab disposal per \href{https://web.archive.org/web/20101130080315/http://www.aetna.com/news/newsReleases/2010/0630_File_Cabinet_Final.html}{
-    Aetna.com/news/newsReleases/2010/0630}
+    \code{Aetna.com/news/newsReleases/2010/0630}}
     \cr 
     
     157 \tab Mayo Clinic \tab Cause of breach was missing.  Added 
@@ -121,13 +128,13 @@
     \tab \tab Unauthorized Access to Records." \cr
     \tab \tab \href{http://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Data Breach Today. N.p., 4 Oct. 2010}\cr
   
-    341 \tab Saint Barnabas MedicL Center \tab Misspelled "Saint 
+    341 \tab \code{Saint Barnabas MedicL Center} \tab Misspelled "Saint 
     Barnabas Medical Center" \cr 
   
-    347 \tab Americar Health Medicare \tab Misspelled "American 
+    347 \tab \code{Americar Health Medicare} \tab Misspelled "American 
     Health Medicare" \cr
   
-    484 \tab Lake Granbury Medicl Ceter \tab Misspelled "Lake 
+    484 \tab \code{Lake Granbury Medicl Ceter} \tab Misspelled "Lake 
     Granbury Medical Center" \cr 
   
     782 \tab See list of Practices under Item 9 \tab Replaced name 
@@ -143,7 +150,7 @@
     815 \tab Santa Clara Valley Medical Center \tab Mistype breach 
     year as 09/14/2913 corrected as 09/14/2013 \cr
   
-    961 \tab Valley View Hosptial Association \tab Misspelled 
+    961 \tab \code{Valley View Hosptial Association} \tab Misspelled 
     "Valley View Hospital Association" \cr 
 
     1034 \tab Bio-Reference Laboratories, Inc. \tab Date changed 
