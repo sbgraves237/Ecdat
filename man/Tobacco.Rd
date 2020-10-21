@@ -38,7 +38,7 @@
   }
 }
 \source{
-    National Institute of Statistics (NIS), Belgium.
+  National Institute of Statistics (NIS), Belgium.
 }
 \references{
     Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapter 7.
