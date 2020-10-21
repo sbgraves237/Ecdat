@@ -19,7 +19,7 @@
   }
 }
 \source{
-    McCullagh, P.  and  J.  Nelder (1983) \emph{Generalized linear methods}, New York:Chapman and Hall.
+    McCullagh, P.  and  J.  Nelder (1983) \emph{Generalized Linear Models}, New York:Chapman and Hall.
 
 }
 \references{
