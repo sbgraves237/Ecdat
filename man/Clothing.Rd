@@ -27,7 +27,7 @@
     \item{inv1}{investment in shop-premises}
     \item{inv2}{investment in automation.}
     \item{ssize}{
-      sales floorspace of the store (in m$^2$).
+      sales floor space of the store (in m$^2$).
     }
     \item{start}{year start of business}
   }
