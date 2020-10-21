@@ -4,74 +4,126 @@
 \description{
   \describe{
     \itemize{
-\item Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}
- \itemize{
-\item \code{\link{Bids}} : Bids Received By U.S. Firms
-\item \code{\link{BudgetFood}} : Budget Share of Food for Spanish Households
-\item \code{\link{BudgetItaly}} : Budget Shares for Italian Households
-\item \code{\link{BudgetUK}} : Budget Shares of British Households
-\item \code{\link{Car}} : Stated Preferences for Car Choice
-\item \code{\link{Computers}} : Prices of Personal Computers
-\item \code{\link{Crime}} : Crime in North Carolina
-\item \code{\link{Doctor}} : Number of Doctor Visits
-\item \code{\link{Earnings}} : Earnings for Three Age Groups
-\item \code{\link{HI}} : Health Insurance and Hours Worked By Wives
-\item \code{\link{Housing}} : Sales Prices of Houses in the City of Windsor
-\item \code{\link{Males}} : Wages and Education of Young Males
-\item \code{\link{Mathlevel}} : Level of Calculus Attained for Students Taking Advanced Micro--economics
-\item \code{\link{MoneyUS}} : Macroeconomic Series for the United States
-\item \code{\link{MunExp}} : Municipal Expenditure Data
-\item \code{\link{OFP}} : Visits to Physician Office
-\item \code{\link{Oil}} : Oil Investment
-\item \code{\link{Participation}} : Labor Force Participation
-\item \code{\link{PatentsRD}} : Patents, R\&D and Technological Spillovers for a Panel of Firms
-\item \code{\link{Train}} : Stated Preferences for Train Traveling
-\item \code{\link{Unemployment}} : Unemployment Duration
-\item \code{\link{University}} : Provision of University Teaching and Research
-\item \code{\link{Workinghours}} : Wife Working Hours
+      \item Journal of Applied Econometrics 
+        data archive : 
+        \url{http://qed.econ.queensu.ca/jae/}
+      \itemize{
+        \item \code{\link{Bids}} : Bids Received By 
+          U.S. Firms
+        \item \code{\link{BudgetFood}} : Budget 
+          Share of Food for Spanish Households
+        \item \code{\link{BudgetItaly}} : Budget
+          Shares for Italian Households
+        \item \code{\link{BudgetUK}} : Budget 
+          Shares of British Households
+        \item \code{\link{Car}} : Stated 
+          Preferences for Car Choice
+        \item \code{\link{Computers}} : Prices of
+          Personal Computers
+        \item \code{\link{Crime}} : Crime in 
+          North Carolina
+        \item \code{\link{Doctor}} : Number of 
+          Doctor Visits
+        \item \code{\link{Earnings}} : Earnings 
+          for Three Age Groups
+        \item \code{\link{HI}} : Health Insurance 
+          and Hours Worked By Wives
+        \item \code{\link{Housing}} : Sales Prices 
+          of Houses in the City of Windsor
+        \item \code{\link{Males}} : Wages and
+          Education of Young Males
+        \item \code{\link{Mathlevel}} : Level of
+          Calculus Attained for Students Taking 
+          Advanced Micro--economics
+        \item \code{\link{MoneyUS}} : 
+          Macroeconomic Series for the United States
+        \item \code{\link{MunExp}} : Municipal
+          Expenditure Data
+        \item \code{\link{OFP}} : Visits to 
+          Physician Office
+        \item \code{\link{Oil}} : Oil Investment
+        \item \code{\link{Participation}} : Labor
+          Force Participation
+        \item \code{\link{PatentsRD}} : Patents, 
+          R\&D and Technological Spillovers for a
+          Panel of Firms
+        \item \code{\link{Train}} : Stated
+          Preferences for Train Traveling
+        \item \code{\link{Unemployment}} :
+          Unemployment Duration
+        \item \code{\link{University}} : Provision 
+          of University Teaching and Research
+        \item \code{\link{Workinghours}} : Wife
+          Working Hours
 }
 
 \item Journal of Business Economics and Statistics web site : \url{https://amstat.tandfonline.com/loi/ubes20}
- \itemize{
-\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
-\item \code{\link{Catsup}} : Choice of Brand for Catsup
-\item \code{\link{Cracker}} : Choice of Brand for Crakers
-\item \code{\link{Kakadu}} : Willingness to Pay for the Preservation of the Kakadu National Park
-\item \code{\link{Ketchup}} : Choice of Brand for Ketchup
-\item \code{\link{LaborSupply}} : Wages and Hours Worked
-\item \code{\link{Mofa}} : International Expansion of U.S. Mofa's (majority--owned Foreign Affiliates in Fire (finance, Insurance and Real Estate)
-\item \code{\link{Somerville}} : Visits to Lake Somerville
-\item \code{\link{Tuna}} : Choice of Brand for Tuna
-\item \code{\link{Yogurt}} : Choice of Brand for Yogurts
-}
+   \itemize{
+    \item \code{\link{Benefits}} : Unemployment of
+      Blue Collar Workers
+    \item \code{\link{Catsup}} : Choice of Brand for
+      Catsup
+    \item \code{\link{Cracker}} : Choice of Brand 
+      for Crackers
+    \item \code{\link{Kakadu}} : Willingness to Pay
+      for the Preservation of the Kakadu National
+      Park
+    \item \code{\link{Ketchup}} : Choice of Brand 
+      for Ketchup
+    \item \code{\link{LaborSupply}} : Wages and 
+      Hours Worked
+    \item \code{\link{Mofa}} : International
+      Expansion of U.S. MOFAs (majority--owned
+      Foreign Affiliates in Fire (finance,
+      Insurance and Real Estate)
+    \item \code{\link{Somerville}} : Visits to 
+      Lake Somerville
+    \item \code{\link{Tuna}} : Choice of Brand for
+      Tuna
+    \item \code{\link{Yogurt}} : Choice of Brand 
+      for Yogurts
+  }
 
-\item Journal of Statistics Education's data archive : 
-\url{http://www.amstat.org/publications/jse/jse_data_archive.htm}
- \itemize{
-\item \code{\link{Diamond}} : Pricing the C's of Diamond Stones
-\item \code{\link{FriendFoe}} : Data from the Television Game Show Friend Or Foe ?
-}
+  \item Journal of Statistics Education's data
+    archive : 
+    \url{http://www.amstat.org/publications/jse/jse_data_archive.htm}
+  \itemize{
+    \item \code{\link{Diamond}} : Pricing the C's 
+      of Diamond Stones
+    \item \code{\link{FriendFoe}} : Data from the
+      Television Game Show Friend Or Foe ?
+  }
 
-\item Kenneth Train's home page :  
+  \item Kenneth Train's home page :  
     \url{https://eml.berkeley.edu/~train/} 
- \itemize{
-\item \code{\link{HC}} : Heating and Cooling System Choice in Newly Built Houses in California
-\item \code{\link{Heating}} : Heating System Choice in California Houses
-\item \code{\link{Mode}} : Mode Choice
-}
+  \itemize{
+    \item \code{\link{HC}} : Heating and Cooling
+      System Choice in Newly Built Houses in
+      California
+    \item \code{\link{Heating}} : Heating System
+      Choice in California Houses
+    \item \code{\link{Mode}} : Mode Choice
+  }
 
-\item Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{https://www.wiley.com/legacy/wileychi/baltagi/}
- \itemize{
-\item \code{\link{Cigar}} : Cigarette Consumption
-\item \code{\link{Crime}} : Crime in North Carolina
-\item \code{\link{Gasoline}} : Gasoline Consumption
-\item \code{\link{Grunfeld}} : Grunfeld Investment Data
-\item \code{\link{Hedonic}} : Hedonic Prices of Census Tracts in Boston
-\item \code{\link{Produc}} : Us States Production
-\item \code{\link{Wages}} : Panel Datas of Individual Wages
-}
+  \item Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, \url{https://www.wiley.com/legacy/wileychi/baltagi/}
+  \itemize{
+    \item \code{\link{Cigar}} : Cigarette 
+      Consumption
+    \item \code{\link{Crime}} : Crime in North
+      Carolina
+    \item \code{\link{Gasoline}} : Gasoline
+      Consumption
+    \item \code{\link{Grunfeld}} : Grunfeld
+      Investment Data
+    \item \code{\link{Hedonic}} : Hedonic Prices 
+      of Census Tracts in Boston
+    \item \code{\link{Produc}} : Us States 
+      Production
+    \item \code{\link{Wages}} : Panel Data of
+      Individual Wages
+  }
 
-\item Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge
+  \item Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge
  \itemize{
 \item \code{\link{DoctorContacts}} : Contacts With Medical Doctor
 \item \code{\link{Fishing}} : Choice of Fishing Mode
@@ -83,8 +135,8 @@
 \item \code{\link{StrikeDur}} : Strikes Duration
 \item \code{\link{Treatment}} : Evaluating Treatment Effect of Training on Earnings
 \item \code{\link{UnempDur}} : Unemployment Duration
-\item \code{\link{VietNamH}} : Medical Expenses in Viet--nam (household Level)
-\item \code{\link{VietNamI}} : Medical Expenses in Viet--nam (individual Level)
+\item \code{\link{VietNamH}} : Medical Expenses in Vietnam (household Level)
+\item \code{\link{VietNamI}} : Medical Expenses in Vietnam (individual Level)
 }
 
 \item Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}
@@ -135,7 +187,7 @@
  \itemize{
 \item \code{\link{DM}} : DM Dollar Exchange Rate
 \item \code{\link{Electricity}} : Cost Function for Electricity Producers
-\item \code{\link{Griliches}} : Wage Datas
+\item \code{\link{Griliches}} : Wage Data
 \item \code{\link{LT}} : Dollar Sterling Exchange Rate
 \item \code{\link{Mishkin}} : Inflation and Interest Rates
 \item \code{\link{Mpyr}} : Money, National Product and Interest Rate
@@ -152,7 +204,7 @@
 \item \code{\link{Cigarette}} : The Cigarette Consumption Panel Data Set
 \item \code{\link{Fatality}} : Drunk Driving Laws and Traffic Deaths
 \item \code{\link{Hmda}} : The Boston HMDA Data Set
-\item \code{\link{Journals}} : Economic Journals Dat Set
+\item \code{\link{Journals}} : Economic Journals Data Set
 \item \code{\link{MCAS}} : The Massachusetts Test Score Data Set
 \item \code{\link{Macrodat}} : Macroeconomic Time Series for the United States
 \item \code{\link{Orange}} : The Orange Juice Data Set
