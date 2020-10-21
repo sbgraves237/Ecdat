@@ -22,7 +22,11 @@
     \item{earnings}{total labor income}
     \item{hours}{annual work hours}
     \item{kids}{live births to this individual}
-    \item{married}{last known marital status (married, never married, windowed, divorced, separated, NA/DF, no histories)}
+    \item{married}{
+      last known marital status (married, never
+      married, windowed, divorced, separated, 
+      \code{NA/DF}, no histories)
+    }
   }
 }
 \source{
