@@ -31,7 +31,7 @@
 \source{
     Lalonde, R. (1986) \dQuote{Evaluating the Econometric Evaluations of Training Programs with Experimental Data}, \emph{American Economic Review}, 604--620.
 
-    Dehejia, R.H.  and  S.  Wahba (1999) \dQuote{Causal Effects in Nonexperimental Studies: reevaluating the Evaluation of Training Programs}, \emph{Jasa}, 1053--1062.
+    Dehejia, R.H.  and  S.  Wahba (1999) \dQuote{Causal Effects in Nonexperimental Studies: reevaluating the Evaluation of Training Programs}, \emph{JASA}, 1053--1062.
 
     Dehejia, R.H.  and  S.  Wahba (2002) \dQuote{Propensity-score Matching Methods for Nonexperimental Causal Studies}, \emph{Restat}, 151--161.
 
