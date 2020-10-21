@@ -5,11 +5,11 @@
 \description{
   a panel of 90 observations  from 1981  to 1987
 
- \emph{number of observations} :  630
+  \emph{number of observations} :  630
 
- \emph{observation} :  regional
+  \emph{observation} :  regional
 
-   \emph{country} :  United States
+  \emph{country} :  United States
 
 }
 \usage{data(Crime)}
@@ -29,12 +29,15 @@
     \item{smsa}{'yes' or 'no' if in SMSA}
     \item{pctmin}{percentage minority in 1980}
     \item{wcon}{weekly wage in construction}
-    \item{wtuc}{weekly wage in trns, util, commun}
+    \item{wtuc}{
+      weekly wage in \code{trns, util, commun} 
+    }
     \item{wtrd}{
       weekly wage in whole sales and retail trade
     }
     \item{wfir}{
-      weekly wage in finance, insurance and real estate
+      weekly wage in finance, insurance and real
+      estate
     }
     \item{wser}{weekly wage in service industry}
     \item{wmfg}{weekly wage in manufacturing}
@@ -43,7 +46,7 @@
     \item{wloc}{
       weekly wage of local governments employees      
     }
-    \item{mix}{offence mix: face-to-face/other}
+    \item{mix}{offense mix: face-to-face/other}
     \item{pctymle}{percentage of young males}
   }
 }
@@ -58,7 +61,7 @@
 
     Baltagi, B. H. (2006) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}, 21(4), May/June 2006, pp. 543-547.  
     
-    See also: \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{CRIME4.DES} and Baltagi in \href{http://qed.econ.queensu.ca/jae/2006-v21.4/baltagi}{JAE Data Archive}.
+    See also: \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{\code{CRIME4.DES}} and Baltagi in \href{http://qed.econ.queensu.ca/jae/2006-v21.4/baltagi}{JAE Data Archive}.
 }
 \references{
     Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, 
