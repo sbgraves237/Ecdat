@@ -3,15 +3,16 @@
 \alias{AccountantsAuditorsPct}
 \title{Accountants and Auditors in the US 1850-2016}
 \description{
-  Accountants and auditors as a percent of the US labor
-  force 1850 to 2016 updating the analysis in Wyatt 
-  and Hecker (2006).  
+  Accountants and auditors as a percent of the US
+  labor force 1850 to 2016 updating the analysis in
+  Wyatt and Hecker (2006).  
 }
 \usage{data(AccountantsAuditorsPct)}
-\format{a numeric vector of length 30 giving the percent of 
-  the US labor force in "Accounting and Auditing" each decade 
-  from 1850 to 2010 except for 1940 plus each year between 
-  2011 and 2016.  
+\format{
+  a numeric vector of length 30 giving the percent 
+  of the US labor force in "Accounting and Auditing"
+  each decade from 1850 to 2010 except for 1940 plus
+  each year between 2011 and 2016.  
 }
 \source{
   This is based primarily on data extracted from the 
@@ -20,14 +21,13 @@
   the computations documented in a vignette by this 
   title in the \code{Ecfun} package.  
   
-  This updates the data on Accountants and Auditors in 
-  Wyatt and Hecker (2006).  They relied primarily on 
-  data extracted from the 
+  This updates the data on Accountants and Auditors 
+  in Wyatt and Hecker (2006).  They relied 
+  primarily on data extracted from the 
   \href{https://en.wikipedia.org/wiki/IPUMS}{Integrated 
-  Public Use Microdata Series}.  I did the same but 
-  found two problems that seemed to require 
-  modifications:  
-  
+  Public Use Microdata Series}.  This follows the 
+  same methodology with two modifications:  
+
   1.  IPUMS provided no data for 1940.  Wyatt and 
   Hecker (2006) used 
 \href{https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html}{Historical Statistics of the United 
@@ -48,14 +48,14 @@
   accountants and auditors as 0.013, 0.021, and 0.010 
   percent of the labor force, respectively for those 
   three years.  These numbers portray an incredible 
-  increase in the employment of accountants and auditors 
-  between 1850 and 1860 followed by a shocking decline 
-  the following decade. If, however, we swap the 1700 
-  and 1200 between 1860 and 1870, the percentages 
-  become quite stable: 0.013, 0.015, and 0.014 percent, 
-  respectively.  
+  increase in the employment of accountants and
+  auditors between 1850 and 1860 followed by a
+  shocking decline the following decade. If, however,
+  we swap the 1700 and 1200 between 1860 and 1870, 
+  the percentages become quite stable: 0.013, 0.015,
+  and 0.014 percent, respectively.  
   
-  We use these latter numbers, even thought the 
+  We use these latter numbers, even though the 
   uncorrected numbers seem more consistent with 
   the numbers obtained from IPUMS.  
 }
