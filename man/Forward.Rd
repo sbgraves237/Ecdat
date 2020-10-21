@@ -1,7 +1,9 @@
 \name{Forward}
 \docType{data}
 \alias{Forward}
-\title{Exchange Rates of US Dollar Against Other Currencies }
+\title{
+  Exchange Rates of US Dollar Against Other Currencies
+}
 \description{
   monthly observations from 1979--01 to 2001--12
 
@@ -23,8 +25,7 @@
   }
 }
 \source{
-    Datastream                                                                   .
-
+    \code{Datastream}                                   
 }
 \references{
     Verbeek, Marno (2004) \emph{A Guide to Modern Econometrics}, John Wiley and Sons, chapter 4.
