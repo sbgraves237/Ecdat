@@ -35,7 +35,7 @@
       8th grade score (\code{math+english+science})
     }
     \item{avgsalary}{average teacher salary}
-    \item{pctel}{percent english learnersh}
+    \item{pctel}{percent English learners}
   }
 }
 \source{
