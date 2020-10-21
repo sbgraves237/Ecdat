@@ -19,20 +19,33 @@
     \item{fi}{firm's id}
     \item{sector}{
       firm's main industry sector, one of 
-      \code{aero} (aerospace), \code{chem} (chemistry),
-      \code{comput} (computer), \code{drugs}, 
-      \code{elec} (electricity), \code{food}, 
-      \code{fuel} (fuel and mining), \code{glass}, 
-      \code{instr} (instruments), \code{machin} 
-      (machinery), \code{metals}, \code{other}, 
-      \code{paper}, \code{soft} (software), 
-      \code{motor} (motor vehicles) }
-    \item{geo}{
-      geographic area, one of \code{eu} (European 
-      Union), \code{japan}, \code{usa}, \code{rotw} 
-      (rest of the world)
+      \code{aero} (aerospace), 
+      \code{chem} (chemistry),
+      \code{comput} (computer), 
+      \code{drugs}, 
+      \code{elec} (electricity), 
+      \code{food}, 
+      \code{fuel} (fuel and mining), 
+      \code{glass}, 
+      \code{instr} (instruments), 
+      \code{machin} (machinery), 
+      \code{metals}, 
+      \code{other}, 
+      \code{paper}, 
+      \code{soft} (software), 
+      \code{motor} (motor vehicles) 
     }
-    \item{patent}{numbers of European patent applications}
+    \item{geo}{
+      geographic area, one of 
+      \code{eu} (European 
+      Union), 
+      \code{japan}, 
+      \code{usa}, 
+      \code{rotw} (rest of the world)
+    }
+    \item{patent}{
+      numbers of European patent applications
+    }
     \item{rdexp}{log of R\&D expenditures}
     \item{spil}{log of spillovers}
   }
