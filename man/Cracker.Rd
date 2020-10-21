@@ -1,7 +1,7 @@
 \name{Cracker}
 \docType{data}
 \alias{Cracker}
-\title{Choice of Brand for Crakers }
+\title{Choice of Brand for Crackers }
 \description{
   a cross-section
 
