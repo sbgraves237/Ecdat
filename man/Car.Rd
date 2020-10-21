@@ -5,17 +5,19 @@
 \description{
   a cross-section
 
- \emph{number of observations} :  4654
+  \emph{number of observations} :  4654
 
- \emph{observation} :  individuals
+  \emph{observation} :  individuals
 
-   \emph{country} :  United States
+  \emph{country} :  United States
 
 }
 \usage{data(Car)}
 \format{A dataframe containing :
   \describe{
-    \item{choice}{choice of a vehicle among 6 propositions}
+    \item{choice}{
+      choice of a vehicle among 6 propositions
+    }
     \item{college}{college education ?}
     \item{hsg2}{size of household greater than 2 ?}
     \item{coml5}{commute lower than 5 miles a day ?}
