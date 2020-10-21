@@ -21,16 +21,26 @@
       \code{heinz28}, \code{hunts32}
     }
     \item{disp.z}{is there a display for brand z ?}
-    \item{feat.z}{is there a newspaper feature advertisement for brand z ?}
+    \item{feat.z}{
+      is there a newspaper feature advertisement 
+      for brand z ?
+    }
     \item{price.z}{price of brand z}
   }
 }
 \source{
-    Jain, Dipak C.,  Naufel J.    Vilcassim and  Pradeep K.  Chintagunta (1994) \dQuote{A random--coefficients logit brand--choice model applied to panel data}, \emph{Journal of Business and Economics Statistics}, \bold{12(3)}, 317.
+    Jain, Dipak C., Naufel J. Vilcassim and Pradeep 
+    K.  Chintagunta (1994) \dQuote{A 
+    random--coefficients logit brand--choice model
+    applied to panel data}, \emph{Journal of 
+    Business and Economics Statistics}, 
+    \bold{12(3)}, 317.
 
 }
 \references{
-      Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
+  Journal of Business Economics and Statistics web
+  site : 
+  \url{http://amstat.tandfonline.com/loi/ubes20}.
 }
 \seealso{
   \code{\link{Ketchup}},
