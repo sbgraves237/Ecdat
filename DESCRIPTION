@@ -1,6 +1,6 @@
 Package: Ecdat
 Version: 0.3-8
-Date: 2020-03-20
+Date: 2020-10-21
 Title: Data Sets for Econometrics
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr> and Spencer Graves 
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
@@ -9,4 +9,6 @@ Suggests:
 Description: Data sets for econometrics, including political science.
 LazyData: true
 License: GPL (>=2)
+Language: en-us
 URL: https://www.r-project.org
+NeedsCompilation: no
