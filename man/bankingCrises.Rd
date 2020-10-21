@@ -17,7 +17,8 @@
 \details{
   This file was created using the following command:
 
-  \code{bankingCrises <- readFinancialCrisisFiles(FinancialCrisisFiles)}
+  \code{bankingCrises} <- 
+  \code{readFinancialCrisisFiles(FinancialCrisisFiles)}
 
   This is documented further in the help file for
   \code{\link{readFinancialCrisisFiles}}.
@@ -27,20 +28,22 @@
   Incidence of Banking Crises, All Countries, 
   1800-2008, Reinhart and Rogoff (2009, p. 156).
 
-  The general upward trend visible in a plot of these data 
-  may be attributed to at least two different factors:  
+  The general upward trend visible in a plot of 
+  these data may be attributed to at least two
+  different factors:  
   
-  (1) The gradual increase in the proportion of human labor 
-  that is monetized.  
+  (1) The gradual increase in the proportion of 
+  human labor that is monetized.  
 
-  (2) An increase in the general ability of cronies of 
-  those in power to gamble with other people's money in 
-  forming and bankrupting financial institutions.  The 
-  marked feature of this plot is the virtual absence
-  of banking crises during the period of the Bretton Woods 
-  agreement, 1944 to 1971.  This period ended when US 
-  President Nixon in effect canceled the Bretton Woods 
-  agreement by taking the US off the silver standard.
+  (2) An increase in the general ability of cronies 
+  of those in power to gamble with other people's
+  money in forming and bankrupting financial
+  institutions.  The marked feature of this plot is
+  the virtual absence of banking crises during the
+  period of the Bretton Woods agreement, 1944 to 
+  1971.  This period ended when US President Nixon 
+  in effect canceled the Bretton Woods agreement by
+  taking the US off the silver standard.
 }
 \source{
   \url{http://www.reinhartandrogoff.com}
@@ -50,9 +53,7 @@
   Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
 }
 \author{Spencer Graves}
-\seealso{
-  \code{\link{readFinancialCrisisFiles}}
-}
+%\seealso{\code{\link{readFinancialCrisisFiles}}}
 \examples{
 data(bankingCrises)
 numberOfCrises <- rowSums(bankingCrises[-1], na.rm=TRUE)
