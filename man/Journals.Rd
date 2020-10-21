@@ -1,7 +1,7 @@
 \name{Journals}
 \docType{data}
 \alias{Journals}
-\title{Economic Journals Dat Set }
+\title{Economic Journals Data Set }
 \description{
   a cross-section from 2000
 
