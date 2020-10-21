@@ -5,11 +5,11 @@
 \description{
   a cross-section from 1972
 
- \emph{number of observations} :  4877
+  \emph{number of observations} :  4877
 
- \emph{observation} :  individuals
+  \emph{observation} :  individuals
 
-   \emph{country} :  United States
+  \emph{country} :  United States
 
 }
 \usage{data(Benefits)}
@@ -20,19 +20,26 @@
     \item{state}{state of residence code}
     \item{age}{age in years}
     \item{tenure}{  years of tenure in job lost}
-    \item{joblost}{a factor with levels (slack\_work,position\_abolished,seasonal\_job\_ended,other)}
+    \item{joblost}{
+      a factor with levels 
+      (slack\_work,position\_abolished,seasonal\_job\_ended,other)
+    }
     \item{nwhite}{non-white ?}
     \item{school12}{more than 12 years of school ?}
     \item{sex}{a factor with levels (male,female) }
     \item{bluecol}{blue collar worker ?}
-    \item{smsa}{lives is smsa ?}
+    \item{smsa}{lives in SMSA ?}
     \item{married}{married ?}
     \item{dkids}{has kids ?}
     \item{dykids}{has young kids (0-5 yrs) ?}
-    \item{yrdispl}{ year of job displacement (1982=1,..., 1991=10)}
+    \item{yrdispl}{ 
+      year of job displacement (1982=1,..., 1991=10)
+    }
     \item{rr}{replacement rate}
     \item{head}{is  head of household ?}
-    \item{ui}{ applied for (and received) UI benefits ?}
+    \item{ui}{ 
+      applied for (and received) UI benefits ?
+    }
   }
 }
 \source{
