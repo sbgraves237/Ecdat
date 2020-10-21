@@ -5,20 +5,51 @@
 Evolution of occupational distribution in the US 
 }
 \description{
-Proportion of the US population in each of the 283 OCC1950 occupation codes for each year in the \href{https://en.wikipedia.org/wiki/IPUMS}{Integrated Public Use Microdata Series (IPUMS) - US database}.  
+Proportion of the US population in each of the 
+283 \code{OCC1950} occupation codes for each year 
+in the 
+\href{https://en.wikipedia.org/wiki/IPUMS}{Integrated Public Use Microdata Series (IPUMS) - US database}.  
 }
 \usage{data("OCC1950")}
 \format{
-  A \code{\link{matrix}} with one row for each of 281 OCC1950 occupation codes in IPUMS-US and one column for each year in their dataset as of 2020-03-17, being \code{c(1850:1880, 1900:2000, 2001:2016)}.
+  A \code{\link{matrix}} with one row for each of 
+  281 OCC1950 occupation codes in IPUMS-US and one
+  column for each year in their dataset as of 
+  2020-03-17, being 
+  \code{c(1850:1880, 1900:2000, 2001:2016)}.
 }
 \details{
-This dataset was created using the code in the IPUMS vignette in the Ecfun package using \code{tapply(HHWT, IPUMSdata[c("OCC1950", "YEAR")], sum)}, then normalizing so the total for each year was 1.
+This dataset was created using the code in the 
+IPUMS vignette in the \code{Ecfun} package using
+\code{tapply(HHWT, IPUMSdata[c("OCC1950", "YEAR")], sum)}, 
+then normalizing so the total for each year was 1.
 
-In fact a plot of the sums for each year of \code{HHWT} were close to the \code{USGDPpresidents$population.K*1000} except for 1970, when they were double.  
+In fact a plot of the sums for each year of
+\code{HHWT} were close to the 
+\code{USGDPpresidents$population.K*1000} except 
+for 1970, when they were double.  
 
-Universe Note from the IPUMS documentation for their variable \code{OCC1950}: "New Workers" are persons seeking employment for the first time, who had not yet secured their first job.
+Universe Note from the IPUMS documentation for 
+their variable \code{OCC1950}: "New Workers" are
+persons seeking employment for the first time, who 
+had not yet secured their first job.
 
-OCC1950 applies the 1950 Census Bureau occupational classification system to occupational data, to enhance comparability across years. For pre-1940 samples created at the University of Minnesota, the alphabetic responses supplied by enumerators were directly coded into the 1950 classification. For other samples, the information in the variable OCC was recoded into the 1950 classification. Codes above 970 are non-occupational responses retained in the historical census samples or blank/unknown. The design of OCC1950 is described at length in " Integrated Occupation and Industry Codes and Occupational Standing Variables in the IPUMS.". The composition of the 1950 occupation categories is described in detail in U.S. Bureau of the Census, Alphabetic Index of Occupations and Industries: 1950 (Washington D.C., 1950). 
+OCC1950 applies the 1950 Census Bureau occupational 
+classification system to occupational data, to 
+enhance comparability across years. For pre-1940 
+samples created at the University of Minnesota, 
+the alphabetic responses supplied by enumerators 
+were directly coded into the 1950 classification. 
+For other samples, the information in the variable 
+OCC was recoded into the 1950 classification. Codes above 970 are non-occupational responses retained 
+in the historical census samples or blank/unknown. 
+The design of OCC1950 is described at length in
+"Integrated Occupation and Industry Codes and
+Occupational Standing Variables in the IPUMS.". 
+The composition of the 1950 occupation categories 
+is described in detail in U.S. Bureau of the 
+Census, Alphabetic Index of Occupations and 
+Industries: 1950 (Washington D.C., 1950). 
 
 In 1850-1880, any laborer with no specified industry in a household with a farmer is recoded into farm labor. In 1860-1900, any woman with an occupational response of "housekeeper" enters the non-occupational category "keeping house" if she is related to the head of household. Cases affected by these imputation procedures are identified by an appropriate data quality flag (present in the raw IPUMS data but ignored for this summary). 
 
