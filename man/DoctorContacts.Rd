@@ -26,8 +26,8 @@
     }
     \item{fmde}{
       \code{log}(max(medical deductible 
-      expenditure)) if IDP=1 and MDE>1 or 0 
-      otherwise
+      expenditure)) if \code{IDP}=1 and 
+      \code{MDE}>1 or 0 otherwise
     }
     \item{physlim}{physical limitation ?}
     \item{ndisease}{number of chronic diseases}
