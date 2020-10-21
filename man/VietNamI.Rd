@@ -1,7 +1,7 @@
 \name{VietNamI}
 \docType{data}
 \alias{VietNamI}
-\title{Medical Expenses in Viet--nam (individual Level) }
+\title{Medical Expenses in Vietnam (individual Level) }
 \description{
   a cross-section from 1997
 
