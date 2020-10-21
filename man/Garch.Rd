@@ -15,14 +15,26 @@
 \usage{data(Garch)}
 \format{A dataframe containing :
   \describe{
-    \item{date}{date of observation (yymmdd)}
-    \item{day}{day of the week (a factor)}
-    \item{dm}{exchange rate Dollar/Deutsch Mark}
-    \item{ddm}{dm-dm(-1)}
-    \item{bp}{exchange rate of Dollar/British Pound}
-    \item{cd}{exchange rate of Dollar/Canadian Dollar}
-    \item{dy}{exchange rate of Dollar/Yen}
-    \item{sf}{exchange rate of Dollar/Swiss Franc}
+    \item{\code{date}}{
+      date of observation (\code{yymmdd})
+    }
+    \item{\code{day}}{day of the week (a factor)}
+    \item{\code{dm}}{
+      exchange rate Dollar/Deutsch Mark
+    }
+    \item{\code{ddm}}{\code{dm-dm(-1)}}
+    \item{\code{bp}}{
+      exchange rate of Dollar/British Pound
+    }
+    \item{\code{cd}}{
+      exchange rate of Dollar/Canadian Dollar
+    }
+    \item{\code{dy}}{
+      exchange rate of Dollar/Yen
+    }
+    \item{\code{sf}}{
+      exchange rate of Dollar/Swiss Franc
+    }
   }
 }
 \references{
