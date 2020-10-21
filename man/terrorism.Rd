@@ -83,9 +83,9 @@
       managed data collection since 
       2011-11-01.  For this variable, 
       partial years are ignored, so 
-      \code{methodology} = CEDIS for 
-      1998:2007, ISVG for 2008:2011, and 
-      START for 2012:2014. 
+      \code{methodology} = \code{CEDIS} for 
+      1998:2007, \code{ISVG} for 2008:2011, and 
+      \code{START} for 2012:2014. 
     }
     \item{method}{
       a character vector consisting of 
@@ -195,8 +195,8 @@
       particularly true for \code{nkill.us}
       and \code{nwound.us}, which exceed 
       90 percent for most of the period 
-      with \code{methodology} = 'PGIS', 
-      prior to 1998.  
+      with \code{methodology} = 
+      \code{PGIS}, prior to 1998.  
     }
     \item{worldPopulation, USpopulation}{
       Estimated de facto population in thousands 
@@ -270,7 +270,8 @@
   the most likely explanation for this 
   difference is the change in the 
   organization responsible for managing 
-  that data collection from ISVG to START.  
+  that data collection from \code{ISVG} to 
+  \code{START}.  
   
   If the issue is restricted to how 
   incidents are classified as "suicide 
