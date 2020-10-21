@@ -23,7 +23,7 @@
   }
 }
 \source{
-    Dahlberg, M. and E. Johansson (2000) \dQuote{An examination of the dynamic behavior of local government using GMM boot-strapping methods}, \emph{Journal of Applied Econometrics}, \bold{21}, 333-355.
+    Dahlberg, M. and E. Johansson (2000) \dQuote{An examination of the dynamic behavior of local government using \code{GMM} boot-strapping methods}, \emph{Journal of Applied Econometrics}, \bold{21}, 333-355.
 
 }
 \references{
