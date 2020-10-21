@@ -6,50 +6,81 @@
     \itemize{
       \item binomial model
       \itemize{
-      	\item \code{\link{Benefits}} : Unemployment of Blue Collar Workers
-      	\item \code{\link{Hmda}} : The Boston HMDA Data Set
-      	\item \code{\link{Mroz}} : Labor Supply Data
-	      \item \code{\link{Participation}} : Labor Force Participation
-	      \item \code{\link{Train}} : Stated Preferences for Train Traveling
+      	\item \code{\link{Benefits}} : 
+      	  Unemployment of Blue Collar Workers
+      	\item \code{\link{Hmda}} : The Boston 
+      	  HMDA Data Set
+      	\item \code{\link{Mroz}} : Labor Supply 
+      	  Data
+	      \item \code{\link{Participation}} : 
+	        Labor Force Participation
+	      \item \code{\link{Train}} : Stated
+	        Preferences for Train Traveling
       }
       \item censored and truncated model
       \itemize{
-	\item \code{\link{Fair}} : Extramarital Affairs Data
-	\item \code{\link{HI}} : Health Insurance and Hours Worked By Wives
-	\item \code{\link{Mofa}} : International Expansion of U.S. Mofa's (majority--owned Foreign Affiliates in Fire (finance, Insurance and Real Estate)
-	\item \code{\link{Tobacco}} : Households Tobacco Budget Share
-	\item \code{\link{Workinghours}} : Wife Working Hours
+	\item \code{\link{Fair}} : Extramarital Affairs 
+	  Data
+	\item \code{\link{HI}} : Health Insurance and 
+	  Hours Worked By Wives
+	\item \code{\link{Mofa}} : International 
+	  Expansion of U.S. MOFAs (majority--owned 
+	  Foreign Affiliates in Fire (finance, 
+	  Insurance and Real Estate)
+	\item \code{\link{Tobacco}} : Households 
+	  Tobacco Budget Share
+	\item \code{\link{Workinghours}} : Wife 
+	  Working Hours
       }
       \item count data
       \itemize{
 	\item \code{\link{Accident}} : Ship Accidents
-	\item \code{\link{Bids}} : Bids Received By U.S. Firms
-	\item \code{\link{Doctor}} : Number of Doctor Visits
-	\item \code{\link{DoctorAUS}} : Doctor Visits in Australia
-	\item \code{\link{DoctorContacts}} : Contacts With Medical Doctor
-	\item \code{\link{OFP}} : Visits to Physician Office
-	\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R\&D
-	\item \code{\link{PatentsRD}} : Patents, R\&D and Technological Spillovers for a Panel of Firms
-	\item \code{\link{Somerville}} : Visits to Lake Somerville
-	\item \code{\link{StrikeNb}} : Number of Strikes in Us Manufacturing
+	\item \code{\link{Bids}} : Bids Received By 
+	  U.S. Firms
+	\item \code{\link{Doctor}} : Number of 
+	  Doctor Visits
+	\item \code{\link{DoctorAUS}} : Doctor Visits 
+	  in Australia
+	\item \code{\link{DoctorContacts}} : Contacts 
+	  With Medical Doctor
+	\item \code{\link{OFP}} : Visits to Physician
+	  Office
+	\item \code{\link{PatentsHGH}} : Dynamic 
+	  Relation Between Patents and R\&D
+	\item \code{\link{PatentsRD}} : Patents, R\&D 
+	  and Technological Spillovers for a Panel of 
+	  Firms
+	\item \code{\link{Somerville}} : Visits to Lake
+	  Somerville
+	\item \code{\link{StrikeNb}} : Number of Strikes 
+	  in US Manufacturing
       }
       \item duration model
       \itemize{
 	\item \code{\link{Oil}} : Oil Investment
 	\item \code{\link{Strike}} : Strike Duration Data
 	\item \code{\link{StrikeDur}} : Strikes Duration
-	\item \code{\link{UnempDur}} : Unemployment Duration
-	\item \code{\link{Unemployment}} : Unemployment Duration
+	\item \code{\link{UnempDur}} : Unemployment
+	  Duration
+	\item \code{\link{Unemployment}} : Unemployment
+	  Duration
       }
       \item multinomial model
       \itemize{
-	\item \code{\link{Car}} : Stated Preferences for Car Choice
-	\item \code{\link{Catsup}} : Choice of Brand for Catsup
-	\item \code{\link{Cracker}} : Choice of Brand for Crakers
-	\item \code{\link{Fishing}} : Choice of Fishing Mode
-	\item \code{\link{HC}} : Heating and Cooling System Choice in Newly Built Houses in California
-	\item \code{\link{Heating}} : Heating System Choice in California Houses
-	\item \code{\link{Ketchup}} : Choice of Brand for Ketchup
+	\item \code{\link{Car}} : Stated Preferences 
+	  for Car Choice
+	\item \code{\link{Catsup}} : Choice of Brand 
+	  for Catsup
+	\item \code{\link{Cracker}} : Choice of Brand 
+	  for Crackers
+	\item \code{\link{Fishing}} : Choice of Fishing
+	  Mode
+	\item \code{\link{HC}} : Heating and Cooling 
+	  System Choice in Newly Built Houses in California
+	\item \code{\link{Heating}} : Heating System 
+	  Choice in California Houses
+	\item \code{\link{Ketchup}} : Choice of Brand 
+	  for Ketchup
 	\item \code{\link{Mode}} : Mode Choice
 	\item \code{\link{ModeChoice}} : Data to Study Travel Mode Choice
 	\item \code{\link{Tuna}} : Choice of Brand for Tuna
@@ -75,7 +106,7 @@
 	\item \code{\link{MunExp}} : Municipal Expenditure Data
 	\item \code{\link{Produc}} : Us States Production
 	\item \code{\link{SumHes}} : The Penn Table
-	\item \code{\link{Wages}} : Panel Datas of Individual Wages
+	\item \code{\link{Wages}} : Panel Data of Individual Wages
       }
       \item system of equations
       \itemize{
