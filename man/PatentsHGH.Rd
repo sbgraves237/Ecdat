@@ -29,16 +29,20 @@
       Jaffe, in the Griliches R&D, Patents, 
       and Productivity volume)
     }
-    \item{scisect}{is the firm in the scientific sector ?}
+    \item{scisect}{
+      is the firm in the scientific sector ?
+    }
     \item{logk}{
-      the logarithm of the book value of capital in 1972.
+      the logarithm of the book value of capital 
+      in 1972.
     }
     \item{sumpat}{
-      the sum of patents applied for between 1972-1979. 
+      the sum of patents applied for between 
+      1972-1979. 
     }
     \item{logr}{ 
-      the logarithm of R&D spending during the year 
-      (in 1972 dollars)
+      the logarithm of R&D spending during the 
+      year (in 1972 dollars)
     }
     \item{logr1}{ 
       the logarithm of R&D spending (one year lag)
@@ -61,12 +65,16 @@
     }
     \item{pat1}{the number of patents (one year lag)}
     \item{pat2}{the number of patents (two years lag)}
-    \item{pat3}{the number of patents (three years lag)}
-    \item{pat4}{the number of patents (four years lag)}
+    \item{pat3}{
+      the number of patents (three years lag)
+    }
+    \item{pat4}{
+      the number of patents (four years lag)
+    }
   }
 }
 \source{
-    Hall, Bronwyn ,  Zvi   Griliches and   Jerry    Hausman (1986) \dQuote{Patents and R&D: Is There a Lag?}, \emph{International Economic Review}, \bold{27}, 265-283.
+    Hall, Bronwyn, Zvi Griliches and Jerry Hausman (1986) \dQuote{Patents and R&D: Is There a Lag?}, \emph{International Economic Review}, \bold{27}, 265-283.
 
 }
 \references{
