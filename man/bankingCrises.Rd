@@ -20,13 +20,23 @@
   \code{bankingCrises} <- 
   \code{readFinancialCrisisFiles(FinancialCrisisFiles)}
 
-  This is documented further in the help file for
-  \code{\link{readFinancialCrisisFiles}}.
+  HOWEVER:  this function was in Ecfun 0.2-3 but 
+  was removed in 0.2-4.  It used 
+  \code{gdata::read.xls}, and \code{gdata}
+  users were informed that \code{gdata} might be 
+  removed from CRAN, and any package that used it
+  would also be removed.  It seemed that the 
+  database that this function was designed to read
+  may not have been updated, which suggested that 
+  it made sense to remove this function, 
+  because it there may not be any further need 
+  for it.  
 
-  This is an update of a subset of the data used 
-  to create Figure 10.1.  Capital Mobility and the 
-  Incidence of Banking Crises, All Countries, 
-  1800-2008, Reinhart and Rogoff (2009, p. 156).
+  This dataset is an update of a subset of the 
+  data used to create Figure 10.1.  Capital 
+  Mobility and the Incidence of Banking Crises, 
+  All Countries, 1800-2008, Reinhart and Rogoff 
+  (2009, p. 156).
 
   The general upward trend visible in a plot of 
   these data may be attributed to at least two
