@@ -30,7 +30,7 @@
 
 }
 \references{
-      Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
+      Journal of Business Economics and Statistics web site : \url{https://amstat.tandfonline.com/loi/ubes20}.
 }
 \seealso{
   \code{\link{Catsup}}, 
