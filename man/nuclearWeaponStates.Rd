@@ -134,10 +134,9 @@
       offended by the refusal of the US to 
       support them in the 
       \href{https://en.wikipedia.org/wiki/Suez_Crisis}{Suez Crisis}.  
-      On \href{https://fas.org/nuke/guide/israel/nuke/farr.htm}{1956-11-07}
-      France and Israel secretly agreed to
+      On \href{https://fas.org/nuke/guide/israel/nuke/farr.htm}{France and Israel secretly agreed to
       collaborate in the development of nuclear
-      weapons.  
+      weapons}.  
     }
     \item{\code{CN}}{
       \href{https://en.wikipedia.org/wiki/China_and_weapons_of_mass_destruction#History}{Mao Zedong reportedly decided to begin a Chinese nuclear-weapons program} 
@@ -243,7 +242,7 @@
   
   North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062?needAccess=true}{ Hans M. Kristensen & Robert S. Norris (2018) North Korean nuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}
 
-  \href{https://www.americansecurityproject.org/ASP Reports/Ref 0072 - North Korea’s Nuclear Program .pdf}{Derek Bolton (2012) North Korea's Nuclear Program} (2012-08, American Security Program, accessed 2020-07-15)
+  Derek Bolton (2012) North Korea's Nuclear Program (2012-08, American Security Program, accessed 2020-07-15) \url{https://www.americansecurityproject.org/ASP Reports/Ref 0072 - North Korea’s Nuclear Program .pdf}
 }
 \examples{
 data(nuclearWeaponStates)
