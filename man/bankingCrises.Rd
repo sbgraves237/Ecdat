@@ -20,8 +20,8 @@
   \code{bankingCrises} <- 
   \code{readFinancialCrisisFiles(FinancialCrisisFiles)}
 
-  HOWEVER:  this function was in Ecfun 0.2-3 but 
-  was removed in 0.2-4.  It used 
+  HOWEVER:  This function was in \code{Ecfun} 0.2-3 
+  but was removed in 0.2-4.  It used 
   \code{gdata::read.xls}, and \code{gdata}
   users were informed that \code{gdata} might be 
   removed from CRAN, and any package that used it
