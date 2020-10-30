@@ -11,7 +11,7 @@
   to report any incident that compromises the
   confidentiality of 500 or more patients / 
   human subjects 
-  (\href{http://www.hhs.gov/ocr/privacy/hipaa/administrative/breachnotificationrule/brinstruction.html}{45 C.F.R. 164.408})  These reports are publicly available.  \code{HHSCyberSecurityBreaches} was downloaded from \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{the Office for Civil Rights of the U.S. Department of Health and Human Services, 2015-02-26}
+  (\href{https://www.hhs.gov/hipaa/for-professionals/breach-notification/breach-reporting/index.html}{45 C.F.R. 164.408})  These reports are publicly available.  \code{HHSCyberSecurityBreaches} was downloaded from \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{the Office for Civil Rights of the U.S. Department of Health and Human Services, 2015-02-26}
 }
 \usage{data(HHSCyberSecurityBreaches)}
 \format{
