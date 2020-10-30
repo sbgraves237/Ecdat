@@ -60,7 +60,7 @@
     with(USFinanceIndustry, Financial/Domestic)}
 }
 \source{
-  \url{http://www.bea.gov}:  Under "U.S. Economic Accounts", first
+  \url{https://www.bea.gov}:  Under "U.S. Economic Accounts", first
   select "Corporate Profits" under "National".  Then next to
   "Interactive Tables", select, "National Income and Product Accounts
   Tables".  From there, select "Begin using the data...".  Under
