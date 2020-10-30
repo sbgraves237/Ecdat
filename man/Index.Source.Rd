@@ -86,7 +86,7 @@
 
   \item Journal of Statistics Education's data
     archive : 
-    \url{http://www.amstat.org/publications/jse/jse_data_archive.htm}
+    \url{http://jse.amstat.org/jse_data_archive.htm}
   \itemize{
     \item \code{\link{Diamond}} : Pricing the C's 
       of Diamond Stones
