@@ -240,7 +240,7 @@
       \code{USdeaths} were computed by summing 
       across age groups in "Deaths_5x1.txt" for 
       the United States, downloaded from 
-      \url{http://www.mortality.org/cgi-bin/hmd/country.php?cntr=USA&level=1} from the Human 
+      \url{https://www.mortality.org/cgi-bin/hmd/country.php?cntr=USA&level=1} from the Human 
       Mortality Database;  see sources below.  
     }
     \item{kill.pmp, kill.pmp.us}{
@@ -283,9 +283,9 @@
   it suggests larger problems.  
 }
 \source{
-  National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{http://www.start.umd.edu/gtd} [accessed 2018-04-08]. 
+  National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{https://start.umd.edu/gtd} [accessed 2018-04-08]. 
 
-  See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{http://www.start.umd.edu/gtd}. 
+  See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{https://www.start.umd.edu/gtd}. 
   
   The world and US population figures came from 
 "Total Population - Both Sexes", World Population 
@@ -298,7 +298,7 @@ downloaded, 2016-09-05.  Fortunately, as of
 2020-02-09, such data seem to be available at 
 \url{https://population.un.org/wpp/Download/Standard/Population/}.   
 
-  \href{http://www.mortality.org/}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany).}
+  \href{https://www.mortality.org}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany).}
 }
 \references{
   Robert Pape, Keven Ruby, Vincent Bauer and 
