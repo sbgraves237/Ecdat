@@ -29,7 +29,7 @@
   }
 }
 \source{
-    Center for Research in Security Prices, Graduate School of  Business, University of Chicago,  725 South Wells - Suite 800,  Chicago, Illinois  60607,  \url{http://www.crsp.com}.
+    Center for Research in Security Prices, Graduate School of  Business, University of Chicago,  725 South Wells - Suite 800,  Chicago, Illinois  60607,  \url{http://www.crsp.org}.
 
 }
 \references{
