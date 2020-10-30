@@ -48,7 +48,7 @@
 
 }
 \references{
-      Journal of Business Economics and Statistics web site : \url{http://amstat.tandfonline.com/loi/ubes20}.
+      Journal of Business Economics and Statistics web site : \url{https://amstat.tandfonline.com/loi/ubes20}.
     Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 6.
 
 }
