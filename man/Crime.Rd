@@ -61,11 +61,11 @@
 
     Baltagi, B. H. (2006) \dQuote{Estimating an economic model of crime using panel data from North Carolina}, \emph{Journal of Applied Econometrics}, 21(4), May/June 2006, pp. 543-547.  
     
-    See also: \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{\code{CRIME4.DES}} and Baltagi in \href{http://qed.econ.queensu.ca/jae/2006-v21.4/baltagi}{JAE Data Archive}.
+    See also: \href{http://fmwww.bc.edu/ec-p/data/wooldridge/crime4.des}{\code{CRIME4.DES}} and Baltagi in \href{http://qed.econ.queensu.ca/jae/datasets/baltagi003/}{JAE Data Archive}.
 }
 \references{
     Baltagi, Badi H. (2003) \emph{Econometric analysis of panel data}, John Wiley and sons, 
-    \url{http://www.wiley.com/legacy/wileychi/baltagi/}.
+    \url{https://www.wiley.com/legacy/wileychi/baltagi/}.
 }
 \seealso{
   \code{\link{Index.Source}}, 
