@@ -34,7 +34,7 @@
 }
 \references{
       Journal of Statistics Education's data archive : 
-  \url{http://www.amstat.org/publications/jse/jse_data_archive.htm}.
+  \url{http://jse.amstat.org/jse_data_archive.htm}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 
