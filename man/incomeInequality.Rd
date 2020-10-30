@@ -109,7 +109,7 @@
   Thomas Piketty and Emmanuel Saez (2003) "Income 
   Inequality in the United States, 1913-1998", 
   Quarterly Journal of Economics, 118(1) 1-39, 
-  \url{https://eml.berkeley.edu/~saez}, update accessed
+  \url{https://eml.berkeley.edu/~saez/}, update accessed
   February 28, 2014.
 
   Louis Johnston and Samuel H. Williamson (2011) 
