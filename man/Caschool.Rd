@@ -38,7 +38,7 @@
   }
 }
 \source{
-    California Department of Education \url{http://www.cde.ca.gov}.
+    California Department of Education \url{https://www.cde.ca.gov}.
 
 }
 \references{
