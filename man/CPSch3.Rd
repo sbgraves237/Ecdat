@@ -21,7 +21,7 @@
   }
 }
 \source{
-    Bureau of labor statistics, U.S. Department of Labor \url{http://www.bls.gov}.
+    Bureau of labor statistics, U.S. Department of Labor \url{https://www.bls.gov}.
 
 }
 \references{
