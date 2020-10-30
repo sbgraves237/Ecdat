@@ -139,7 +139,7 @@ data(USGDPpresidents)
       wars:  
       For wars since 1816, it must have appeared 
       in the 
-      \href{http://correlatesofwar.org/}{Correlates of 
+      \href{https://correlatesofwar.org/}{Correlates of 
       War}.  For wars between 1790 and 1815, it 
       must have appeared in the Wikipedia 
       \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{
@@ -177,7 +177,7 @@ data(USGDPpresidents)
       therefore listed here together as 
       "Spanish-American-Philippine" war.  
       
-      \href{http://correlatesofwar.org/}{The Correlates of 
+      \href{https://correlatesofwar.org/}{The Correlates of 
       War (COW)} data include multiple US uses 
       of military force  during the Vietnam War 
       era.  It starts with "Vietnam Phase 1", 
@@ -213,7 +213,7 @@ data(USGDPpresidents)
       officially in conflict each year.  The 
       totals were obtained (in August-September 
       2015) from 
-      \href{http://correlatesofwar.org/}{The 
+      \href{https://correlatesofwar.org/}{The 
       Correlates of War} data for conflicts since
       1816 and from Wikipedia for previous wars, 
       as noted above.  
@@ -264,7 +264,7 @@ data(USGDPpresidents)
   current security standards.)  
 
   Sarkees, Meredith Reid; Wayman, Frank (2010). 
-  \href{http://correlatesofwar.org/data-sets/COW-war}{
+  \href{https://correlatesofwar.org/data-sets/COW-war}{
   "The Correlates of War Project: COW War Data, 1816 - 
   2007 (v4.0)"}, accessed 2015-09-02.  
   
