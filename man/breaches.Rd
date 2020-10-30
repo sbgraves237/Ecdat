@@ -102,7 +102,7 @@
     of Health \tab Cause of breach was missing. 
     Added "Unauthorized \cr \tab \tab Access /
     Disclosure" per 
-    \href{http://www.smartbrief.com/03/29/10/5-more-organizations-added-hhs-online-data-breach-list-0}{\code{smartbrief.com/03/29/10}} \cr
+    \href{https://www.smartbrief.com/s/2010/03/5-more-organizations-added-hhs-online-data-breach-list}{\code{smartbrief.com/03/29/10}} \cr
     
     55 \tab Reliant Rehabilitation Hospital North
     \tab Cause of breach was missing.  Added 
@@ -126,7 +126,7 @@
     "Mayo Fires \cr
     \tab \tab "Employees in 2 Incidents: Both Involved \cr 
     \tab \tab Unauthorized Access to Records." \cr
-    \tab \tab \href{http://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Data Breach Today. N.p., 4 Oct. 2010}\cr
+    \tab \tab \href{https://www.databreachtoday.com/mayo-fires-employees-in-2-incidents-a-2974}{Data Breach Today. N.p., 4 Oct. 2010}\cr
   
     341 \tab \code{Saint Barnabas MedicL Center} \tab Misspelled "Saint 
     Barnabas Medical Center" \cr 
