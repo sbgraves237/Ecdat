@@ -1,5 +1,5 @@
-2020-10-29:  
-Ecdat 0.3-8 deletes ~demoFiles/*_data.xls, because they were used to test Ecfun::financialDataFiles and Ecfun::readFinancialDataFiles, and those two functions were removed, because they used gdata, which was not being maintained, and the work required to maintain them exceeded the current need of the maintainer.  
+2020-11-01:  
+Ecdat 0.3-9 deletes ~demoFiles/*_data.xls, because they were used to test Ecfun::financialDataFiles and Ecfun::readFinancialDataFiles, and those two functions were removed, because they used gdata, which was not being maintained, and the work required to maintain them exceeded the current need of the maintainer.  
 
 2020-02-08:  Ecdat 0.3-6 adds variables popM, popYr, GDP_B, and GDPyr to data set "nuclearWeaponStates".  
 
