@@ -1,3 +1,6 @@
+##2020-11-02
+* fixed the URL with blanks replaced by "\%20" and checked:  This worked.  
+
 ##2020-10-23:  
 * Developed primarily on x86_64-apple-darwin17.0 (64-bit) under: macOS Catalina 10.15.7
 * Tested on 
