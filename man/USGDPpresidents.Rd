@@ -75,8 +75,8 @@ data(USGDPpresidents)
     } 
     \item{CPI}{
       Numeric:  U. S. Consumer Price Index per
-      Officer and Williamson (2015).  Average 
-      1982-84 = 100.  
+      Officer and Williamson (2015), starting in 
+      1774.  Average 1982-84 = 100.  
     }    
     \item{GDPdeflator}{
       numeric:  Implicit price deflators for 
@@ -96,7 +96,7 @@ data(USGDPpresidents)
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product 
-      per capita in 2012 dollars 
+      per capita in 2012 dollars since 1790.   
     } 
     \item{executive}{
       \code{\link{ordered}}:  Crown of England
@@ -215,8 +215,8 @@ data(USGDPpresidents)
       2015) from 
       \href{https://correlatesofwar.org/}{The 
       Correlates of War} data for conflicts since
-      1816 and from Wikipedia for previous wars, 
-      as noted above.  
+      1816 and from Wikipedia for previous wars 
+      back to 1774, as noted above.  
     }
     \item{battleDeathsPMP}{
       numeric:  battle deaths per million 
@@ -238,6 +238,7 @@ data(USGDPpresidents)
       \code{\link{ordered}} giving the source for 
       US unemployment:  
       \describe{
+        \item{1610-1799}{\code{<NA>}}
         \item{1800-1889}{Lebergott}
         \item{1890-1929}{Romer}
         \item{1930-1939}{Coen}
