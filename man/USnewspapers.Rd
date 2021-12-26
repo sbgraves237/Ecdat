@@ -20,12 +20,7 @@
       an integer vector giving the year 
       \code{c(1956:2020)}.  
     }
-    \item{Ads_currentGdollars, 
-          Ads_G2012dollars, 
-          Circ_currentGdollars, 
-          Circ_G2012dollars, 
-          Revenue_currentGdollars, 
-          Revenue_G2012dollars}{
+    \item{Ads_currentGdollars, Ads_G2012dollars, Circ_currentGdollars, Circ_G2012dollars, Revenue_currentGdollars, Revenue_G2012dollars}{
       Total newspaper revenue from advertising,  
       circulation, and combined in billions of 
       US dollars, both current and adjusted

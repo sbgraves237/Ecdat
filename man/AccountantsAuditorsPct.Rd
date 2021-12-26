@@ -68,9 +68,9 @@
   Steven Ruggles, Sarah Flood, Ronald Goeken, 
     Josiah Grover, Erin Meyer, Jose Pacas, and 
     Matthew Sobek (2018) 
-\href{https://doi.org/10.18128/D010.V8.0}{IPUMS 
+IPUMS 
     USA: Version 8.0 [dataset]. Minneapolis, MN: 
-    IPUMS}. 
+    IPUMS. \doi{10.18128/D010.V8.0} 
 
   Matthew Sobek (2006) Chapter Ba. "Labor Occupations" 
     in Susan B. Carter, ed., 
