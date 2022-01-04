@@ -20,12 +20,7 @@
       an integer vector giving the year 
       \code{c(1956:2020)}.  
     }
-    \item{Ads_currentGdollars, 
-          Ads_G2012dollars, 
-          Circ_currentGdollars, 
-          Circ_G2012dollars, 
-          Revenue_currentGdollars, 
-          Revenue_G2012dollars}{
+    \item{Ads_currentGdollars, Ads_G2012dollars, Circ_currentGdollars, Circ_G2012dollars, Revenue_currentGdollars, Revenue_G2012dollars}{
       Total newspaper revenue from advertising,  
       circulation, and combined in billions of 
       US dollars, both current and adjusted
@@ -84,14 +79,14 @@ plotNewsRevenue <- function(ys=c(2, 4, 6)){
   ylim. <- range(USnewspapers[ys], na.rm=TRUE)
   xlim. <- range(USnewspapers$Year)
   
-  to2012 <- (USnewspapers$Year<=2012)
+  to2013 <- (USnewspapers$Year<2013)
 
-  matplot(USnewspapers$Year[to2012], 
-        USnewspapers[to2012, ys], type='l', 
+  matplot(USnewspapers$Year[to2013], 
+        USnewspapers[to2013, ys], type='l', 
         log='y', xlim=xlim., ylim=ylim., las=1, 
         xlab='', ylab='')
-  matlines(USnewspapers$Year[!to2012], col=4:6, 
-        USnewspapers[!to2012, ys])
+  matlines(USnewspapers$Year[!to2013], col=4:6, 
+        USnewspapers[!to2013, ys])
 
   lnms <- outer(names(USnewspapers[c(2, 4, 6)]),
         c('', '-est'), paste0)
