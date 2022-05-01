@@ -75,13 +75,13 @@ data(USGDPpresidents)
     } 
     \item{CPI}{
       Numeric:  U. S. Consumer Price Index per
-      Officer and Williamson (2015), starting in 
+      Officer and Williamson (2022), starting in 
       1774.  Average 1982-84 = 100.  
     }    
     \item{GDPdeflator}{
       numeric:  Implicit price deflators for 
-      Gross Domestic Product with 2012s = 100 
-      per Johnston and Williamson.  
+      Gross Domestic Product with 2012 = 100 
+      per Johnston and Williamson.    
     }
     \item{population.K}{ 
       integer:  US population in thousands.  
@@ -96,7 +96,15 @@ data(USGDPpresidents)
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product 
-      per capita in 2012 dollars since 1790.   
+      (GDP) per capita in 2012 dollars since 
+      1790.   
+      
+      Real \code{GDP} = 
+      \code{population.K*realGDPperCapita},
+      in thousands.  
+      
+      Current or nominal \code{GDPperCapita} =
+      \code{realGDPperCapita*GDPdeflator/100}.
     } 
     \item{executive}{
       \code{\link{ordered}}:  Crown of England
@@ -248,34 +256,108 @@ data(USGDPpresidents)
       Clearly, the more recent numbers should be 
       more accurate.  
     }
+    \item{fedReceipts, fedOutlays, fedSurplus}{
+      Receipts and Outlays of the US federal 
+      government in millions of current dollars.  
+      
+      For data beginning with 1901, these are 
+      from the US federal budget from The White 
+      House (2022).  Earlier data are from 
+      series Y 335-337 in US Census Bureau 
+      (1975).  As of 2022-02-22 the data from 
+      The White House included aggregations for 
+      1789-1849 and 1850-1900, which matched 
+      the totals of Y 335-337 for those two 
+      sets of years.  The nuumbers from 1901 to 
+      1933 are the same in both sources.  
+      
+      We used The White House (2022) for the more
+      recent numbers with one exception:  Between 
+      1976 and 1977 the fiscal year was changed 
+      from starting July 1 to October 1.  July, 
+      August, and September, 1976, is called the 
+      "transitional quarter", and has been 
+      deleted from this dataset.  
+      
+      NOTES: 
+      
+      The numbers for 1843 are for only the 
+      first half of the year, January 1 through 
+      June 30.  This explains why the numbers for 
+      1843 are only roughly half of the 
+      corresponding values for 1844 and 1845.  
+      
+      Also, the numbers for 1791 are actually for 
+      1789-1791.  However, those numbers seem 
+      comparable to those for 1792 and 1793, so
+      it is listed as only for one year rather 
+      than three.  
+    }
+    \item{fedDebt}{
+      US federal government debt in millions of 
+      current dollars per FiscalData (2022).  
+      This matches Y 338 in United States 
+      Census Bureau (1975) 1921-1939 but not 
+      earlier, and Y 338 ends with 1939.  
+      Between 1921 and 1939 these numbers are
+      as of June 30.  Between 1843 and 1920 
+      they are as of July 1.  The earlier 
+      numbers are as of January 1.  
+      
+      FiscalData (2022) includes debt 
+      for both January 1 (20 million) and 
+      July 1 (33 million) for 1843.  For
+      present purposes, we omit the 
+      January 1 number.  This overstates
+      the volatility of the national 
+      debt during that period, showing 
+      it rising from 14 million in 
+      1842 (January 1) to 33 million 
+      in 1843 (July 1), being 18 not 
+      12 months.  The alternative would
+      be to delete the 33 million, but 
+      that would understate the volatility 
+      of the debt during that period. 
+    }
+    \item{fedReceipts_pGDP, fedOutlays_pGDP, 
+      fedSurplus_pGDP, fedDebt_pGDP}{
+      numeric = \code{fedReceipts}, 
+      \code{fedOutlays}, \code{fedSurplus}, 
+      and \code{fedDebt} divided by 
+      \code{(population.K * realGPDperCapita / (GDPdeflator))}, 
+      except for the single year 1843, 
+      for which \code{fedReceipts}, 
+      \code{fedOutlays}, and \code{fedSurplus} 
+      were for only the first six months;  to 
+      compute \code{*_pGDP} for these numbers 
+      for 1843 only, the denominator in this 
+      formula is cut in half to compensate.  
+    }
   }
 }
 \details{
   \code{rownames(USGDPpresidents) = Year}
 }
 \source{
+  Robert M. Coen (1973) Labor Force and 
+  Unemployment in the 1920's and 1930's: A 
+  Re-Examination Based on Postwar Experience", 
+  The Review of Economics and Statistics, 55(1): 
+  46-55. 
+  
+  FiscalData (2022) 
+  \href{https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding}{"Historical Debt Outstanding"}, accessed 2022-04-11. 
+  
   Louis Johnston and Samuel H. Williamson, 
   "What Was the U.S. GDP Then?", Measuring Worth, 
-  accessed 2015-09-08.  (NOTE:  This came from 
+  accessed 2022-02-22.  (NOTE:  This came from 
   \code{https://www.measuringworth.org/usgdp/}.  
-  this web link generally works as of 2020-02-09 
-  but routinely returns a warning, e.g., 
-  "SSL certificate problem".  The web site 
-  seems to be good but not maintained to
-  current security standards.)  
-
-  Sarkees, Meredith Reid; Wayman, Frank (2010). 
-  \href{https://correlatesofwar.org/data-sets/COW-war}{
-  "The Correlates of War Project: COW War Data, 1816 - 
-  2007 (v4.0)"}, accessed 2015-09-02.  
-  
-  Wikipedia, \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
-  accessed 2015-09-13.  
-  
-  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{Wikipedia, 
-  "Unemployment in the United States"}.  See also \url{https://en.wikipedia.org/wiki/User_talk:Peace01234#Unemployment_Data}.  
-  Accessed 2016-07-08.  
-  
+  this web link generally works as of 2022-02-22.
+  However, in the past it has sometimes returned
+  a warning, e.g., "SSL certificate problem".  
+  The web site seems to be good but not 
+  maintained to current security standards.)  
+    
   Stanley Lebergott (1964). Manpower in Economic 
   Growth: The American Record since 1800. Pages 
   164-190. New York: McGraw-Hill.  Cited from 
@@ -283,15 +365,36 @@ data(USGDPpresidents)
   "Unemployment in the United States"}, accessed 
   2016-07-08.  
   
+  Lawrence H Officer and Samuel H. Williamson, 
+  'The Annual Consumer Price Index for the United 
+  States, 1774-Present,' MeasuringWorth, 
+  2022-02-22.         
+    
   Christina Romer (1986). "Spurious Volatility in 
   Historical Unemployment Data", The Journal of 
   Political Economy, 94(1): 1-37.
+
+  Sarkees, Meredith Reid; Wayman, Frank (2010). 
+  \href{https://correlatesofwar.org/data-sets/COW-war}{
+  "The Correlates of War Project: COW War Data, 1816 - 
+  2007 (v4.0)"}, accessed 2015-09-02.  
   
-  Robert M. Coen (1973) Labor Force and 
-  Unemployment in the 1920's and 1930's: A 
-  Re-Examination Based on Postwar Experience", 
-  The Review of Economics and Statistics, 55(1): 
-  46-55. 
+  The White House (2022).  
+  \href{https://www.whitehouse.gov/omb/historical-tables/}{Historical Tables}:  
+  Spreadsheets:  Table 1.1-Summary of Receipts, Outlays, 
+  and Surpluses or Deficits (-): 1789-2026, accessed 
+  2022-02-22.  
+  
+  United States Census Bureau (1975) 
+  \href{https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html}{Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970}, 
+  Part 2.  Chapter Y. Government, accessed 2022-02-22.  
+  
+  Wikipedia, \href{https://en.wikipedia.org/wiki/List_of_wars_involving_the_United_States}{"List of wars involving the United States"}, 
+  accessed 2015-09-13.  
+  
+  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{Wikipedia, 
+  "Unemployment in the United States"}.  See also \url{https://en.wikipedia.org/wiki/User_talk:Peace01234#Unemployment_Data}.  
+  Accessed 2016-07-08.  
   
   The unemployment data since 1940 are from 
   series \code{LNS14000000} from the Current
@@ -349,5 +452,18 @@ plot(GDPdeflator~CPI, USGDPpresidents, type='l',
 ##
 plot(unemployment~Year, USGDPpresidents, type='l')
 
+##
+## federal outlays, pct of GDP 
+##
+sel <- !is.na(USGDPpresidents$fedOutlays_pGDP)
+plot(100*fedOutlays_pGDP~Year, 
+     USGDPpresidents[sel,], type='l', log='y', 
+     xlab='', ylab='US federal outlays, pct of GDP')
+abline(h=2:3)
+war <- (USGDPpresidents$war !='')
+abline(v=USGDPpresidents$Year[war], 
+  lty='dotted', col='light gray')
+abline(v=c(1929, 1933), col='red', lty='dotted')
+text(1931, 22, 'Hoover', srt=90, col='red')
 }
 \keyword{datasets}
