@@ -136,7 +136,7 @@ data(USPS)
 ##
 data(USPS)
 plot(Expenses_pFed~Year, USPS, type='l')
-plot(Expenses_pFSP~Year, USPS, type='l')
+plot(Expenses_pGDP~Year, USPS, type='l')
 plot(100*periodicals/piecesOfMail ~year, 
       USPS, type='l', ylab='', 
       main='periodicals as percent of mail')
