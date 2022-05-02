@@ -61,9 +61,7 @@ NOTE:  In the 2020-03-17 extraction, there were 283 OCC1950 codes documented, bu
   Steven Ruggles, Sarah Flood, Ronald Goeken, 
     Josiah Grover, Erin Meyer, Jose Pacas, and 
     Matthew Sobek (2020) 
-\href{https://doi.org/10.18128/D010.V10.0}{IPUMS 
-    USA: Version 10.0 [dataset]. Minneapolis, MN: 
-    IPUMS}. 
+    \doi{10.18128/D010.V10.0}{IPUMS USA: Version 10.0 [dataset]. Minneapolis, MN: IPUMS}. 
 }
 %\references{}
 \examples{
