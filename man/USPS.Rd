@@ -91,7 +91,7 @@ data(USPS)
       gave a general outline of these numbers.  
       This included saying, "In 1966, the 
       percentage of its own costs covered by 
-      second-class mail (or “cost coverage”),
+      second-class mail (or 'cost coverage'),
       including the subsidy, was 35 percent 
       [reported as 36 percent here].  Its real
       coverage was 24 percent." The narrative 
@@ -109,9 +109,9 @@ data(USPS)
       Congress, President Harry S. Truman argued 
       at length for a rate increase: 'In fiscal 
       year 1952 . . . newspaper and magazine
-      publishers will have 200 million dollars – 
-      or 80 percent – of their postal costs paid 
-      for them by the general public.'"
+      publishers will have 200 million dollars 
+      -- or 80 percent -- of their postal costs 
+      paid for them by the general public.'"
     }
   }
 }
