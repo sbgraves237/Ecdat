@@ -36,6 +36,10 @@
       and adjusted for inflation to constant 2012
       dollars.  
     }
+    \item{newspaperAds_p_GDP}{
+      Newspaper advertising revenue as a percent 
+      of GDP.  
+    }
     \item{newspapers_p_GDP}{
       Newpaper revenue as a proportion of GDP.  
     }
@@ -54,17 +58,19 @@
 }
 \details{
   Data used by 
-  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)}.
+  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)} to estimate that newspaper subsidies averaged roughly 0.216 percent of GDP between 1840 and 1844.  
 }
 \source{
   Newspaper data from 
-  \href{https://www.pewresearch.org/journalism/fact-sheet/newspapers}{"Newspaper fact sheet" published by the Pew Research Center}.  
+  \href{https://www.pewresearch.org/journalism/fact-sheet/newspapers}{"Newspapers fact sheet" published by the Pew Research Center}, accessed 2021-12-18.    
   
   GDP data from 
-  \href{https://www.measuringworth.com/}{Measuring Worth}.
+  \href{https://www.measuringworth.com/}{Measuring Worth}, 
+  accessed 2021-12-18.
 }
 \references{
-  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)}.
+  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)}, 
+  accessed 2021-12-18.
 
   Newspaper data from 
   \href{https://www.pewresearch.org/journalism/fact-sheet/newspapers}{"Newspaper fact sheet" published by the Pew Research Center}.  
