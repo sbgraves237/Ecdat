@@ -117,6 +117,11 @@ data(USPS)
 }
 \details{
   \code{rownames(USPS) = year}
+  
+  
+  Data used by 
+  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)} to estimate that newspaper subsidies averaged roughly 0.216 percent of GDP between 1840 and 1844.  
+
 }
 \source{
   Historian (2010-06) 
@@ -126,7 +131,9 @@ data(USPS)
   Historian (2022-02) 
   \href{https://about.usps.com/who/profile/history/pieces-of-mail-since-1789.htm}{Pieces of Mail Handled, Number of Post Offices, Income, and Expenses Since 1789}.
 }
-%\references{}
+\references{
+  Robert W. McChesney and John Nichols (2010) The Death and Life of American Journalism (Nation Books, pp. 310-311) describe how they computed 0.216 as an estimate of the percent of national income (Gross Domestic Product, GDP) devoted to newspaper subsidies, 1840-1844.  The numbers in the current dataset seem essentially equivalent but new and therefore perhaps more accurate.  With these numbers, we got 0.209 percent of GDP rather than their 0.216 percent.  
+}
 \author{Spencer Graves}
 %\seealso{}
 \examples{
@@ -144,5 +151,39 @@ plot(100*periodicals/piecesOfMail~Year,
 # Select a year 
 # as a charcter string not a number:
 USPS['1850',]
+
+##
+## Plot Expenses_pGDP with 
+## USGDPpresidents[, 'fedOutlays_pGDP']
+##
+str(yrs2 <- intersect(USPS$Year, 
+              USGDPpresidents$Year))
+yrs2a <- as.character(yrs2)
+
+str(USPS_fed <- cbind(USPS[yrs2a, "Expenses_pGDP"], 
+      USGDPpresidents[yrs2a, "fedOutlays_pGDP"]))
+
+matplot(yrs2, USPS_fed, log='y', 
+  ylab='', las=1, type='l', xlab='')
+abline(v=c(1840, 1844), lty='dotted', col='grey')
+text(1842, 6e-3, cex=.7,
+  'McChesney & Nichols analysis', srt=90, col='grey')
+
+abline(v=c(1861, 1865), lty='dotted', col='grey')
+text(1863, 6e-3, 'Civil War', srt=90, col='grey')
+sel1 <- (USGDPpresidents$war=='World War I')
+(yr1 <- USGDPpresidents$Year[sel1])
+abline(v=yr1, col='grey', lty='dotted')
+text(mean(yr1), 2e-3, 'WWI', col='grey', srt=90)
+
+sel2 <- (USGDPpresidents$war=='World War II')
+(yr2 <- range(USGDPpresidents$Year[sel2]))
+abline(v=yr2, col='grey', lty='dotted')
+text(mean(yr2), 2e-3, 'WWII', col='grey', srt=90)
+
+abline(h=c(.001, .01, .1), lty='dotted', col='grey')
+legend("bottomright", 
+    c('USPS Expenses_pGDP', 'fedOutlays_pGDP'), 
+    col=1:2, lty=1:2, bty='n')
 }
 \keyword{datasets}
