@@ -16,7 +16,7 @@
 \format{A time series containing :
   \describe{
     \item{ge}{the return for General Electric, 
-      \href{http://www.crsp.org/products/documentation/crsp-link}{PERMNO} 12060}
+      \href{https://www.crsp.org/products/documentation/crsp-link}{PERMNO} 12060}
     \item{ibm}{ the return for IBM, PERMNO 12490}
     \item{mobil}{
       the return for Mobil Corporation, 
@@ -29,7 +29,7 @@
   }
 }
 \source{
-    Center for Research in Security Prices, Graduate School of  Business, University of Chicago,  725 South Wells - Suite 800,  Chicago, Illinois  60607,  \url{http://www.crsp.org}.
+    Center for Research in Security Prices, Graduate School of  Business, University of Chicago,  725 South Wells - Suite 800,  Chicago, Illinois  60607,  \url{https://www.crsp.org}.
 
 }
 \references{
