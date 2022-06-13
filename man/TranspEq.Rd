@@ -29,7 +29,7 @@
 
 }
 \references{
-    Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{http://www.prenhall.com/greene/greene1.html}, Table F9.2.
+    Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{https://archive.org/details/econometrics0000haya}, Table F9.2.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
