@@ -19,7 +19,7 @@
   }
 }
 \references{
-      Kenneth Train's home page :  \url{http://elsa.berkeley.edu/~train/}.
+      Kenneth Train's home page :  \url{https://elsa.berkeley.edu/~train/}.
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
 
