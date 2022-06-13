@@ -102,7 +102,7 @@
     of Health \tab Cause of breach was missing. 
     Added "Unauthorized \cr \tab \tab Access /
     Disclosure" per 
-    \href{https://www.smartbrief.com/s/2010/03/5-more-organizations-added-hhs-online-data-breach-list}{\code{smartbrief.com/03/29/10}} \cr
+    \href{https://web.archive.org/web/20210115131543/https://www.smartbrief.com/s/2010/03/5-more-organizations-added-hhs-online-data-breach-list}{\code{smartbrief.com/03/29/10}} \cr
     
     55 \tab Reliant Rehabilitation Hospital North
     \tab Cause of breach was missing.  Added 
