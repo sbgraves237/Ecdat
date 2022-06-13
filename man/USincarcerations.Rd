@@ -53,7 +53,7 @@
   And a description was given of how to update 
   that table using files \code{p*t03.csv} and 
   \code{p*t05.csv} from 
-  \href{https://www.bjs.gov/index.cfm?ty=pbdetail&iid=7106}{Prisoners In 2019}.
+  \href{https://bjs.ojp.gov/library/publications/prisoners-2019}{Prisoners In 2019}.
   
   An initial rationality check was to compute 
   
@@ -95,7 +95,7 @@
   in state and federal prisons.  It excludes
   jails.  
   
-  [Key Statistic: Total correctional population](https://www.bjs.gov/index.cfm?ty=kfdetail&iid=487) 
+  [Key Statistic: Total correctional population](https://bjs.ojp.gov/data/key-statistics) 
   includes a plot of "Total adult 
   correctional population 1980-2016", which
   does include jails.  The data there are
@@ -103,7 +103,7 @@
   \code{Total_correctional_population_counts_by_status.csv}.  Data on these variables covering 
   2008-2018 are available as 
   \code{cpus1718.csv} from "Data tables" at 
-  [Publication Correctional Populations In The United States, 2017-2018](https://www.bjs.gov/index.cfm?ty=pbdetail&iid=7026).  
+  [Publication Correctional Populations In The United States, 2017-2018](https://bjs.ojp.gov/library/publications/correctional-populations-united-states-2017-2018).  
   The data in \code{cpus1718.csv} is mostly 
   but not entirely identical to "Total adult 
   correctional population 1980-2016" for 
@@ -120,14 +120,14 @@
   
   The primary source for the more recent data are 
   files \code{p*t03.csv} and \code{p*t05.csv} from
-  \href{https://www.bjs.gov/index.cfm?ty=pbdetail&iid=7106}{Prisoners In 2019}, accessed 2020-11-23.  
+  \href{https://bjs.ojp.gov/library/publications/prisoners-2019}{Prisoners In 2019}, accessed 2020-11-23.  
   
     Data on jails and community supervision 
   dating back to 1980 are available in 
-  \href{https://www.bjs.gov/index.cfm?ty=kfdetail&iid=487}{Key Statistic: Total correctional population} 
+  \href{https://bjs.ojp.gov/data/key-statistics}{Key Statistic: Total correctional population} 
   with data on the most recent years 
   available from 
-  \href{https://www.bjs.gov/index.cfm?ty=pbdetail&iid=7026}{Publication Correctional Populations In The United States, 2017-2018}.  
+  \href{https://bjs.ojp.gov/library/publications/correctional-populations-united-states-2017-2018}{Publication Correctional Populations In The United States, 2017-2018}.  
   
   Some time in 2021 or later more recent data
   should become available.  When that happens, 
