@@ -1,3 +1,7 @@
+## 2022-06-13: 
+* Tested on GitHub Action: Win-latest (release), macOS-latest (release), ubuntu-20.04 (release, devel, and oldrel-1):  All clean. 
+* Revdepcheck found 0 new problems.  
+
 ##2020-11-02
 * fixed the URL with blanks replaced by "\%20" and checked:  This worked.  
 
