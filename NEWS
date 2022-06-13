@@ -1,3 +1,6 @@
+2022-06-13:
+Ecdat 0.4-0 adds new datasets USnewspapers and USPS (US Postal Service) while adding federal government budget data to USGDPpresidents.  
+
 2020-11-01:  
 Ecdat 0.3-9 deletes ~demoFiles/*_data.xls, because they were used to test Ecfun::financialDataFiles and Ecfun::readFinancialDataFiles, and those two functions were removed, because they used gdata, which was not being maintained, and the work required to maintain them exceeded the current need of the maintainer.  
 
