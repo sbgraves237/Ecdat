@@ -118,9 +118,8 @@ data(USPS)
 \details{
   \code{rownames(USPS) = year}
   
-  
   Data used by 
-  \href{https://www.freepress.net/sites/default/files/2021-12/to_protect_democracy_recreate_local_news_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)} to estimate that newspaper subsidies averaged roughly 0.216 percent of GDP between 1840 and 1844.  
+  \href{https://www.freepress.net/sites/default/files/2022-03/to_protect_democracy_recreate_local_news_media_final.pdf}{McChesney and Nichols (2021-12-13) To Protect and Extend Democracy, Recreate Local News Media (Freepress.net, p. 6, note 10)} to estimate that newspaper subsidies averaged roughly 0.216 percent of GDP between 1840 and 1844.  
 
 }
 \source{
