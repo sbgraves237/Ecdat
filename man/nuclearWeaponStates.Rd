@@ -134,7 +134,7 @@
       offended by the refusal of the US to 
       support them in the 
       \href{https://en.wikipedia.org/wiki/Suez_Crisis}{Suez Crisis}.  
-      On \href{https://fas.org/nuke/guide/israel/nuke/farr.htm}{France and Israel secretly agreed to
+      On \href{https://nuke.fas.org/guide/israel/nuke/farr.htm}{France and Israel secretly agreed to
       collaborate in the development of nuclear
       weapons}.  
     }
