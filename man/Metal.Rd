@@ -27,7 +27,7 @@
 
 }
 \references{
-    Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{http://www.prenhall.com/greene/greene1.html}, Table F6.1.
+    Greene, W.H. (2003) \emph{Econometric Analysis}, Prentice Hall, \url{https://archive.org/details/econometricanaly0000gree_f4x3}, Table F6.1.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
