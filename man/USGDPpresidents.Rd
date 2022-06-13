@@ -380,7 +380,7 @@ data(USGDPpresidents)
   2007 (v4.0)"}, accessed 2015-09-02.  
   
   The White House (2022).  
-  \href{https://www.whitehouse.gov/omb/historical-tables/}{Historical Tables}:  
+  \href{https://www.whitehouse.gov/omb/budget/historical-tables/}{Historical Tables}:  
   Spreadsheets:  Table 1.1-Summary of Receipts, Outlays, 
   and Surpluses or Deficits (-): 1789-2026, accessed 
   2022-02-22.  
