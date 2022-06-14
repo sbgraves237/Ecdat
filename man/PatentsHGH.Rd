@@ -1,7 +1,7 @@
 \name{PatentsHGH}
 \docType{data}
 \alias{PatentsHGH}
-\title{Dynamic Relation Between Patents and R\&D }
+\title{Dynamic Relation Between Patents and R&D }
 \description{
   a panel of 346 observations  from 1975  to 1979 
 
