@@ -34,7 +34,7 @@
     \item{health}{
       self--rate health (excellent,good,fair,poor)
     }
-    \item{linc}{log of annual family income (in \$)}
+    \item{linc}{log of annual family income (in $)}
     \item{lfam}{log of family size}
     \item{educdec}{years of schooling of household head}
     \item{age}{exact age}
