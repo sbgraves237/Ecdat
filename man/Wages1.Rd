@@ -18,7 +18,7 @@
     \item{exper}{experience in years}
     \item{sex}{a factor with levels (male,female)}
     \item{school}{years of schooling}
-    \item{wage}{wage (in 1980 \$) per hour}
+    \item{wage}{wage (in 1980 $) per hour}
   }
 }
 \references{
