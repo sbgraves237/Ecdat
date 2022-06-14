@@ -138,8 +138,8 @@
 \item \code{\link{Labour}} : Belgian Firms
 \item \code{\link{Nerlove}} : Cost Function for Electricity Producers, 1955
 \item \code{\link{Oil}} : Oil Investment
-\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R\&D
-\item \code{\link{PatentsRD}} : Patents, R\&D and Technological Spillovers for a Panel of Firms
+\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R&D
+\item \code{\link{PatentsRD}} : Patents, R&D and Technological Spillovers for a Panel of Firms
 }
 \item regional
  \itemize{
