@@ -242,7 +242,7 @@
   
   North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062}{ Hans M. Kristensen & Robert S. Norris (2018) North Korean nuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}
 
-  Derek Bolton (2012) North Korea's Nuclear Program (2012-08, American Security Program, accessed 2020-07-15) \url{https://www.americansecurityproject.org/ASP\%20Reports/Ref\%200072\%20-\%20North\%20Korea’s\%20Nuclear\%20Program\%20.pdf}
+  Derek Bolton (2012) North Korea's Nuclear Program (2012-08, American Security Program, accessed 2020-07-15) \url{https://www.americansecurityproject.org/ASP%20Reports/Ref%200072%20-%20North%20Korea%E2%80%99s%20Nuclear%20Program%20.pdf}
 }
 \examples{
 data(nuclearWeaponStates)
