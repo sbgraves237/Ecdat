@@ -35,7 +35,7 @@
   a link to the corrected version.  
   
   See also 
-  \href{http://people.stern.nyu.edu/wgreene/Text/tables/TableF13-1.txt}{for a version with only 5 firms}.  
+  \href{https://pages.stern.nyu.edu/~wgreene/Text/tables/TableF13-1.txt}{for a version with only 5 firms}.  
 }
 \source{
     Moody's Industrial Manual, Survey of Current Business.
