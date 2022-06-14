@@ -25,7 +25,7 @@
       certification body, a factor with levels (
       \code{GIA}, \code{IGI}, \code{HRD})
     }
-    \item{price}{price in Singapore \$}
+    \item{price}{price in Singapore $}
   }
 }
 \source{
