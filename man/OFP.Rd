@@ -28,7 +28,7 @@
     \item{sex}{is the person male ?}
     \item{maried}{is the person married ?}
     \item{school}{number of years of education}
-    \item{faminc}{family income in 10000\$}
+    \item{faminc}{family income in 10000$}
     \item{employed}{is the person employed ?}
     \item{privins}{
       is the person covered by private health insurance?
