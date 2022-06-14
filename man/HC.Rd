@@ -41,7 +41,7 @@
   }
 }
 \references{
-      Kenneth Train's home page :  \url{https://elsa.berkeley.edu/~train/}.
+      Kenneth Train's home page :  \url{https://eml.berkeley.edu/~train/}.
 }
 \seealso{
   \code{\link{Heating}}, 
