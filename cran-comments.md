@@ -3,7 +3,7 @@
 * Revdepcheck found 0 new problems.  
 * Winbuilder could not find URLs that I found manually 
   and about which other versions did not complain.  
-  Winbuilder (devel) issued 'Warning: <table> attribute "width" not allowed for HTML5'.  I asked about this on r-pkg-devel and was told it was a known problem, and I should not worry about it.  
+  Winbuilder (current) issued 'Warning: <table> attribute "width" not allowed for HTML5'.  I asked about this on r-pkg-devel and was told it was a known problem, and I should not worry about it.  
 
 ##2020-11-02
 * fixed the URL with blanks replaced by "\%20" and checked:  This worked.  
