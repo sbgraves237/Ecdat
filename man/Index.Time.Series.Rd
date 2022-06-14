@@ -18,7 +18,7 @@
  \itemize{
 \item \code{\link{CRSPday}} : Daily Returns from the CRSP Database
 \item \code{\link{Garch}} : Daily Observations on Exchange Rates of the US Dollar Against Other Currencies
-\item \code{\link{SP500}} : Returns on Standard \& Poor's 500 Index
+\item \code{\link{SP500}} : Returns on Standard & Poor's 500 Index
 }
 \item four--weekly
  \itemize{
