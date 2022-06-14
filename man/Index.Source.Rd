@@ -45,7 +45,7 @@
         \item \code{\link{Participation}} : Labor
           Force Participation
         \item \code{\link{PatentsRD}} : Patents, 
-          R\&D and Technological Spillovers for a
+          R&D and Technological Spillovers for a
           Panel of Firms
         \item \code{\link{Train}} : Stated
           Preferences for Train Traveling
@@ -130,7 +130,7 @@
 \item \code{\link{LaborSupply}} : Wages and Hours Worked
 \item \code{\link{MedExp}} : Structure of Demand for Medical Care
 \item \code{\link{PSID}} : Panel Survey of Income Dynamics
-\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R\&D
+\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R&D
 \item \code{\link{RetSchool}} : Return to Schooling
 \item \code{\link{StrikeDur}} : Strikes Duration
 \item \code{\link{Treatment}} : Evaluating Treatment Effect of Training on Earnings
@@ -144,7 +144,7 @@
 \item \code{\link{Bids}} : Bids Received By U.S. Firms
 \item \code{\link{DoctorAUS}} : Doctor Visits in Australia
 \item \code{\link{OFP}} : Visits to Physician Office
-\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R\&D
+\item \code{\link{PatentsHGH}} : Dynamic Relation Between Patents and R&D
 \item \code{\link{Somerville}} : Visits to Lake Somerville
 \item \code{\link{StrikeNb}} : Number of Strikes in Us Manufacturing
 }
@@ -230,9 +230,9 @@
 \item \code{\link{NaturalPark}} : Willingness to Pay for the Preservation of the Alentejo Natural Park
 \item \code{\link{PE}} : Price and Earnings Index
 \item \code{\link{PPP}} : Exchange Rates and Price Indices for France and Italy
-\item \code{\link{PatentsRD}} : Patents, R\&D and Technological Spillovers for a Panel of Firms
+\item \code{\link{PatentsRD}} : Patents, R&D and Technological Spillovers for a Panel of Firms
 \item \code{\link{Pricing}} : Returns of Size-based Portfolios
-\item \code{\link{SP500}} : Returns on Standard \& Poor's 500 Index
+\item \code{\link{SP500}} : Returns on Standard & Poor's 500 Index
 \item \code{\link{Schooling}} : Wages and Schooling
 \item \code{\link{Tobacco}} : Households Tobacco Budget Share
 \item \code{\link{Wages1}} : Wages, Experience and Schooling
