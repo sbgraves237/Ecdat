@@ -17,7 +17,7 @@
   \describe{
     \item{airline}{airline}
     \item{year}{year}
-    \item{cost}{total cost, in \$1,000}
+    \item{cost}{total cost, in $1,000}
     \item{output}{output, in revenue passenger miles, 
       index number}
     \item{pf}{fuel price}
