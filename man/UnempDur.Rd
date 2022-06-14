@@ -20,7 +20,7 @@
     \item{ui}{= 1 if filed UI claim}
     \item{reprate}{eligible replacement rate}
     \item{disrate}{eligible disregard rate}
-    \item{logwage}{log weekly earnings in lost job (1985\$)}
+    \item{logwage}{log weekly earnings in lost job (1985$)}
     \item{tenure}{years tenure in lost job}
   }
 }
