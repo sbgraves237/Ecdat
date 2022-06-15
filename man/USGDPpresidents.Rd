@@ -268,7 +268,7 @@ data(USGDPpresidents)
       The White House included aggregations for 
       1789-1849 and 1850-1900, which matched 
       the totals of Y 335-337 for those two 
-      sets of years.  The nuumbers from 1901 to 
+      sets of years.  The numbers from 1901 to 
       1933 are the same in both sources.  
       
       We used The White House (2022) for the more
@@ -295,7 +295,7 @@ data(USGDPpresidents)
     }
     \item{fedDebt}{
       US federal government debt in millions of 
-      current dollars per FiscalData (2022).  
+      current dollars per \code{FiscalData} (2022).  
       This matches Y 338 in United States 
       Census Bureau (1975) 1921-1939 but not 
       earlier, and Y 338 ends with 1939.  
@@ -304,7 +304,7 @@ data(USGDPpresidents)
       they are as of July 1.  The earlier 
       numbers are as of January 1.  
       
-      FiscalData (2022) includes debt 
+      \code{FiscalData} (2022) includes debt 
       for both January 1 (20 million) and 
       July 1 (33 million) for 1843.  For
       present purposes, we omit the 
@@ -345,7 +345,7 @@ data(USGDPpresidents)
   The Review of Economics and Statistics, 55(1): 
   46-55. 
   
-  FiscalData (2022) 
+  \code{FiscalData} (2022) 
   \href{https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding}{"Historical Debt Outstanding"}, accessed 2022-04-11. 
   
   Louis Johnston and Samuel H. Williamson, 
