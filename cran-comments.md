@@ -4,6 +4,8 @@
 * rhub and Winbuilder could not find URLs that I found manually 
   and about which other versions did not complain.  
   Winbuilder (current) issued 'Warning: <table> attribute "width" not allowed for HTML5'.  I asked about this on r-pkg-devel and was told it was a known problem, and I should not worry about it.  
+  
+* The CRAN check on "r-oldrel-macos-arm64" complained, "checking installed package size ... NOTE:  installed size is 5.3Mb; sub-directories of 1Mb or more: data 4.7Mb".  I manually read and resaved with different compression options all *.rda files.  The "Info" on that data directory now says it is 2,730,913 bytes (3 MB on disk)".  I hope this will continue to be accepted.   
 
 ##2020-11-02
 * fixed the URL with blanks replaced by "\%20" and checked:  This worked.  
