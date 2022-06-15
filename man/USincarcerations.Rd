@@ -95,7 +95,7 @@
   in state and federal prisons.  It excludes
   jails.  
   
-  [Key Statistic: Total correctional population](https://bjs.ojp.gov/data/key-statistics) 
+  \href{https://bjs.ojp.gov/data/key-statistics)}{Key Statistic: Total correctional population} 
   includes a plot of "Total adult 
   correctional population 1980-2016", which
   does include jails.  The data there are
@@ -103,7 +103,7 @@
   \code{Total_correctional_population_counts_by_status.csv}.  Data on these variables covering 
   2008-2018 are available as 
   \code{cpus1718.csv} from "Data tables" at 
-  [Publication Correctional Populations In The United States, 2017-2018](https://bjs.ojp.gov/library/publications/correctional-populations-united-states-2017-2018).  
+  \href{https://bjs.ojp.gov/library/publications/correctional-populations-united-states-2017-2018}{Publication Correctional Populations In The United States, 2017-2018}.  
   The data in \code{cpus1718.csv} is mostly 
   but not entirely identical to "Total adult 
   correctional population 1980-2016" for 
