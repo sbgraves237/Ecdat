@@ -5,7 +5,7 @@ Title: Data Sets for Econometrics
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr> and Spencer Graves 
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0), Ecfun
-Suggests: 
+Suggests: plm, systemfit, carData, wooldridge
 Description: Data sets for econometrics, including political science.
 LazyData: true
 License: GPL (>=2)
