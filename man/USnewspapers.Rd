@@ -41,7 +41,7 @@
       of GDP.  
     }
     \item{newspapers_p_GDP}{
-      Newpaper revenue as a proportion of GDP.  
+      Newspaper revenue as a proportion of GDP.  
     }
     \item{Population_M}{
       US population in millions
