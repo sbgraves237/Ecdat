@@ -1,3 +1,6 @@
+2022-07-01: 
+Ecdat 0.4-1 replaced non-breaking spaces that used Latin-1 encoding with " " in 4 "demoFiles/NIPA6.16*.csv" files, because the said non-breaking spaces were not valid in UTF-8 and were rejected by a development version of R.
+
 2022-06-14:
 Ecdat 0.4-0 adds new datasets USnewspapers and USPS (US Postal Service) while adding federal government budget data to USGDPpresidents.  
 
