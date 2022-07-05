@@ -47,7 +47,7 @@
 }
 \details{
   This dataset began as an effort to update 
-  \href{https://commons.wikimedia.org/wiki/File:U.S._incarceration_rates_1925_onwards.png}{File:U.S. incarceration rates 1925 onwards.png on Wikimedia Commons}.  
+  \href{https://commons.wikimedia.org/wiki/File:U.S._incarceration_rates_1925_onwards.png}{File:U.S. incarceration rates 1925 \code{onwards.png} on Wikimedia Commons}.  
   Conveniently data on these variables 
   was provided in a table for 1925 to 2014.  
   And a description was given of how to update 
@@ -116,7 +116,7 @@
 }
 \source{
   Data from 1925 to 2014 from 
-  \href{https://commons.wikimedia.org/wiki/File:U.S._incarceration_rates_1925_onwards.png}{File:U.S. incarceration rates 1925 onwards.png on Wikimedia Commons}, accessed 2020-11-23.  
+  \href{https://commons.wikimedia.org/wiki/File:U.S._incarceration_rates_1925_onwards.png}{File:U.S. incarceration rates 1925 \code{onwards.png} on Wikimedia Commons}, accessed 2020-11-23.  
   
   The primary source for the more recent data are 
   files \code{p*t03.csv} and \code{p*t05.csv} from
