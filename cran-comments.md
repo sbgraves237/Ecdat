@@ -1,6 +1,10 @@
+## 2022-07-01: 
+* Needed to fix a problem with the Ecfun package that reads a file in Ecdat.
+* 
+
 ## 2022-06-13: 
-* Tested on GitHub Action: Win-latest (release), macOS-latest (release), ubuntu-20.04 (release, devel, and oldrel-1):  All clean. 
 * Revdepcheck found 0 new problems.  
+* Tested on GitHub Action: Win-latest (release), macOS-latest (release), ubuntu-20.04 (release, devel, and oldrel-1):  All clean. 
 * rhub and Winbuilder could not find URLs that I found manually 
   and about which other versions did not complain.  
   Winbuilder (current) issued 'Warning: <table> attribute "width" not allowed for HTML5'.  I asked about this on r-pkg-devel and was told it was a known problem, and I should not worry about it.  
