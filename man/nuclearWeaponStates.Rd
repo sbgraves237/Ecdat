@@ -224,23 +224,23 @@
   
   \code{firstTest} from \href{https://en.wikipedia.org/wiki/List_of_states_with_nuclear_weapons}{Wikipedia, "List of states with nuclear weapons"}
 
-  US from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1438219}{Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131, DOI: 10.1080/00963402.2018.143821}
+  US from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1438219}{Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131}, \doi{DOI: 10.1080/00963402.2018.143821}
   
-  Russia from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2019.1580891}{Hans M. Kristensen & Matt Korda (2019) Russian nuclear forces, 2019, Bulletin of the Atomic Scientists, 75:2, 73-84, DOI: 10.1080/00963402.2019.1580891}
+  Russia from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2019.1580891}{Hans M. Kristensen & Matt Korda (2019) Russian nuclear forces, 2019, Bulletin of the Atomic Scientists, 75:2, 73-84}, \doi{10.1080/00963402.2019.1580891}
+
+  UK from \href{https://journals.sagepub.com/doi/pdf/10.1177/0096340213493260}{Robert S. Norris and Hans M. Kristensen (2013) The British nuclear stockpile, 1953-2013, Bulletin of the Atomic Scientists, 69:4, 69-75s}, \doi{10.1177/0096340213493260}
   
-  UK from \href{https://journals.sagepub.com/doi/pdf/10.1177/0096340213493260}{Robert S. Norris and Hans M. Kristensen (2013) The British nuclear stockpile, 1953-2013, Bulletin of the Atomic Scientists, 69:4, 69-75s}
+  France from \href{https://journals.sagepub.com/doi/pdf/10.2968/064004012}{Robert S. Norris & Hans M. Kristensen (2008) French nuclear forces, 2008, Bulletin of the Atomic Scientists, 64:4, 52-54, 57}, \doi{10.2968/064004012}  
   
-  France from \href{https://journals.sagepub.com/doi/pdf/10.2968/064004012}{Robert S. Norris & Hans M. Kristensen (2008) French nuclear forces, 2008, Bulletin of the Atomic Scientists, 64:4, 52-54, 57}  
+  China from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1486620}{Hans M. Kristensen & Robert S. Norris (2018) Chinese nuclear forces, 2018,Bulletin of the Atomic Scientists, 74:4, 289-295}, \doi{10.1080/00963402.2018.1486620}
   
-  China from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1486620}{Hans M. Kristensen & Robert S. Norris (2018) Chinese nuclear forces, 2018,Bulletin of the Atomic Scientists, 74:4, 289-295}
+  India from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1337998}{ Hans M. Kristensen & Robert S. Norris (2017) Indian nuclear forces, 2017,Bulletin of the Atomic Scientists, 73:4, 205-209}, \doi{10.1080/00963402.2017.1337998}
   
-  India from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1337998}{ Hans M. Kristensen & Robert S. Norris (2017) Indian nuclear forces, 2017,Bulletin of the Atomic Scientists, 73:4, 205-209}
+  Israel from \href{https://journals.sagepub.com/doi/pdf/10.1177/0096340214555409}{Hans M. Kristensen and Robert S. Norris (2014) Israeli nuclear weapons, 2014, Bulletin of the Atomic Scientists, 70:6, 97-115}, \doi{10.1177/0096340214555409}
   
-  Israel from \href{https://journals.sagepub.com/doi/pdf/10.1177/0096340214555409}{Hans M. Kristensen and Robert S. Norris (2014) Israeli nuclear weapons, 2014, Bulletin of the Atomic Scientists, 70:6, 97-115}
+  Pakistan from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1507796}{Hans M. Kristensen, Robert S. Norris & Julia Diamond (2018)Pakistani nuclear forces, 2018, Bulletin of the Atomic Scientists, 74:5, 348-358}, \doi{10.1080/00963402.2018.1507796}
   
-  Pakistan from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1507796}{Hans M. Kristensen, Robert S. Norris & Julia Diamond (2018)Pakistani nuclear forces, 2018, Bulletin of the Atomic Scientists, 74:5, 348-358}
-  
-  North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062}{ Hans M. Kristensen & Robert S. Norris (2018) North Korean nuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}
+  North Korea from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2017.1413062}{ Hans M. Kristensen & Robert S. Norris (2018) North Korean nuclear capabilities, 2018, Bulletin of the Atomic Scientists, 74:1, 41-51}, \doi{10.1080/00963402.2017.1413062}
 
   Derek Bolton (2012) North Korea's Nuclear Program (2012-08, American Security Program, accessed 2020-07-15) \url{https://www.americansecurityproject.org/ASP\%20Reports/Ref\%200072\%20-\%20North\%20Korea\%E2\%80\%99s\%20Nuclear\%20Program\%20.pdf}
 }
