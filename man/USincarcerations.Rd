@@ -95,7 +95,7 @@
   in state and federal prisons.  It excludes
   jails.  
   
-  \href{https://bjs.ojp.gov/data/key-statistics)}{Key Statistic: Total correctional population} 
+  \href{https://bjs.ojp.gov/data/key-statistics}{Key Statistic: Total correctional population} 
   includes a plot of "Total adult 
   correctional population 1980-2016", which
   does include jails.  The data there are
