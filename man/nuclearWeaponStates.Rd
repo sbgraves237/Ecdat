@@ -224,7 +224,7 @@
   
   \code{firstTest} from \href{https://en.wikipedia.org/wiki/List_of_states_with_nuclear_weapons}{Wikipedia, "List of states with nuclear weapons"}
 
-  US from Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131, \doi{10.1080/00963402.2018.143821}
+  US from Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131, \doi{10.1080/00963402.2018.1438219}
   
   Russia from Hans M. Kristensen & Matt Korda (2019) Russian nuclear forces, 2019, Bulletin of the Atomic Scientists, 75:2, 73-84, \doi{10.1080/00963402.2019.1580891}
 
