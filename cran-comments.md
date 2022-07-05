@@ -1,6 +1,8 @@
 ## 2022-07-01: 
 * Needed to fix a problem with the Ecfun package that reads a file in Ecdat.
-* Winbuilder was unable to access 11 different URLs, which responded fine to a manual check.  
+* Winbuilder was unable to access 11 different URLs with R-devel and 9 with oldrelease;  all responded fine to a manual check.  
+* It worked passed on 5 different platforms on GitHub Action (Win, maOS, and Ubuntu-release and Ubuntu with oldrel and dev.)
+* Rhub said "OK"
 
 ## 2022-06-13: 
 * Revdepcheck found 0 new problems.  
