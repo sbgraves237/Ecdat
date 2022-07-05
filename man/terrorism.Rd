@@ -240,8 +240,8 @@
       \code{USdeaths} were computed by summing 
       across age groups in "Deaths_5x1.txt" for 
       the United States, downloaded from 
-      \url{https://www.mortality.org/cgi-bin/hmd/country.php?cntr=USA&level=1} from the Human 
-      Mortality Database;  see sources below.  
+      \url{https://www.mortality.org/Country/Country?cntr=USA} 
+      from the Human Mortality Database;  see sources below.  
     }
     \item{kill.pmp, kill.pmp.us}{
       terrorism deaths per million 
