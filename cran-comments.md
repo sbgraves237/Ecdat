@@ -1,6 +1,6 @@
 ## 2022-07-01: 
 * Needed to fix a problem with the Ecfun package that reads a file in Ecdat.
-* 
+* Winbuilder was unable to access 11 different URLs, which responded fine to a manual check.  
 
 ## 2022-06-13: 
 * Revdepcheck found 0 new problems.  
