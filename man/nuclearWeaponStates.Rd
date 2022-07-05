@@ -224,11 +224,11 @@
   
   \code{firstTest} from \href{https://en.wikipedia.org/wiki/List_of_states_with_nuclear_weapons}{Wikipedia, "List of states with nuclear weapons"}
 
-  US from \href{https://www.tandfonline.com/doi/pdf/10.1080/00963402.2018.1438219}{Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131}, \doi{DOI: 10.1080/00963402.2018.143821}
+  US from Hans M. Kristensen & Robert S. Norris (2018) United States nuclear forces,2018, Bulletin of the Atomic Scientists, 74:2, 120-131, \doi{10.1080/00963402.2018.143821}
   
-  Russia from Hans M. Kristensen & Matt Korda (2019) Russian nuclear forces, 2019, Bulletin of the Atomic Scientists, 75:2, 73-84}, \doi{10.1080/00963402.2019.1580891}
+  Russia from Hans M. Kristensen & Matt Korda (2019) Russian nuclear forces, 2019, Bulletin of the Atomic Scientists, 75:2, 73-84, \doi{10.1080/00963402.2019.1580891}
 
-  UK from Robert S. Norris and Hans M. Kristensen (2013) The British nuclear stockpile, 1953-2013, Bulletin of the Atomic Scientists, 69:4, 69-75s}, \doi{10.1177/0096340213493260}
+  UK from Robert S. Norris and Hans M. Kristensen (2013) The British nuclear stockpile, 1953-2013, Bulletin of the Atomic Scientists, 69:4, 69-75s, \doi{10.1177/0096340213493260}
   
   France from Robert S. Norris & Hans M. Kristensen (2008) French nuclear forces, 2008, Bulletin of the Atomic Scientists, 64:4, 52-54, 57, \doi{10.2968/064004012}  
   
