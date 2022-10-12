@@ -7,3 +7,4 @@ Ecdat/revdep
 revdep
 ^\.github$
 ^CRAN-SUBMISSION$
+Ecdat_release_to_CRAN.R
