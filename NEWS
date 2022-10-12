@@ -1,3 +1,6 @@
+2022-10-12: 
+Ecdat 0.4-2 updated "terrorism" to 2020.  
+
 2022-07-01: 
 Ecdat 0.4-1 replaced non-breaking spaces that used Latin-1 encoding with " " in 4 "demoFiles/NIPA6.16*.csv" files, because the said non-breaking spaces were not valid in UTF-8 and were rejected by a development version of R.
 
