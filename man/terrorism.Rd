@@ -11,8 +11,8 @@
 \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global 
   Terrorism Database (GTD)} 
   "is a database of incidents of terrorism 
-  from 1970 onward".  Through 2015, this 
-  database contains information on 141,966 
+  from 1970 onward".  Through 2020, this 
+  database contains information on 209,706
   incidents.  
   
   \code{terrorism} provides a few summary
@@ -37,9 +37,9 @@
   \code{incidents.byCountryYr} and 
   \code{nkill.byCountryYr} are matrices giving 
   the numbers of incidents and numbers of deaths 
-  by year and by location of the event for 206
+  by year and by location of the event for 204
   countries (rows) and for all years between 
-  1970 and 2016 (columns) except for 1993, for 
+  1970 and 2060 (columns) except for 1993, for 
   which the entries are all NA, because the raw
   data previously collected was lost (though 
   the total for that year is available in 
@@ -64,7 +64,7 @@
   containing the following:  
   
   \describe{
-    \item{year}{integer year, 1970:2016.}
+    \item{year}{integer year, 1970:2020.}
     \item{methodology}{
       an \code{\link{ordered}} factor giving the 
       methodology / organization responsible for 
@@ -85,7 +85,7 @@
       partial years are ignored, so 
       \code{methodology} = \code{CEDIS} for 
       1998:2007, \code{ISVG} for 2008:2011, and 
-      \code{START} for 2012:2014. 
+      \code{START} for more recent data.  
     }
     \item{method}{
       a character vector consisting of 
@@ -100,7 +100,7 @@
       
       NOTE:  
       \code{sum(terrorism[["incidents"]])} =
-      146920 = 141966 in the GTD database
+      214660 = 209706 in the GTD database
       plus 4954 for 1993, for which the
       incident-level data were lost.  
     }
@@ -212,23 +212,11 @@
       and in the US, according to the World 
       Bank;  see "Sources" below.  This World
       Bank data set includes \code{USdeathRate} 
-      for each year from 1900 to 2014.  
+      for each year from 1900 to 2020.  
       
-      The \code{worldDeathRate} numbers here were 
-      read manually from a plot on  
-      \href{https://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2014&start=1960&view=chart}{that web page,} 
-      except for the the number for 2015, which was 
-      estimated as a reduction of 0.73 percent from 
-      2014, which was the average rate of decline 
-      (ratio of two successive years) for 1990 to 
-      2014.  The same method was used to estimate 
-      the \code{USdeathRate} for 2015 as the same 
-      as for 2014.  
-      
-      NOTE:  \code{USdeathRate} is to two 
-      significant digits only, unlike 
-      \code{worldDeathRate}, which has four 
-      significant digits. 
+      NOTE:  \code{USdeathRate} to 2009 is to 
+      two significant digits only. Other death
+      rates carry more significant digits. 
     }
     \item{worldDeaths, USdeaths}{
       number of deaths by year in the world and 
@@ -247,7 +235,9 @@
       terrorism deaths per million 
       population worldwide and in the US = 
       
-      \code{0.001 * nkill / worldPopulation}
+      \code{nkill / (0.001*worldPopulation)}
+
+      \code{nkill.us / (0.001*USpopulation)}
     }
     \item{pkill, pkill.us}{
       terrorism deaths as a proportion of 
@@ -283,28 +273,19 @@
   it suggests larger problems.  
 }
 \source{
-  National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{https://start.umd.edu/gtd} [accessed 2018-04-08]. 
+  National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2017). Global Terrorism Database [Data file]. Retrieved from \url{https://start.umd.edu/gtd} [accessed 2022-10-08]. 
 
   See also the \href{https://en.wikipedia.org/wiki/Global_Terrorism_Database}{Global Terrorism Database} maintained by the \href{https://en.wikipedia.org/wiki/National_Consortium_for_the_Study_of_Terrorism_and_Responses_to_Terrorism}{National Consortium for the Study of Terrorism and Responses to Terrorism} (START, 2015), \url{https://www.start.umd.edu/gtd}. 
   
   The world and US population figures came from 
-"Total Population - Both Sexes", World Population 
-Prospects 2015, published by the Population Division 
-of the Department of Economic and Social Affairs of 
-the United Nations accessed 2016-09-05 (at a web link 
-that has since changed:  No longer at 
-\code{https://esa.un.org/unpd/wpp/Download/Standard/Population}, as it was when the data current used here was 
-downloaded, 2016-09-05.  Fortunately, as of 
-2020-02-09, such data seem to be available at 
-\url{https://population.un.org/wpp/Download/Standard/Population/}.   
+"Total Population - Both Sexes", \href{https://population.un.org/wpp/Download/Standard/Population/}{World Population Prospects 2022}, published by the Population Division, World Population Prospects, of 
+the United Nations, accessed 2022-10-09.   
 
-  \href{https://www.mortality.org}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany).}
+  \href{https://www.mortality.org}{Human Mortality Database.  University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany)}, accessed 2022-10-11.  
 }
 \references{
   Robert Pape, Keven Ruby, Vincent Bauer and 
-  Gentry Jenkins, \href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{"How to fix
-  the flaws in the Global Terrorism Database
-  and why it matters"}, 
+  Gentry Jenkins, \href{https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/11/how-to-fix-the-flaws-in-the-global-terrorism-database-and-why-it-matters/}{"How to fix the flaws in the Global Terrorism Database and why it matters"}, 
   \emph{The Washington Post}, August 11, 
   2014 (accessed 2016-01-09).  
 }
