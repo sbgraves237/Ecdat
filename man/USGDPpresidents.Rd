@@ -375,7 +375,7 @@ data(USGDPpresidents)
   Political Economy, 94(1): 1-37.
 
   Sarkees, Meredith Reid; Wayman, Frank (2010). 
-  \href{https://correlatesofwar.org/data-sets/COW-war}{
+  \href{https://correlatesofwar.org/data-sets/COW-war/}{
   "The Correlates of War Project: COW War Data, 1816 - 
   2007 (v4.0)"}, accessed 2015-09-02.  
   
