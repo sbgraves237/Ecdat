@@ -10,7 +10,7 @@
 # devtools::check_win_*()
 dir()
 
-PkgName <- "Ecfun"
+PkgName <- "Ecdat"
 PkgRegExpr <- paste0('^', PkgName, '$')
 (Pkg <- dir(pattern=PkgRegExpr))
 
