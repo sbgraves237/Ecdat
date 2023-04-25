@@ -360,5 +360,6 @@ axis(2, sqrt(i.nk), i.nk, las=1)
 ip <- paste(pch., names(maxDeaths[omax[1:8]]))
 legend('topleft', ip, cex=.55, 
        col=cols, text.col=cols)
+       
 }
 \keyword{datasets}
