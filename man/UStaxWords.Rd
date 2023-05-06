@@ -3,7 +3,7 @@
 \alias{UStaxWords}
 \title{ Number of Words in US Tax Law}
 \description{
-  Thousands of words in US tax law for 1995
+  Thousands of words in US tax law for 1955
   to 2015 in 10 year intervals.  This
   includes income taxes and all taxes in the
   code itself (written by congress) and
