@@ -42,7 +42,7 @@
       volatility of the real oil price process
       measured as the squared recursive standard
       errors of the regression of 
-      code{pt-pt-1} on a constant
+      \code{pt-pt-1} on a constant
     }
     \item{p97}{
       adaptive expectations (with parameter 
