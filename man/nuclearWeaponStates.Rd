@@ -79,13 +79,13 @@
   this dataset.  
   
   \itemize{
-    \item{\code{US}}{
-      The \href{https://en.wikipedia.org/wiki/Manhattan_Project}{Manhattan Project} started in
-      stages. It was officially brought to the
-      attention of the US government by a 
+    \item{\code{US}}{ The 
+      \href{https://en.wikipedia.org/wiki/Manhattan_Project}{Manhattan Project} 
+      started in stages. It was officially brought 
+      to the attention of the US government by a 
       letter officially from 
-      \href{https://commons.wikimedia.org/wiki/File:Einstein-Roosevelt-letter.png}{Albert Einstein to US President Roosevelt}, 1939-08-02.  
-      It was officially authorized 
+      \href{https://commons.wikimedia.org/wiki/File:Einstein-Roosevelt-letter.png}{Albert Einstein to US President Roosevelt}, 
+      1939-08-02. It was officially authorized 
       \href{https://en.wikipedia.org/wiki/Timeline_of_the_Manhattan_Project}{1942-01-19}. 
       We use this later date as the date of the 
       start of the US nuclear-weapons program.
@@ -97,8 +97,9 @@
       bombing of Hiroshima, 1945-08-06.  Shortly
       thereafter on 
       \href{https://en.wikipedia.org/wiki/Soviet_atomic_bomb_project}{1945-08-22}, 
-      Stalin appointed \href{https://en.wikipedia.org/wiki/Lavrentiy_Beria}{Lavrentiy Beria}.  Beria 
-      was a able administrator and guided the 
+      Stalin appointed 
+      \href{https://en.wikipedia.org/wiki/Lavrentiy_Beria}{Lavrentiy Beria}.  
+      Beria was a able administrator and guided the 
       project to fruition in four years.    
     }
     \item{\code{GB}}{
@@ -106,24 +107,24 @@
       in nuclear technology in the late 
       nineteenth century.  They welcomed 
       German-Jewish physicists 
-      \href{https://en.wikipedia.org/wiki/Otto_Robert_Frisch}{Otto Frisch} and 
-      \href{https://en.wikipedia.org/wiki/Rudolf_Peierls}{Rudolf Peierls}, who estimated 
-      in 1939 that only 
+      \href{https://en.wikipedia.org/wiki/Otto_Robert_Frisch}{Otto Frisch} 
+      and 
+      \href{https://en.wikipedia.org/wiki/Rudolf_Peierls}{Rudolf Peierls}, 
+      who estimated in 1939 that only 
       \href{https://en.wikipedia.org/wiki/Frisch-Peierls_memorandum}{a few pounds or kilograms of uranium-235 might be enough to achieve a critical mass, whereas several tonnes of natural uranium would likely be required}. 
-      Because of the war, this information was 
-      passed to scientists in the United States, 
-      who developed it into the bomb dropped on
-      Hiroshima 
+      Because of the war, this information was passed 
+      to scientists in the United States, who developed 
+      it into the bomb dropped on Hiroshima 
       \href{https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{1945-08-06}, 
       with help from British and Canadian 
       scientists and Canadian industry.  After 
       the war, the US refused to share much of 
       the information developed in the Manhattan
-      Project with the British.  British elites 
-      felt disrespected by US.  On 
+      Project with the British. British elites 
+      felt disrespected by US. On 
       \href{https://en.wikipedia.org/wiki/Nuclear_weapons_and_the_United_Kingdom#Resumption_of_independent_UK_efforts}{1947-01-08}, 
-      the British government decided to 
-      initiate their own nuclear-weapons program.  
+      the British government decided to initiate 
+      their own nuclear-weapons program.  
     }
     \item{\code{FR}}{
       France was one of the nuclear pioneers, 
