@@ -69,7 +69,7 @@ recent years.
   when avaialable and from other sources when not. 
   
   I got most of the ISO 3166-1 3-character country codes
-  using \code{\link[Ecfun](findCountry)}. That function
+  using \code{\link[Ecfun]{findCountry}. That function
   was NOT able to find country codes for the 
   \href{https://en.wikipedia.org/wiki/Caribbean_Netherlands}{Caribbean Netherlands}, 
   \href{https://en.wikipedia.org/wiki/Christmas_Island}{Christmas Island}, 
@@ -97,12 +97,12 @@ recent years.
   That downloaded a file named `P_Popular Indicators.xlsx`, 
   which I moved to the working directory, read into 
   R and merged in the obvious way to create most of 
-  \code(ACLEDpopGDP). 
+  \code{ACLEDpopGDP}. 
   
   For "Countries" not in the World Bank data I extracted, 
   I got numbers from relevant Wikipedia articles and 
   documented the source in 
-  \code{ACLEDpopGDP[, "Comments"]. 
+  \code{ACLEDpopGDP[, "Comments"]}. 
 }
 \references{
   \href{https://en.wikipedia.org/wiki/Armed_Conflict_Location_and_Event_Data}{Armed Conflict Location and Event Data}
