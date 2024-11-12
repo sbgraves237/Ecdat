@@ -69,7 +69,7 @@ recent years.
   when avaialable and from other sources when not. 
   
   I got most of the ISO 3166-1 3-character country codes
-  using \code{\link[Ecfun]{findCountry}. That function
+  using \code{\link[Ecfun]{findCountry}}. That function
   was NOT able to find country codes for the 
   \href{https://en.wikipedia.org/wiki/Caribbean_Netherlands}{Caribbean Netherlands}, 
   \href{https://en.wikipedia.org/wiki/Christmas_Island}{Christmas Island}, 
