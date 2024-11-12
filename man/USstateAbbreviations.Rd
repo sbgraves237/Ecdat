@@ -4,7 +4,7 @@
 \title{
   Standard abbreviations for states of the United States }
 \description{
-  The object returned by \code{readUSstateAbbreviations()} on May 20,
+  The object returned by \code{Ecfun::readUSstateAbbreviations()} on May 20,
   2013.
 }
 \usage{
@@ -40,10 +40,10 @@ data(USstateAbbreviations)}
 }
 %\references{}
 \seealso{
-  \code{\link{readUSstateAbbreviations}}
+  \code{\link[Ecfun]{readUSstateAbbreviations}}
   \code{\link[tools]{showNonASCII}}
-  \code{\link{grepNonStandardCharacters}}
-  \code{\link{subNonStandardCharacters}}
+  \code{\link[Ecfun]{grepNonStandardCharacters}}
+  \code{\link[Ecfun]{subNonStandardCharacters}}
 }
 \examples{
 ##
