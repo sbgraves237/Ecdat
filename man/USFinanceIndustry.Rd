@@ -51,7 +51,7 @@
   \code{demoDir <- system.file('demoFiles', package='Ecdat')}
   \code{demoCsv <- dir(demoDir, pattern='csv$', full.names=TRUE)}
 
-  \code{nipa6.16 <- readNIPA(demoCsv)}
+  \code{nipa6.16 <- Ecfun::readNIPA(demoCsv)}
   \code{USFinanceIndustry <- as.data.frame(nipa6.16)}
   \code{names(USFinanceIndustry) <- c('year', 
     'CorporateProfitsAdj', 'Domestic', 'Financial', 
@@ -73,7 +73,7 @@
 }
 %\references{}
 \seealso{
-  \code{\link{readNIPA}}
+  \code{\link[Ecfun]{readNIPA}}
 }
 \examples{
 data(USFinanceIndustry)
