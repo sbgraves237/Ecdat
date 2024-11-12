@@ -1,7 +1,15 @@
 Package: Ecdat
 Version: 0.4-3
-Date: 2024-10-19
+Date: 2024-11-12
 Title: Data Sets for Econometrics
+Authors@R: c(person(given = "Yves",
+                  family = "Croissant",
+                  role = c("aut", "cre"),
+                  email = "yves.croissant@let.ish-lyon.cnrs.fr), 
+             person(given = 'Spencer', 
+                  family = 'Graves', 
+                  role = c('aut', 'ctb'), 
+                  email = "spencer.graves@effectivedefense.org"))
 Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr> and Spencer Graves 
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0), Ecfun
