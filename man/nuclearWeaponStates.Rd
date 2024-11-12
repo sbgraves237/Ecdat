@@ -78,7 +78,7 @@
   the selection of the date for each country in 
   this dataset.  
   
-  \itemize{
+  \describe{
     \item{\code{US}}{ The 
       \href{https://en.wikipedia.org/wiki/Manhattan_Project}{Manhattan Project} 
       started in stages. It was officially brought 
