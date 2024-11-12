@@ -5,7 +5,7 @@ Title: Data Sets for Econometrics
 Authors@R: c(person(given = "Yves",
                   family = "Croissant",
                   role = c("aut", "cre"),
-                  email = "yves.croissant@let.ish-lyon.cnrs.fr), 
+                  email = "yves.croissant@let.ish-lyon.cnrs.fr"), 
              person(given = "Spencer", 
                   family = "Graves", 
                   role = c("aut", "ctb"), 
