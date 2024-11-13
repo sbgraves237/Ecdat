@@ -10,7 +10,7 @@ Authors@R: c(person(given = "Yves",
                   family = "Graves", 
                   role = c("aut", "ctb"), 
                   email = "spencer.graves@effectivedefense.org"))
-Author: Yves Croissant <yves.croissant@let.ish-lyon.cnrs.fr> and Spencer Graves 
+Author: Yves Croissant [aut, cre] and Spencer Graves [aut, ctb]
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
 Suggests: Ecfun, plm, systemfit, carData, wooldridge
