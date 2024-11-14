@@ -67,12 +67,12 @@
       incident = first date given in
       \code{Date_of_Breach} above. 
     }
-    \code{breach_end}{
+    \item{breach_end}{
       \code{\link{Date}} of the end of the incident
       or \code{NA} if only one date is given in 
       \code{Date_of_Breach} above.  
     }
-    \code{year}{
+    \item{year}{
       \code{\link{integer}} giving the year of the
       breach 
     }
