@@ -5,8 +5,13 @@
 \description{
 Countries and codes used by the 
 \href{https://en.wikipedia.org/wiki/Armed_Conflict_Location_and_Event_Data}{Armed Conflict Location and Event Data} project with 
-population and Gross Domestic Project (GDP) numbers for 
-recent years. 
+population and Gross Domestic Project (\code{GDP}) numbers 
+for recent years. Population and \code{GDP} data are from 
+the World Bank when available and from other sources 
+otherwise. When no World Bank data are available, numbers
+may be reported from the closest year conveniently available, 
+as noted in \code{Comments}; in those cases, the data may 
+not be as accurate as the numbers from the World Bank. 
 }
 \usage{data(ACLEDpopGDP)}
 \format{A dataframe with \code{\link{rownames}} = 
@@ -24,26 +29,26 @@ recent years.
       A character vector of the country names used by the 
       World Bank (WB) in data extracted 2024-11-06.
     }
-    \item{pop2020, pop2021, pop2022, pop2023, 
-          GDP2020, GDP2021, GDP2022, GDP2023}{
+    \item{pop2020, pop2021, pop2022, pop2023, pop, 
+          GDPpcn2020, GDPpcn2021, GDPpcn2022, GDPpcn2023, 
+          GDPpcn, GDPpcp2020, GDPpcp2021, GDPpcp2022, 
+          GDPpcp2023, GDPpcp}{
       World Bank population and nominal Gross 
-      Domestic Product (GDP) in constant 2015 US$ 
-      extracted 2024-11-06 for the indicates years 
-      unless otherwise specified in "Comments". 
-      For country subdivions like Jersey, the 
-      World Bank extract used did not include 
-      such numbers. For those "countries", 
-      numbers were taken from Wikipedia and 
-      assigned to the nearest year in the 
-      2020:2023 range and noted in "Comments".
+      Domestic Product per capita (GDPpcn) in constant 
+      2015 US$ plus GDP per capita, PPP (constant 2021 
+      international $) extracted 2024-11-13 for the 
+      indicated years unless otherwise specified in 
+      "Comments". For country subdivions like Jersey, 
+      the World Bank extract used did not include 
+      such numbers. For those "countries", numbers were 
+      taken from Wikipedia and assigned to the nearest 
+      year in the 2020:2023 range and noted in "Comments".
     }
     \item{Comments}{
       Blank ('') if the data is from the World Bank. 
       Otherwise, this lists the source of the population
       and GDP data, the applicable year, and other 
-      anomonlies, e.g., if it was PPP, because nominal
-      GDP was not available, and if it was stated in 
-      Euros. 
+      anomonlies. 
     }
   }
 }
@@ -122,7 +127,7 @@ ACLEDpopGDP['Taiwan', ]
 ACLEDpopGDP['Czech',]
 
 # Partial matching does NOT work if not unique
-ACLEDpopGDP['Saing', ]
+ACLEDpopGDP['Saint', ]
 # Instead use, e.g., grep
 ACLEDpopGDP[grep('Saint', ACLEDpopGDP[, 'ACLEDcountry']), ]
 
