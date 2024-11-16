@@ -3,15 +3,20 @@
 \alias{ACLEDpopGDP}
 \title{ACLED countries and codes with population and GDP}
 \description{
-Countries and codes used by the 
-\href{https://en.wikipedia.org/wiki/Armed_Conflict_Location_and_Event_Data}{Armed Conflict Location and Event Data} project with 
-population and Gross Domestic Project (\code{GDP}) numbers 
-for recent years. Population and \code{GDP} data are from 
-the World Bank when available and from other sources 
-otherwise. When no World Bank data are available, numbers
-may be reported from the closest year conveniently available, 
-as noted in \code{Comments}; in those cases, the data may 
-not be as accurate as the numbers from the World Bank. 
+  Countries and codes used by the 
+  \href{https://en.wikipedia.org/wiki/Armed_Conflict_Location_and_Event_Data}{Armed Conflict Location and Event Data} 
+  project with population and Gross Domestic Project 
+  (\code{GDP}) numbers for recent years. Population and 
+  \code{GDP} data are from the World Bank when available 
+  and from other sources otherwise. When no World Bank 
+  data are available, numbers may be reported from the 
+  closest year conveniently available, as noted in 
+  \code{Comments}; in those cases, the data may not be 
+  as accurate as the numbers from the World Bank. 
+
+  NOTE: This code will be offered to the maintainer of the 
+  \href{https://search.r-project.org/CRAN/refmans/acled.api/html/00Index.html}{\code{acled.api}}
+  package. If they like it, it may not stay in \code{Ecdat}. 
 }
 \usage{data(ACLEDpopGDP)}
 \format{A dataframe with \code{\link{rownames}} = 
