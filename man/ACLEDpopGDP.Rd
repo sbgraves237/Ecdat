@@ -141,6 +141,22 @@ ACLEDpopGDP['CPV'==ACLEDpopGDP[, 'ISO3'], ]
 # NOTE: In this example, ACLEDcountry != 
 # WBcountry.  
 
+# No NAs in pop
+\dontshow{stopifnot(}
+all.equal(length(which(is.na(ACLEDpopGDP$pop))), 0)
+\dontshow{)}
+
+# Only one NA in GDPpcn and GDPpcp: 
+(GDPpNA <- which(is.na(ACLEDpopGDP$GDPpcp)))
+(GDPnNA <- which(is.na(ACLEDpopGDP$GDPpcn)))
+# Antarctica: 
+\dontshow{stopifnot(}
+all.equal(ACLEDpopGDP$ACLEDcountry[GDPpNA], 'Antarctica')
+\dontshow{)}
+\dontshow{stopifnot(
+all.equal(ACLEDpopGDP$ACLEDcountry[GDPnNA], 'Antarctica')
+)}
+
 # Normal probability plots of population 
 qqnorm(unlist(Pops), datax=TRUE)
 qqnorm(unlist(Pops), datax=TRUE, log='x')
