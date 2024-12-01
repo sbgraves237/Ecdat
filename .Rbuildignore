@@ -1,10 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-cran-comments.md
+^cran-comments.md$
 ^CRAN-RELEASE$
-.git
-Ecdat/revdep
-revdep
+^.git$
+^Ecdat/revdep$
+^revdep$
 ^\.github$
 ^CRAN-SUBMISSION$
-Ecdat_release_to_CRAN.R
+^Ecdat_release_to_CRAN.R$
