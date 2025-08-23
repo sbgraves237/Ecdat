@@ -16,7 +16,7 @@
   
   However, no comparable growth spurts in GDP per 
   capita catch the eye in a plot of 
-  \code{log(GDP per capita)} from 1790 to 2015,
+  \code{log(GDP per capita)} from 1790 to 2024,
   whether associated with a war or not, using data
   from Measuring Worth.  The only other features 
   of that plot that seem visually comparable are 
@@ -71,7 +71,7 @@ data(USGDPpresidents)
   \describe{
     \item{Year}{ 
       integer: the year, 
-      \code{c(seq(1610, 1770, 10), 1774:2015)}
+      \code{c(seq(1610, 1770, 10), 1774:2024)}
     } 
     \item{CPI}{
       Numeric:  U. S. Consumer Price Index per
@@ -80,8 +80,8 @@ data(USGDPpresidents)
     }    
     \item{GDPdeflator}{
       numeric:  Implicit price deflators for 
-      Gross Domestic Product with 2012 = 100 
-      per Johnston and Williamson.    
+      Gross Domestic Product with 2017 = 100 
+      per Williamson (2025). 
     }
     \item{population.K}{ 
       integer:  US population in thousands.  
@@ -96,7 +96,7 @@ data(USGDPpresidents)
     }
     \item{realGDPperCapita}{
       numeric:  real Gross Domestic Product 
-      (GDP) per capita in 2012 dollars since 
+      (GDP) per capita in 2017 dollars since 
       1790.   
       
       Real \code{GDP} = 
@@ -271,14 +271,23 @@ data(USGDPpresidents)
       sets of years.  The numbers from 1901 to 
       1933 are the same in both sources.  
       
-      We used The White House (2022) for the more
-      recent numbers with one exception:  Between 
-      1976 and 1977 the fiscal year was changed 
-      from starting July 1 to October 1.  July, 
-      August, and September, 1976, is called the 
-      "transitional quarter", and has been 
-      deleted from this dataset.  
+      On 2022-02-22, we used The White House 
+      (2022) for the more recent numbers with 
+      one exception: Between 1976 and 1977 the 
+      fiscal year was changed from starting July 
+      1 to October 1. July, August, and September, 
+      1976, is called the "transitional quarter", 
+      and has been deleted from this dataset.  
       
+      On 2025-01-22, the comparable data was
+      found on a different web address but seemed
+      to be largely the same except that it said 
+      it was updated to 2023-03-28, just over a 
+      month after the previous update. That 
+      gave data starting in 2022 as "estimates". 
+      Since we could not find better numbers, 
+      we used those. 
+
       NOTES: 
       
       The numbers for 1843 are for only the 
@@ -294,8 +303,8 @@ data(USGDPpresidents)
       than three.  
     }
     \item{fedDebt}{
-      US federal government debt in millions of 
-      current dollars per \code{FiscalData} (2022).  
+      US federal government debt in current 
+      dollars per \code{FiscalData} (2025).  
       This matches Y 338 in United States 
       Census Bureau (1975) 1921-1939 but not 
       earlier, and Y 338 ends with 1939.  
@@ -304,7 +313,19 @@ data(USGDPpresidents)
       they are as of July 1.  The earlier 
       numbers are as of January 1.  
       
-      \code{FiscalData} (2022) includes debt 
+      These numbers are NOT a simple 
+      \code{\link{cumsum}} of 
+      \code{fedSurplus}. It's not clear 
+      the sources of the discrepancies, 
+      but the following seem likely: First, 
+      the published budget may not include 
+      interest on the national debt. Second, 
+      there are likely expenditures / 
+      outlays that are "Off-budget" and 
+      perhaps otherwise hidden from the 
+      public.
+      
+      \code{FiscalData} (2025) includes debt 
       for both January 1 (20 million) and 
       July 1 (33 million) for 1843.  For
       present purposes, we omit the 
@@ -318,20 +339,33 @@ data(USGDPpresidents)
       be to delete the 33 million, but 
       that would understate the volatility 
       of the debt during that period. 
+      
+      Prior to 1844, the national debt was 
+      reported for January 1. Between 1843 
+      and 1920, it was reported for July 1. 
+      From 1921 to 1976, it was reported 
+      for June 28, 29 or 30, usually for 
+      June 30; four years in that period it 
+      was reported for June 29 and once for 
+      June 28. Since 1977, it has been 
+      reported for September 28, 29 or 30, 
+      usually for September 30, only once 
+      for September 28 and once for 
+      September 29. 
     }
     \item{fedReceipts_pGDP, fedOutlays_pGDP, 
       fedSurplus_pGDP, fedDebt_pGDP}{
       numeric = \code{fedReceipts}, 
       \code{fedOutlays}, \code{fedSurplus}, 
-      and \code{fedDebt} divided by 
-      \code{(population.K * realGPDperCapita / (GDPdeflator))}, 
-      except for the single year 1843, 
-      for which \code{fedReceipts}, 
+      and \code{fedDebt} as a portion of GDP, 
+      which is \code{population.K * 
+      realGPDperCapita / (.01*GDPdeflator)}. 
+      
+      For the single year 1843, \code{fedReceipts}, 
       \code{fedOutlays}, and \code{fedSurplus} 
       were for only the first six months;  to 
       compute \code{*_pGDP} for these numbers 
-      for 1843 only, the denominator in this 
-      formula is cut in half to compensate.  
+      for 1843 only, the denominator was cut in half.
     }
   }
 }
@@ -345,8 +379,9 @@ data(USGDPpresidents)
   The Review of Economics and Statistics, 55(1): 
   46-55. 
   
-  \code{FiscalData} (2022) 
-  \href{https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding}{"Historical Debt Outstanding"}, accessed 2022-04-11. 
+  \code{FiscalData} (2024) 
+  \href{https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding}{"Historical Debt Outstanding"}, 
+  accessed 2025-01-22. 
   
   Louis Johnston and Samuel H. Williamson, 
   "What Was the U.S. GDP Then?", Measuring Worth, 
@@ -379,12 +414,16 @@ data(USGDPpresidents)
   "The Correlates of War Project: COW War Data, 1816 - 
   2007 (v4.0)"}, accessed 2015-09-02.  
   
-  The White House (2022).  
-  \href{https://www.whitehouse.gov/omb/budget/historical-tables/}{Historical Tables}:  
-  Spreadsheets:  Table 1.1-Summary of Receipts, Outlays, 
-  and Surpluses or Deficits (-): 1789-2026, accessed 
-  2022-02-22.  
-  
+  The White House (2022). 
+  \href{https://www.whitehouse.gov/omb/budget/historical-tables/}{
+  On 2025-08-22, I saw "Historical Tables" in 3 places on that 
+  page.} I clicked on the bottom one and got, 
+  "BUDGET-2026-HIST.xlsx". The file I got doing this on 
+  2025-01-22 included "Table 1.1-Summary of Receipts, Outlays, 
+  and Surpluses or Deficits (-): 1789-2026" included budget 
+  forecasts. The version of this table I got 2025-08-22 
+  included data through 2024 but no forecasts. 
+
   United States Census Bureau (1975) 
   \href{https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html}{Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970}, 
   Part 2.  Chapter Y. Government, accessed 2022-02-22.  
@@ -405,6 +444,8 @@ data(USGDPpresidents)
   \href{http://www.yttwebzine.com/yesterday/2013/10/28/75757/population_13_colonies_chart}{Chuck Springston, 
   "Population of the 13 Colonies 1610-1790", 
   October 28, 2013}
+  
+  \href{http://www.measuringworth.org/usgdp/}{ Samuel H. Williamson, "What Was the U.S. GDP Then?" MeasuringWorth, 2025}
 }
 %\references{}
 \author{Spencer Graves}
