@@ -157,19 +157,6 @@ all.equal(ACLEDpopGDP$ACLEDcountry[GDPpNA], 'Antarctica')
 all.equal(ACLEDpopGDP$ACLEDcountry[GDPnNA], 'Antarctica')
 )}
 
-# Normal probability plots of population 
-qqnorm(unlist(Pops), datax=TRUE)
-qqnorm(unlist(Pops), datax=TRUE, log='x')
-
-(billion <- which(unlist(Pops)>1e9))
-# 2*5 = 10:
-# Probably India and China
 ACLEDpopGDP[c('China', 'India'), ]
-ACLEDpopGDP[c('China', 'India'), pops] / 1e9
-
-# Normal probability plot of GDPpc
-GDPpc <- ACLEDpopGDP[c(GDPp, GDPn)]
-qqnorm(unlist(GDPpc), datax=TRUE)
-qqnorm(unlist(GDPpc), datax=TRUE, log='x')
 }
 \keyword{datasets}
