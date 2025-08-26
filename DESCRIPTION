@@ -4,13 +4,13 @@ Date: 2024-08-26
 Title: Data Sets for Econometrics
 Authors@R: c(person(given = "Yves",
                   family = "Croissant",
-                  role = c("aut", "cre"),
+                  role = c("aut"),
                   email = "yves.croissant@let.ish-lyon.cnrs.fr"), 
              person(given = "Spencer", 
                   family = "Graves", 
                   role = c("aut", "cre", "ctb"), 
                   email = "spencer.graves@effectivedefense.org"))
-Author: Yves Croissant [aut, cre], Spencer Graves [aut, ctb]
+Author: Yves Croissant [aut], Spencer Graves [aut, cre, ctb]
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
 Suggests: Ecfun, plm, systemfit, carData, wooldridge
