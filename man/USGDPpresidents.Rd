@@ -506,7 +506,7 @@ plotUSGPDpresident <- function(y, Ylab, Scale=1,
 ## 5. wars
 ##
   if(!is.null(war) && !is.na(war) &&
-         war %in% names(Data)){
+         !is.na(war, names(Data)){
     selWar <- (Data[, war]!='')
     abline(v=Data[selWar, x], lty=warShade['lty'], 
            col=warShade['col'])
