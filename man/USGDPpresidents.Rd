@@ -59,9 +59,6 @@
   \code{https://measuringworth.com/}, often gives 
   security warnings but still seems to provide the 
   data as before.)  
-  
-  \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{US unemployment is 
-  also considered.}
 }
 \usage{
 data(USGDPpresidents)
@@ -240,7 +237,12 @@ data(USGDPpresidents)
       John Maynard Keynes}. 
     }
     \item{unemployment}{
-      Estimated US unemployment rate 
+      Estimated US unemployment rate in percent 
+      per the sources cited in the 
+      \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States#Historical_unemployment_rate_charts}{Historical unemployment rate charts
+} section of the Wikipedia article on 
+      \href{https://en.wikipedia.org/wiki/Unemployment_in_the_United_States}{Unemployment in the United States
+}. 
     }
     \item{unempSource}{
       \code{\link{ordered}} giving the source for 
@@ -252,7 +254,6 @@ data(USGDPpresidents)
         \item{1930-1939}{Coen}
         \item{1940-present}{BLS}
       }
-      
       Clearly, the more recent numbers should be 
       more accurate.  
     }
@@ -452,59 +453,151 @@ data(USGDPpresidents)
 %\seealso{}
 \examples{
 ##
-## GDP, Presidents and Wars 
-##
-data(USGDPpresidents)
-(wars <- levels(USGDPpresidents$war))
-nWars <- length(wars)
-plot(realGDPperCapita/1000~Year, 
-     USGDPpresidents, log='y', type='l', 
-     ylab='average annual income (K$)', 
-     las=1)     
-abline(v=c(1929, 1933, 1945), lty='dashed')
-text(1930, 2.5, "Hoover", srt=90, cex=0.9)
-text(1939.5, 30, 'FDR', srt=90, cex=1.1, col='blue')
-
-# label wars
-(logGDPrange <- log(range(USGDPpresidents$realGDPperCapita, 
-                    na.rm=TRUE)/1000))
-(yrRange <- range(USGDPpresidents$Year))
-(yrMid <- mean(yrRange))
-for(i in 2:nWars){
-  w <- wars[i]
-  sel <- (USGDPpresidents$war==w)
-  yrs <- range(USGDPpresidents$Year[sel])
-  abline(v=yrs, lty='dotted', col='grey')
-  yr. <- mean(yrs)
-  w.adj <- (0.5 - 0.6*(yr.-yrMid)/diff(yrRange))
-  logy <- (logGDPrange[1]+w.adj*diff(logGDPrange))
-  y. <- exp(logy)
-  text(yr., y., w, srt=90, col='red', cex=0.5)
-}
-
-##
-## CPI v. GDPdeflator
+## FUNCTION TO plot GDP, Presidents and Wars 
 ## 
-plot(GDPdeflator~CPI, USGDPpresidents, type='l', 
-     log='xy')
-     
+plotUSGPDpresident <- function(y, Ylab, Scale=1, 
+      Ylim=NA, Log='y', x='Year', Xmin=NA, Type='l', 
+      epocs = c(1929, 1933, 1945), epocy=c(.2, .8), 
+      epocNames = c('Hoover', 'FDR'), epocex=c(0.9, 1.1), 
+      war='war', warShade=c(lty='dotted', col='grey'), 
+      Data=USGDPpresidents, ...){
 ##
-## Unemployment 
+## 1. y
 ##
-plot(unemployment~Year, USGDPpresidents, type='l')
+  Y <- (Scale* Data[, y])
+  if(any(is.na(Ylim))){
+    if(is.na(Ylim[1])) {
+      Ylim[1] <- min(Y, na.rm=TRUE)
+    }
+    if(length(Ylim)<2 || is.na(Ylim[2])){
+      Ylim[2] <- max(Y, na.rm=TRUE)
+    }
+  }
+##
+## 2. Xmin > Xlim
+##
+  if(is.na(Xmin)){
+    imin <- which.max(!is.na(Y))
+    Xmin <- Data[imin, x]
+  }
+  Xlim <- c(Xmin, max(Data[, x]))
+##
+## 3. plot
+##
+  plot(Data[, x], Y, log=Log, type=Type, 
+       xlim=Xlim, xlab='', ylim=Ylim,
+       ylab=Ylab, las=1, ...)  
+##
+## 4. epocs
+##
+  abline(v=epocs, lty='dashed')
+  if(length(grep('y',Log)>0)){
+    lYlim <- log(Ylim)
+    yep <- exp(epocy*lYlim[1]+(1-epocy)*lYlim[2])
+  } else {
+    yep <- (epocy*Ylim[1]+(1-epocy)*Ylim[2])
+  }
+  for(i in 1:length(epocy)){
+    ix <- mean(epocs[i+0:1])
+    text(ix, yep[i], epocNames[i], srt=90, 
+         cex=epocex[i])
+  }
+##
+## 5. wars
+##
+  if(!is.null(war) && !is.na(war) &&
+         war %in% names(Data)){
+    selWar <- (Data[, war]!='')
+    abline(v=Data[selWar, x], lty=warShade['lty'], 
+           col=warShade['col'])
+  }
+}
+##
+##** Plot the first four variables
+##
+plotUSGPDpresident('CPI', Ylab='Consumer Price Index')
+plotUSGPDpresident('GDPdeflator', Ylab='GDP deflator')
+plotUSGPDpresident('population.K', Ylab='population (M)', 
+                   Scale=0.001)
+plotUSGPDpresident('realGDPperCapita', 
+      Ylab='GDP per capita (2017K$)', Scale=0.001)
 
 ##
-## federal outlays, pct of GDP 
+##** Table exective and war
 ##
-sel <- !is.na(USGDPpresidents$fedOutlays_pGDP)
-plot(100*fedOutlays_pGDP~Year, 
-     USGDPpresidents[sel,], type='l', log='y', 
-     xlab='', ylab='US federal outlays, pct of GDP')
-abline(h=2:3)
-war <- (USGDPpresidents$war !='')
-abline(v=USGDPpresidents$Year[war], 
-  lty='dotted', col='light gray')
-abline(v=c(1929, 1933), col='red', lty='dotted')
-text(1931, 22, 'Hoover', srt=90, col='red')
+table(USGDPpresidents$executive)
+table(USGDPpresidents$war)
+
+##
+##** plot battleDeaths 
+##** battledeathsPMP = per million population
+##
+plotUSGPDpresident('battleDeaths', Ylab='battle deaths (K)', 
+                   Scale=0.001, lwd=3)
+(MAw <- grep('Mex', USGDPpresidents$war))
+USGDPpresidents[MAw,]
+
+plotUSGPDpresident('battleDeathsPMP', 
+    Ylab='battle deaths per million pop', lwd=3)
+##
+##** plot Keynes
+##
+plotUSGPDpresident('Keynes', Log='', Ylab='Keynes')
+selKeynes <- (USGDPpresidents$Keynes==1)
+range(USGDPpresidents$Year[selKeynes])
+##
+##** plot unemployment
+##
+plotUSGPDpresident('unemployment', Ylab='unemployment (%)')
+# Estimated US unemployment rate in percent 
+# per the sources cited in the section on 
+# "Historical unemployment rate charts"
+# in the Wikipedia article on 
+# "Unemployment in the United States"
+
+# table unemployment source
+table(USGDPpresidents$unempSource)
+
+##
+##** plot budget analyses
+##
+plotUSGPDpresident('fedReceipts', Ylab='fed receipts ($M')
+plotUSGPDpresident('fedReceipts', Ylab='fed receipts ($B)', 
+                   Scale=0.001)
+abline(h=1)
+plotUSGPDpresident('fedOutlays', Ylab='fed outlays ($B)', 
+                   Scale=0.001)
+abline(h=1)
+
+plotUSGPDpresident('fedSurplus', Ylab='fed outlays ($B)',
+                   Log='', Scale=0.001)
+
+Surplus <- with(USGDPpresidents, fedReceipts - fedOutlays)
+rSurp <- with(USGDPpresidents, fedSurplus/Surplus)
+plot(USGDPpresidents$Year, rSurp)
+# One outlier
+(iSurOops <- (which(rSurp>1.1))+(-1:1))
+rSurp[iSurOops]
+USGDPp2[iSurOops+(-1:1),]
+# The numbers all look plausible. 
+# Leave them as is. 
+
+plotUSGPDpresident('fedDebt', 'fed debt ($B)',
+                   Scale=1e-9)
+
+plotUSGPDpresident('fedReceipts_pGDP', 
+   'fed receipts % of GDP', Scale=100)
+plotUSGPDpresident('fedOutlays_pGDP', 
+   'fed outlays % of GDP', Scale=100)
+plotUSGPDpresident('fedSurplus_pGDP', 
+   'fed surplus % of GDP', Scale=100, Log='')
+
+plotUSGPDpresident('fedDebt_pGDP', 
+   'fed debt % of GDP', Scale=100)
+(debtPrng <- range(USGDPpresidents$fedDebt_pGDP, na.rm=TRUE))
+plotUSGPDpresident('fedDebt_pGDP', 
+          'fed debt % of GDP', Scale=100, 
+          Ylim=c(1, 100*debtPrng[2]))
+abline(h=100)
 }
 \keyword{datasets}
