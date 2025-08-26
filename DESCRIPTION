@@ -1,6 +1,6 @@
 Package: Ecdat
-Version: 0.4-3
-Date: 2024-11-13
+Version: 0.4-4
+Date: 2024-08-26
 Title: Data Sets for Econometrics
 Authors@R: c(person(given = "Yves",
                   family = "Croissant",
