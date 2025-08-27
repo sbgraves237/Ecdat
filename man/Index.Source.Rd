@@ -86,7 +86,7 @@
 
   \item Journal of Statistics Education's data
     archive : 
-    \url{http://jse.amstat.org/jse_data_archive.htm}
+    \url{https://jse.amstat.org/jse_data_archive.htm}
   \itemize{
     \item \code{\link{Diamond}} : Pricing the C's 
       of Diamond Stones
@@ -139,7 +139,7 @@
 \item \code{\link{VietNamI}} : Medical Expenses in Vietnam (individual Level)
 }
 
-\item Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}
+\item Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{https://cameron.econ.ucdavis.edu/racd/racddata.html}
  \itemize{
 \item \code{\link{Bids}} : Bids Received By U.S. Firms
 \item \code{\link{DoctorAUS}} : Doctor Visits in Australia
@@ -183,7 +183,7 @@
 \item \code{\link{TranspEq}} : Statewide Data on Transportation Equipment Manufacturing
 }
 
-\item Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/hayashi_econometrics.htm}
+\item Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/}
  \itemize{
 \item \code{\link{DM}} : DM Dollar Exchange Rate
 \item \code{\link{Electricity}} : Cost Function for Electricity Producers
