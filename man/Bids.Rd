@@ -36,7 +36,7 @@
 
 }
 \references{
-    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 5.
+    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{https://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 5.
 
       Journal of Applied Econometrics data archive : \url{http://qed.econ.queensu.ca/jae/}.
 }
