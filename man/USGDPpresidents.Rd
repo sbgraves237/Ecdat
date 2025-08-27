@@ -534,8 +534,8 @@ plotUSGPDpresidents('realGDPperCapita',
 ##
 ##** Table exective and war
 ##
-table(USGDPpresidents$executive)
-table(USGDPpresidents$war)
+table(USGDPpresidents[, 'executive'])
+table(USGDPpresidents[, 'war'])
 
 ##
 ##** plot battleDeaths 
@@ -544,7 +544,7 @@ table(USGDPpresidents$war)
 plotUSGPDpresidents('battleDeaths', Ylab='battle deaths (K)', 
                    Scale=0.001, lwd=3)
 
-(MAw <- grep('Mex', USGDPpresidents$war))
+(MAw <- grep('Mex', USGDPpresidents[, 'war']))
 USGDPpresidents[MAw,]
 
 plotUSGPDpresidents('battleDeathsPMP', 
@@ -553,8 +553,8 @@ plotUSGPDpresidents('battleDeathsPMP',
 ##** plot Keynes
 ##
 plotUSGPDpresidents('Keynes', Log='', Ylab='Keynes')
-selKeynes <- (USGDPpresidents$Keynes==1)
-range(USGDPpresidents$Year[selKeynes])
+selKeynes <- (USGDPpresidents[, 'Keynes']==1)
+range(USGDPpresidents[selKeynes, 'Year'])
 ##
 ##** plot unemployment
 ##
@@ -566,7 +566,7 @@ plotUSGPDpresidents('unemployment', Ylab='unemployment (\%)')
 # "Unemployment in the United States"
 
 # table unemployment source
-table(USGDPpresidents$unempSource)
+table(USGDPpresidents[, 'unempSource'])
 
 ##
 ##** plot budget analyses
@@ -586,7 +586,7 @@ Surplus <- with(USGDPpresidents, fedReceipts - fedOutlays)
 
 plot(USGDPpresidents[, 'Year'], Surp2-Surplus, type='l')
 rSurp <- with(USGDPpresidents, fedSurplus/Surplus)
-plot(USGDPpresidents$Year, rSurp)
+plot(USGDPpresidents[, 'Year'], rSurp)
 # Discrepancies less than 1 percent
 
 plotUSGPDpresidents('fedDebt', 'fed debt ($B)',
@@ -601,7 +601,7 @@ plotUSGPDpresidents('fedSurplus_pGDP',
 
 plotUSGPDpresidents('fedDebt_pGDP', 
                    'fed debt \% of GDP', Scale=100)
-(debtPrng <- range(USGDPpresidents$fedDebt_pGDP, na.rm=TRUE))
+(debtPrng <- range(USGDPpresidents[, 'fedDebt_pGDP'], na.rm=TRUE))
 plotUSGPDpresidents('fedDebt_pGDP', 
                    'fed debt \% of GDP', Scale=100, 
                    Ylim=c(1, 100*debtPrng[2]))
