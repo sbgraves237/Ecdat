@@ -452,7 +452,7 @@ data(USGDPpresidents)
 \author{Spencer Graves}
 %\seealso{}
 \examples{
-load('USGDPpresidents.rda')
+data(USGDPpresidents)
 ##
 ## FUNCTION TO plot GDP, Presidents and Wars 
 ## 
