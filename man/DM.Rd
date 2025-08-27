@@ -41,7 +41,7 @@
 
 }
 \references{
-    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/hayashi_econometrics.htm}, chapter 6, 438-443.
+    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/}, chapter 6, 438-443.
 }
 \seealso{
   \code{\link{Pound}}, 
