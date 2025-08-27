@@ -57,7 +57,7 @@ revdepcheck::revdep_check(num_workers = 4)
 # R CMD build Ecdat 
 # R CMD check --as-cran Ecdat_*.tar.gz
 
-#20.4.  Update README.md and NEWS.md 
+#20.4.  Update README.md and NEWS.md (and cran-comments.md if needed?)
 
 #20.5.  Submit to CRAN
 
