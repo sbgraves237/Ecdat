@@ -58,14 +58,20 @@ if she is related to the head of household. Cases affected by these imputation
 procedures are identified by an appropriate data quality flag (present in the 
 raw IPUMS data but ignored for this summary). 
 
-A parallel variable called OCC1990, available for the samples from 1950 onward, codes occupations into a simplified version of the 1990 occupational coding scheme." [OCC1990 was ignored for the present purposes, because it is not coded for data prior to 1950.]
+A parallel variable called OCC1990, available for the samples from 1950 onward, 
+codes occupations into a simplified version of the 1990 occupational coding 
+scheme." [OCC1990 was ignored for the present purposes, because it is not coded 
+for data prior to 1950.]
 
-NOTE:  In the 2020-03-17 extraction, there were 283 OCC1950 codes documented, but only 291 of them were actually in the data I got.  The codes for "Not yet classified" and "New Workers" were not used.  
+NOTE:  In the 2020-03-17 extraction, there were 283 OCC1950 codes documented, 
+but only 291 of them were actually in the data I got.  The codes for "Not yet 
+classified" and "New Workers" were not used.  
 }
 \source{
   Steven Ruggles, Sarah Flood, Ronald Goeken, 
     Josiah Grover, Erin Meyer, Jose Pacas, and 
-    Matthew Sobek (2020) \doi{10.18128/D010.V10.0}{IPUMS USA: Version 10.0 [dataset]. Minneapolis, MN: IPUMS.} 
+    Matthew Sobek (2020) \doi{10.18128/D010.V10.0} IPUMS USA: Version 10.0 
+    [dataset]. Minneapolis, MN: IPUMS.
 }
 %\references{}
 \examples{
