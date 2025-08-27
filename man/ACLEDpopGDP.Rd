@@ -23,7 +23,7 @@
         \code{ACLEDcountry} containing :
   \describe{
     \item{ACLEDcountry}{
-      A character vector of the country names used by ACLED
+      A character vector of the country names used by \code{ACLED}
       in the monthly totals of events and deaths between 
       2021-01 and 2024-09 extracted 2024-10-24. 
     }
@@ -32,18 +32,18 @@
     }
     \item{WBcountry}{
       A character vector of the country names used by the 
-      World Bank (WB) in data extracted 2024-11-06.
+      World Bank (\code{WB}) in data extracted 2024-11-06.
     }
     \item{pop2020, pop2021, pop2022, pop2023, pop, 
           GDPpcn2020, GDPpcn2021, GDPpcn2022, GDPpcn2023, 
           GDPpcn, GDPpcp2020, GDPpcp2021, GDPpcp2022, 
           GDPpcp2023, GDPpcp}{
       World Bank population and nominal Gross 
-      Domestic Product per capita (GDPpcn) in constant 
+      Domestic Product per capita (\code{GDPpc}) in constant 
       2015 US$ plus GDP per capita, PPP (constant 2021 
       international $) extracted 2024-11-13 for the 
       indicated years unless otherwise specified in 
-      "Comments". For country subdivions like Jersey, 
+      "Comments". For country subdivisions like Jersey, 
       the World Bank extract used did not include 
       such numbers. For those "countries", numbers were 
       taken from Wikipedia and assigned to the nearest 
@@ -53,30 +53,30 @@
       Blank ('') if the data is from the World Bank. 
       Otherwise, this lists the source of the population
       and GDP data, the applicable year, and other 
-      anomonlies. 
+      anomalies. 
     }
   }
 }
 \source{
-  \href{https://acleddata.com/explorer/}{ACLED Explorer}
+  \href{https://acleddata.com/platform/explorer}{\code{ACLED} Explorer}
   was used 2024-10-24 to download monthly totals between
   2021-01 and 2024-09 of events and death in two files: 
   one for events and another for deaths. Both had data
   on 234 "countries", though some were actually 
-  subdivisions. For example, ACLED "countries" includes
+  subdivisions. For example, \code{ACLED} "countries" includes
   the \href{https://en.wikipedia.org/wiki/Jersey}{"Bailiwick of Jersey"}, 
   which is a 
   \href{https://en.wikipedia.org/wiki/Crown_Dependencies}{"British Crown"} 
   dependency, and the World Bank does not provide 
-  data on them as they do on souvereign countries.
+  data on them as they do on sovereign countries.
 
-  However, the country names used by ACLED Explorer do 
+  However, the country names used by \code{ACLED} Explorer do 
   not match the country names used by the World Bank. 
   
   This \code{ACLEDpopGDP} \code{\link{data.frame}} was 
-  created to facilitate merging ACLED data with data
+  created to facilitate merging \code{ACLED} data with data
   on population and \code{GDP} ... from the World Bank
-  when avaialable and from other sources when not. 
+  when available and from other sources when not. 
   
   I got most of the ISO 3166-1 3-character country codes
   using \code{\link[Ecfun]{grepInTable}}. That function
@@ -89,7 +89,7 @@
   \code{CXR}, \code{SWZ}, and \code{MKD}, respectively. 
   
   From the World Bank website, I got something by clicking 
-  \href{https://databank.worldbank.org/home.aspx}{DataBank}. 
+  \href{https://databank.worldbank.org/home.aspx}{\code{DataBank}}. 
   From there, I clicked on 
   \href{https://databank.worldbank.org/indicator/SP.POP.TOTL/1ff4a498/Popular-Indicators}{"Population, total"}. 
   This displayed numbers by country and year from 2008 
@@ -117,7 +117,7 @@
 \references{
   \href{https://en.wikipedia.org/wiki/Armed_Conflict_Location_and_Event_Data}{Armed Conflict Location and Event Data}
 
-  \href{https://databank.worldbank.org/home.aspx}{DataBank}
+  \href{https://databank.worldbank.org/home.aspx}{\code{DataBank}}
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, 
 \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}}}
