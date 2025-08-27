@@ -39,7 +39,6 @@
 }
 \source{
     California Department of Education \url{https://www.cde.ca.gov}.
-
 }
 \references{
     Stock, James H.  and  Mark W.  Watson (2003) \emph{Introduction to Econometrics}, Addison-Wesley Educational Publishers, chapter 4--7.
