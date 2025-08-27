@@ -26,7 +26,7 @@
 
 }
 \references{
-    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/hayashi_econometrics.htm}, chapter 10, 665-667.
+    Hayashi, F. (2000) \emph{Econometrics}, Princeton University Press, \url{http://fhayashi.fc2web.com/}, chapter 10, 665-667.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
