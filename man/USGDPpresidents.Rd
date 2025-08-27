@@ -571,8 +571,7 @@ table(USGDPpresidents$unempSource)
 ##
 ##** plot budget analyses
 ##
-fR <- 'fedReceipts' 
-plotUSGPDpresidents(fR, Ylab='fed receipts ($M)')
+plotUSGPDpresidents("fedReceipts", Ylab='fed receipts ($M)')
 plotUSGPDpresidents('fedReceipts', Ylab='fed receipts ($B)', 
                    Scale=0.001)
 abline(h=1)
