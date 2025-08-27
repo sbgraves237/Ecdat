@@ -27,7 +27,7 @@
 
 }
 \references{
-    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 7.
+    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{https://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 7.
 
 }
 \seealso{\code{\link{Index.Source}}, \code{\link{Index.Economics}}, \code{\link{Index.Econometrics}}, \code{\link{Index.Observations}},
