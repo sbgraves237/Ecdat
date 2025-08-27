@@ -78,7 +78,7 @@
 
 }
 \references{
-    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 9.
+    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{https://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 9.
 
     Cameron, A.C.  and  P.K.  Trivedi (2005) \emph{Microeconometrics : methods and applications}, Cambridge, pp. 792--5.
 
