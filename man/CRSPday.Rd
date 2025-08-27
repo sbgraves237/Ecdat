@@ -19,7 +19,7 @@
     \item{month}{the month}
     \item{day}{the day}
     \item{ge}{the return for General Electric, 
-      \href{https://www.crsp.org/products/documentation/crsp-link}{PERMNO} 12060}
+      \href{https://www.crsp.org/}{PERMNO} 12060}
     \item{ibm}{ the return for IBM, PERMNO 12490}
     \item{mobil}{
       the return for Mobil Corporation, 
