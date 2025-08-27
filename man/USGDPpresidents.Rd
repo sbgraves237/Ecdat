@@ -416,7 +416,7 @@ data(USGDPpresidents)
   2007 (v4.0)"}, accessed 2015-09-02.  
   
   The White House (2022). 
-  \href{https://www.whitehouse.gov/omb/budget/historical-tables/}{
+  \href{https://www.whitehouse.gov/omb/information-resources/budget/historical-tables/}{
   On 2025-08-22, I saw "Historical Tables" in 3 places on that 
   page.} I clicked on the bottom one and got, 
   "BUDGET-2026-HIST.xlsx". The file I got doing this on 
@@ -442,11 +442,11 @@ data(USGDPpresidents)
   a monthly series from the 
   \href{https://www.bls.gov/cps/}{Current Population Survey of the Bureau of Labor Statistics}. 
   
-  \href{http://www.yttwebzine.com/yesterday/2013/10/28/75757/population_13_colonies_chart}{Chuck Springston, 
+  \href{https://web.archive.org/web/20210216112807/http://www.yttwebzine.com/yesterday/2013/10/28/75757/population_13_colonies_chart}{Chuck Springston, 
   "Population of the 13 Colonies 1610-1790", 
   October 28, 2013}
   
-  \href{http://www.measuringworth.org/usgdp/}{ Samuel H. Williamson, "What Was the U.S. GDP Then?" MeasuringWorth, 2025}
+  \href{https://www.measuringworth.com/datasets/usgdp/}{ Samuel H. Williamson, "What Was the U.S. GDP Then?" MeasuringWorth, 2025}
 }
 %\references{}
 \author{Spencer Graves}
