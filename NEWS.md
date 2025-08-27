@@ -1,3 +1,6 @@
+# Ecdat 0.4-4 (Release date: 2025-08-27)
+* Updated "USGDPpresidents"
+
 # Ecdat 0.4-2 (Release date: 2022-10-13)
 * Updated "terrorism" to 2020.  
 
