@@ -452,44 +452,53 @@ data(USGDPpresidents)
 \author{Spencer Graves}
 %\seealso{}
 \examples{
+load('USGDPpresidents.rda')
 ##
 ## FUNCTION TO plot GDP, Presidents and Wars 
 ## 
-plotUSGPDpresident <- function(y, Ylab, Scale=1, 
-      Ylim=NA, Log='y', x='Year', Xmin=NA, Type='l', 
-      epocs = c(1929, 1933, 1945), epocy=c(.2, .8), 
-      epocNames = c('Hoover', 'FDR'), epocex=c(0.9, 1.1), 
-      war='war', warShade=c(lty='dotted', col='grey'), 
-      Data=USGDPpresidents, ...){
-##
-## 1. y
-##
+plotUSGPDpresidents <- function(y, Ylab, Scale=1, 
+        Ylim=NA, Log='y', x='Year', Xmin=NA, Type='l', 
+        epocs = c(1929, 1933, 1945), epocy=c(.2, .8), 
+        epocNames = c('Hoover', 'FDR'), epocex=c(0.9, 1.1), 
+        war='war', warShade=c(lty='dotted', col='grey'), 
+        Data=USGDPpresidents, ...){
+  ##
+  ## 1. y
+  ##
   Y <- (Scale* Data[, y])
   if(any(is.na(Ylim))){
     if(is.na(Ylim[1])) {
+      if(length(grep('y',Log)>0)){
+        Y0 <- (Y<=0)
+        n0 <- sum(Y0, na.rm=TRUE)
+        if(n0>0){
+          cat(n0, ' nonpositive observations ignored/n')
+          Y[Y0] <- NA
+        }
+      } 
       Ylim[1] <- min(Y, na.rm=TRUE)
     }
     if(length(Ylim)<2 || is.na(Ylim[2])){
       Ylim[2] <- max(Y, na.rm=TRUE)
     }
   }
-##
-## 2. Xmin > Xlim
-##
+  ##
+  ## 2. Xmin > Xlim
+  ##
   if(is.na(Xmin)){
     imin <- which.max(!is.na(Y))
     Xmin <- Data[imin, x]
   }
   Xlim <- c(Xmin, max(Data[, x]))
-##
-## 3. plot
-##
+  ##
+  ## 3. plot
+  ##
   plot(Data[, x], Y, log=Log, type=Type, 
        xlim=Xlim, xlab='', ylim=Ylim,
        ylab=Ylab, las=1, ...)  
-##
-## 4. epocs
-##
+  ##
+  ## 4. epocs
+  ##
   abline(v=epocs, lty='dashed')
   if(length(grep('y',Log)>0)){
     lYlim <- log(Ylim)
@@ -502,11 +511,11 @@ plotUSGPDpresident <- function(y, Ylab, Scale=1,
     text(ix, yep[i], epocNames[i], srt=90, 
          cex=epocex[i])
   }
-##
-## 5. wars
-##
+  ##
+  ## 5. wars
+  ##
   if(!is.null(war) && !is.na(war) &&
-         !is.na(war, names(Data)))  {
+     !is.na(match(war, names(Data))))  {
     selWar <- (Data[, war]!='')
     abline(v=Data[selWar, x], lty=warShade['lty'], 
            col=warShade['col'])
@@ -515,12 +524,12 @@ plotUSGPDpresident <- function(y, Ylab, Scale=1,
 ##
 ##** Plot the first four variables
 ##
-plotUSGPDpresident('CPI', Ylab='Consumer Price Index')
-plotUSGPDpresident('GDPdeflator', Ylab='GDP deflator')
-plotUSGPDpresident('population.K', Ylab='population (M)', 
+plotUSGPDpresidents('CPI', Ylab='Consumer Price Index')
+plotUSGPDpresidents('GDPdeflator', Ylab='GDP deflator')
+plotUSGPDpresidents('population.K', Ylab='population (M)', 
                    Scale=0.001)
-plotUSGPDpresident('realGDPperCapita', 
-      Ylab='GDP per capita (2017K$)', Scale=0.001)
+plotUSGPDpresidents('realGDPperCapita', 
+                   Ylab='GDP per capita (2017K$)', Scale=0.001)
 
 ##
 ##** Table exective and war
@@ -532,23 +541,24 @@ table(USGDPpresidents$war)
 ##** plot battleDeaths 
 ##** battledeathsPMP = per million population
 ##
-plotUSGPDpresident('battleDeaths', Ylab='battle deaths (K)', 
+plotUSGPDpresidents('battleDeaths', Ylab='battle deaths (K)', 
                    Scale=0.001, lwd=3)
+
 (MAw <- grep('Mex', USGDPpresidents$war))
 USGDPpresidents[MAw,]
 
-plotUSGPDpresident('battleDeathsPMP', 
-    Ylab='battle deaths per million pop', lwd=3)
+plotUSGPDpresidents('battleDeathsPMP', 
+                   Ylab='battle deaths per million pop', lwd=3)
 ##
 ##** plot Keynes
 ##
-plotUSGPDpresident('Keynes', Log='', Ylab='Keynes')
+plotUSGPDpresidents('Keynes', Log='', Ylab='Keynes')
 selKeynes <- (USGDPpresidents$Keynes==1)
 range(USGDPpresidents$Year[selKeynes])
 ##
 ##** plot unemployment
 ##
-plotUSGPDpresident('unemployment', Ylab='unemployment (%)')
+plotUSGPDpresidents('unemployment', Ylab='unemployment (%)')
 # Estimated US unemployment rate in percent 
 # per the sources cited in the section on 
 # "Historical unemployment rate charts"
@@ -561,43 +571,40 @@ table(USGDPpresidents$unempSource)
 ##
 ##** plot budget analyses
 ##
-plotUSGPDpresident('fedReceipts', Ylab='fed receipts ($M')
-plotUSGPDpresident('fedReceipts', Ylab='fed receipts ($B)', 
+plotUSGPDpresidents('fedReceipts', Ylab='fed receipts ($M)')
+plotUSGPDpresidents('fedReceipts', Ylab='fed receipts ($B)', 
                    Scale=0.001)
 abline(h=1)
-plotUSGPDpresident('fedOutlays', Ylab='fed outlays ($B)', 
+plotUSGPDpresidents('fedOutlays', Ylab='fed outlays ($B)', 
                    Scale=0.001)
 abline(h=1)
 
-plotUSGPDpresident('fedSurplus', Ylab='fed outlays ($B)',
+plotUSGPDpresidents('fedSurplus', Ylab='fed outlays ($B)',
                    Log='', Scale=0.001)
 
 Surplus <- with(USGDPpresidents, fedReceipts - fedOutlays)
+
+plot(USGDPpresidents$Year, Surp2-Surplus, type='l')
 rSurp <- with(USGDPpresidents, fedSurplus/Surplus)
 plot(USGDPpresidents$Year, rSurp)
-# One outlier
-(iSurOops <- (which(rSurp>1.1))+(-1:1))
-rSurp[iSurOops]
-USGDPp2[iSurOops+(-1:1),]
-# The numbers all look plausible. 
-# Leave them as is. 
+# Discrepancies less than 1 percent
 
-plotUSGPDpresident('fedDebt', 'fed debt ($B)',
+plotUSGPDpresidents('fedDebt', 'fed debt ($B)',
                    Scale=1e-9)
 
-plotUSGPDpresident('fedReceipts_pGDP', 
-   'fed receipts % of GDP', Scale=100)
-plotUSGPDpresident('fedOutlays_pGDP', 
-   'fed outlays % of GDP', Scale=100)
-plotUSGPDpresident('fedSurplus_pGDP', 
-   'fed surplus % of GDP', Scale=100, Log='')
+plotUSGPDpresidents('fedReceipts_pGDP', 
+                   'fed receipts % of GDP', Scale=100)
+plotUSGPDpresidents('fedOutlays_pGDP', 
+                   'fed outlays % of GDP', Scale=100)
+plotUSGPDpresidents('fedSurplus_pGDP', 
+                   'fed surplus % of GDP', Scale=100, Log='')
 
-plotUSGPDpresident('fedDebt_pGDP', 
-   'fed debt % of GDP', Scale=100)
+plotUSGPDpresidents('fedDebt_pGDP', 
+                   'fed debt % of GDP', Scale=100)
 (debtPrng <- range(USGDPpresidents$fedDebt_pGDP, na.rm=TRUE))
-plotUSGPDpresident('fedDebt_pGDP', 
-          'fed debt % of GDP', Scale=100, 
-          Ylim=c(1, 100*debtPrng[2]))
+plotUSGPDpresidents('fedDebt_pGDP', 
+                   'fed debt % of GDP', Scale=100, 
+                   Ylim=c(1, 100*debtPrng[2]))
 abline(h=100)
 }
 \keyword{datasets}
