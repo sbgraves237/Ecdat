@@ -584,7 +584,6 @@ plotUSGPDpresidents("fedSurplus", Ylab="fed outlays ($B)",
 
 Surplus <- with(USGDPpresidents, fedReceipts - fedOutlays)
 
-plot(USGDPpresidents[, 'Year'], Surp2-Surplus, type='l')
 rSurp <- with(USGDPpresidents, fedSurplus/Surplus)
 plot(USGDPpresidents[, 'Year'], rSurp)
 # Discrepancies less than 1 percent
