@@ -88,7 +88,7 @@
 
 }
 \references{
-    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{http://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 3.
+    Cameron, A.C.  and   Trivedi P.K. (1998) \emph{Regression analysis of count data}, Cambridge University Press, \url{https://cameron.econ.ucdavis.edu/racd/racddata.html}, chapter 3.
 
 }
 \seealso{
