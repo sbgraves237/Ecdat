@@ -572,7 +572,7 @@ table(USGDPpresidents$unempSource)
 ##** plot budget analyses
 ##
 plotUSGPDpresidents("fedReceipts", Ylab="fed receipts ($M)")
-plotUSGPDpresidents('fedReceipts', Ylab='fed receipts ($B)', 
+plotUSGPDpresidents("fedReceipts"", Ylab="fed receipts ($B)"", 
                    Scale=0.001)
 abline(h=1)
 plotUSGPDpresidents('fedOutlays', Ylab='fed outlays ($B)', 
