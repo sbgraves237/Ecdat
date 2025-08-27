@@ -287,7 +287,7 @@
   
   The world and US population figures came from 
   "Total Population - Both Sexes", 
-  \href{https://population.un.org/wpp/Download/Standard/Population/}{World Population Prospects 2022}, 
+  \href{https://www.un.org/development/desa/pd/content/World-Population-Prospects-2022}{World Population Prospects 2022}, 
   published by the Population Division, 
   World Population Prospects, of the United Nations, 
   accessed 2022-10-09.   
