@@ -558,8 +558,8 @@ range(USGDPpresidents$Year[selKeynes])
 ##
 ##** plot unemployment
 ##
-plotUSGPDpresidents('unemployment', Ylab='unemployment (%)')
-# Estimated US unemployment rate in percent 
+plotUSGPDpresidents('unemployment', Ylab='unemployment (\%)')
+# Estimated US unemployment rate in percent
 # per the sources cited in the section on 
 # "Historical unemployment rate charts"
 # in the Wikipedia article on 
@@ -593,17 +593,17 @@ plotUSGPDpresidents('fedDebt', 'fed debt ($B)',
                    Scale=1e-9)
 
 plotUSGPDpresidents('fedReceipts_pGDP', 
-                   'fed receipts % of GDP', Scale=100)
+                   'fed receipts \% of GDP', Scale=100)
 plotUSGPDpresidents('fedOutlays_pGDP', 
-                   'fed outlays % of GDP', Scale=100)
+                   'fed outlays \% of GDP', Scale=100)
 plotUSGPDpresidents('fedSurplus_pGDP', 
-                   'fed surplus % of GDP', Scale=100, Log='')
+                   'fed surplus \% of GDP', Scale=100, Log='')
 
 plotUSGPDpresidents('fedDebt_pGDP', 
-                   'fed debt % of GDP', Scale=100)
+                   'fed debt \% of GDP', Scale=100)
 (debtPrng <- range(USGDPpresidents$fedDebt_pGDP, na.rm=TRUE))
 plotUSGPDpresidents('fedDebt_pGDP', 
-                   'fed debt % of GDP', Scale=100, 
+                   'fed debt \% of GDP', Scale=100, 
                    Ylim=c(1, 100*debtPrng[2]))
 abline(h=100)
 }
