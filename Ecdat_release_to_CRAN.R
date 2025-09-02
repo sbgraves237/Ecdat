@@ -1,3 +1,12 @@
+# to fix: 
+# non-ASCII input and no declared encoding
+
+(USincarc <- dir('man', 'USincarc', full.names = TRUE))
+USinca <- readLines(USincarc)
+
+pblms <- which(grepl("[^ -~]", USinca))
+USinca[pblms]
+
 # File > "Open Project..." > [Package folder]
 
 # https://r-pkgs.org/release.html
