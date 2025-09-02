@@ -11,12 +11,12 @@
 }
 \usage{data("USincarcerations")}
 \format{
-  A data frame with 95 observations on the 
+  A data frame with 99 observations on the 
   following 7 variables.
   \describe{
     \item{year}{
       an integer vector giving the year 
-      \code{c(1925:2019)}.  
+      \code{c(1925:2023)}.  
     }
     \item{stateFedIncarcerees}{
       Total number of incarcerees = 
@@ -91,7 +91,7 @@
   \code{p19t05.csv}, because they seem likely 
   to be more accurate.  
   
-  However, these numbers include only people 
+  However, these numbers include only humans 
   in state and federal prisons.  It excludes
   jails.  
   
@@ -111,6 +111,23 @@
   therefore used the older data up to 2007
   and \code{cpus1718.csv} for 2008-2018.  
   
+  An update to 2023 on 2025-09-01 combined new data 
+  from \code{p20stt01.csv} and \code{p20stt05.csv} 
+  from \href{https://web.archive.org/web/20220620031528/https://bjs.ojp.gov/content/pub/sheets/p20st.zip}{Archive.org}
+  with \code{p20stt01.csv} and \code{p20stt05.csv} 
+  from \href{https://bjs.ojp.gov/library/publications/prisoners-2022-statistical-tables{"Prisoners in 2022 – Statistical Tables"}
+  and \code{pdrp23t02.csv} from 
+  \href{https://bjs.ojp.gov/library/publications/prisons-report-series-preliminary-data-release-2023}{"Prisons Report Series: Preliminary Data Release, 2023"}.
+
+  The rates for 2023 were computed by dividing the 
+  numbers of incarcerees in \code{pdrp23t02.csv} by 
+  2022 population numbers inferred from 
+  \code{stateFedIncarcerees/stateFedIncarcerationRate}, 
+  \code{stateFedMales/stateFedMaleRate}, and 
+  \code{stateFedFemales/stateFedFemaleRate} and 
+  adjusted to 2023 by `pop*exp(median(log(diff(pop))))`. 
+  This added 0.63 percent to the 2022 population. 
+  
   Actual analysis of the jail data is left
   for another project.  
 }
@@ -122,14 +139,23 @@
   files \code{p*t03.csv} and \code{p*t05.csv} from
   \href{https://bjs.ojp.gov/library/publications/prisoners-2019}{Prisoners In 2019}, accessed 2020-11-23.  
   
-    Data on jails and community supervision 
+  \code{p20stt01.csv} and \code{p20stt05.csv} from 
+  \href{https://web.archive.org/web/20220620031528/https://bjs.ojp.gov/content/pub/sheets/p20st.zip}{Archive.org}
+  
+  \code{p20stt01.csv} and \code{p20stt05.csv} from 
+  \href{https://bjs.ojp.gov/library/publications/prisoners-2022-statistical-tables{"Prisoners in 2022 – Statistical Tables"}
+  
+  \code{pdrp23t02.csv} from 
+  \href{https://bjs.ojp.gov/library/publications/prisons-report-series-preliminary-data-release-2023}{"Prisons Report Series: Preliminary Data Release, 2023"}.
+
+  Data on jails and community supervision 
   dating back to 1980 are available in 
   \href{https://bjs.ojp.gov/data/key-statistics}{Key Statistic: Total correctional population} 
   with data on the most recent years 
   available from 
   \href{https://bjs.ojp.gov/library/publications/correctional-populations-united-states-2017-2018}{Publication Correctional Populations In The United States, 2017-2018}.  
   
-  Some time in 2021 or later more recent data
+  Some time in 2026 or later more recent data
   should become available.  When that happens, 
   it may be desired to update this table to
   include those numbers -- and check for any
