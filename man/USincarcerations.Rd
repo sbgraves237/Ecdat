@@ -21,23 +21,23 @@
     \item{stateFedIncarcerees}{
       Total number of incarcerees = 
       \code{maleTotal + femaleTotal}. 
-    }	
+    }
     \item{stateFedIncarcerationRate}{
       incarceration rate = 
       \code{stateFedIncarcerees} per 
       100,000 population.  
-    }	
+    }
     \item{stateFedMales}{
       Total number of male incarcerees.  
-    }	
+    }
     \item{stateFedMaleRate}{
       male incarceration rate = 
       \code{maleTotal} per 100,000 males 
       in the US population.  
-    }	
+    }
     \item{stateFedFemales}{
       Total number of female incarcerees. 
-    }	
+    }
     \item{stateFedFemaleRate}{
       female incarceration rate = 
       \code{femaleTotal} per 100,000 
