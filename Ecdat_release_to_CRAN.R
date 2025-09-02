@@ -4,8 +4,9 @@
 (USincarc <- dir('man', 'USincarc', full.names = TRUE))
 USinca <- readLines(USincarc)
 
-pblms <- which(grepl("[^ -~]", USinca))
+(pblms <- which(grepl("[^ -~]", USinca)))
 USinca[pblms]
+# It works!!!
 
 # File > "Open Project..." > [Package folder]
 
