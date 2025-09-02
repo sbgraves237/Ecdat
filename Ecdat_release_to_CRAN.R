@@ -1,12 +1,23 @@
 # to fix: 
 # non-ASCII input and no declared encoding
 
-(USincarc <- dir('man', 'USincarc', full.names = TRUE))
-USinca <- readLines(USincarc)
+#(USincarc <- dir('man', 'USincarc', full.names = TRUE))
+#USinca <- readLines(USincarc)
 
-(pblms <- which(grepl("[^ -~]", USinca)))
-USinca[pblms]
+#(pblms <- which(grepl("[^ -~]", USinca)))
+#USinca[pblms]
 # It works!!!
+
+# for "Number of redirects hit maximum amount":  
+#library(magrittr)
+#trace_redirects <- function(url) {
+#  httr::GET(url)$all_headers %>%
+#    lapply(function(x) x$headers$location) %>%
+#    unlist() %>%
+#    unique()
+#}
+#str(CAed <- trace_redirects('https://www.cde.ca.gov'))
+# NULL 
 
 # File > "Open Project..." > [Package folder]
 
@@ -27,6 +38,7 @@ devtools::check_win_release()
 devtools::check_win_oldrelease()
 
 # devtools::check_rhub()
+# rhub::check_for_cran()
 #This function is deprecated and defunct since rhub v2.
 #Please see `?rhubv2` on transitioning to the new rhub functions.
 
