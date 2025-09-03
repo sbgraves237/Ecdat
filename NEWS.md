@@ -1,5 +1,5 @@
 # Ecdat 0.4.5 (Release date: 2025-09-02)
-* Updated "USincarcerations"
+* Updated `USincarcerations`
 
 # Ecdat 0.4-4 (Release date: 2025-08-27)
 * Updated "USGDPpresidents"
