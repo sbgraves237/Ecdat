@@ -37,6 +37,11 @@ devtools::check_win_devel()
 devtools::check_win_release()
 devtools::check_win_oldrelease()
 
+# check the winbuilder queue
+
+(wbqueue <- foghorn::winbuilder_queue())
+(wbqueue2 <- foghorn::winbuilder_queue())
+
 # devtools::check_rhub()
 # rhub::check_for_cran()
 #This function is deprecated and defunct since rhub v2.
