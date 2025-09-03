@@ -1,10 +1,10 @@
+For Ecdat 0.4.7: 
 
+CRAN checks on Ecdat_0.4.6.tar.gz identified 39 "(possibly) invalid URLs". I copied all into a text file and asked `browseURL` to open each. They all opened fine in my default browser. 
 
-No errors nor warnings nor substantive notes.  
+However, that also identified a problem with the "BugReports" field I added to DESCRIPTION. I fixed that in this version. 
+
+Then I reran all the checks. No errors nor warnings nor substantive notes, apart from "(possibly) invalid URLs".   
 Tested on R-release on GitHub Action (Windows, Mac, Ubuntu), devtools::check_win_release _devel, _oldrelease. 
 
-devtools::check_win_release _devel, _oldrelease and local R CMD check --as-cran found several "(possibly) invalid URLs". I checked all that were listed and fixed those that were actually invalid. 
-
-These checks continued to find "(possibly) invalid URLs". However, all that remained worked for me. 
-
-2025-09-02. 
+2025-09-03. 
