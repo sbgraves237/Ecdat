@@ -12,6 +12,7 @@ Authors@R: c(person(given = "Yves",
                   email = "spencer.graves@effectivedefense.org"))
 Author: Yves Croissant [aut], Spencer Graves [aut, cre, ctb]
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
+BugReports: https://github.com/sbgraves237/Ecdat
 Depends: R (>= 3.5.0)
 Suggests: Ecfun, plm, systemfit, carData, wooldridge
 Description: Data sets for econometrics, including political science.
