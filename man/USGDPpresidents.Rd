@@ -252,7 +252,7 @@ data(USGDPpresidents)
         \item{1800-1889}{Lebergott}
         \item{1890-1929}{Romer}
         \item{1930-1939}{Coen}
-        \item{1940-present}{BLS}
+        \item{1940-present}{BLS} (series \code{LNS14000000})
       }
       Clearly, the more recent numbers should be 
       more accurate.  
