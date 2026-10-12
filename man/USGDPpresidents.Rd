@@ -21,7 +21,7 @@
   from Measuring Worth.  The only other features 
   of that plot that seem visually comparable are 
   the economic disaster of Herbert Hoover's
-  presidency (when GDP per capital fell by 10 
+  presidency (when GDP per capital fell by 8 
   percent per year, 1929-1932), the impressive 
   growth of the US economy during the first seven
   years of Franklin Roosevelt's presidency (6.4
@@ -63,7 +63,7 @@
 \usage{
 data(USGDPpresidents)
 }
-\format{A \code{\link{data.frame}} containing 259 
+\format{A \code{\link{data.frame}} containing 268 
       observations on the following variables:
   \describe{
     \item{Year}{ 
